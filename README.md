@@ -1,2 +1,2 @@
-# pydiet
+# pyDIET
 CFHT's new Direct Imaging Exposure Time calculator
