@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 """
-Start script (renamed as :program:`visiomatic`).
+Start script (renamed as :program:`pydiet`).
 """
 # Copyright CFHT/CNRS/SorbonneU
 # Licensed under the MIT licence
@@ -12,14 +12,14 @@ import webbrowser
 
 from uvicorn import run, server, supervisors
 
-from visiomatic import package
-from visiomatic.server import config
+from pydiet import package
+from pydiet.server import config
 
 if package.isonlinux:
     from resource import getrlimit, setrlimit, RLIMIT_NOFILE
 
 def start_server(
-        app: str="visiomatic.server.app:create_app",
+        app: str="pydiet.server.app:create_app",
         host: str="localhost",
         port: int=8009,
         root_path: str="",
@@ -61,26 +61,15 @@ def start_server(
 
 def main() -> int:
     """
-    Set up configuration and start the VisiOmatic server.
+    Set up configuration and start the PyDIET server.
     """
     # Set maximum number of descriptors (only possible on Linux and BSD)
     if package.isonlinux:
         max_open_files = config.settings["max_open_files"]
         setrlimit(RLIMIT_NOFILE, (max_open_files, max_open_files))
 
-    # Cache management
-    cache_dir = config.settings["cache_dir"]
-    # Create cache dir if it does not exist
-    makedirs(cache_dir, exist_ok=True)
-    # Clear cache if requested
-    if config.settings["clear_cache"]:
-        files = glob(path.join(cache_dir, '*.pkl')) \
-            + glob(path.join(cache_dir, '*.np'))
-        for file in files:
-            remove(file)
-
     # Local use case
-    if config.image_filename and not config.settings["no_browser"]:
+    if config.settings["browser"]:
         # Monkey-patch Uvicorn calls to start the browser AFTER the server
         link =  f"http://{config.settings['host']}:{config.settings['port']}"
         def startup_with_browser(self, *args, **kwargs) -> None:

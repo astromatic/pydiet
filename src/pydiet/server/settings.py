@@ -54,49 +54,6 @@ class HostSettings(BaseSettings):
         extra = 'ignore'
 
 
-class ImageSettings(BaseSettings):
-    brightness: float = Field(
-        default=0.,
-        ge=-100.,
-        le=100.,
-        description="Default image brightness"
-        )
-    contrast: float = Field(
-        default=1.,
-        ge=0.01,
-        le=10.,
-        description="Default image contrast"
-        )
-    color_saturation: float = Field(
-        default=1.5,
-        ge=0.,
-        le=5.,
-        description="Default color saturation"
-        )
-    gamma: float = Field(
-        default=2.2,
-        ge=0.1,
-        le=5.,
-        description="Default image gamma"
-        )
-    quality: int = Field(
-        default=97,
-        ge=1,
-        le=100,
-        description="Default image compression quality in %%"
-        )
-    tile_size: Tuple[int, int] = Field(
-        default=(256, 256),
-        ge=1,
-        le=4096,
-        description="Tile size"
-        )
-
-    class Config:
-        env_prefix = f"{package.name}_"
-        extra = 'ignore'
-
-
 class ServerSettings(BaseSettings):
     api_path : str = Field(
         default="/api",
@@ -109,6 +66,11 @@ class ServerSettings(BaseSettings):
     base_template: str = Field(
         default="base.html",
         description="Name of the HTML template file for the web client"
+        )
+    browser: bool = Field(
+        short='n',
+        default=False,
+        description="Start browser when launching the server"
         )
     client_dir: str = Field(
         default=path.join(package.src_dir, "client"),
@@ -129,11 +91,6 @@ class ServerSettings(BaseSettings):
     extra_dir: str = Field(
         default=".",
         description="Extra data root directory"
-        )
-    no_browser: bool = Field(
-        short='n',
-        default=False,
-        description="Do not start browser when providing image file"
         )
     template_dir: str = Field(
         default=path.join(package.src_dir, "templates"),
@@ -193,7 +150,7 @@ class CacheSettings(BaseSettings):
         description="Maximum number of open files"
         )
     ultradict_cache_file : str = Field(
-        default="/dev/shm/visiomatic_cache_dict.pkl",
+        default="/dev/shm/pydiet_cache_dict.pkl",
         description="Name of the pickled cache dictionary shared across processes"
         )
 
@@ -204,7 +161,6 @@ class CacheSettings(BaseSettings):
 
 class AppSettings(BaseSettings):
     host = HostSettings()
-    image = ImageSettings()
     server = ServerSettings()
     engine = EngineSettings()
     cache = CacheSettings()
