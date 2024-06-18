@@ -19,6 +19,7 @@ from fastapi import (
 )
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -171,7 +172,7 @@ def create_app() -> FastAPI:
         # Return a dummy exposure time
         if type == 'image':
             png = make_image(instrument, filter, snr)
-            return responses.StreamingResponse(
+            return StreamingResponse(
                 BytesIO(png.tobytes()),
                 media_type="image/png"
             )
@@ -180,8 +181,23 @@ def create_app() -> FastAPI:
                 "exptime": 10**(0.4*(maglim-26.0)) * 10.0 * snr**2
             }
 
+    # PyDIET UI component endpoint
+    @app.get("/ui/{component}", tags=["UI"], response_class=HTMLResponse)
+    async def component(request: Request, component: str):
+        """
+        UI component endpoint.
+        """
+        return templates.TemplateResponse(
+            component + ".html",
+            {
+                "request": request,
+                "root_path": request.scope.get("root_path"),
+                "package": package.title
+            }
+        )
+
     # PyDIET client endpoint
-    @app.get("/", tags=["UI"], response_class=responses.HTMLResponse)
+    @app.get("/", tags=["UI"], response_class=HTMLResponse)
     async def pydiet(request: Request):
         """
         Main web user interface.
