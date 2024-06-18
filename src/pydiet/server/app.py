@@ -1,10 +1,32 @@
-import io
+"""
+Application module
+"""
+# Copyright CFHT/CNRS/CEA/UParisSaclay
+# Licensed under the MIT licence
+from io import BytesIO
+from logging import getLogger
+from os import path
 from typing import Literal
-from fastapi import FastAPI, HTTPException, Path, Query, Request, responses, status
+
+from fastapi import (
+    FastAPI,
+    HTTPException,
+    Path,
+    Query,
+    Request,
+    responses,
+    status
+)
+from fastapi.encoders import jsonable_encoder
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
 from pydantic import BaseModel
 
-from .compute import make_image
 from .. import package
+from . import config
+from .compute import make_image
 
 filters = {
     'megacam': ('u', 'g', 'r', 'i', 'z'),
@@ -14,20 +36,94 @@ filters = {
 filter_set = filters['megacam'] + filters['wircam']
 
 def create_app() -> FastAPI:
+    """
+    Create FASTAPI application
+    """
+
+    banner_template = config.settings["banner_template"]
+    base_template = config.settings["base_template"]
+    template_dir = path.abspath(config.settings["template_dir"])
+    client_dir = path.abspath(config.settings["client_dir"])
+    data_dir = path.abspath(config.settings["data_dir"])
+    extra_dir = path.abspath(config.settings["extra_dir"])
+    doc_dir = config.settings["doc_dir"]
+    doc_path = config.settings["doc_path"]
+    userdoc_url = config.settings["userdoc_url"]
+    api_path = config.settings["api_path"]
+
+    logger = getLogger("uvicorn.error")
+
+    # Provide an endpoint for the user's manual (if it exists)
+    if config.config_filename:
+        logger.info(f"Configuration read from {config.config_filename}.")
+    else:
+        logger.warning(
+            f"Configuration file not found: {config.config_filename}!"
+        )
 
     app = FastAPI(
         title=package.title,
         description=package.description,
         version=package.version,
         contact={
-            "name":  f"{package.contact_name} ({package.contact_affiliation})",
+            "name":  f"{package.contact['name']} ({package.contact['affiliation']})",
             "url":   package.url,
-            "email": package.contact_email
+            "email": package.contact['email']
         },
         license_info={
             "name": package.license_name,
             "url":  package.license_url
         }
+    )
+
+    """
+    origins = [
+        "http://halau.cfht.hawaii.edu",
+        "https://halau.cfht.hawaii.edu",
+        "http://halau",
+        "https://halau"
+    ]
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    """
+
+    # Provide a direct endpoint for static files (such as js and css)
+    app.mount(
+        "/client",
+        StaticFiles(directory=client_dir),
+        name="client"
+    )
+
+    # Provide a direct endpoint for extra static data files (such as json files)
+    app.mount(
+        "/extra",
+        StaticFiles(directory=extra_dir),
+        name="extra"
+    )
+
+    # Provide an endpoint for the user's manual (if it exists)
+    if path.exists(doc_dir):
+        logger.info(f"Default documentation found at {doc_dir}.")
+        app.mount(
+            doc_path,
+            StaticFiles(directory=doc_dir),
+            name="manual"
+        )
+    else:
+        logger.warning(f"Default documentation not found in {doc_dir}!")
+        logger.warning("Has the HTML documentation been compiled ?")
+        logger.warning("De-activating documentation URL in built-in web client.")
+        userdoc_url = ""
+
+    # Instantiate templates
+    templates = Jinja2Templates(
+        directory=path.join(package.src_dir, template_dir)
     )
 
     @app.get("/etc/{instrument}", tags=["ETC results"])
@@ -76,12 +172,29 @@ def create_app() -> FastAPI:
         if type == 'image':
             png = make_image(instrument, filter, snr)
             return responses.StreamingResponse(
-                io.BytesIO(png.tobytes()),
+                BytesIO(png.tobytes()),
                 media_type="image/png"
             )
         else:
             return {
                 "exptime": 10**(0.4*(maglim-26.0)) * 10.0 * snr**2
             }
+
+    # PyDIET client endpoint
+    @app.get("/", tags=["UI"], response_class=responses.HTMLResponse)
+    async def pydiet(request: Request):
+        """
+        Main web user interface.
+        """
+        return templates.TemplateResponse(
+            base_template,
+            {
+                "request": request,
+                "root_path": request.scope.get("root_path"),
+                "api_path": api_path,
+                "doc_url": userdoc_url,
+                "package": package.title
+            }
+        )
 
     return app
