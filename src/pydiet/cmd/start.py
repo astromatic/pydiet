@@ -2,7 +2,7 @@
 """
 Start script (renamed as :program:`pydiet`).
 """
-# Copyright CFHT/CNRS/SorbonneU
+# Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 from glob import glob
 from os import makedirs, path, remove
@@ -63,11 +63,6 @@ def main() -> int:
     """
     Set up configuration and start the PyDIET server.
     """
-    # Set maximum number of descriptors (only possible on Linux and BSD)
-    if package.isonlinux:
-        max_open_files = config.settings["max_open_files"]
-        setrlimit(RLIMIT_NOFILE, (max_open_files, max_open_files))
-
     # Local use case
     if config.settings["browser"]:
         # Monkey-patch Uvicorn calls to start the browser AFTER the server
@@ -81,12 +76,10 @@ def main() -> int:
             await self.original_startup(*args, **kwargs)
             webbrowser.open(link)
 
-        for Supervisor in [
-            supervisors.BaseReload,
-            supervisors.Multiprocess
-        ]:
-            Supervisor.original_startup = Supervisor.startup #type: ignore
-            Supervisor.startup = startup_with_browser #type: ignore
+        supervisors.BaseReload.original_startup = supervisors.BaseReload.startup #type: ignore
+        supervisors.BaseReload.startup = startup_with_browser #type: ignore
+        supervisors.Multiprocess.original_startup = supervisors.Multiprocess.init_processes #type: ignore
+        supervisors.Multiprocess.init_processes = startup_with_browser #type: ignore
 
         server.Server.original_startup = server.Server.startup #type: ignore
         server.Server.startup = async_startup_with_browser #type: ignore

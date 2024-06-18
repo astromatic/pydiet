@@ -1,16 +1,16 @@
 """
 Configuration settings for the application.
 """
-# Copyright CFHT/CNRS/SorbonneU/CEA/UParisSaclay
+# Copyright CEA/CFHT/CNRS/UParisSaclay
 # Licensed under the MIT licence
 
 from os import cpu_count, path
 from typing import Tuple
 
-from pydantic import (
-    BaseSettings,
-    Field
-)
+from astropy import units as u
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 from .. import package
 
@@ -68,7 +68,7 @@ class ServerSettings(BaseSettings):
         description="Name of the HTML template file for the web client"
         )
     browser: bool = Field(
-        short='n',
+        short='b',
         default=False,
         description="Start browser when launching the server"
         )
@@ -81,7 +81,7 @@ class ServerSettings(BaseSettings):
         description="Data root directory"
         )
     doc_dir: str = Field(
-        default=path.join(package.root_dir, "doc/build/html"),
+        default=path.join(package.root_dir, "doc/html"),
         description="HTML documentation root directory (after build)"
         )
     doc_path: str = Field(
@@ -123,46 +123,9 @@ class EngineSettings(BaseSettings):
         extra = 'ignore'
 
 
-class CacheSettings(BaseSettings):
-    cache_dir: str = Field(
-        default=package.cache_dir,
-        description="Image cache directory"
-        )
-    clear_cache: bool = Field(
-        short='C',
-        default=False,
-        description="Clear image cache on startup"
-        )
-    max_cache_image_count: int = Field(
-        default=100,
-        ge=1,
-        description="Maximum number of images in disk cache"
-        )
-    max_cache_tile_count: int = Field(
-        default=1000,
-        ge=1,
-        description="Maximum number of image tiles in memory cache"
-        )
-    max_open_files: int = Field(
-        default=10000,
-        ge=100,
-        le=1000000,
-        description="Maximum number of open files"
-        )
-    ultradict_cache_file : str = Field(
-        default="/dev/shm/pydiet_cache_dict.pkl",
-        description="Name of the pickled cache dictionary shared across processes"
-        )
-
-    class Config:
-        env_prefix = f"{package.name}_"
-        extra = 'ignore'
-
-
 class AppSettings(BaseSettings):
-    host = HostSettings()
-    server = ServerSettings()
-    engine = EngineSettings()
-    cache = CacheSettings()
+    host: BaseSettings = HostSettings()
+    server: BaseSettings = ServerSettings()
+    engine: BaseSettings = EngineSettings()
 
 

@@ -11,7 +11,7 @@ from time import localtime, strftime
 from typing import Tuple
 from argparse import ArgumentParser, SUPPRESS
 from configparser import ConfigParser
-from pydantic import validate_model
+from pydantic import ValidationError
 
 from .. import package
 from .settings import AppSettings
@@ -22,7 +22,7 @@ class Config(object):
 
     Settings are stored as Pydantic fields.
     """
-    def __init__(self, args: bool=False, config_file: str=package.config_file):
+    def __init__(self, args: bool=True, config_file: str=package.config_file):
 
         self.settings = AppSettings()
         self.groups = tuple(self.settings.dict().keys())
@@ -41,8 +41,8 @@ class Config(object):
             # Save configuration file if requested
             if args_dict['save_config']:
                 # Create config dir if it does not exist
-                makedirs(path.dirname(package.config_file), exist_ok=True)
-                self.save_config(package.config_file)
+                makedirs(path.dirname(self.config_filename), exist_ok=True)
+                self.save_config(self.config_filename)
                 exit(0)
             self.config_filename = args_dict['config']
 
@@ -52,7 +52,7 @@ class Config(object):
             # Update settings from the config file
             self.update_from_dict(config_dict) 
 
-        # Update settings from the command line
+        # Update settings from the command line (overriding config file values)
         if args:
             self.update_from_dict(args_dict)
 
@@ -146,7 +146,7 @@ class Config(object):
         config.add_argument(
             "-s", "--save_config",
             default=False,
-            help="Save a default DeNeb configuration file and exit",
+            help=f"Save a default {package.title} configuration file and exit",
             action='store_true'
         )
         config.add_argument(
@@ -289,18 +289,19 @@ class Config(object):
             settings = settings_dict[group]
             for setting in settings:
                 vars(groupsettings).update({setting: settings_dict[group][setting]})
-            *_, valid_error = validate_model(
-                groupsettings.__class__,
-                groupsettings.dict()
-            )
-            if valid_error:
-                print(valid_error)
-                exit()
-
+            try:
+                groupsettings.model_validate(groupsettings.dict())
+            except ValidationError as valid_exception:
+                print(valid_exception)
+                exit(1)
+            except Exception as excep:
+                print("Incorrect range in configuration parameter with units")
+                exit(1)
 
 # Initialize global dictionary
 # Set up settings by instantiating a configuration object
 config = Config()
+config_filename = None
 settings = config.flat_dict()
 if 'sphinx' not in modules and 'pytest' not in modules:
      config_filename = config.config_filename
