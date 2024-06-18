@@ -1,0 +1,66 @@
+name: Documentation
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'src/**'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'src/**'
+  workflow_dispatch:
+
+jobs:
+
+#############
+# Build doc #
+#############
+  build:
+    name: Make HTML doc
+    continue-on-error: false
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install .[doc]
+          npm install -g jsdoc
+          cd src/pydiet/client
+          npm install tidy-jsdoc
+
+      - name: Build server doc
+        run: |
+          cd docs
+          make html
+
+      - name: Build client doc
+        run: |
+          cd src/pydiet/client
+          npm run docs
+          cp -rfT doc ../../../docs/build/html/api/client
+
+      - name: Set destination dir
+        if: github.ref_name != 'main'
+        run: |
+          echo "DOC_DEST=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Deploy
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_branch: doc-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/build/html/
+          destination_dir: ${{ env.DOC_DEST }}
+
+
