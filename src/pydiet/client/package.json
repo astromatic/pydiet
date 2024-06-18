@@ -1,0 +1,80 @@
+{
+	"name": "PyDIET",
+	"version": "0.1.0",
+	"description": "CFHT's Direct Imaging Exposure Time calculator",
+	"homepage": "https://github.com/ebertin/pydiet",
+	"author": "Emmanuel Bertin (CEA/CFHT/CNRS/UParisSaclay)",
+	"contributors": [
+		"Emmanuel Bertin <bertin@cfht.hawaii.edu> (https://github.com/ebertin)"
+	],
+	"license": "MIT",
+	"keywords": [
+		"astronomy",
+		"CFHT",
+		"calculator",
+		"imaging"
+	],
+	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ebertin/pydiet.git"
+	},
+	"bugs": {
+		"url": "https://github.com/ebertin/pydiet/issues"
+	},
+	"dependencies": {
+		"@ionic/core": "^8.0",
+		"npm": "^10.8.1",
+		"tidy-jsdoc": "^1.4.1"
+	},
+	"devDependencies": {
+		"esbuild": "^0.14.53",
+		"eslint": "^8.23.1",
+		"jsdoc": "^4.0"
+	},
+	"main": "dist/visiomatic.js",
+	"scripts": {
+		"build": "esbuild js/main.js --bundle --outfile=dist/pydiet.js --watch",
+		"docs": "jsdoc -c jsdoc.json js",
+		"lint": "eslint js",
+		"test": "npm run unit"
+	},
+	"eslintConfig": {
+		"ignorePatterns": [
+			"dist"
+		],
+		"parserOptions": {
+			"ecmaVersion": "latest",
+			"sourceType": "module"
+		},
+		"env": {
+			"node": true,
+			"es6": true
+		},
+		"rules": {
+			"curly": "error",
+			"indent": [
+				"error",
+				"tab"
+			],
+			"key-spacing": "off",
+			"linebreak-style": [
+				"off",
+				"unix"
+			],
+			"no-mixed-spaces-and-tabs": [
+				"error",
+				"smart-tabs"
+			],
+			"no-unused-expressions": [
+				"error"
+			],
+			"spaced-comment": "error",
+			"strict": "off",
+			"wrap-iife": "off",
+			"no-invalid-this": "off",
+			"prefer-object-has-own": "error",
+			"prefer-spread": "off"
+		}
+	}
+}

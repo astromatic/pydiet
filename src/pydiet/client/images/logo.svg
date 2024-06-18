@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:cc="http://creativecommons.org/ns#"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:ns1="http://sozi.baierouge.fr"
+    id="svg4769"
+    viewBox="0 0 515.57 354.63"
+  >
+  <defs id="defs4771">
+    <linearGradient
+        id="linearGradient4767"
+        y2="231.28"
+        gradientUnits="userSpaceOnUse"
+        y1="142.91"
+        gradientTransform="matrix(-5.0197 0 0 5.0463 3512.7 -456.06)"
+        x2="641.52"
+        x1="672.31"
+        inkscape:collect="always"
+      >
+      <stop
+          id="stop3650-4"
+          style="stop-color:#1fc0e7"
+          offset="0"
+      />
+      <stop
+          id="stop3656-0"
+          style="stop-color:#000043"
+          offset="1"
+      />
+    </linearGradient>
+  </defs>
+  <g
+      id="layer1"
+      transform="translate(-137.93 -293.82)"
+    >
+    <path
+        id="path3708-9"
+        style="fill:url(#linearGradient4767)"
+        d="m225.09 482.51c-20.194-0.76507-27.491-30.149-20.546-50.05 32.751-80.737 128.17-10.91 99.289 63.107-10.292 32.896-53.09 75.669-102.11 51.96-141.2-80.058-29.04-363.32 151.22-207.86 140.57 126.16 83.468 207.86 300.55 308.79h-376.47c17.088-15.244 49.063-94.237 59.938-139.65 10.283-40.92-12.252-96.095-40.64-119.51-29.647-25.967-75.857-23.044-101.1 9.4895-22.763 27.442-24.334 75.47-1.5606 103.52 18.379 24.252 53.039 28.68 74.771 8.0665 18.884-16.62 23.924-50.963 9.7392-73.348-11.976-24.126-39.721-25.777-55.613-8.3924-14.235 13.925-13.821 44.005 2.8429 55.172"
+    />
+  </g>
+</svg>

@@ -3,7 +3,7 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [project]
-name = "pydiet"
+name = "PyDIET"
 version = "0.1.0"
 description = "CFHT's Direct Imaging Exposure Time calculator"
 authors = [
