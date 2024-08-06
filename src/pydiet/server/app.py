@@ -6,7 +6,7 @@ Application module
 from io import BytesIO
 from logging import getLogger
 from os import path
-from typing import Literal
+from typing import get_args, Literal, Tuple
 
 from fastapi import (
     FastAPI,
@@ -29,9 +29,13 @@ from .. import package
 from . import config
 from .compute import make_image
 
+MEGACAM_FILTER = Literal['u', 'g', 'r', 'i', 'z']
+WIRCAM_FILTER = Literal['Y', 'J', 'H', 'K']
+FILTER = Literal[MEGACAM_FILTER, WIRCAM_FILTER]
+
 filters = {
-    'megacam': ('u', 'g', 'r', 'i', 'z'),
-    'wircam': ('Y', 'J', 'H', 'K')
+    'megacam': get_args(MEGACAM_FILTER),
+    'wircam': get_args(WIRCAM_FILTER)
 }
 
 filter_set = filters['megacam'] + filters['wircam']
@@ -66,7 +70,7 @@ def create_app() -> FastAPI:
         title=package.title,
         description=package.description,
         version=package.version,
-        contact={
+        contact = {
             "name":  f"{package.contact['name']} ({package.contact['affiliation']})",
             "url":   package.url,
             "email": package.contact['email']
@@ -133,7 +137,7 @@ def create_app() -> FastAPI:
                 title="Instrument ID",
                 description="CFHT instrument ID"
             ),
-            filter: Literal[filter_set] = Query(
+            filter: FILTER = Query(
                 None,
                 title="Filter",
                 description="Name of the instrument filter",

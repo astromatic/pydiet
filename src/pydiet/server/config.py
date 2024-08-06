@@ -9,11 +9,14 @@ from pathlib import Path
 from sys import exit, modules
 from time import localtime, strftime
 from typing import Tuple
+
 from argparse import ArgumentParser, SUPPRESS
+from astropy import units as u  #type: ignore
 from configparser import ConfigParser
 from pydantic import ValidationError
 
 from .. import package
+from .quantity import str_to_quantity_array
 from .settings import AppSettings
 
 class Config(object):
@@ -158,33 +161,44 @@ class Config(object):
         )
         for group in self.groups:
             args_group = config.add_argument_group(group.title())
-            settings = getattr(self.settings, group).schema()['properties']
+            groupsettings = getattr(self.settings, group)
+            settings = groupsettings.schema()['properties']
+            defaults = groupsettings.dict()
             for setting in settings:
                 props = settings[setting]
                 arg = ["-" + props['short'], "--" + setting] \
                     if props.get('short') else ["--" + setting]
-                default = props['default']
-                if props['type']=='boolean':
+                default = defaults[setting]
+                # Booleans don't have units
+                help = props.get('description', "")
+                if props.get('type', 'unit')=='boolean':
                     args_group.add_argument(
                         *arg,
                         default=SUPPRESS,
-                        help=props['description'], 
+                        help=props.get('description', ""), 
                         action='store_true'
                     )
-                elif props['type']=='array':
+                elif props.get('type', 'unit')=='array':
                     deftype = type(default[0])
                     args_group.add_argument(
                         *arg,
                         default=SUPPRESS,
-                        type=lambda s: [deftype(val) for val in s.split(',')],
-                        help=f"{props['description']} (default={props['default']})"
+                        type=lambda s: tuple([deftype(val) for val in s.split(',')]),
+                        help=f"{help} (default={default})"
                     )
+                elif isinstance(default, u.Quantity):
+                    args_group.add_argument(
+                        *arg,
+                        default=SUPPRESS,
+                        type=u.Quantity if default.isscalar else str_to_quantity_array,
+                        help=f"{help} (default={default})"
+                    )  
                 else:
                     args_group.add_argument(
                         *arg,
                         default=SUPPRESS,
                         type=type(default),
-                        help=f"{props['description']} (default={props['default']})"
+                        help=f"{help} (default={default})"
                     )  
         # Generate dictionary of args grouped by section
         fdict = vars(config.parse_args())
@@ -294,8 +308,8 @@ class Config(object):
             except ValidationError as valid_exception:
                 print(valid_exception)
                 exit(1)
-            except Exception as excep:
-                print("Incorrect range in configuration parameter with units")
+            except Exception as other_exception:
+                print(other_exception)
                 exit(1)
 
 # Initialize global dictionary
