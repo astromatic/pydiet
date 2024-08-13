@@ -1,5 +1,5 @@
 """
-Configure application.
+Manage configuration.
 """
 # Copyright CEA/CFHT/CNRS/UParisSaclay
 # Licensed under the MIT licence
@@ -15,9 +15,10 @@ from astropy import units as u  #type: ignore
 from configparser import ConfigParser
 from pydantic import ValidationError
 
-from .. import package
+from ... import package
 from .quantity import str_to_quantity_array
 from .settings import AppSettings
+
 
 class Config(object):
     """
@@ -25,9 +26,13 @@ class Config(object):
 
     Settings are stored as Pydantic fields.
     """
-    def __init__(self, args: bool=True, config_file: str=package.config_file):
+    def __init__(
+            self,
+            settings: AppSettings,
+            args: bool=True,
+            config_file: str=package.config_file):
 
-        self.settings = AppSettings()
+        self.settings = settings
         self.groups = tuple(self.settings.dict().keys())
         self.image_filename = None
         self.config_filename = config_file
@@ -244,12 +249,15 @@ class Config(object):
             settings = getattr(self.settings, group).dict()
             for setting in settings:
                 if (value := config.get(group, setting, fallback=None)) is not None:
-                    stype = type(settings[setting])
+                    default = settings[setting]
+                    stype = type(default)
                     gdictg[setting] = tuple(
                         type(settings[setting][i])(val.strip()) \
                             for i, val in enumerate(value[1:-1].split(','))
                     )  if stype == tuple \
                         else value.lower() in ("yes", "true", "t", "1") if stype == bool \
+                        else str_to_quantity_array(value) if \
+                            isinstance(default, u.Quantity) and not default.isscalar \
                         else stype(value)
         return gdict
 
@@ -312,11 +320,4 @@ class Config(object):
                 print(other_exception)
                 exit(1)
 
-# Initialize global dictionary
-# Set up settings by instantiating a configuration object
-config = Config()
-config_filename = None
-settings = config.flat_dict()
-if 'sphinx' not in modules and 'pytest' not in modules:
-     config_filename = config.config_filename
 

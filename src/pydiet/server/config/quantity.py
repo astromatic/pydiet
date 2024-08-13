@@ -11,7 +11,7 @@ from numbers import Number
 from re import findall
 from typing import TYPE_CHECKING, Annotated, Any, Iterable, Literal, Tuple
 
-from astropy import units as u  #type: ignore
+from astropy import units as u  #type: ignore[import-untyped]
 import numpy as np
 if TYPE_CHECKING:
     from pydantic import GetCoreSchemaHandler
@@ -331,7 +331,7 @@ class QuantityAnnotation:
 
 
 
-def QuantityField(
+def AnnotatedQuantity(
         default: u.Quantity | str,
         short: str | None = None,
         description: str = "",
@@ -340,7 +340,7 @@ def QuantityField(
         ge: u.Quantity | str | None = None,
         gt: u.Quantity | str | None = None,
         le: u.Quantity | str | None = None,
-        lt: u.Quantity | str | None = None) -> u.Quantity:
+        lt: u.Quantity | str | None = None) -> Any:
     """
     Pydantic pseudo-field for validating and serializing AstroPy Quantities.
 
@@ -349,10 +349,10 @@ def QuantityField(
     ```python
     from pydantic_settings import BaseSettings
 
-    from dancelib.quantity import QuantityField
+    from dancelib.quantity import AnnotatedQuantity
 
     class Settings(BaseSettings):
-        size: QuantityField(
+        size: AnnotatedQuantity(
             short='S',
             description="an arbitrary length",
             default=10. * u.m,
@@ -488,7 +488,7 @@ def str_to_quantity_array(s: str) -> u.Quantity | None:
     """
     found = findall(
         r"^\s*[\(|\[]*([\(\[\)\]\,\;\.eE\+\-\d\s]+)[\)|\]]*\s*"
-            r"(\w+[\d\s\/\^\*\-\.]*)*$",
+            r"(\w+[\w\d\s\/\^\*\-\.]*)*$",
         s
     )
     if found is None:
