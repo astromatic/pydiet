@@ -1,26 +1,43 @@
 // Manage web interface settings
-// Copyright CFHT/CNRS/SorbonneU
+// Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under GPL v3
-import {ui_url} from "./url";
-import {fetch_html} from "./fetch";
-import {prefersdark, toggle_dark_theme} from "./theme";
+import {cameras, get_camera, update_camera} from "./camera";
+import {get_theme, update_theme, themes, theme_icons} from "./theme";
 
-const settings_button = document.querySelector('#settings-button');
-
-if (settings_button) {
-    settings_button.addEventListener('click', async (e) => {
-        if (!(await fetch_html('#content-slot', ui_url + "/settings")))
-          return false;
-        // Manage theme changes
-        theme_segment = document.querySelector("#theme-segment");
-        theme_segment.addEventListener('ionChange', (event) => {
-            isdark = event.detail.value == "dark"
-                || (event.detail.value == "auto" && prefersdark.matches); 
-            toggle_dark_theme(isdark);
-        });
-        // Close menu
-        document.querySelector("ion-menu").close();
-        return true;
-    });
+// Manage theme changes
+if ((theme_segment = document.querySelector("#theme-segment"))) {
+	for (t in themes) {
+		let	button = document.createElement("ion-segment-button"),
+			icon = document.createElement("ion-icon"),
+			label = document.createElement("ion-label");
+		button.value = themes[t].toLowerCase();
+		label.innerHTML = themes[t];
+		button.appendChild(label);
+		icon.name = theme_icons[t];
+		button.appendChild(icon);
+		theme_segment.appendChild(button);
+	}
+	theme_segment.value = get_theme();
+	theme_segment.addEventListener('ionChange', (event) => {
+		update_theme(event.detail.value);
+	});
 }
 
+// Manage camera changes
+if ((camera_segment = document.querySelector("#camera-segment"))) {
+	for (c in cameras) {
+		let	button = document.createElement("ion-segment-button"),
+			icon = document.createElement("ion-icon"),
+			label = document.createElement("ion-label");
+		button.value = cameras[c].toLowerCase();
+		label.innerHTML = cameras[c];
+		button.appendChild(label);
+		icon.name = "videocam";
+		button.appendChild(icon);
+		camera_segment.appendChild(button);
+	}
+	camera_segment.value = get_camera();
+	camera_segment.addEventListener('ionChange', (event) => {
+		update_camera(event.detail.value);
+	});
+}

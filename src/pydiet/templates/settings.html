@@ -1,40 +1,23 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>Settings</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    <ion-list lines="inset">
-      <ion-item slot="start">
-       <ion-label> Theme </ion-label>
-        <ion-segment id="theme-segment" slot="end" value="auto" scrollable=true mode="ios">
-          <ion-segment-button value="light">
-            <ion-label>Light</ion-label>
-            <ion-icon name="sunny"></ion-icon>
-          </ion-segment-button>
-          <ion-segment-button value="dark">
-            <ion-label>Dark</ion-label>
-            <ion-icon name="moon"></ion-icon>
-          </ion-segment-button>
-          <ion-segment-button value="auto">
-            <ion-label>Auto</ion-label>
-            <ion-icon name="contrast"></ion-icon>
-          </ion-segment-button>
-      </ion-item>
-      <ion-item-divider></ion-item-divider>
-      <ion-item slot="start">
-        <ion-label> Camera </ion-label>
-        <ion-segment value="megacam" scrollable=true mode="ios">
-          <ion-segment-button value="megacam">
-            <ion-label>MegaCam</ion-label>
-            <ion-icon name="videocam"></ion-icon>
-          </ion-segment-button>
-          <ion-segment-button value="wircam">
-            <ion-label>WIRCam</ion-label>
-            <ion-icon name="videocam"></ion-icon>
-          </ion-segment-button>
-        </ion-segment>
-      </ion-item>
-    </ion-list>
-  </ion-card-content>
-</ion-card>
+{#
+# Jinja2 template for PyDIET Settings section.
+#
+# Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
+# Licensed under the MIT licence
+#}
+<ion-list>
+  <ion-list-header>Settings</ion-list-header>
+  <ion-item slot="start">
+    <ion-label position="fixed">Theme</ion-label>
+    <ion-segment id="theme-segment" slot="end" value="auto" scrollable=true mode="ios">
+	{# Theme radio buttons will be inserted here by JS code #}
+    </ion-segment>
+  </ion-item>
+  <ion-item-divider></ion-item-divider>
+  <ion-item slot="start">
+    <ion-label position="fixed">Camera</ion-label>
+    <ion-segment id="camera-segment" value="megacam" scrollable=true mode="ios">
+	{# Camera radio buttons will be inserted here by JS code #}
+    </ion-segment>
+  </ion-item>
+</ion-list>
 

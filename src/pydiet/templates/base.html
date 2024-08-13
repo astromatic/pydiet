@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+{#
+# Base Jinja2 template for PyDIET client.
+#
+# Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
+# Licensed under the MIT licence
+#}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -16,7 +21,7 @@
     <ion-app>
       <ion-header>
         <ion-toolbar>
-          <ion-menu-button slot="start"></ion-menu-button>
+          <ion-menu-button slot="start"><ion-icon name="options"></ion-icon></ion-menu-button>
           <ion-title size="large">
             <ion-item lines="none">
                <h3>DIET</h3>
@@ -26,21 +31,7 @@
         </ion-toolbar>
       </ion-header>
       <ion-menu side="start" content-id="main-content">
-          <ion-list>
-            <ion-list-header>Menu</ion-list-header>
-            <ion-item id="realtime-button" button>
-              <ion-icon name="speedometer" slot="start"></ion-icon>
-              <ion-label>Real Time</ion-label>
-            </ion-item>
-            <ion-item id="postrun-button" button>
-              <ion-icon name="server" slot="start"></ion-icon>
-              <ion-label>Post-run processing</ion-label>
-            </ion-item>
-            <ion-item id="settings-button" button>
-              <ion-icon name="settings" slot="start"></ion-icon>
-              <ion-label>Settings</ion-label>
-            </ion-item>
-          </ion-list>
+        {% include "settings.html" %}
         <ion-footer-bar>
           <ion-item-divider>
           </ion-item-divider>
@@ -50,8 +41,8 @@
           </ion-item>
         </ion-footer-bar>
       </ion-menu>
-      <div class="ion-page" id="main-content" style="display: contents;">
-        {% block content %}{% endblock content %}
+      <div class="ion-content" id="main-content" style="display: contents;">
+        {% include "etc.html" %}
         <div id="content-slot"></div>
         <div id="modal-slot"></div>
       </div>
