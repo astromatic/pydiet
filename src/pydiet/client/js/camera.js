@@ -14,10 +14,10 @@ export function get_camera() {
 // Update camera settings
 export function update_camera(camera) {
 	if (camera) {
-		// Store new theme choice in local storage
+		// Store new camera choice in local storage
 		localStorage.setItem('pyDIETDefaultCamera', camera);
 	} else {
-		// Get previously stored theme
+		// Get previously stored camera
 		camera = get_camera();
 	}
 }

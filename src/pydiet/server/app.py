@@ -29,6 +29,10 @@ from .. import package
 from . import config
 from .compute import make_image
 
+INSTRUMENT = Literal['MegaCam', 'WIRCam']
+
+instruments = get_args(INSTRUMENT)
+
 MEGACAM_FILTER = Literal['u', 'g', 'r', 'i', 'z']
 WIRCAM_FILTER = Literal['Y', 'J', 'H', 'K']
 FILTER = Literal[MEGACAM_FILTER, WIRCAM_FILTER]
@@ -131,9 +135,24 @@ def create_app() -> FastAPI:
         directory=path.join(package.src_dir, template_dir)
     )
 
+    @app.get("/etc/instruments", tags=["ETC parameters"])
+    async def read_instruments():
+        """
+        Instrument list endpoint.
+
+        Returns
+        -------
+        response: byte stream
+            [Streaming response](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
+            with the list of supported instruments
+        """
+        return {
+                instruments
+        }
+
     @app.get("/etc/{instrument}", tags=["ETC results"])
     async def read_instrument(
-            instrument: Literal['megacam', 'wircam'] = Path(
+            instrument: INSTRUMENT = Path(
                 title="Instrument ID",
                 description="CFHT instrument ID"
             ),

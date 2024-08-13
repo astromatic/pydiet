@@ -2,6 +2,21 @@
 // Copyright CFHT/CNRS/IAP/SorbonneU
 // Licensed under GPL v3
 
+export async function fetch_data(url) {
+	return await fetch(url, {credentials: "include"})
+		.then( (response) => {
+			// The API call was successful!
+			if (!response.ok) {
+				throw new Error("Unauthorized API endpoint:" + response.url);
+			}
+			return response.text();
+		}).catch( (err) => {
+			// There was an error
+			return false;
+		});
+};
+
+
 export async function fetch_html(selector, url) {
 	return await fetch(url, {credentials: "include"})
 		.then( (response) => {
