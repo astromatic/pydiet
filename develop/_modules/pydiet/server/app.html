@@ -83,6 +83,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">get_args</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Depends</span><span class="p">,</span>
     <span class="n">FastAPI</span><span class="p">,</span>
     <span class="n">HTTPException</span><span class="p">,</span>
     <span class="n">Path</span><span class="p">,</span>
@@ -101,9 +102,9 @@
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">package</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">config</span>
-<span class="kn">from</span> <span class="nn">.compute</span> <span class="kn">import</span> <span class="n">make_image</span>
+<span class="kn">from</span> <span class="nn">.compute</span> <span class="kn">import</span> <span class="n">ETCQueryModel</span><span class="p">,</span> <span class="n">make_image</span>
 
-<span class="n">INSTRUMENT</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;MegaCam&#39;</span><span class="p">,</span> <span class="s1">&#39;WIRCam&#39;</span><span class="p">]</span>
+<span class="n">INSTRUMENT</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;megacam&#39;</span><span class="p">,</span> <span class="s1">&#39;wircam&#39;</span><span class="p">]</span>
 
 <span class="n">instruments</span> <span class="o">=</span> <span class="n">get_args</span><span class="p">(</span><span class="n">INSTRUMENT</span><span class="p">)</span>
 
@@ -226,35 +227,15 @@
                 <span class="n">instruments</span>
         <span class="p">}</span>
 
-    <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/etc/</span><span class="si">{instrument}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ETC results&quot;</span><span class="p">])</span>
+    <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/etc/</span><span class="si">{instrument}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ETC results&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">read_instrument</span><span class="p">(</span>
+            <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
             <span class="n">instrument</span><span class="p">:</span> <span class="n">INSTRUMENT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
                 <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span><span class="p">,</span>
                 <span class="n">description</span><span class="o">=</span><span class="s2">&quot;CFHT instrument ID&quot;</span>
             <span class="p">),</span>
-            <span class="nb">filter</span><span class="p">:</span> <span class="n">FILTER</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
-                <span class="kc">None</span><span class="p">,</span>
-                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Filter&quot;</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Name of the instrument filter&quot;</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">maglim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
-                <span class="kc">None</span><span class="p">,</span>
-                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Magnitude limit&quot;</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;AB magnitude limit at the given SNR or exposure time&quot;</span><span class="p">,</span>
-                <span class="n">ge</span><span class="o">=-</span><span class="mf">99.0</span><span class="p">,</span>
-                <span class="n">le</span><span class="o">=</span><span class="mf">99.0</span>
-            <span class="p">),</span>
-            <span class="n">snr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
-                <span class="mf">5.0</span><span class="p">,</span>
-                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;SNR&quot;</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Signal-to-Noise Ratio&quot;</span><span class="p">,</span>
-                <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span>
-            <span class="p">),</span>
-            <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
-                <span class="s1">&#39;info&#39;</span><span class="p">,</span>
-                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Response type&quot;</span><span class="p">,</span>
-                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Response type: information (JSON) or image (PNG)&quot;</span>
-            <span class="p">)):</span>
+            <span class="n">q</span><span class="p">:</span> <span class="n">ETCQueryModel</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">()</span>
+        <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Exposure type calculator endpoint.</span>
 
@@ -264,21 +245,25 @@
 <span class="sd">            [Streaming response](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse&gt;)</span>
 <span class="sd">            containing the exposure data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">filter</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">[</span><span class="n">instrument</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
-            <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_422_UNPROCESSABLE_ENTITY</span><span class="p">,</span>
-            <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">filter</span><span class="si">}</span><span class="s2"> filter not available for </span><span class="si">{</span><span class="n">instrument</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="c1"># Return a dummy exposure time</span>
-        <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span>
-            <span class="n">png</span> <span class="o">=</span> <span class="n">make_image</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span> <span class="nb">filter</span><span class="p">,</span> <span class="n">snr</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">StreamingResponse</span><span class="p">(</span>
-                <span class="n">BytesIO</span><span class="p">(</span><span class="n">png</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()),</span>
-                <span class="n">media_type</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span>
-                <span class="s2">&quot;exptime&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mf">0.4</span><span class="o">*</span><span class="p">(</span><span class="n">maglim</span><span class="o">-</span><span class="mf">26.0</span><span class="p">))</span> <span class="o">*</span> <span class="mf">10.0</span> <span class="o">*</span> <span class="n">snr</span><span class="o">**</span><span class="mi">2</span>
+        <span class="k">return</span> <span class="n">templates</span><span class="o">.</span><span class="n">TemplateResponse</span><span class="p">(</span>
+            <span class="s2">&quot;etc_results.html&quot;</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;request&quot;</span><span class="p">:</span> <span class="n">request</span><span class="p">,</span>
+                <span class="s2">&quot;etime&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mf">0.4</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">brightness</span><span class="o">-</span><span class="mf">26.0</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">10.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="o">.</span><span class="n">snr</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span>
             <span class="p">}</span>
+        <span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        if type == &#39;image&#39;:</span>
+<span class="sd">            png = make_image(instrument, filter, snr)</span>
+<span class="sd">            return StreamingResponse(</span>
+<span class="sd">                BytesIO(png.tobytes()),</span>
+<span class="sd">                media_type=&quot;image/png&quot;</span>
+<span class="sd">            )</span>
+<span class="sd">        else:</span>
+<span class="sd">            return {</span>
+<span class="sd">                &quot;exptime&quot;: 10**(0.4*(maglim-26.0)) * 10.0 * snr**2</span>
+<span class="sd">            }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="c1"># PyDIET UI component endpoint</span>
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/</span><span class="si">{component}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
