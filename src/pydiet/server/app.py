@@ -9,6 +9,7 @@ from os import path
 from typing import get_args, Literal, Tuple
 
 from fastapi import (
+    Depends,
     FastAPI,
     HTTPException,
     Path,
@@ -27,9 +28,9 @@ from pydantic import BaseModel
 
 from .. import package
 from . import config
-from .compute import make_image
+from .compute import ETCQueryModel, make_image
 
-INSTRUMENT = Literal['MegaCam', 'WIRCam']
+INSTRUMENT = Literal['megacam', 'wircam']
 
 instruments = get_args(INSTRUMENT)
 
@@ -150,35 +151,15 @@ def create_app() -> FastAPI:
                 instruments
         }
 
-    @app.get("/etc/{instrument}", tags=["ETC results"])
+    @app.get("/etc/{instrument}", tags=["ETC results"], response_class=HTMLResponse)
     async def read_instrument(
+            request: Request,
             instrument: INSTRUMENT = Path(
                 title="Instrument ID",
                 description="CFHT instrument ID"
             ),
-            filter: FILTER = Query(
-                None,
-                title="Filter",
-                description="Name of the instrument filter",
-            ),
-            maglim: float = Query(
-                None,
-                title="Magnitude limit",
-                description="AB magnitude limit at the given SNR or exposure time",
-                ge=-99.0,
-                le=99.0
-            ),
-            snr: float = Query(
-                5.0,
-                title="SNR",
-                description="Signal-to-Noise Ratio",
-                ge=0.0
-            ),
-            type: Literal['info', 'image'] = Query(
-                'info',
-                title="Response type",
-                description="Response type: information (JSON) or image (PNG)"
-            )):
+            q: ETCQueryModel = Depends()
+        ):
         """
         Exposure type calculator endpoint.
 
@@ -188,11 +169,14 @@ def create_app() -> FastAPI:
             [Streaming response](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
             containing the exposure data.
         """
-        if not filter in filters[instrument]:
-            raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=f"{filter} filter not available for {instrument}")
-        # Return a dummy exposure time
+        return templates.TemplateResponse(
+            "etc_results.html",
+            {
+                "request": request,
+                "etime": f"{(10**(0.4*(q.brightness-26.0)) * 10.0 * q.snr**2):.2f} s"
+            }
+        )
+        """
         if type == 'image':
             png = make_image(instrument, filter, snr)
             return StreamingResponse(
@@ -203,6 +187,7 @@ def create_app() -> FastAPI:
             return {
                 "exptime": 10**(0.4*(maglim-26.0)) * 10.0 * snr**2
             }
+        """
 
     # PyDIET UI component endpoint
     @app.get("/ui/{component}", tags=["UI"], response_class=HTMLResponse)

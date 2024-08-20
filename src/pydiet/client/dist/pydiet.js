@@ -20,38 +20,6 @@
     );
   }
 
-  // js/url.js
-  var root_path = document.querySelector("#root_path").content;
-  var root_url = root_path;
-  var etc_url = root_url + "/etc";
-  var ui_url = root_url + "/ui";
-  var ui_auth_url = ui_url + "/auth";
-
-  // js/etc.js
-  var etc_form = document.querySelector("#etc-form");
-  etc_form.addEventListener("submit", async function(e) {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(this));
-    fetch(etc_url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    }).then(async (response) => {
-      const json = response.json();
-      const status = response.status;
-      if (status == 201) {
-        return await fetch_signin() ? true : false;
-      } else if (response.status == 400)
-        alert("Unprocessable ETC query.");
-      else if ("reason" in json)
-        alert(`ETC query failed: ${json.reason}`);
-      else
-        alert("Unknown error.");
-    }).catch((error) => {
-      alert("Communication error during ETC query.");
-    });
-  });
-
   // js/camera.js
   var cameras = ["MegaCam", "WIRCam"];
   function get_camera() {
@@ -64,6 +32,43 @@
       camera = get_camera();
     }
   }
+
+  // js/fetch.js
+  async function fetch_html(selector, url) {
+    return await fetch(url, { credentials: "include" }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Unauthorized API endpoint:" + response.url);
+      }
+      return response.text();
+    }).then((html) => {
+      parent = document.querySelector(selector);
+      if (parent.firstElementChild) {
+        parent.firstElementChild.remove();
+      }
+      parent.insertAdjacentHTML("beforeend", html);
+      return true;
+    }).catch((err) => {
+      return false;
+    });
+  }
+
+  // js/url.js
+  var root_path = document.querySelector("#root_path").content;
+  var root_url = root_path;
+  var etc_url = root_url + "/etc";
+  var ui_url = root_url + "/ui";
+  var ui_auth_url = ui_url + "/auth";
+
+  // js/etc.js
+  var etc_form = document.querySelector("#etc-form");
+  etc_form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(this));
+    fetch_html(
+      "#modal-slot",
+      etc_url + "/" + get_camera() + "?" + new URLSearchParams(data)
+    );
+  });
 
   // js/settings.js
   if (theme_segment = document.querySelector("#theme-segment")) {

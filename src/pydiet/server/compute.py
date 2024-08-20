@@ -6,6 +6,42 @@ Computation module
 
 from cv2 import imencode
 import numpy as np
+from typing import Literal
+
+from pydantic import BaseModel, Field
+
+class ETCQueryModel(BaseModel):
+    airmass: float=Field(
+        default=1.2,
+        ge=1.
+        )
+    brightness: float=Field(
+        default=20.,
+        ge=-100.,
+        le=100.
+        )
+    compute: Literal['etime', 'snr']
+    filter: Literal['u', 'g', 'r', 'i', 'z']
+    photometry: Literal['aperture', 'psf']
+    seeing: float=Field(
+        default=0.7,
+        ge=0.1,
+        le=100.
+        )
+    sky: Literal['dark', 'grey', 'bright', 'custom']
+    snr: float=Field(
+        default=10.,
+        gt=0.
+        )
+    transparency: float=Field(
+        default=1.,
+        gt=0.,
+        le=1.
+        )
+    type: Literal['pointsource', 'galaxy', 'extended']
+    unit: Literal['mag', 'flux']
+
+
 
 def make_image(instrument, filter, snr, fwhm=0.8, shape=[128,128]):
     '''
