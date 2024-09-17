@@ -108,10 +108,11 @@ def etc_response(instrument: T_INSTRUMENT, q: ETCQueryModel) -> ETCResponseModel
         )
 
 
-def make_image(instrument, filter, snr, fwhm=0.8, shape=[128,128]):
+def make_image(instrument: T_INSTRUMENT, r: ETCResponseModel):
     '''
     Simulate an astronomical image of a point-source
     '''
+    print(r)
     # Pixel size in arcsec
     pixsize = 0.186 if instrument == 'megacam' else 0.307
     # Compute point source image
@@ -119,7 +120,7 @@ def make_image(instrument, filter, snr, fwhm=0.8, shape=[128,128]):
     sigma2 = (fwhm / 2.35) ** 2
     psf = np.exp( - (x*x + y*y) / (2 * sigma2))
     # Add point-source plus background plus realization of Gaussian noise
-    image = snr * psf + np.random.normal(size=shape)
+    image = r.snr * psf + np.random.normal(size=shape)
     # Normalize and encode to PNG format
     mini = np.min(image)
     maxi = np.max(image)

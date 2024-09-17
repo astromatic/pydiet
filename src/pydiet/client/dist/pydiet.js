@@ -39,7 +39,7 @@
       if (!response.ok) {
         throw new Error("Unauthorized API endpoint:" + response.url);
       }
-      return response.text();
+      return response.json();
     }).catch((err) => {
       return false;
     });
@@ -74,10 +74,11 @@
   etc_form.addEventListener("submit", async function(e) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(this)), camera = get_camera();
-    fetch_data(etc_url + "/" + camera + "?" + new URLSearchParams(data));
+    results = fetch_data(etc_url + "/" + camera + "/data?" + new URLSearchParams(data));
+    console.log(await results);
     fetch_html(
       "#modal-slot",
-      etc_url + "/" + camera + "?" + new URLSearchParams(data)
+      ui_url + "/etc_results?" + new URLSearchParams(await results)
     );
   });
 

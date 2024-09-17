@@ -9,7 +9,7 @@ export async function fetch_data(url) {
 			if (!response.ok) {
 				throw new Error("Unauthorized API endpoint:" + response.url);
 			}
-			return response.text();
+			return response.json();
 		}).catch( (err) => {
 			// There was an error
 			return false;

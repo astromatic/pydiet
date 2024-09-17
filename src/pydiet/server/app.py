@@ -7,6 +7,7 @@ from io import BytesIO
 from logging import getLogger
 from os import path
 from typing import get_args, Literal, Tuple
+from urllib.parse import urlencode
 
 from fastapi import (
     Depends,
@@ -30,6 +31,7 @@ from .. import package
 from .config import config_filename, settings
 from .compute import (
     ETCQueryModel,
+    ETCResponseModel,
     etc_response,
     make_image,
     T_INSTRUMENT,
@@ -153,12 +155,16 @@ def create_app() -> FastAPI:
                 instruments
         }
 
-    @app.get("/etc/{instrument}", tags=["ETC results"], response_class=HTMLResponse)
+    @app.get("/etc/{instrument}/{rtype}", tags=["ETC results"], response_class=HTMLResponse)
     async def read_instrument(
             request: Request,
             instrument: T_INSTRUMENT = Path(
                 title="Instrument ID",
                 description="CFHT instrument ID"
+            ),
+            rtype: Literal['data', 'image'] = Path(
+                title="Response type",
+                description="Type of response: image or data"
             ),
             query: ETCQueryModel = Depends()
         ):
@@ -171,21 +177,36 @@ def create_app() -> FastAPI:
             [Streaming response](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
             containing the exposure data.
         """
-        return etc_response(instrument, query).model_dump_json()
-
-        """
-        if type == 'image':
-            png = make_image(instrument, filter, snr)
+        r = etc_response(instrument, query)
+        print(r)
+        if rtype == 'image':
+            png = make_image(instrument, r)
             return StreamingResponse(
                 BytesIO(png.tobytes()),
                 media_type="image/png"
             )
         else:
-            return {
-                "exptime": 10**(0.4*(maglim-26.0)) * 10.0 * snr**2
-            }
+          return r.model_dump_json()
+    # Another PyDIET UI component endpoint
+    @app.get("/ui/etc_results", tags=["UI"], response_class=HTMLResponse)
+    async def etc_results(
+        request: Request,
+        r: ETCResponseModel = Depends()):
         """
-
+        UI ETC results endpoint.
+        """
+        print(urlencode(r.model_dump()))
+        return templates.TemplateResponse(
+            "etc_results.html",
+            {
+                "request": request,
+                "root_path": request.scope.get("root_path"),
+                "package": package.title,
+                "etime": r.etime,
+                "instrument": "megacam",
+                "rstring": urlencode(r.model_dump())
+            }
+        )
     # PyDIET UI component endpoint
     @app.get("/ui/{component}", tags=["UI"], response_class=HTMLResponse)
     async def component(request: Request, component: str):
