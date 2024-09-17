@@ -102,19 +102,21 @@
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">package</span>
 <span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">config_filename</span><span class="p">,</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">.compute</span> <span class="kn">import</span> <span class="n">ETCQueryModel</span><span class="p">,</span> <span class="n">make_image</span>
+<span class="kn">from</span> <span class="nn">.compute</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ETCQueryModel</span><span class="p">,</span>
+    <span class="n">etc_response</span><span class="p">,</span>
+    <span class="n">make_image</span><span class="p">,</span>
+    <span class="n">T_INSTRUMENT</span><span class="p">,</span>
+    <span class="n">T_MEGACAM_FILTER</span><span class="p">,</span>
+    <span class="n">T_WIRCAM_FILTER</span>
+<span class="p">)</span>
 
-<span class="n">INSTRUMENT</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;megacam&#39;</span><span class="p">,</span> <span class="s1">&#39;wircam&#39;</span><span class="p">]</span>
+<span class="n">instruments</span> <span class="o">=</span> <span class="n">get_args</span><span class="p">(</span><span class="n">T_INSTRUMENT</span><span class="p">)</span>
 
-<span class="n">instruments</span> <span class="o">=</span> <span class="n">get_args</span><span class="p">(</span><span class="n">INSTRUMENT</span><span class="p">)</span>
-
-<span class="n">MEGACAM_FILTER</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">]</span>
-<span class="n">WIRCAM_FILTER</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;K&#39;</span><span class="p">]</span>
-<span class="n">FILTER</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="n">MEGACAM_FILTER</span><span class="p">,</span> <span class="n">WIRCAM_FILTER</span><span class="p">]</span>
 
 <span class="n">filters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;megacam&#39;</span><span class="p">:</span> <span class="n">get_args</span><span class="p">(</span><span class="n">MEGACAM_FILTER</span><span class="p">),</span>
-    <span class="s1">&#39;wircam&#39;</span><span class="p">:</span> <span class="n">get_args</span><span class="p">(</span><span class="n">WIRCAM_FILTER</span><span class="p">)</span>
+    <span class="s1">&#39;megacam&#39;</span><span class="p">:</span> <span class="n">get_args</span><span class="p">(</span><span class="n">T_MEGACAM_FILTER</span><span class="p">),</span>
+    <span class="s1">&#39;wircam&#39;</span><span class="p">:</span> <span class="n">get_args</span><span class="p">(</span><span class="n">T_WIRCAM_FILTER</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="n">filter_set</span> <span class="o">=</span> <span class="n">filters</span><span class="p">[</span><span class="s1">&#39;megacam&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">filters</span><span class="p">[</span><span class="s1">&#39;wircam&#39;</span><span class="p">]</span>
@@ -230,11 +232,11 @@
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/etc/</span><span class="si">{instrument}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ETC results&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">read_instrument</span><span class="p">(</span>
             <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-            <span class="n">instrument</span><span class="p">:</span> <span class="n">INSTRUMENT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+            <span class="n">instrument</span><span class="p">:</span> <span class="n">T_INSTRUMENT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
                 <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span><span class="p">,</span>
                 <span class="n">description</span><span class="o">=</span><span class="s2">&quot;CFHT instrument ID&quot;</span>
             <span class="p">),</span>
-            <span class="n">q</span><span class="p">:</span> <span class="n">ETCQueryModel</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">()</span>
+            <span class="n">query</span><span class="p">:</span> <span class="n">ETCQueryModel</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">()</span>
         <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Exposure type calculator endpoint.</span>
@@ -245,13 +247,8 @@
 <span class="sd">            [Streaming response](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse&gt;)</span>
 <span class="sd">            containing the exposure data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">templates</span><span class="o">.</span><span class="n">TemplateResponse</span><span class="p">(</span>
-            <span class="s2">&quot;etc_results.html&quot;</span><span class="p">,</span>
-            <span class="p">{</span>
-                <span class="s2">&quot;request&quot;</span><span class="p">:</span> <span class="n">request</span><span class="p">,</span>
-                <span class="s2">&quot;etime&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mf">0.4</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">brightness</span><span class="o">-</span><span class="mf">26.0</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">10.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="o">.</span><span class="n">snr</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s&quot;</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">etc_response</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">()</span>
+
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        if type == &#39;image&#39;:</span>
 <span class="sd">            png = make_image(instrument, filter, snr)</span>
