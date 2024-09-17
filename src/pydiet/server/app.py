@@ -28,19 +28,21 @@ from pydantic import BaseModel
 
 from .. import package
 from .config import config_filename, settings
-from .compute import ETCQueryModel, make_image
+from .compute import (
+    ETCQueryModel,
+    etc_response,
+    make_image,
+    T_INSTRUMENT,
+    T_MEGACAM_FILTER,
+    T_WIRCAM_FILTER
+)
 
-INSTRUMENT = Literal['megacam', 'wircam']
+instruments = get_args(T_INSTRUMENT)
 
-instruments = get_args(INSTRUMENT)
-
-MEGACAM_FILTER = Literal['u', 'g', 'r', 'i', 'z']
-WIRCAM_FILTER = Literal['Y', 'J', 'H', 'K']
-FILTER = Literal[MEGACAM_FILTER, WIRCAM_FILTER]
 
 filters = {
-    'megacam': get_args(MEGACAM_FILTER),
-    'wircam': get_args(WIRCAM_FILTER)
+    'megacam': get_args(T_MEGACAM_FILTER),
+    'wircam': get_args(T_WIRCAM_FILTER)
 }
 
 filter_set = filters['megacam'] + filters['wircam']
@@ -154,11 +156,11 @@ def create_app() -> FastAPI:
     @app.get("/etc/{instrument}", tags=["ETC results"], response_class=HTMLResponse)
     async def read_instrument(
             request: Request,
-            instrument: INSTRUMENT = Path(
+            instrument: T_INSTRUMENT = Path(
                 title="Instrument ID",
                 description="CFHT instrument ID"
             ),
-            q: ETCQueryModel = Depends()
+            query: ETCQueryModel = Depends()
         ):
         """
         Exposure type calculator endpoint.
@@ -169,13 +171,8 @@ def create_app() -> FastAPI:
             [Streaming response](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
             containing the exposure data.
         """
-        return templates.TemplateResponse(
-            "etc_results.html",
-            {
-                "request": request,
-                "etime": f"{(10**(0.4*(q.brightness-26.0)) * 10.0 * q.snr**2):.2f} s"
-            }
-        )
+        return etc_response(instrument, query).model_dump_json()
+
         """
         if type == 'image':
             png = make_image(instrument, filter, snr)

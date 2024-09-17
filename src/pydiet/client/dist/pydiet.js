@@ -34,6 +34,16 @@
   }
 
   // js/fetch.js
+  async function fetch_data(url) {
+    return await fetch(url, { credentials: "include" }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Unauthorized API endpoint:" + response.url);
+      }
+      return response.text();
+    }).catch((err) => {
+      return false;
+    });
+  }
   async function fetch_html(selector, url) {
     return await fetch(url, { credentials: "include" }).then((response) => {
       if (!response.ok) {
@@ -63,10 +73,11 @@
   var etc_form = document.querySelector("#etc-form");
   etc_form.addEventListener("submit", async function(e) {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(this));
+    const data = Object.fromEntries(new FormData(this)), camera = get_camera();
+    fetch_data(etc_url + "/" + camera + "?" + new URLSearchParams(data));
     fetch_html(
       "#modal-slot",
-      etc_url + "/" + get_camera() + "?" + new URLSearchParams(data)
+      etc_url + "/" + camera + "?" + new URLSearchParams(data)
     );
   });
 
