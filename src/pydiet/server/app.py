@@ -27,7 +27,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
 from .. import package
-from . import config
+from .config import config_filename, settings
 from .compute import ETCQueryModel, make_image
 
 INSTRUMENT = Literal['megacam', 'wircam']
@@ -50,25 +50,25 @@ def create_app() -> FastAPI:
     Create FASTAPI application
     """
 
-    banner_template = config.settings["banner_template"]
-    base_template = config.settings["base_template"]
-    template_dir = path.abspath(config.settings["template_dir"])
-    client_dir = path.abspath(config.settings["client_dir"])
-    data_dir = path.abspath(config.settings["data_dir"])
-    extra_dir = path.abspath(config.settings["extra_dir"])
-    doc_dir = config.settings["doc_dir"]
-    doc_path = config.settings["doc_path"]
-    userdoc_url = config.settings["userdoc_url"]
-    api_path = config.settings["api_path"]
+    banner_template = settings["banner_template"]
+    base_template = settings["base_template"]
+    template_dir = path.abspath(settings["template_dir"])
+    client_dir = path.abspath(settings["client_dir"])
+    data_dir = path.abspath(settings["data_dir"])
+    extra_dir = path.abspath(settings["extra_dir"])
+    doc_dir = settings["doc_dir"]
+    doc_path = settings["doc_path"]
+    userdoc_url = settings["userdoc_url"]
+    api_path = settings["api_path"]
 
     logger = getLogger("uvicorn.error")
 
     # Provide an endpoint for the user's manual (if it exists)
-    if config.config_filename:
-        logger.info(f"Configuration read from {config.config_filename}.")
+    if config_filename:
+        logger.info(f"Configuration read from {config_filename}.")
     else:
         logger.warning(
-            f"Configuration file not found: {config.config_filename}!"
+            f"Configuration file not found: {config_filename}!"
         )
 
     app = FastAPI(
