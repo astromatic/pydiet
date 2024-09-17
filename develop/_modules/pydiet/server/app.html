@@ -101,7 +101,7 @@
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">package</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">config_filename</span><span class="p">,</span> <span class="n">settings</span>
 <span class="kn">from</span> <span class="nn">.compute</span> <span class="kn">import</span> <span class="n">ETCQueryModel</span><span class="p">,</span> <span class="n">make_image</span>
 
 <span class="n">INSTRUMENT</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;megacam&#39;</span><span class="p">,</span> <span class="s1">&#39;wircam&#39;</span><span class="p">]</span>
@@ -126,25 +126,25 @@
 <span class="sd">    Create FASTAPI application</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">banner_template</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;banner_template&quot;</span><span class="p">]</span>
-    <span class="n">base_template</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;base_template&quot;</span><span class="p">]</span>
-    <span class="n">template_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;template_dir&quot;</span><span class="p">])</span>
-    <span class="n">client_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;client_dir&quot;</span><span class="p">])</span>
-    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;data_dir&quot;</span><span class="p">])</span>
-    <span class="n">extra_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;extra_dir&quot;</span><span class="p">])</span>
-    <span class="n">doc_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;doc_dir&quot;</span><span class="p">]</span>
-    <span class="n">doc_path</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;doc_path&quot;</span><span class="p">]</span>
-    <span class="n">userdoc_url</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;userdoc_url&quot;</span><span class="p">]</span>
-    <span class="n">api_path</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;api_path&quot;</span><span class="p">]</span>
+    <span class="n">banner_template</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;banner_template&quot;</span><span class="p">]</span>
+    <span class="n">base_template</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;base_template&quot;</span><span class="p">]</span>
+    <span class="n">template_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;template_dir&quot;</span><span class="p">])</span>
+    <span class="n">client_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;client_dir&quot;</span><span class="p">])</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;data_dir&quot;</span><span class="p">])</span>
+    <span class="n">extra_dir</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;extra_dir&quot;</span><span class="p">])</span>
+    <span class="n">doc_dir</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;doc_dir&quot;</span><span class="p">]</span>
+    <span class="n">doc_path</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;doc_path&quot;</span><span class="p">]</span>
+    <span class="n">userdoc_url</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;userdoc_url&quot;</span><span class="p">]</span>
+    <span class="n">api_path</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;api_path&quot;</span><span class="p">]</span>
 
     <span class="n">logger</span> <span class="o">=</span> <span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;uvicorn.error&quot;</span><span class="p">)</span>
 
     <span class="c1"># Provide an endpoint for the user&#39;s manual (if it exists)</span>
-    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">config_filename</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuration read from </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">config_filename</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config_filename</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuration read from </span><span class="si">{</span><span class="n">config_filename</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Configuration file not found: </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">config_filename</span><span class="si">}</span><span class="s2">!&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Configuration file not found: </span><span class="si">{</span><span class="n">config_filename</span><span class="si">}</span><span class="s2">!&quot;</span>
         <span class="p">)</span>
 
     <span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span>
