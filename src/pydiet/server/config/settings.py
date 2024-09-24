@@ -86,7 +86,7 @@ class ServerSettings(BaseSettings):
         description="Directory containing the web client code, style and media"
         )
     data_dir: str = SField(
-        default=".",
+        default=path.join(package.root_dir, "data"),
         description="Data root directory"
         )
     doc_dir: str = SField(
@@ -114,6 +114,8 @@ class ServerSettings(BaseSettings):
         env_prefix = f"{package.name}_",
         extra = 'ignore',
     )
+
+
 
 ncpu = cpu_count()
 

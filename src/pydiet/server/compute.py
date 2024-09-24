@@ -12,80 +12,14 @@ import numpy as np
 
 from pydantic import BaseModel, Field
 
+from .models import ETCQueryModel, ETCResponseModel
+
+
 T_COMPUTE = Literal['etime', 'snr']
 T_INSTRUMENT = Literal['megacam', 'wircam']
 T_MEGACAM_FILTER = Literal['u', 'g', 'r', 'i', 'z']
 T_WIRCAM_FILTER = Literal['Y', 'J', 'H', 'K']
 T_FILTER = Literal[T_MEGACAM_FILTER, T_WIRCAM_FILTER]
-
-class ETCQueryModel(BaseModel):
-    airmass: float=Field(
-        default=1.2,
-        ge=1.,
-        description="Observation airmass"
-        )
-    brightness: float=Field(
-        default=20.,
-        ge=-100.,
-        le=100.,
-        description="Source brightness"
-        )
-    compute: T_COMPUTE
-    etime: float=Field(
-        default=20.,
-        ge=0.,
-        le=1e30,
-        description="Required exposure time"
-        )
-    filter: Literal['u', 'g', 'r', 'i', 'z']
-    photometry: Literal['aperture', 'psf']
-    seeing: float=Field(
-        default=0.7,
-        ge=0.1,
-        le=100.
-        )
-    sky: Literal['dark', 'grey', 'bright', 'custom']
-    snr: float=Field(
-        default=10.,
-        gt=0.,
-        description="Required source Signal-to-Noise Ratio"
-        )
-    source: Literal['pointsource', 'galaxy', 'extended']
-    transparency: float=Field(
-        default=1.,
-        gt=0.,
-        le=1.,
-        description="Sky transparency"
-        )
-    unit: Literal['mag', 'flux']
-
-
-class ETCResponseModel(BaseModel):
-    compute: T_COMPUTE
-    etime: float=Field(
-        default=1.,
-        ge=0.,
-        lt=1e30,
-        description="Estimated exposure time"
-    )
-    etime_skysat: float=Field(
-        default=0.,
-        ge=0.,
-        lt=1e30,
-        description="Estimated exposure time for sky background saturation"
-    )
-    etime_sourcesat: float=Field(
-        default=0.,
-        ge=0.,
-        lt=1e30,
-        description="Estimated exposure time for source saturation"
-    )
-    snr: float=Field(
-        default=10.,
-        ge=0.,
-        lt=1e30,
-        description="Estimated source Signal-to-Noise Ratio"
-    )
 
 
 def etc_response(instrument: T_INSTRUMENT, q: ETCQueryModel) -> ETCResponseModel:
