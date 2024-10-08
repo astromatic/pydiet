@@ -1,0 +1,1 @@
+MegaPrime Halpha narrow band filter (659.1 nm).

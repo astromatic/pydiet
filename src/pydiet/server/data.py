@@ -41,16 +41,16 @@ def get_filters(instrument_dir: str) -> dict:
         filter_basename = basename(filter_name)
         # Get the ID
         filter_id = filter_basename.lower()
-        data = get_data(join(filter_name, "data.txt"))
+        data = get_data(join(filter_name, filter_basename + ".fits"))
         # Instantiate the model
         filters[filter_id] = FilterModel(
             id = filter_id,
             name = filter_basename,
             description = get_description(filter_name, "Another filter")
-            #response = ResponseModel(
-            #    wave = data["col1"] * u.angstroem,
-            #    response = data["col2"]
-            #)
+            response = ResponseModel(
+            	wave = data['wavelength'],
+                response = data['transmission']
+            )
         )
     return filters
 

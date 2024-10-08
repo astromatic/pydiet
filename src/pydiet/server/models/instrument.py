@@ -46,7 +46,7 @@ class FilterModel(BaseModel):
     id: str
     name: str
     description: str
-    #response: ResponseModel
+    response: ResponseModel
 
 
 
