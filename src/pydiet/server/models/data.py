@@ -1,26 +1,31 @@
 """
-Data management module
+Functions that gather data.
 """
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 from os import scandir
-from os.path import basename, join
-from typing import Optional
-from astropy.io import ascii
+from os.path import basename, exists, join
+from typing import Any, Optional
+from astropy.table import QTable
 from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 
-from .. import package
-from .config import override, settings
-from .models.instrument import InstrumentModel, ResponseModel
-
-
-def get_dirs(parent_dir: str) ->list[str]:
-    return [d.path for d in scandir(parent_dir) if d.is_dir()]
+from ... import package
+from ..config import override, settings
+from .instrument import FilterModel, InstrumentModel, ResponseModel
 
 
 def get_data(filename: str):
-    return ascii.read(filename)
+    return QTable.read(filename)
+
+
+def get_default(d: dict) -> Any:
+    lst = [val for val in d.values() if val.default]
+    return lst[0] if len(lst) > 0 else list(d.values())[0]
+
+
+def get_dirs(parent_dir: str) -> list[str]:
+    return [d.path for d in scandir(parent_dir) if d.is_dir()]
 
 
 def get_description(parent_dir: str, default: str):
@@ -30,7 +35,7 @@ def get_description(parent_dir: str, default: str):
         description=defaut
     else:
         with f:
-            description=f.readlines()
+            description="".join(f.read().splitlines())
     return description
 
 
@@ -46,7 +51,7 @@ def get_filters(instrument_dir: str) -> dict:
         filters[filter_id] = FilterModel(
             id = filter_id,
             name = filter_basename,
-            description = get_description(filter_name, "Another filter")
+            description = get_description(filter_name, "Another filter"),
             response = ResponseModel(
             	wave = data['wavelength'],
                 response = data['transmission']
@@ -68,10 +73,18 @@ def get_instruments(data_dir: Optional[str] = None) -> dict:
             id = instrument_id,
             name = instrument_basename,
             description = get_description(instrument_name, "Another instrument."),
-            filters = get_filters(instrument_name)
+            filters = get_filters(instrument_name),
+            default = is_default(instrument_name)
         )
     return instruments
 
 
+def is_default(parent_dir):
+    return exists(join(parent_dir, "default"))
+
+
 instruments = get_instruments()
+default_instrument = get_default(instruments)
+filters = {k:v for key,val in instruments.items() for k,v in val.filters.items()}
+default_filter = get_default(default_instrument.filters)
 

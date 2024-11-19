@@ -33,21 +33,12 @@ from .compute import (
     ETCQueryModel,
     ETCResponseModel,
     etc_response,
-    make_image,
-    T_INSTRUMENT,
-    T_MEGACAM_FILTER,
-    T_WIRCAM_FILTER
+    make_image
 )
 
-instruments = get_args(T_INSTRUMENT)
+from .models.data import filters, instruments
+from .models.types import InstrumentID
 
-
-filters = {
-    'megacam': get_args(T_MEGACAM_FILTER),
-    'wircam': get_args(T_WIRCAM_FILTER)
-}
-
-filter_set = filters['megacam'] + filters['wircam']
 
 def create_app() -> FastAPI:
     """
@@ -158,7 +149,7 @@ def create_app() -> FastAPI:
     @app.get("/etc/{instrument}/{rtype}", tags=["ETC results"], response_class=HTMLResponse)
     async def read_instrument(
             request: Request,
-            instrument: T_INSTRUMENT = Path(
+            instrument: InstrumentID = Path(
                 title="Instrument ID",
                 description="CFHT instrument ID"
             ),

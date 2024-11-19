@@ -7,30 +7,11 @@ Data models
 from typing import Annotated, Dict
 
 from astropy import units as u  #type: ignore[import-untyped]
-import numpy as np
-from pydantic import BaseModel, BeforeValidator, ConfigDict, PlainSerializer
+from pydantic import BaseModel, ConfigDict
 
 from ... import package
-from ..config import settings
 from ..config.quantity import QuantityAnnotation
-
-
-# Rough "pydantification" of Numpy array datatype
-def nd_array_custom_before_validator(x):
-    # custome before validation logic
-    return x
-
-
-def nd_array_custom_serializer(x):
-    # custome serialization logic
-    return str(x)
-
-NdArray = Annotated[
-    np.ndarray,
-    BeforeValidator(nd_array_custom_before_validator),
-    PlainSerializer(nd_array_custom_serializer, return_type=str)
-]
-
+from ..config.ndarray import NdArray
 
 
 class InstrumentModel(BaseModel):
@@ -39,6 +20,7 @@ class InstrumentModel(BaseModel):
     description: str
     filters: Dict[str, 'FilterModel']
     #sky: SkyModel
+    default: bool = False
 
 
 
@@ -46,7 +28,8 @@ class FilterModel(BaseModel):
     id: str
     name: str
     description: str
-    response: ResponseModel
+    response: 'ResponseModel'
+    default: bool = False
 
 
 

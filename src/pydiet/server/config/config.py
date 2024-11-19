@@ -1,18 +1,19 @@
 """
-Manage configuration.
+Configure application.
 """
 # Copyright CEA/CFHT/CNRS/UParisSaclay
 # Licensed under the MIT licence
 
+from argparse import ArgumentParser, SUPPRESS
+from configparser import ConfigParser
 from os import makedirs, path
 from pathlib import Path
+from pprint import pprint
 from sys import exit, modules
 from time import localtime, strftime
 from typing import Tuple
 
-from argparse import ArgumentParser, SUPPRESS
-from astropy import units as u  #type: ignore
-from configparser import ConfigParser
+from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import ValidationError
 
 from ... import package
@@ -37,9 +38,9 @@ class Config(object):
         self.image_filename = None
         self.config_filename = config_file
 
-        # Skip argument parsing and stuff if Sphinx or PyTest are involved
-        if 'sphinx' in modules or 'pytest' in modules:
-            return
+        # Skip argument parsing if Sphinx or PyTest are involved
+        if 'sphinx' in modules:
+            args = False
         # Parse command line
         if args:
             args_dict = self.parse_args()
@@ -63,8 +64,10 @@ class Config(object):
         # Update settings from the command line (overriding config file values)
         if args:
             self.update_from_dict(args_dict)
-
-
+            if args_dict['show_config']:
+                pprint(self.flat_dict())
+ 
+ 
     def grouped_dict(self) -> dict:
         """
         Return a dictionary of all settings, organized in groups.
@@ -135,37 +138,37 @@ class Config(object):
         gdict: dict
             Dictionary of all settings, organized in groups.
         """
-        config = ArgumentParser(
+        parser = ArgumentParser(
             description=f"{package.title} v{package.version} : {package.summary}"
         )
         # Add options not relevant to configuration itself
-        config.add_argument(
+        parser.add_argument(
             "-V", "--version",
             default=False,
             help="Return the version of the package and exit", 
             action='store_true'
         )
-        config.add_argument(
+        parser.add_argument(
             "-c", "--config",
             type=str, default=package.config_file,
             help=f"Configuration filename (default={package.config_file})", 
             metavar="FILE"
         )
-        config.add_argument(
+        parser.add_argument(
             "-s", "--save_config",
             default=False,
             help=f"Save a default {package.title} configuration file and exit",
             action='store_true'
         )
-        config.add_argument(
-            "file",
-            default="",
-            type=str,
-            help="FITS image filename",
-            nargs="?"
+        parser.add_argument(
+            "-S", "--show_config",
+            default=False,
+            help=f"Print the actual {package.title} configuration settings",
+            action='store_true'
         )
+
         for group in self.groups:
-            args_group = config.add_argument_group(group.title())
+            args_group = parser.add_argument_group(group.title())
             groupsettings = getattr(self.settings, group)
             settings = groupsettings.schema()['properties']
             defaults = groupsettings.dict()
@@ -188,7 +191,9 @@ class Config(object):
                     args_group.add_argument(
                         *arg,
                         default=SUPPRESS,
-                        type=lambda s: tuple([deftype(val) for val in s.split(',')]),
+                        type=(lambda s: tuple([int(val) for val in s.split(',')]))
+                            if deftype==int
+                            else (lambda s: tuple([float(val) for val in s.split(',')])),
                         help=f"{help} (default={default})"
                     )
                 elif isinstance(default, u.Quantity):
@@ -206,13 +211,13 @@ class Config(object):
                         help=f"{help} (default={default})"
                     )  
         # Generate dictionary of args grouped by section
-        fdict = vars(config.parse_args())
+        fdict = vars(parser.parse_args())
         gdict = {}
         # Command-line specific arguments
         gdict['version'] = fdict['version']
         gdict['config'] = fdict['config']
         gdict['save_config'] = fdict['save_config']
-        gdict['file'] = fdict['file']
+        gdict['show_config'] = fdict['show_config']
         for group in self.groups:
             gdict[group] = {}
             gdictg = gdict[group]

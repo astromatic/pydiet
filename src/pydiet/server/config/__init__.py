@@ -17,24 +17,20 @@ config_filename = None
 settings = config.flat_dict()
 
 
-
-def override(key: str, value: Any):
+def override(key: str, value: Any) -> Any:
     """
     Convenience function that returns the input value unless it is None,
     in which case the settings value from key is returned.
 
     Examples
     --------
-    ```python
-    from .config import override
+    >>> from . import override, settings
+    >>> settings['port'] = 8009
+    >>> print(f"{override('port', 8080)}")
+    8080
 
-    print(f"{override('a_setting', 10)}")
-
-    #> 10
-
-    print(f"{override('a_setting', None)}")
-
-    #> 3
+    >>> print(f"{override('port', None)}")
+    8009
 
     Parameters
     ----------
@@ -51,7 +47,5 @@ def override(key: str, value: Any):
     return settings[key] if value is None else value
 
 
-
-if 'sphinx' not in modules and 'pytest' not in modules:
-     config_filename = config.config_filename
+config_filename = config.config_filename
 

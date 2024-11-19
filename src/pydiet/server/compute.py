@@ -13,16 +13,10 @@ import numpy as np
 from pydantic import BaseModel, Field
 
 from .models import ETCQueryModel, ETCResponseModel
+from .models.types import InstrumentID
 
 
-T_COMPUTE = Literal['etime', 'snr']
-T_INSTRUMENT = Literal['megacam', 'wircam']
-T_MEGACAM_FILTER = Literal['u', 'g', 'r', 'i', 'z']
-T_WIRCAM_FILTER = Literal['Y', 'J', 'H', 'K']
-T_FILTER = Literal[T_MEGACAM_FILTER, T_WIRCAM_FILTER]
-
-
-def etc_response(instrument: T_INSTRUMENT, q: ETCQueryModel) -> ETCResponseModel:
+def etc_response(instrument: InstrumentID, q: ETCQueryModel) -> ETCResponseModel:
     if q.compute == 'etime':
         etime = (10.**(0.4*(q.brightness-26.))) * 10. * q.snr**2
         return ETCResponseModel(
@@ -42,7 +36,7 @@ def etc_response(instrument: T_INSTRUMENT, q: ETCQueryModel) -> ETCResponseModel
         )
 
 
-def make_image(instrument: T_INSTRUMENT, r: ETCResponseModel):
+def make_image(instrument: InstrumentID, r: ETCResponseModel):
     '''
     Simulate an astronomical image of a point-source
     '''
