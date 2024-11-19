@@ -35,6 +35,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinxcontrib.autodoc_pydantic',
     'sphinxcontrib.bibtex'
 ]
 
