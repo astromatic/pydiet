@@ -20,21 +20,21 @@ from fastapi import (
     status
 )
 from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi.responses import JSONResponse, HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
+from pydantic_core import InitErrorDetails, PydanticCustomError
 
 from .. import package
 from .config import config_filename, settings
-from .compute import (
-    ETCQueryModel,
-    ETCResponseModel,
-    etc_response,
-    make_image
-)
+from .compute import  etc_response, make_image
+
+from .models import ETCQueryModel, ETCResponseModel, ETCValidationError
+
 
 from .models.data import filters, instruments
 from .models.types import InstrumentID
@@ -131,6 +131,35 @@ def create_app() -> FastAPI:
         directory=path.join(package.src_dir, template_dir)
     )
 
+    @app.exception_handler(ETCValidationError)
+    async def validation_exception_handler(request: Request, exc: ETCValidationError):
+        """
+        Propagate value errors from custom validators.
+
+        Returns
+        -------
+        response: byte stream
+            [JSON response](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
+            containing the error diagnostic.
+        """
+        dico = exc.args[0]
+        raise RequestValidationError(
+            errors=(
+                ValidationError.from_exception_data(
+                    "ValueError",
+                    [
+                        InitErrorDetails(
+                            type=dico["type"],
+                            loc=dico["loc"],
+                            input=dico["input"],
+                            ctx={"expected": dico["expected"]}
+                        )
+                    ]
+                )
+            ).errors()
+        )
+
+
     @app.get("/etc/instruments", tags=["ETC parameters"])
     async def read_instruments():
         """
@@ -139,7 +168,7 @@ def create_app() -> FastAPI:
         Returns
         -------
         response: byte stream
-            [Streaming response](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
+            [JSON response](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
             with the list of supported instruments
         """
         return {
@@ -165,11 +194,11 @@ def create_app() -> FastAPI:
         Returns
         -------
         response: byte stream
-            [Streaming response](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
-            containing the exposure data.
+            [Streaming](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
+            or [JSON](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
+            response containing the exposure data.
         """
         r = etc_response(instrument, query)
-        print(r)
         if rtype == 'image':
             png = make_image(instrument, r)
             return StreamingResponse(
@@ -186,7 +215,6 @@ def create_app() -> FastAPI:
         """
         UI ETC results endpoint.
         """
-        print(urlencode(r.model_dump()))
         return templates.TemplateResponse(
             "etc_results.html",
             {

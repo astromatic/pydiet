@@ -40,7 +40,6 @@ def make_image(instrument: InstrumentID, r: ETCResponseModel):
     '''
     Simulate an astronomical image of a point-source
     '''
-    print(r)
     # Pixel size in arcsec
     pixsize = 0.186 if instrument == 'megacam' else 0.307
     # Compute point source image

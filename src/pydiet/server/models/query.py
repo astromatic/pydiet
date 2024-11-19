@@ -5,9 +5,10 @@ Query models
 # Licensed under the MIT licence
 
 from typing import Literal
-from pydantic import BaseModel, Field, ValidationInfo, field_validator
+from pydantic import BaseModel, Field, PydanticUserError, ValidationInfo, field_validator
 
 from .data import default_filter, default_instrument, filters, instruments
+from .exceptions import ETCValidationError
 from .types import ComputeID, FilterID, InstrumentID
 
 
@@ -34,7 +35,7 @@ class ETCQueryModel(BaseModel):
         le=1e30,
         description="Required exposure time"
         )
-    filter: FilterID = Field(
+    filter: str = Field(
         default=default_filter.id,
         description="Filter"
     )
@@ -61,13 +62,21 @@ class ETCQueryModel(BaseModel):
 
     @field_validator('filter')
     def validate_filter(cls, f: str, info: ValidationInfo) -> str:
-        instrument = ValidationInfo.data['instrument']
-        fids = instruments[instrument].filters
+        instrument = info.data['instrument']
+        fids = list(instruments[instrument].filters)
         if f not in fids:
-            raise ValueError(
-                f"Input should be '{fids[0]}'" +
-                (f"[', {fid}' for fid in fids[:-1]]" if len(fids) > 2 else "") +
-                f" or '{fids[-1]}'" if len(fids) > 1 else ""
-            )
+            expected = f"'{fids[0]}'" + \
+                (
+                    "".join(f", '{fid}'" for fid in fids[:-1]) \
+                    if len(fids) > 2 else ""
+                ) + (
+                    f" or '{fids[-1]}'" if len(fids) > 1 else ""
+                )
+            raise ETCValidationError({
+                "type": "enum",
+                "loc": ("query", "filter"),
+                "input": str(f),
+                "expected": expected
+            })
         return f
 

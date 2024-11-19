@@ -17,6 +17,10 @@ Config
    :members:
    :show-inheritance:
 
+.. automodule:: pydiet.server.config.string
+   :members:
+   :show-inheritance:
+
 .. automodule:: pydiet.server.config
    :members:
    :show-inheritance:

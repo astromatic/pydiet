@@ -5,6 +5,10 @@ Models
    :members:
    :show-inheritance:
 
+.. automodule:: pydiet.server.models.exceptions
+   :members:
+   :show-inheritance:
+
 .. automodule:: pydiet.server.models.instrument
    :members:
    :show-inheritance:
