@@ -1,0 +1,2 @@
+WIRCam H2 V=1-0 S(1) narrow band filter (2122 nm).
+

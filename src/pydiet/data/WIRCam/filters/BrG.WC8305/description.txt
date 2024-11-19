@@ -1,0 +1,2 @@
+WIRCam Brackett Gamma narrow band filter (2166 nm).
+

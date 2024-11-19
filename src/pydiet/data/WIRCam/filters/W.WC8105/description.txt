@@ -1,0 +1,2 @@
+WIRCam W medium band filter (1453 nm).
+
