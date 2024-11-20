@@ -8,7 +8,7 @@ validation and serialization.
 from __future__ import annotations
 
 from re import compile
-from typing import TYPE_CHECKING, Annotated, Any, Iterable, Literal, Pattern
+from typing import TYPE_CHECKING, Annotated, Any, Pattern
 
 if TYPE_CHECKING:
     from pydantic import GetCoreSchemaHandler
@@ -26,7 +26,7 @@ class StrAnnotation:
     --------
     >>> from typing import Annotated
     >>> from pydantic import BaseModel
-    >>> from string import StrAnnotation
+    >>> from .string import StrAnnotation
 
     >>> class Person(BaseModel):
     ...     firstname: Annotated[str, StrAnnotation(pattern=r"[A-Z][a-z]*")]
@@ -55,18 +55,22 @@ class StrAnnotation:
         Maximum string length.
     pattern: Pattern, optional
         Regular expression for validation.
+    valid_list: list[str], optional
+        List of validating strings.
     """
     description: str = ""
     min_length: int | None = None
     max_length: int | None = None
     pattern: Pattern | None = None
+    valid_list: list[str] | None = None
     def __init__(
             self,
             *,
             description: str = "",
             min_length: int | None = None,
             max_length: int | None = None,
-            pattern: Pattern | None = None):
+            pattern: Pattern | None = None,
+            valid_list: list[str] | None = None):
 
         self.description = description
         self.min_length = min_length
@@ -74,6 +78,7 @@ class StrAnnotation:
         self.pattern = pattern
         if pattern is not None:
             self.compiled = compile(pattern)
+        self.valid_list = valid_list
 
 
     def validate(
@@ -117,6 +122,10 @@ class StrAnnotation:
         # Check if it matches the regular expression if provided
         if self.pattern and not self.compiled.match(s):
              raise ValueError(f"string does not match {self.pattern} pattern")
+
+        # Check if it matches any member of the list if provided
+        if self.valid_list and not s in self.valid_list:
+             raise ValueError(f"string does not match any of {self.valid_list}")
 
         return s
 
@@ -195,7 +204,7 @@ class StrAnnotation:
                     max_length=self.max_length,
                     pattern=self.pattern
                 ),
-                core_schema.no_info_plain_validator_function(self.validate),
+                core_schema.no_info_plain_validator_function(self.validate)
             ]
         )
 
@@ -218,7 +227,8 @@ def AnnotatedStr(
     description: str = "",
     min_length: int | None = None,
     max_length: int | None = None,
-    pattern: Pattern | None = None) -> Any:
+    pattern: Pattern | None = None,
+    valid_list: list[str] | None = None) -> Any:
     """
     Pydantic pseudo-field for validating and serializing strings
     (the original Pydantic 2.x string fields only support Rust Regex).
@@ -226,23 +236,23 @@ def AnnotatedStr(
     Examples
     --------
     >>> from pydantic_settings import BaseSettings
-    >>> from .fields import AnnotatedStr
+    >>> from .string import AnnotatedStr
 
     >>> class Person(BaseSettings):
-    >>> ...     firstname: AnnotatedStr(
-    >>> ...         short='f',
-    >>> ...         description="First name.",
-    >>> ...         default="Unknown",
-    >>> ...         min_length=1,
-    >>> ...         pattern=r"[A-Z][a-z]*"
-    >>> ...     )
-    >>> ...     lastname: AnnotatedStr(
-    >>> ...        short='l'
-    >>> ...        description="Last name."
-    >>> ...        default="Unknown",
-    >>> ...        min_length=1,
-    >>> ...        pattern=r"[A-Z][a-z]*"
-    >>> ...    )
+    ...     firstname: AnnotatedStr(
+    ...         short='f',
+    ...         description="First name.",
+    ...         default="Unknown",
+    ...         min_length=1,
+    ...         pattern=r"[A-Z][a-z]*"
+    ...     )
+    ...     lastname: AnnotatedStr(
+    ...        short='l',
+    ...        description="Last name.",
+    ...        default="Unknown",
+    ...        min_length=1,
+    ...        pattern=r"[A-Z][a-z]*"
+    ...    )
 
     >>> # The following instantiation validates
     >>> user = Person(firstname="Emmanuel", lastname="Bertin")
@@ -271,6 +281,8 @@ def AnnotatedStr(
         Maximum string length.
     pattern: Pattern, optional
         Regular expression for validation.
+    valid_list: list[str], optional
+        List of validating strings.
     """
 
     json_extra: dict = {}
@@ -282,6 +294,8 @@ def AnnotatedStr(
         json_extra['minLength'] = str(min_length)
     if pattern is not None:
         json_extra['pattern'] = str(pattern)
+    if valid_list is not None:
+        json_extra['valid_list'] = valid_list
     if short:
         json_extra['short'] = short
     return Annotated[
@@ -289,7 +303,8 @@ def AnnotatedStr(
         StrAnnotation(
             min_length=min_length,
             max_length=max_length,
-            pattern=pattern
+            pattern=pattern,
+            valid_list=valid_list
         ),
         Field(
             default_factory=lambda: default,

@@ -6,7 +6,7 @@ Functions that gather data.
 from os import scandir
 from os.path import basename, exists, join
 from typing import Any, Optional
-from astropy.table import QTable
+from astropy.table import QTable #type: ignore[import-untyped]
 from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 
@@ -32,7 +32,7 @@ def get_description(parent_dir: str, default: str):
     try:
         f = open(join(parent_dir, "description.txt"))
     except FileNotFoundError:
-        description=defaut
+        description=default
     else:
         with f:
             description="".join(f.read().splitlines())
@@ -63,7 +63,7 @@ def get_filters(instrument_dir: str) -> dict:
 def get_instruments(data_dir: Optional[str] = None) -> dict:
     data_dir = override("data_dir", data_dir)
     instruments = {}
-    for instrument_name in get_dirs(data_dir):
+    for instrument_name in get_dirs(data_dir): #type: ignore[arg-type]
         # Get the name alone
         instrument_basename = basename(instrument_name)
         # Get the ID

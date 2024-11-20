@@ -38,8 +38,8 @@ class Config(object):
         self.image_filename = None
         self.config_filename = config_file
 
-        # Skip argument parsing if Sphinx or PyTest are involved
-        if 'sphinx' in modules:
+        # Skip argument parsing if Sphinx is involved
+        if 'sphinx' in modules or 'pytest' in modules:
             args = False
         # Parse command line
         if args:
