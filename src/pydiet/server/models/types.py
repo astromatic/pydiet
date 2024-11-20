@@ -4,7 +4,11 @@ Data types
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
-from strenum import StrEnum
+import sys
+if sys.version_info >= (3, 11):
+    from enum import StrEnum
+else:
+    from backports.strenum import StrEnum
 from typing import Literal
 
 from .data import filters, instruments
