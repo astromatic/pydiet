@@ -4,7 +4,7 @@ Data types
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
-from enum import StrEnum
+from strenum import StrEnum
 from typing import Literal
 
 from .data import filters, instruments
