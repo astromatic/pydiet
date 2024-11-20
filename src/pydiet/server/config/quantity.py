@@ -88,6 +88,8 @@ class QuantityAnnotation:
     unit: str
         The unit type of the Pydantic field (e.g., `"m"`, or `"deg"`).
         All input units must be convertible to this unit.
+    description: str, optional
+        Description string.
     min_shape: tuple[int], optional
         Minimum number of vector components on each axis.
     max_shape: tuple[int], optional
@@ -110,13 +112,13 @@ class QuantityAnnotation:
         If disabled, a value without units - provided by the user - will be
         treated as the base units of the `QuantityUnit`.
     """
+    description: str = ""
     min_shape: np.ndarray | None = None
     max_shape: np.ndarray | None = None
     ge: u.Quantity | str | None = None
     gt: u.Quantity | str | None = None
     le: u.Quantity | str | None = None
     lt: u.Quantity | str | None = None
-    description: str = ""
     def __init__(
             self,
             unit: str,

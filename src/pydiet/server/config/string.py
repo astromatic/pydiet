@@ -24,29 +24,42 @@ class StrAnnotation:
 
     Examples
     --------
-    ```python
-    from typing import Annotated
+    >>> from typing import Annotated
+    >>> from pydantic import BaseModel
+    >>> from string import StrAnnotation
 
-    from pydantic import BaseModel
+    >>> class Person(BaseModel):
+    ...     firstname: Annotated[str, StrAnnotation(pattern=r"[A-Z][a-z]*")]
+    ...     lastname: Annotated[str, StrAnnotation(pattern=r"[A-Z][a-z]*")]
 
-    from .annotation import StrAnnotation
+    >>> # The following instantiation validates
+    >>> user = Person(firstname="Emmanuel", lastname="Bertin")
 
-    class Person(BaseModel):
-        firstname: Annotated[str, StrAnnotation()]
-        lastname: Annotated[str, StrAnnotation()]
-
-    # The following instantiation validates
-    user = Person(firstname="Emmanuel", lastname="Bertin")
-
-    # The following instantiation does not validate
-    # The following instantiation validates
-    user = Person(firstname="emmanuel", lastname="Bertin")
+    >>> # The following instantiation does not validate
+    >>> user = Person(firstname="emmanuel", lastname="Bertin")
+    Traceback (most recent call last):
+    ...
+    pydantic_core._pydantic_core.ValidationError: 1 validation error for Person
+    firstname
+    Value error, string does not match [A-Z][a-z]* pattern
+    [type=value_error, input_value='emmanuel', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/value_error
 
     Parameters
     ----------
+    description: str, optional
+        Description string.
+    min_length: int, optional
+        Minimum string length.
+    max_length: int, optional
+        Maximum string length.
     pattern: Pattern, optional
         Regular expression for validation.
     """
+    description: str = ""
+    min_length: int | None = None
+    max_length: int | None = None
+    pattern: Pattern | None = None
     def __init__(
             self,
             *,
@@ -212,37 +225,36 @@ def AnnotatedStr(
 
     Examples
     --------
-    ```python
-    from pydantic_settings import BaseSettings
+    >>> from pydantic_settings import BaseSettings
+    >>> from .fields import AnnotatedStr
 
-    from .fields import AnnotatedStr
+    >>> class Person(BaseSettings):
+    >>> ...     firstname: AnnotatedStr(
+    >>> ...         short='f',
+    >>> ...         description="First name.",
+    >>> ...         default="Unknown",
+    >>> ...         min_length=1,
+    >>> ...         pattern=r"[A-Z][a-z]*"
+    >>> ...     )
+    >>> ...     lastname: AnnotatedStr(
+    >>> ...        short='l'
+    >>> ...        description="Last name."
+    >>> ...        default="Unknown",
+    >>> ...        min_length=1,
+    >>> ...        pattern=r"[A-Z][a-z]*"
+    >>> ...    )
 
-    class Person(BaseSettings):
-        firstname: AnnotatedStr(
-            short='f',
-            description="First name.",
-            default="Unknown",
-            min_length=1,
-            pattern=r"[A-Z][a-z]*"
-        )
-        lastname: AnnotatedStr(
-            short='l'
-            description="Last name."
-            default="Unknown",
-            min_length=1,
-            pattern=r"[A-Z][a-z]*"
-        )
+    >>> # The following instantiation validates
+    >>> user = Person(firstname="Emmanuel", lastname="Bertin")
 
-    # The following instantiation validates
-    user = Person(firstname="Emmanuel", lastname="Bertin")
-
-    # The following instantiation does not validate
-    # The following instantiation validates
+    >>> # The following instantiation does not validate
     user = Person(firstname="emmanuel", lastname="Bertin")
-
+    Traceback (most recent call last):
+    ...
+    pydantic_core._pydantic_core.ValidationError: 1 validation error for Person
     firstname
-        Value error, string does not match [A-Z][a-z]* pattern [type=value_error,
-        input_value='emmanuel', input_type=str]
+    Value error, string does not match [A-Z][a-z]* pattern
+    [type=value_error, input_value='emmanuel', input_type=str]
     For further information visit https://errors.pydantic.dev/2.8/v/value_error
 
     Parameters
