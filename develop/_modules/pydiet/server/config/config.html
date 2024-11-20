@@ -114,8 +114,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">image_filename</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config_filename</span> <span class="o">=</span> <span class="n">config_file</span>
 
-        <span class="c1"># Skip argument parsing if Sphinx or PyTest are involved</span>
-        <span class="k">if</span> <span class="s1">&#39;sphinx&#39;</span> <span class="ow">in</span> <span class="n">modules</span><span class="p">:</span>
+        <span class="c1"># Skip argument parsing if Sphinx is involved</span>
+        <span class="k">if</span> <span class="s1">&#39;sphinx&#39;</span> <span class="ow">in</span> <span class="n">modules</span> <span class="ow">or</span> <span class="s1">&#39;pytest&#39;</span> <span class="ow">in</span> <span class="n">modules</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># Parse command line</span>
         <span class="k">if</span> <span class="n">args</span><span class="p">:</span>

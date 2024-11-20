@@ -82,7 +82,7 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">re</span> <span class="kn">import</span> <span class="nb">compile</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Pattern</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Pattern</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">GetCoreSchemaHandler</span>
@@ -102,7 +102,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from typing import Annotated</span>
 <span class="sd">    &gt;&gt;&gt; from pydantic import BaseModel</span>
-<span class="sd">    &gt;&gt;&gt; from string import StrAnnotation</span>
+<span class="sd">    &gt;&gt;&gt; from .string import StrAnnotation</span>
 
 <span class="sd">    &gt;&gt;&gt; class Person(BaseModel):</span>
 <span class="sd">    ...     firstname: Annotated[str, StrAnnotation(pattern=r&quot;[A-Z][a-z]*&quot;)]</span>
@@ -131,18 +131,22 @@
 <span class="sd">        Maximum string length.</span>
 <span class="sd">    pattern: Pattern, optional</span>
 <span class="sd">        Regular expression for validation.</span>
+<span class="sd">    valid_list: list[str], optional</span>
+<span class="sd">        List of validating strings.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">min_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">pattern</span><span class="p">:</span> <span class="n">Pattern</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">valid_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="o">*</span><span class="p">,</span>
             <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="n">min_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">pattern</span><span class="p">:</span> <span class="n">Pattern</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">pattern</span><span class="p">:</span> <span class="n">Pattern</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">valid_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min_length</span> <span class="o">=</span> <span class="n">min_length</span>
@@ -150,6 +154,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span>
         <span class="k">if</span> <span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">compiled</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valid_list</span> <span class="o">=</span> <span class="n">valid_list</span>
 
 
 <div class="viewcode-block" id="StrAnnotation.validate">
@@ -195,6 +200,10 @@
         <span class="c1"># Check if it matches the regular expression if provided</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">compiled</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
              <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;string does not match </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span><span class="si">}</span><span class="s2"> pattern&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if it matches any member of the list if provided</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_list</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_list</span><span class="p">:</span>
+             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;string does not match any of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">s</span></div>
 
@@ -277,7 +286,7 @@
                     <span class="n">max_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_length</span><span class="p">,</span>
                     <span class="n">pattern</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pattern</span>
                 <span class="p">),</span>
-                <span class="n">core_schema</span><span class="o">.</span><span class="n">no_info_plain_validator_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">),</span>
+                <span class="n">core_schema</span><span class="o">.</span><span class="n">no_info_plain_validator_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">)</span>
             <span class="p">]</span>
         <span class="p">)</span>
 
@@ -303,7 +312,8 @@
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">min_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">pattern</span><span class="p">:</span> <span class="n">Pattern</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="n">Pattern</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">valid_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pydantic pseudo-field for validating and serializing strings</span>
 <span class="sd">    (the original Pydantic 2.x string fields only support Rust Regex).</span>
@@ -311,23 +321,23 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from pydantic_settings import BaseSettings</span>
-<span class="sd">    &gt;&gt;&gt; from .fields import AnnotatedStr</span>
+<span class="sd">    &gt;&gt;&gt; from .string import AnnotatedStr</span>
 
 <span class="sd">    &gt;&gt;&gt; class Person(BaseSettings):</span>
-<span class="sd">    &gt;&gt;&gt; ...     firstname: AnnotatedStr(</span>
-<span class="sd">    &gt;&gt;&gt; ...         short=&#39;f&#39;,</span>
-<span class="sd">    &gt;&gt;&gt; ...         description=&quot;First name.&quot;,</span>
-<span class="sd">    &gt;&gt;&gt; ...         default=&quot;Unknown&quot;,</span>
-<span class="sd">    &gt;&gt;&gt; ...         min_length=1,</span>
-<span class="sd">    &gt;&gt;&gt; ...         pattern=r&quot;[A-Z][a-z]*&quot;</span>
-<span class="sd">    &gt;&gt;&gt; ...     )</span>
-<span class="sd">    &gt;&gt;&gt; ...     lastname: AnnotatedStr(</span>
-<span class="sd">    &gt;&gt;&gt; ...        short=&#39;l&#39;</span>
-<span class="sd">    &gt;&gt;&gt; ...        description=&quot;Last name.&quot;</span>
-<span class="sd">    &gt;&gt;&gt; ...        default=&quot;Unknown&quot;,</span>
-<span class="sd">    &gt;&gt;&gt; ...        min_length=1,</span>
-<span class="sd">    &gt;&gt;&gt; ...        pattern=r&quot;[A-Z][a-z]*&quot;</span>
-<span class="sd">    &gt;&gt;&gt; ...    )</span>
+<span class="sd">    ...     firstname: AnnotatedStr(</span>
+<span class="sd">    ...         short=&#39;f&#39;,</span>
+<span class="sd">    ...         description=&quot;First name.&quot;,</span>
+<span class="sd">    ...         default=&quot;Unknown&quot;,</span>
+<span class="sd">    ...         min_length=1,</span>
+<span class="sd">    ...         pattern=r&quot;[A-Z][a-z]*&quot;</span>
+<span class="sd">    ...     )</span>
+<span class="sd">    ...     lastname: AnnotatedStr(</span>
+<span class="sd">    ...        short=&#39;l&#39;,</span>
+<span class="sd">    ...        description=&quot;Last name.&quot;,</span>
+<span class="sd">    ...        default=&quot;Unknown&quot;,</span>
+<span class="sd">    ...        min_length=1,</span>
+<span class="sd">    ...        pattern=r&quot;[A-Z][a-z]*&quot;</span>
+<span class="sd">    ...    )</span>
 
 <span class="sd">    &gt;&gt;&gt; # The following instantiation validates</span>
 <span class="sd">    &gt;&gt;&gt; user = Person(firstname=&quot;Emmanuel&quot;, lastname=&quot;Bertin&quot;)</span>
@@ -356,6 +366,8 @@
 <span class="sd">        Maximum string length.</span>
 <span class="sd">    pattern: Pattern, optional</span>
 <span class="sd">        Regular expression for validation.</span>
+<span class="sd">    valid_list: list[str], optional</span>
+<span class="sd">        List of validating strings.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">json_extra</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -367,6 +379,8 @@
         <span class="n">json_extra</span><span class="p">[</span><span class="s1">&#39;minLength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">min_length</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">json_extra</span><span class="p">[</span><span class="s1">&#39;pattern&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">valid_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">json_extra</span><span class="p">[</span><span class="s1">&#39;valid_list&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">valid_list</span>
     <span class="k">if</span> <span class="n">short</span><span class="p">:</span>
         <span class="n">json_extra</span><span class="p">[</span><span class="s1">&#39;short&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">short</span>
     <span class="k">return</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -374,7 +388,8 @@
         <span class="n">StrAnnotation</span><span class="p">(</span>
             <span class="n">min_length</span><span class="o">=</span><span class="n">min_length</span><span class="p">,</span>
             <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">,</span>
-            <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span>
+            <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span>
+            <span class="n">valid_list</span><span class="o">=</span><span class="n">valid_list</span>
         <span class="p">),</span>
         <span class="n">Field</span><span class="p">(</span>
             <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">default</span><span class="p">,</span>
