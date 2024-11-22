@@ -6,10 +6,11 @@ Response models
 
 from pydantic import BaseModel, Field
 
-from .types import ComputeID
+from .types import ComputeID, InstrumentID
 
 
 class ETCResponseModel(BaseModel):
+    instrument: InstrumentID
     compute: ComputeID
     etime: float=Field(
         default=1.,

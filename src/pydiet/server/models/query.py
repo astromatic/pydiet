@@ -13,10 +13,7 @@ from .types import ComputeID, FilterID, InstrumentID
 
 
 class ETCQueryModel(BaseModel):
-    instrument: InstrumentID = Field(
-        default=default_instrument.id,
-        description="Instrument"
-    )
+    instrument: InstrumentID
     airmass: float = Field(
         default=1.2,
         ge=1.,
@@ -62,6 +59,9 @@ class ETCQueryModel(BaseModel):
 
     @field_validator('filter')
     def validate_filter(cls, f: str, info: ValidationInfo) -> str:
+        """
+        Kind of emulate Enum validation and errors.
+        """
         instrument = info.data['instrument']
         fids = list(instruments[instrument].filters)
         if f not in fids:

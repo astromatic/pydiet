@@ -178,7 +178,7 @@ def create_app() -> FastAPI:
     @app.get("/etc/{instrument}/{rtype}", tags=["ETC results"], response_class=HTMLResponse)
     async def read_instrument(
             request: Request,
-            instrument: InstrumentID = Path(
+            instrument: str = Path(     
                 title="Instrument ID",
                 description="CFHT instrument ID"
             ),
@@ -198,9 +198,9 @@ def create_app() -> FastAPI:
             or [JSON](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
             response containing the exposure data.
         """
-        r = etc_response(instrument, query)
+        r = etc_response(query)
         if rtype == 'image':
-            png = make_image(instrument, r)
+            png = make_image(r)
             return StreamingResponse(
                 BytesIO(png.tobytes()),
                 media_type="image/png"

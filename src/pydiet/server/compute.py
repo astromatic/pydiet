@@ -16,10 +16,11 @@ from .models import ETCQueryModel, ETCResponseModel
 from .models.types import InstrumentID
 
 
-def etc_response(instrument: InstrumentID, q: ETCQueryModel) -> ETCResponseModel:
+def etc_response(q: ETCQueryModel) -> ETCResponseModel:
     if q.compute == 'etime':
         etime = (10.**(0.4*(q.brightness-26.))) * 10. * q.snr**2
         return ETCResponseModel(
+            instrument = q.instrument,
             compute = q.compute,
             etime = etime,
             etime_skysat = etime * 100.,
@@ -28,6 +29,7 @@ def etc_response(instrument: InstrumentID, q: ETCQueryModel) -> ETCResponseModel
         )
     else:
         return ETCResponseModel(
+            instrument = q.instrument,
             compute = q.compute,
             etime = q.etime,
             etime_skysat = q.etime * 100.,
@@ -36,12 +38,12 @@ def etc_response(instrument: InstrumentID, q: ETCQueryModel) -> ETCResponseModel
         )
 
 
-def make_image(instrument: InstrumentID, r: ETCResponseModel):
+def make_image(r: ETCResponseModel):
     '''
     Simulate an astronomical image of a point-source
     '''
     # Pixel size in arcsec
-    pixsize = 0.186 if instrument == 'megacam' else 0.307
+    pixsize = 0.186 if r.instrument == 'megacam' else 0.307
     # Compute point source image
     y,x = np.mgrid[-shape[0]//2:shape[0]//2,-shape[1]//2:shape[1]//2] * pixsize #type: ignore
     sigma2 = (fwhm / 2.35) ** 2 #type: ignore

@@ -4,29 +4,27 @@ Data types
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
-import sys
-if sys.version_info >= (3, 11):
-    from enum import StrEnum
-else:
-    from backports.strenum import StrEnum
+from enum import Enum
 from typing import Literal
 
-from .data import filters, instruments
+from ..config.string import AnnotatedStr
+from .data import default_instrument, filters, instruments
 
 
 ComputeID = Literal['etime', 'snr']
 
 
-InstrumentID = StrEnum(  # type: ignore[misc]
+InstrumentID = Enum(  # type: ignore[misc]
     "InstrumentID",
-    list(instruments.keys())
+    {tag : tag for tag in instruments.keys()},
+    type=str
 )
 
 
-FilterID = StrEnum(  # type: ignore[misc]
+FilterID = Enum(  # type: ignore[misc]
     "FilterID",
-    list(filters.keys())
+    {tag : tag for tag in filters.keys()},
+    type=str
 )
-
 
 

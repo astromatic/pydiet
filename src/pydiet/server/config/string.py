@@ -121,11 +121,11 @@ class StrAnnotation:
 
         # Check if it matches the regular expression if provided
         if self.pattern and not self.compiled.match(s):
-             raise ValueError(f"string does not match {self.pattern} pattern")
+             raise ValueError(f"String should match {self.pattern} pattern")
 
         # Check if it matches any member of the list if provided
         if self.valid_list and not s in self.valid_list:
-             raise ValueError(f"string does not match any of {self.valid_list}")
+             raise ValueError(f"String should match any of {self.valid_list}")
 
         return s
 
