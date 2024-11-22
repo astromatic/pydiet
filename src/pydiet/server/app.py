@@ -6,9 +6,11 @@ Application module
 from io import BytesIO
 from logging import getLogger
 from os import path
-from typing import Literal
+from typing import get_args, Literal, Tuple
+from urllib.parse import urlencode
 
 from fastapi import (
+    Depends,
     FastAPI,
     HTTPException,
     Path,
@@ -18,55 +20,57 @@ from fastapi import (
     status
 )
 from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi.responses import JSONResponse, HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
+from pydantic_core import InitErrorDetails, PydanticCustomError
 
 from .. import package
-from . import config
-from .compute import make_image
+from .config import config_filename, settings
+from .compute import  etc_response, make_image
 
-filters = {
-    'megacam': ('u', 'g', 'r', 'i', 'z'),
-    'wircam': ('Y', 'J', 'H', 'K')
-}
+from .models import ETCQueryModel, ETCResponseModel, ETCValidationError
 
-filter_set = filters['megacam'] + filters['wircam']
+
+from .models.data import filters, instruments
+from .models.types import InstrumentID
+
 
 def create_app() -> FastAPI:
     """
     Create FASTAPI application
     """
 
-    banner_template = config.settings["banner_template"]
-    base_template = config.settings["base_template"]
-    template_dir = path.abspath(config.settings["template_dir"])
-    client_dir = path.abspath(config.settings["client_dir"])
-    data_dir = path.abspath(config.settings["data_dir"])
-    extra_dir = path.abspath(config.settings["extra_dir"])
-    doc_dir = config.settings["doc_dir"]
-    doc_path = config.settings["doc_path"]
-    userdoc_url = config.settings["userdoc_url"]
-    api_path = config.settings["api_path"]
+    banner_template = settings["banner_template"]
+    base_template = settings["base_template"]
+    template_dir = path.abspath(settings["template_dir"])
+    client_dir = path.abspath(settings["client_dir"])
+    data_dir = path.abspath(settings["data_dir"])
+    extra_dir = path.abspath(settings["extra_dir"])
+    doc_dir = settings["doc_dir"]
+    doc_path = settings["doc_path"]
+    userdoc_url = settings["userdoc_url"]
+    api_path = settings["api_path"]
 
     logger = getLogger("uvicorn.error")
 
     # Provide an endpoint for the user's manual (if it exists)
-    if config.config_filename:
-        logger.info(f"Configuration read from {config.config_filename}.")
+    if config_filename:
+        logger.info(f"Configuration read from {config_filename}.")
     else:
         logger.warning(
-            f"Configuration file not found: {config.config_filename}!"
+            f"Configuration file not found: {config_filename}!"
         )
 
     app = FastAPI(
         title=package.title,
         description=package.description,
         version=package.version,
-        contact={
+        contact = {
             "name":  f"{package.contact['name']} ({package.contact['affiliation']})",
             "url":   package.url,
             "email": package.contact['email']
@@ -127,60 +131,101 @@ def create_app() -> FastAPI:
         directory=path.join(package.src_dir, template_dir)
     )
 
-    @app.get("/etc/{instrument}", tags=["ETC results"])
+    @app.exception_handler(ETCValidationError)
+    async def validation_exception_handler(request: Request, exc: ETCValidationError):
+        """
+        Propagate value errors from custom validators.
+
+        Returns
+        -------
+        response: byte stream
+            [JSON response](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
+            containing the error diagnostic.
+        """
+        dico = exc.args[0]
+        raise RequestValidationError(
+            errors=(
+                ValidationError.from_exception_data(
+                    "ValueError",
+                    [
+                        InitErrorDetails(
+                            type=dico["type"],
+                            loc=dico["loc"],
+                            input=dico["input"],
+                            ctx={"expected": dico["expected"]}
+                        )
+                    ]
+                )
+            ).errors()
+        )
+
+
+    @app.get("/etc/instruments", tags=["ETC parameters"])
+    async def read_instruments():
+        """
+        Instrument list endpoint.
+
+        Returns
+        -------
+        response: byte stream
+            [JSON response](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
+            with the list of supported instruments
+        """
+        return {
+                instruments
+        }
+
+    @app.get("/etc/{instrument}/{rtype}", tags=["ETC results"], response_class=HTMLResponse)
     async def read_instrument(
-            instrument: Literal['megacam', 'wircam'] = Path(
+            request: Request,
+            instrument: str = Path(     
                 title="Instrument ID",
                 description="CFHT instrument ID"
             ),
-            filter: Literal[filter_set] = Query(
-                None,
-                title="Filter",
-                description="Name of the instrument filter",
-            ),
-            maglim: float = Query(
-                None,
-                title="Magnitude limit",
-                description="AB magnitude limit at the given SNR or exposure time",
-                ge=-99.0,
-                le=99.0
-            ),
-            snr: float = Query(
-                5.0,
-                title="SNR",
-                description="Signal-to-Noise Ratio",
-                ge=0.0
-            ),
-            type: Literal['info', 'image'] = Query(
-                'info',
+            rtype: Literal['data', 'image'] = Path(
                 title="Response type",
-                description="Response type: information (JSON) or image (PNG)"
-            )):
+                description="Type of response: image or data"
+            ),
+            query: ETCQueryModel = Depends()
+        ):
         """
         Exposure type calculator endpoint.
 
         Returns
         -------
         response: byte stream
-            [Streaming response](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
-            containing the exposure data.
+            [Streaming](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
+            or [JSON](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
+            response containing the exposure data.
         """
-        if not filter in filters[instrument]:
-            raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=f"{filter} filter not available for {instrument}")
-        # Return a dummy exposure time
-        if type == 'image':
-            png = make_image(instrument, filter, snr)
+        r = etc_response(query)
+        if rtype == 'image':
+            png = make_image(r)
             return StreamingResponse(
                 BytesIO(png.tobytes()),
                 media_type="image/png"
             )
         else:
-            return {
-                "exptime": 10**(0.4*(maglim-26.0)) * 10.0 * snr**2
+          return r.model_dump_json()
+    # Another PyDIET UI component endpoint
+    @app.get("/ui/etc_results", tags=["UI"], response_class=HTMLResponse)
+    async def etc_results(
+        request: Request,
+        r: ETCResponseModel = Depends()):
+        """
+        UI ETC results endpoint.
+        """
+        return templates.TemplateResponse(
+            "etc_results.html",
+            {
+                "request": request,
+                "root_path": request.scope.get("root_path"),
+                "package": package.title,
+                "etime": r.etime,
+                "instrument": "megacam",
+                "rstring": urlencode(r.model_dump())
             }
-
+        )
     # PyDIET UI component endpoint
     @app.get("/ui/{component}", tags=["UI"], response_class=HTMLResponse)
     async def component(request: Request, component: str):

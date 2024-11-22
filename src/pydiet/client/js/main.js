@@ -1,9 +1,10 @@
 // Javascript code entry point
-// Copyright CEA/CFHT/CNRS/UParisSaclay
+// Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
-import {prefersdark, toggle_dark_theme} from "./theme";
+import {update_theme} from "./theme";
+import * as etc from "./etc";
 import * as settings from "./settings";
 
-// Set theme to dark if this is the users preference
-toggle_dark_theme(prefersdark.matches);
+// Set theme based on existing settings
+update_theme()
 

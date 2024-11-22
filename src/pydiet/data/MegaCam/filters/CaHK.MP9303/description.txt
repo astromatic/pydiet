@@ -1,0 +1,1 @@
+MegaPrime CaHK narrow band filter (395.2 nm).

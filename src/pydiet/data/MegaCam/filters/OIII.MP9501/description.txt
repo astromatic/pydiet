@@ -1,0 +1,2 @@
+MegaPrime OIII narrow band filter (500.7 nm).
+

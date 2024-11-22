@@ -5,9 +5,9 @@
 const root_path = document.querySelector('#root_path').content;
 
 // Root URL
-export const root_url = root_path;
-
+export const root_url = root_path,
+	etc_url = root_url + "/etc",
 // Root URL for UI components
-export const ui_url = root_path + "/ui";
-export const ui_auth_url = ui_url + "/auth";
+	ui_url = root_url + "/ui",
+	ui_auth_url = ui_url + "/auth";
 

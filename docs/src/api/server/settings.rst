@@ -1,7 +1,7 @@
 Settings
 ========
 
-.. automodule:: pydiet.server.settings
+.. automodule:: pydiet.server.config.settings
    :members:
    :show-inheritance:
 

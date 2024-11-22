@@ -1,0 +1,2 @@
+WIRCam Low OH-2 narrow band filter (1187 nm).
+

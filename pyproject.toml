@@ -14,23 +14,25 @@ readme = "README.md"
 license = {file = "LICENSE"}
 dependencies = [
     "astropy >= 5.0",
+    "backports.strenum",
     "fastapi >= 0.74",
     "jinja2 >= 3.1.2",
     "numpy >= 1.19",
     "opencv-python >= 4.5",
     "orjson >= 3.9.0",
+    "platformdirs >= 3.4.0",
     "pydantic >= 2.2",
     "pydantic-settings >= 2.2",
     "setuptools",
     "uvicorn[standard] >= 0.30"
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12"
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13"
 ]
 
 [project.optional-dependencies]
@@ -39,6 +41,7 @@ test = [
     "pytest-cov"
 ]
 doc = [
+    "autodoc_pydantic >= 2.2.0",
     "sphinx >= 7.0",
     "sphinx-rtd-theme >= 1.2",
     "sphinxcontrib-bibtex >= 2.4.0",
@@ -66,10 +69,19 @@ mypy = "mypy src"
 pre_build = {composite = ["doc", "mypy"]}
 pre_install = {composite = ["doc", "mypy"]}
 
+[tool.mypy]
+exclude = ["docs", "tests"]
+
 [tool.pytest.ini_options]
+norecursedirs = [
+    "src/pydiet/client"
+]
+addopts = "--doctest-modules --doctest-continue-on-failure"
+doctest_optionflags = "NORMALIZE_WHITESPACE IGNORE_EXCEPTION_DETAIL ELLIPSIS"
 filterwarnings = [
     "ignore::DeprecationWarning"
 ]
+tmp_path_retention_policy = "none"
 
 [tool.coverage.run]
 source_pkgs = ["pydiet"]

@@ -1,0 +1,101 @@
+{#
+# Jinja2 template for PyDIET ETC form.
+#
+# Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
+# Licensed under the MIT licence
+#}
+<form id="etc-form">
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select name="compute" label="Compute" width=200px" label-placement="floating" fill="solid" interface="popover" value="etime">
+            <ion-select-option value="etime">Exposure time</ion-select-option>
+            <ion-select-option value="snr">SNR</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select name="source" label="Source type" label-placement="floating" fill="solid" interface="popover" value="pointsource">
+            <ion-select-option value="pointsource">Point source</ion-select-option>
+            <ion-select-option value="galaxy">Galaxy</ion-select-option>
+            <ion-select-option value="extended">Extended</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-input name="SNR" label="SNR" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" step="0.1"  value="10.0"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select name="filter" label="Filter" label-placement="floating" fill="solid" interface="popover" value="r">
+              <ion-select-option value="u">u</ion-select-option>
+              <ion-select-option value="g">g</ion-select-option>
+              <ion-select-option value="r">r</ion-select-option>
+              <ion-select-option value="i">i</ion-select-option>
+              <ion-select-option value="z">z</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-input name="brightness" label="Brightness" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-100." step="0.001" value="20.0"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="mag">
+              <ion-select-option value="mag">mag<sub>AB</sub></ion-select-option>
+              <ion-select-option value="flux">flux (erg/s/cm<sup>2</sup>)</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select name="photometry" label="Photometry type" label-placement="floating" fill="solid" interface="popover" value="psf">
+              <ion-select-option value="psf">PSF-fitting</ion-select-option>
+              <ion-select-option value="aperture">Aperture</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select name="sky" label="Sky brightness" label-placement="floating" fill="solid" interface="popover" value="dark">
+              <ion-select-option value="dark">Dark</ion-select-option>
+              <ion-select-option value="grey">Grey</ion-select-option>
+              <ion-select-option value="bright">Bright</ion-select-option>
+              <ion-select-option value="manuel">Manual</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-input name="airmass" label="Airmass" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="1.0" step="0.01" value="1.2"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-input name="transparency" label="Transparency" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" max="1.0" step="0.01" value="1.0"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-input name="seeing" label='Seeing  ( " )' label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.1" max="20.0" step="0.01" value="0.7"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item lines="none">
+          <ion-button type="submit" fill="solid" size="default" slot="start">
+            Submit
+          </ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>
+
