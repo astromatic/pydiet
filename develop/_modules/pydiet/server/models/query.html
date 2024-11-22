@@ -88,10 +88,7 @@
 <div class="viewcode-block" id="ETCQueryModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.query.ETCQueryModel">[docs]</a>
 <span class="k">class</span> <span class="nc">ETCQueryModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">instrument</span><span class="p">:</span> <span class="n">InstrumentID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">default_instrument</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Instrument&quot;</span>
-    <span class="p">)</span>
+    <span class="n">instrument</span><span class="p">:</span> <span class="n">InstrumentID</span>
     <span class="n">airmass</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
@@ -139,6 +136,9 @@
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.query.ETCQueryModel.validate_filter">[docs]</a>
     <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;filter&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_filter</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">ValidationInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Kind of emulate Enum validation and errors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">instrument</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;instrument&#39;</span><span class="p">]</span>
         <span class="n">fids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">instruments</span><span class="p">[</span><span class="n">instrument</span><span class="p">]</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fids</span><span class="p">:</span>

@@ -302,7 +302,7 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>func</strong> = &lt;function nd_array_custom_serializer at 0x7fb92e298280&gt;</p></li>
+<li><p><strong>func</strong> = &lt;function nd_array_custom_serializer at 0x7f431c85c1f0&gt;</p></li>
 <li><p><strong>json_schema_input_type</strong> = PydanticUndefined</p></li>
 <li><p><strong>return_type</strong> = &lt;class 'str'&gt;</p></li>
 <li><p><strong>when_used</strong> = always</p></li>
@@ -313,7 +313,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.ResponseModel.wave">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fb9335d8d00&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.wave" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f431cc6bdc0&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.wave" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -366,7 +366,7 @@
 </dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.SEDModel.sed">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fb92e27e560&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SEDModel.sed" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f431c83e7d0&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SEDModel.sed" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -383,7 +383,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.SEDModel.wave">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fb92e27e530&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SEDModel.wave" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f431c83e7a0&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SEDModel.wave" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -498,9 +498,7 @@
 <span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
 <span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;instrument&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/InstrumentID&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;megacam&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Instrument&quot;</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/InstrumentID&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;airmass&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span>
@@ -608,6 +606,7 @@
 <span class="w">      </span><span class="p">}</span>
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;instrument&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;compute&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;photometry&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;sky&quot;</span><span class="p">,</span>
@@ -702,9 +701,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.instrument">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instrument</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.InstrumentID" title="pydiet.server.models.types.InstrumentID"><span class="pre">InstrumentID</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'megacam'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.instrument" title="Link to this definition"></a></dt>
-<dd><p>Instrument</p>
-</dd></dl>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instrument</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.InstrumentID" title="pydiet.server.models.types.InstrumentID"><span class="pre">InstrumentID</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.instrument" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.photometry">
@@ -769,7 +767,8 @@
 <dl class="py method pydantic_validator">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.validate_filter">
 <em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_filter</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.filter" title="pydiet.server.models.query.ETCQueryModel.filter"><em class="xref py py-obj"><span class="pre">filter</span></em></a><a class="reference internal" href="../../_modules/pydiet/server/models/query.html#ETCQueryModel.validate_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.validate_filter" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Kind of emulate Enum validation and errors.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -783,6 +782,9 @@
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ETCResponseModel&quot;</span><span class="p">,</span>
 <span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
 <span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;instrument&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/InstrumentID&quot;</span>
+<span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;compute&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="s2">&quot;etime&quot;</span><span class="p">,</span>
@@ -824,7 +826,18 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;$defs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;InstrumentID&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;wircam&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;megacam&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InstrumentID&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;instrument&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;compute&quot;</span>
 <span class="w">   </span><span class="p">]</span>
 <span class="p">}</span>
@@ -837,6 +850,7 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime" title="pydiet.server.models.response.ETCResponseModel.etime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime_skysat" title="pydiet.server.models.response.ETCResponseModel.etime_skysat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime_skysat</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime_sourcesat" title="pydiet.server.models.response.ETCResponseModel.etime_sourcesat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime_sourcesat</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.instrument" title="pydiet.server.models.response.ETCResponseModel.instrument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instrument</span> <span class="pre">(pydiet.server.models.types.InstrumentID)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.snr" title="pydiet.server.models.response.ETCResponseModel.snr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">snr</span> <span class="pre">(float)</span></code></a></p></li>
 </ul>
 </dd>
@@ -889,6 +903,11 @@
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.instrument">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instrument</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.InstrumentID" title="pydiet.server.models.types.InstrumentID"><span class="pre">InstrumentID</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.instrument" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.snr">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">snr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.snr" title="Link to this definition"></a></dt>
 <dd><p>Estimated source Signal-to-Noise Ratio</p>
@@ -908,14 +927,14 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="pydiet.server.models.types.InstrumentID">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InstrumentID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydiet.server.models.types.InstrumentID" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
 <p>An enumeration.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pydiet.server.models.types.FilterID">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FilterID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydiet.server.models.types.FilterID" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
 <p>An enumeration.</p>
 </dd></dl>
 

@@ -253,7 +253,7 @@
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/etc/</span><span class="si">{instrument}</span><span class="s2">/</span><span class="si">{rtype}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ETC results&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">read_instrument</span><span class="p">(</span>
             <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
-            <span class="n">instrument</span><span class="p">:</span> <span class="n">InstrumentID</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+            <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>     
                 <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span><span class="p">,</span>
                 <span class="n">description</span><span class="o">=</span><span class="s2">&quot;CFHT instrument ID&quot;</span>
             <span class="p">),</span>
@@ -273,9 +273,9 @@
 <span class="sd">            or [JSON](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)</span>
 <span class="sd">            response containing the exposure data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">etc_response</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">etc_response</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rtype</span> <span class="o">==</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span>
-            <span class="n">png</span> <span class="o">=</span> <span class="n">make_image</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">png</span> <span class="o">=</span> <span class="n">make_image</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">StreamingResponse</span><span class="p">(</span>
                 <span class="n">BytesIO</span><span class="p">(</span><span class="n">png</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()),</span>
                 <span class="n">media_type</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span>
