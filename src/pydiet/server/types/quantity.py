@@ -107,6 +107,8 @@ class QuantityAnnotation:
         By default, in Pydantic's `"python"` serialization mode, fields are
         serialized to a `Quantity`;
         in Pydantic's `"json"` serialization mode, fields are serialized to a `str`.
+    decimals: int, optional
+        Maximum number of decimals for the serialization of quantities.
     strict: bool, optional
         Forces users to specify units; on by default.
         If disabled, a value without units - provided by the user - will be
@@ -119,6 +121,7 @@ class QuantityAnnotation:
     gt: u.Quantity | str | None = None
     le: u.Quantity | str | None = None
     lt: u.Quantity | str | None = None
+    decimals: int | None = None
     def __init__(
             self,
             unit: str,
@@ -131,6 +134,7 @@ class QuantityAnnotation:
             le: u.Quantity | str | None = None,
             lt: u.Quantity | str | None = None,
             ser_mode: Literal["str", "dict"] | None = None,
+            decimals: int | None = None,
             strict: bool = True):
 
         self.ser_mode = ser_mode.lower() if ser_mode else None
@@ -138,6 +142,7 @@ class QuantityAnnotation:
 
         self.unit = unit
         self.description = description
+        self.decimals = decimals
 
         self.min_shape = np.array(1 if min_shape is None else min_shape, dtype=np.int32) 
         self.max_shape = np.array(1 if max_shape is None else max_shape, dtype=np.int32)
@@ -268,18 +273,22 @@ class QuantityAnnotation:
 
         if self.ser_mode == "dict":
             return {
-                "value": v.value,
+                "value": v.value.round(self.decimals) if self.decimals is not None \
+                    else v.value,
                 "unit": v.unit if not to_json else f"{v.unit}",
             }
 
         if to_json:
             return {
-                "value": v.value.tolist(),
+                "value": v.value.round(self.decimals).tolist() \
+                    if self.decimals is not None \
+                    else v.value.tolist(),
                 "unit": f"{v.unit}"
             }
 
         if self.ser_mode == "str":
-            return f"{v}"
+            return f"{v.round(self.decimals)}" if self.decimals is not None \
+                else f"{v}"
 
         return v
 

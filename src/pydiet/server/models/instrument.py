@@ -36,11 +36,12 @@ class ResponseModel(BaseModel):
     wave: Annotated[
         u.Quantity,
         QuantityAnnotation(
-            "micron",
+            "nm",
             ge = 100. * u.nm,
             le = 100. * u.micron,
             min_shape = (2),
-            max_shape = (20000)
+            max_shape = (20000),
+            decimals = 3
         )
     ]
     response: Annotated[
@@ -50,7 +51,8 @@ class ResponseModel(BaseModel):
             ge = -100.,
             le = 100.,
             min_shape = (2),
-            max_shape = (20000)
+            max_shape = (20000),
+            decimals = 4
         )
     ]
 
