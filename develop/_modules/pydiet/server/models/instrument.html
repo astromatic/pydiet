@@ -83,7 +83,7 @@
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span>
 
 <span class="kn">from</span> <span class="nn">...</span> <span class="kn">import</span> <span class="n">package</span>
-<span class="kn">from</span> <span class="nn">..types.quantity</span> <span class="kn">import</span> <span class="n">QuantityAnnotation</span>
+<span class="kn">from</span> <span class="nn">..types.quantity</span> <span class="kn">import</span> <span class="n">AnnotatedQuantity</span>
 
 
 <div class="viewcode-block" id="InstrumentModel">
@@ -114,28 +114,22 @@
 <div class="viewcode-block" id="ResponseModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.ResponseModel">[docs]</a>
 <span class="k">class</span> <span class="nc">ResponseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">wave</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
-        <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">,</span>
-        <span class="n">QuantityAnnotation</span><span class="p">(</span>
-            <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
-            <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
-            <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
-            <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
-            <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
-            <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="p">)</span>
-    <span class="p">]</span>
-    <span class="n">response</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
-        <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">,</span>
-        <span class="n">QuantityAnnotation</span><span class="p">(</span>
-            <span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">ge</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100.</span><span class="p">,</span>
-            <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span><span class="p">,</span>
-            <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
-            <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
-            <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
-        <span class="p">)</span>
-    <span class="p">]</span>
+    <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="p">)</span>
+    <span class="n">response</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100.</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span>
@@ -147,25 +141,21 @@
 <div class="viewcode-block" id="SEDModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.SEDModel">[docs]</a>
 <span class="k">class</span> <span class="nc">SEDModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">wave</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
-        <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">,</span>
-        <span class="n">QuantityAnnotation</span><span class="p">(</span>
-            <span class="s2">&quot;micron&quot;</span><span class="p">,</span>
-            <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
-            <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
-            <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
-            <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="p">]</span>
-    <span class="n">sed</span><span class="p">:</span>  <span class="n">Annotated</span><span class="p">[</span>
-        <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">,</span>
-        <span class="n">QuantityAnnotation</span><span class="p">(</span>
-            <span class="s2">&quot;W/m**2/Hz&quot;</span><span class="p">,</span>
-            <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Watt</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">Hz</span><span class="p">,</span>
-            <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
-            <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="p">]</span></div>
+    <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span>
+    <span class="n">sed</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;W/m**2/Hz&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Watt</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">Hz</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="p">)</span></div>
 
 
 
