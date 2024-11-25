@@ -378,13 +378,14 @@
 </dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.ResponseModel.response">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f4cb716db10&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.response" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f9010b5c4c0&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.response" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
 <li><p><strong>unit</strong> =</p></li>
 <li><p><strong>description</strong> =</p></li>
+<li><p><strong>decimals</strong> = 4</p></li>
 <li><p><strong>min_shape</strong> = 2</p></li>
 <li><p><strong>max_shape</strong> = 20000</p></li>
 <li><p><strong>ge</strong> = -100.0</p></li>
@@ -396,13 +397,14 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.ResponseModel.wave">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f4cc40fc520&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.wave" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f9015f60a30&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.wave" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
-<li><p><strong>unit</strong> = micron</p></li>
+<li><p><strong>unit</strong> = nm</p></li>
 <li><p><strong>description</strong> =</p></li>
+<li><p><strong>decimals</strong> = 3</p></li>
 <li><p><strong>min_shape</strong> = 2</p></li>
 <li><p><strong>max_shape</strong> = 20000</p></li>
 <li><p><strong>ge</strong> = 100.0 nm</p></li>
@@ -449,7 +451,7 @@
 </dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.SEDModel.sed">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f4cb716dc60&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SEDModel.sed" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f9010b5c610&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SEDModel.sed" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -466,7 +468,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.SEDModel.wave">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f4cb716c160&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SEDModel.wave" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f9010b5c310&gt;]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SEDModel.wave" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
