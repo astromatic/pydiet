@@ -171,9 +171,10 @@ def create_app() -> FastAPI:
             [JSON response](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
             with the list of supported instruments
         """
-        return {
-                instruments
-        }
+        return JSONResponse(
+            content=jsonable_encoder(instruments, exclude={'response'})
+        )
+
 
     @app.get("/etc/{instrument}/{rtype}", tags=["ETC results"], response_class=HTMLResponse)
     async def read_instrument(

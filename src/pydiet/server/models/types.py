@@ -1,5 +1,5 @@
 """
-Data types
+Custom types for PyDIET data models
 """
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
@@ -7,7 +7,7 @@ Data types
 from enum import Enum
 from typing import Literal
 
-from ..config.string import AnnotatedStr
+from ..types.string import AnnotatedStr
 from .data import default_instrument, filters, instruments
 
 

@@ -53,8 +53,8 @@ def get_filters(instrument_dir: str) -> dict:
             name = filter_basename,
             description = get_description(filter_name, "Another filter"),
             response = ResponseModel(
-            	wave = data['wavelength'],
-                response = data['transmission']
+            	wave = u.Quantity(data['wavelength']),
+                response = u.Quantity(data['transmission'])
             )
         )
     return filters

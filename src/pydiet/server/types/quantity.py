@@ -272,7 +272,13 @@ class QuantityAnnotation:
                 "unit": v.unit if not to_json else f"{v.unit}",
             }
 
-        if self.ser_mode == "str" or to_json:
+        if to_json:
+            return {
+                "value": v.value.tolist(),
+                "unit": f"{v.unit}"
+            }
+
+        if self.ser_mode == "str":
             return f"{v}"
 
         return v

@@ -10,8 +10,7 @@ from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, ConfigDict
 
 from ... import package
-from ..config.quantity import QuantityAnnotation
-from ..config.ndarray import NdArray
+from ..types.quantity import QuantityAnnotation
 
 
 class InstrumentModel(BaseModel):
@@ -44,7 +43,16 @@ class ResponseModel(BaseModel):
             max_shape = (20000)
         )
     ]
-    response: NdArray
+    response: Annotated[
+        u.Quantity,
+        QuantityAnnotation(
+            "",
+            ge = -100.,
+            le = 100.,
+            min_shape = (2),
+            max_shape = (20000)
+        )
+    ]
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True
