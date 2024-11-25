@@ -90,6 +90,8 @@ class QuantityAnnotation:
         All input units must be convertible to this unit.
     description: str, optional
         Description string.
+    decimals: int, optional
+        Maximum number of decimals for the serialization of quantities.
     min_shape: tuple[int], optional
         Minimum number of vector components on each axis.
     max_shape: tuple[int], optional
@@ -107,26 +109,25 @@ class QuantityAnnotation:
         By default, in Pydantic's `"python"` serialization mode, fields are
         serialized to a `Quantity`;
         in Pydantic's `"json"` serialization mode, fields are serialized to a `str`.
-    decimals: int, optional
-        Maximum number of decimals for the serialization of quantities.
     strict: bool, optional
         Forces users to specify units; on by default.
         If disabled, a value without units - provided by the user - will be
         treated as the base units of the `QuantityUnit`.
     """
     description: str = ""
+    decimals: int | None = None
     min_shape: np.ndarray | None = None
     max_shape: np.ndarray | None = None
     ge: u.Quantity | str | None = None
     gt: u.Quantity | str | None = None
     le: u.Quantity | str | None = None
     lt: u.Quantity | str | None = None
-    decimals: int | None = None
     def __init__(
             self,
             unit: str,
             *,
             description: str = "",
+            decimals: int | None = None,
             min_shape: Tuple[int, ...] | None = None,
             max_shape: Tuple[int, ...] | None = None,
             ge: u.Quantity | str | None = None,
@@ -134,7 +135,6 @@ class QuantityAnnotation:
             le: u.Quantity | str | None = None,
             lt: u.Quantity | str | None = None,
             ser_mode: Literal["str", "dict"] | None = None,
-            decimals: int | None = None,
             strict: bool = True):
 
         self.ser_mode = ser_mode.lower() if ser_mode else None
@@ -355,9 +355,11 @@ class QuantityAnnotation:
 
 
 def AnnotatedQuantity(
-        default: u.Quantity | str,
+        default: u.Quantity | str | None = None,
+        unit: str | None = None,
         short: str | None = None,
         description: str = "",
+        decimals: int | None = None,
         min_shape: Tuple[int, ...] | None = None,
         max_shape: Tuple[int, ...] | None = None,
         ge: u.Quantity | str | None = None,
@@ -415,12 +417,16 @@ def AnnotatedQuantity(
 
     Parameters
     ----------
-    default: ~astropy.units.Quantity or str
+    default: ~astropy.units.Quantity or str, optional
         Default value.
+    unit: str, optional
+        Unit for quantity (overrided by default unit if provided).
     short: str, optional
         shortcut for keyword.
     description: str, optional
         Description string.
+    decimals: int, optional
+        Maximum number of decimals for the serialization of quantities.
     min_shape: tuple[int], optional
         Minimum number of vector components on each axis.
     max_shape: tuple[int], optional
@@ -434,16 +440,18 @@ def AnnotatedQuantity(
     lt: ~astropy.units.Quantity or str, optional
         Lower limit (strict).
     """
-    default = u.Quantity(default)
-    unit = default.unit
-    physType = u.get_physical_type(default)
+    if default is not None:
+        default = lambda: u.Quantity(default)
+        unit = default.unit
+    elif unit is None:
+        raise ValueError
+    physType = u.get_physical_type(u.Quantity("1 " + unit))
     json_extra: dict = {}
-    json_extra['default'] = default.to_string()
+    if default is not None:
+        json_extra['default'] = default.to_string()
     if min_shape is not None:
-        min_shape = tuple(min_shape)
         json_extra['minShape'] = str(min_shape)
     if max_shape is not None:
-        max_shape = tuple(max_shape)
         json_extra['maxShape'] = str(max_shape)
     if lt is not None:
         lt = u.Quantity(lt)
@@ -464,7 +472,8 @@ def AnnotatedQuantity(
     return Annotated[
         u.Quantity,
         QuantityAnnotation(
-            unit=u.Quantity(default).unit,
+            unit=unit,
+            decimals=decimals,
             min_shape=min_shape,
             max_shape=max_shape,
             ge=ge,
@@ -473,7 +482,7 @@ def AnnotatedQuantity(
             lt=lt
         ),
         Field(
-            default_factory=lambda: default,
+            default_factory=default,
             description=description,
             validate_default=True,
             json_schema_extra=json_extra
