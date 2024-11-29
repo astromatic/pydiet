@@ -441,11 +441,11 @@ def AnnotatedQuantity(
         Lower limit (strict).
     """
     if default is not None:
-        default = lambda: u.Quantity(default)
+        default = u.Quantity(default)
         unit = default.unit
     elif unit is None:
         raise ValueError
-    physType = u.get_physical_type(u.Quantity("1 " + unit))
+    physType = u.get_physical_type(u.Quantity("1 " + str(unit)))
     json_extra: dict = {}
     if default is not None:
         json_extra['default'] = default.to_string()
@@ -482,7 +482,7 @@ def AnnotatedQuantity(
             lt=lt
         ),
         Field(
-            default_factory=default,
+            default_factory=None if default is None else lambda: default,
             description=description,
             validate_default=True,
             json_schema_extra=json_extra
