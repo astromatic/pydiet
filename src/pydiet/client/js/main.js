@@ -6,6 +6,7 @@ import {setup_instrument_settings, setup_theme_settings} from "./settings";
 
 // Set up theme section of settings
 setup_theme_settings();
+
 get_instruments().then( (instruments) => {
 // Set up instrument section of settings
 	setup_instrument_settings(instruments);

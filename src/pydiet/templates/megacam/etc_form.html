@@ -1,9 +1,13 @@
 {#
-# Jinja2 template for PyDIET ETC form.
+# Jinja2 template for the PyDIET ETC form of the MegaCam instrument.
 #
 # Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
 # Licensed under the MIT licence
 #}
+<ion-card>
+  <img alt="MegaCam logo" src="{{ root_path }}/client/images/megacam_logo.jpg" />
+  <ion-card-title>MegaCam</ion-card-title>
+<ion-card-content>
 <form id="etc-form">
   <ion-grid>
     <ion-row class="ion-align-items-center">
@@ -94,4 +98,6 @@
     </ion-row>
   </ion-grid>
 </form>
+</ion-card-content>
+</ion-card>
 
