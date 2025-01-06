@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pydiet.server.app &mdash; PyDIET 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=329c186a" />
@@ -76,13 +76,13 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># Copyright CFHT/CNRS/CEA/UParisSaclay</span>
 <span class="c1"># Licensed under the MIT licence</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">getLogger</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">get_args</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlencode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">getLogger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_args</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlencode</span>
 
-<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Depends</span><span class="p">,</span>
     <span class="n">FastAPI</span><span class="p">,</span>
     <span class="n">HTTPException</span><span class="p">,</span>
@@ -92,30 +92,30 @@
     <span class="n">responses</span><span class="p">,</span>
     <span class="n">status</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">fastapi.encoders</span> <span class="kn">import</span> <span class="n">jsonable_encoder</span>
-<span class="kn">from</span> <span class="nn">fastapi.exceptions</span> <span class="kn">import</span> <span class="n">RequestValidationError</span>
-<span class="kn">from</span> <span class="nn">fastapi.middleware.cors</span> <span class="kn">import</span> <span class="n">CORSMiddleware</span>
-<span class="kn">from</span> <span class="nn">fastapi.responses</span> <span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">HTMLResponse</span><span class="p">,</span> <span class="n">StreamingResponse</span>
-<span class="kn">from</span> <span class="nn">fastapi.staticfiles</span> <span class="kn">import</span> <span class="n">StaticFiles</span>
-<span class="kn">from</span> <span class="nn">fastapi.templating</span> <span class="kn">import</span> <span class="n">Jinja2Templates</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.encoders</span><span class="w"> </span><span class="kn">import</span> <span class="n">jsonable_encoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">RequestValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.middleware.cors</span><span class="w"> </span><span class="kn">import</span> <span class="n">CORSMiddleware</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONResponse</span><span class="p">,</span> <span class="n">HTMLResponse</span><span class="p">,</span> <span class="n">StreamingResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.staticfiles</span><span class="w"> </span><span class="kn">import</span> <span class="n">StaticFiles</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.templating</span><span class="w"> </span><span class="kn">import</span> <span class="n">Jinja2Templates</span>
 
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
-<span class="kn">from</span> <span class="nn">pydantic_core</span> <span class="kn">import</span> <span class="n">InitErrorDetails</span><span class="p">,</span> <span class="n">PydanticCustomError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">InitErrorDetails</span><span class="p">,</span> <span class="n">PydanticCustomError</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">package</span>
-<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">config_filename</span><span class="p">,</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">.compute</span> <span class="kn">import</span>  <span class="n">etc_response</span><span class="p">,</span> <span class="n">make_image</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">package</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">config_filename</span><span class="p">,</span> <span class="n">settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.compute</span><span class="w"> </span><span class="kn">import</span>  <span class="n">etc_response</span><span class="p">,</span> <span class="n">make_image</span>
 
-<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">ETCQueryModel</span><span class="p">,</span> <span class="n">ETCResponseModel</span><span class="p">,</span> <span class="n">ETCValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ETCQueryModel</span><span class="p">,</span> <span class="n">ETCResponseModel</span><span class="p">,</span> <span class="n">ETCValidationError</span>
 
 
-<span class="kn">from</span> <span class="nn">.models.data</span> <span class="kn">import</span> <span class="n">filters</span><span class="p">,</span> <span class="n">instruments</span>
-<span class="kn">from</span> <span class="nn">.models.types</span> <span class="kn">import</span> <span class="n">InstrumentID</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_instrument</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">instruments</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">InstrumentID</span>
 
 
 <div class="viewcode-block" id="create_app">
 <a class="viewcode-back" href="../../../api/server/app.html#pydiet.server.app.create_app">[docs]</a>
-<span class="k">def</span> <span class="nf">create_app</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">FastAPI</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_app</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">FastAPI</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create FASTAPI application</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -207,7 +207,7 @@
     <span class="p">)</span>
 
     <span class="nd">@app</span><span class="o">.</span><span class="n">exception_handler</span><span class="p">(</span><span class="n">ETCValidationError</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">validation_exception_handler</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span> <span class="n">ETCValidationError</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">validation_exception_handler</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span> <span class="n">ETCValidationError</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Propagate value errors from custom validators.</span>
 
@@ -236,7 +236,7 @@
 
 
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/etc/instruments&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ETC parameters&quot;</span><span class="p">])</span>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">read_instruments</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read_instruments</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Instrument list endpoint.</span>
 
@@ -252,7 +252,7 @@
 
 
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/etc/</span><span class="si">{instrument}</span><span class="s2">/</span><span class="si">{rtype}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ETC results&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">read_instrument</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read_instrument</span><span class="p">(</span>
             <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
             <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>     
                 <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span><span class="p">,</span>
@@ -285,7 +285,7 @@
           <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">()</span>
     <span class="c1"># Another PyDIET UI component endpoint</span>
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/etc_results&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">etc_results</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">etc_results</span><span class="p">(</span>
         <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
         <span class="n">r</span><span class="p">:</span> <span class="n">ETCResponseModel</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">()):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -302,9 +302,9 @@
                 <span class="s2">&quot;rstring&quot;</span><span class="p">:</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">model_dump</span><span class="p">())</span>
             <span class="p">}</span>
         <span class="p">)</span>
-    <span class="c1"># PyDIET UI component endpoint</span>
+    <span class="c1"># PyDIET UI main component endpoint</span>
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/</span><span class="si">{component}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">component</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">component</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">component</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">component</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        UI component endpoint.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -316,10 +316,24 @@
                 <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="o">.</span><span class="n">title</span>
             <span class="p">}</span>
         <span class="p">)</span>
+    <span class="c1"># PyDIET UI sub-component endpoint</span>
+    <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/</span><span class="si">{component}</span><span class="s2">/</span><span class="si">{sub}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">component</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">component</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sub</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        UI component endpoint.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">templates</span><span class="o">.</span><span class="n">TemplateResponse</span><span class="p">(</span>
+            <span class="n">component</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">sub</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;request&quot;</span><span class="p">:</span> <span class="n">request</span><span class="p">,</span>
+                <span class="s2">&quot;root_path&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;root_path&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="o">.</span><span class="n">title</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
 
-    <span class="c1"># PyDIET client endpoint</span>
+    <span class="c1"># Default PyDIET client endpoint</span>
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">pydiet</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">pydiet</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Main web user interface.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -330,7 +344,8 @@
                 <span class="s2">&quot;root_path&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;root_path&quot;</span><span class="p">),</span>
                 <span class="s2">&quot;api_path&quot;</span><span class="p">:</span> <span class="n">api_path</span><span class="p">,</span>
                 <span class="s2">&quot;doc_url&quot;</span><span class="p">:</span> <span class="n">userdoc_url</span><span class="p">,</span>
-                <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="o">.</span><span class="n">title</span>
+                <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+                <span class="s2">&quot;instrument&quot;</span><span class="p">:</span> <span class="n">default_instrument</span><span class="o">.</span><span class="n">id</span>
             <span class="p">}</span>
         <span class="p">)</span>
 

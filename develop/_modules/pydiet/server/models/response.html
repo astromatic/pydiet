@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pydiet.server.models.response &mdash; PyDIET 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=329c186a" />
@@ -77,14 +77,14 @@
 <span class="c1"># Copyright CFHT/CNRS/CEA/UParisSaclay</span>
 <span class="c1"># Licensed under the MIT licence</span>
 
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
-<span class="kn">from</span> <span class="nn">.types</span> <span class="kn">import</span> <span class="n">ComputeID</span><span class="p">,</span> <span class="n">InstrumentID</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComputeID</span><span class="p">,</span> <span class="n">InstrumentID</span>
 
 
 <div class="viewcode-block" id="ETCResponseModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.response.ETCResponseModel">[docs]</a>
-<span class="k">class</span> <span class="nc">ETCResponseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ETCResponseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">instrument</span><span class="p">:</span> <span class="n">InstrumentID</span>
     <span class="n">compute</span><span class="p">:</span> <span class="n">ComputeID</span>
     <span class="n">etime</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">Field</span><span class="p">(</span>
