@@ -1857,18 +1857,18 @@
   // js/etc.js
   async function update_etcform(instrument2) {
     fetch_html(
-      "#main-content",
+      "#content-slot",
       ui_url + "/" + instrument2.id + "/etc_form"
     ).then((result) => {
       const etc_form = document.querySelector("#etc-form");
       update_filters(instrument2);
       etc_form.addEventListener("submit", async function(e) {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(this)), results = fetch_data(etc_url + "/" + instrumentID + "/data?" + new URLSearchParams(data));
+        const data = Object.fromEntries(new FormData(this)), results = fetch_data(etc_url + "/" + instrument2.id + "/data?" + new URLSearchParams(data));
         if (results) {
           fetch_html(
             "#modal-slot",
-            ui_url + "/etc_results?" + new URLSearchParams(await results)
+            ui_url + "/" + instrument2.id + "/etc_results?" + new URLSearchParams(await results)
           );
         }
       });

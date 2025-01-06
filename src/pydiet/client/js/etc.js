@@ -8,7 +8,7 @@ import {etc_url, ui_url} from "./url";
 
 export async function update_etcform(instrument) {
 	fetch_html(
-		"#main-content",
+		"#content-slot",
 		ui_url + "/" + instrument.id + "/etc_form"
 	).then( (result) => { 
 		const etc_form = document.querySelector('#etc-form');
@@ -17,12 +17,13 @@ export async function update_etcform(instrument) {
 			// Prevent default behavior on submit
 			e.preventDefault();
 			const data = Object.fromEntries(new FormData(this)),
-				results = fetch_data(etc_url + '/' + instrumentID + '/data?'
-					+ new URLSearchParams(data));
+				results = fetch_data(etc_url + '/' + instrument.id
+					+ '/data?' + new URLSearchParams(data));
 			if (results) {
 				fetch_html(
 					'#modal-slot',
-					ui_url + '/etc_results?' + new URLSearchParams(await results)
+					ui_url + '/' + instrument.id
+						+ '/etc_results?' + new URLSearchParams(await results)
 				);
 			}
 		});
