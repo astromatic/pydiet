@@ -36,7 +36,7 @@ from .compute import  etc_response, make_image
 from .models import ETCQueryModel, ETCResponseModel, ETCValidationError
 
 
-from .models.data import filters, instruments
+from .models.data import default_instrument, filters, instruments
 from .models.types import InstrumentID
 
 
@@ -227,7 +227,7 @@ def create_app() -> FastAPI:
                 "rstring": urlencode(r.model_dump())
             }
         )
-    # PyDIET UI component endpoint
+    # PyDIET UI main component endpoint
     @app.get("/ui/{component}", tags=["UI"], response_class=HTMLResponse)
     async def component(request: Request, component: str):
         """
@@ -241,8 +241,22 @@ def create_app() -> FastAPI:
                 "package": package.title
             }
         )
+    # PyDIET UI sub-component endpoint
+    @app.get("/ui/{component}/{sub}", tags=["UI"], response_class=HTMLResponse)
+    async def component(request: Request, component: str, sub: str):
+        """
+        UI component endpoint.
+        """
+        return templates.TemplateResponse(
+            component + "/" + sub + ".html",
+            {
+                "request": request,
+                "root_path": request.scope.get("root_path"),
+                "package": package.title
+            }
+        )
 
-    # PyDIET client endpoint
+    # Default PyDIET client endpoint
     @app.get("/", tags=["UI"], response_class=HTMLResponse)
     async def pydiet(request: Request):
         """
@@ -255,7 +269,8 @@ def create_app() -> FastAPI:
                 "root_path": request.scope.get("root_path"),
                 "api_path": api_path,
                 "doc_url": userdoc_url,
-                "package": package.title
+                "package": package.title,
+                "instrument": default_instrument.id
             }
         )
 

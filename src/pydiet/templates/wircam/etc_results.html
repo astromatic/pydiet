@@ -1,0 +1,19 @@
+{#
+# Jinja2 template for PyDIET ETC results.
+#
+# Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
+# Licensed under the MIT licence
+#}
+<ion-modal is-open=true backdrop-dismiss=true style="--height:auto;">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>ETC estimate</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+    <p>{{ etime }}</p>
+    <ion-img src=/etc/{{ instrument }}/image?{{ rstring }}>
+    </ion-img>
+    </ion-card-content>
+  </ion-card>
+</ion-modal>
+

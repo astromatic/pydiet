@@ -31,6 +31,7 @@ export async function fetch_html(selector, url) {
 			parent = document.querySelector(selector)
 			if (parent.firstElementChild) {
 				parent.firstElementChild.remove();
+				parent.innerHTML = "";
 			}
 			parent.insertAdjacentHTML("beforeend", html);
 			return true;

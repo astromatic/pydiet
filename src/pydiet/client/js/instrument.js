@@ -4,8 +4,8 @@
 
 import { loadingController } from '@ionic/core';
 import { etc_url } from "./url";
-import {update_filters} from "./etc";
-import { fetch_data } from "./fetch";
+import {update_etcform} from "./etc";
+import { fetch_data} from "./fetch";
 
 let	instruments_cache = null;
 
@@ -22,6 +22,7 @@ export async function get_instruments() {
 	return instruments_cache;
 }
 
+
 // Get previously stored instrument
 export function get_instrumentID() {
 	return localStorage.getItem('pyDIETDefaultInstrument');
@@ -32,7 +33,7 @@ export function get_instrumentID() {
 export function update_instrument(instrumentID) {
 	get_instruments().then( (instruments) => {
 		instrument = instruments[instrumentID];
-		update_filters(instrument);
+		update_etcform(instrument);
 		// Store new instrument setting in local storage
 		localStorage.setItem('pyDIETDefaultInstrument', instrumentID);
 		return instrumentID;

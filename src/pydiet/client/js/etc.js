@@ -2,26 +2,35 @@
 // Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under GPL v3
 
-import {get_filterID, get_instrumentID, update_filter} from "./instrument";
+import {get_filterID, update_filter} from "./instrument";
 import {fetch_data, fetch_html} from "./fetch";
 import {etc_url, ui_url} from "./url";
 
-const etc_form = document.querySelector('#etc-form');
-etc_form.addEventListener('submit', async function (e){
-	// Prevent default behavior on submit
-	e.preventDefault();
-	const data = Object.fromEntries(new FormData(this)),
-	    instrumentID = get_instrumentID(),
-		results = fetch_data(etc_url + '/' + instrumentID + '/data?'
-			+ new URLSearchParams(data));
+export async function update_etcform(instrument) {
 	fetch_html(
-		'#modal-slot',
-		ui_url + '/etc_results?' + new URLSearchParams(await results)
-	);
-});
+		"#main-content",
+		ui_url + "/" + instrument.id + "/etc_form"
+	).then( (result) => { 
+		const etc_form = document.querySelector('#etc-form');
+		update_filters(instrument);
+		etc_form.addEventListener('submit', async function (e){
+			// Prevent default behavior on submit
+			e.preventDefault();
+			const data = Object.fromEntries(new FormData(this)),
+				results = fetch_data(etc_url + '/' + instrumentID + '/data?'
+					+ new URLSearchParams(data));
+			if (results) {
+				fetch_html(
+					'#modal-slot',
+					ui_url + '/etc_results?' + new URLSearchParams(await results)
+				);
+			}
+		});
+	});
+}
 
 
-export function update_filters(instrument) {
+function update_filters(instrument) {
 	if ((select_filters = document.querySelector("#select-filters"))) {
 		while (select_filters.firstChild) {
 			select_filters.lastChild.remove()

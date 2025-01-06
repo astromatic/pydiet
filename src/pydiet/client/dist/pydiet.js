@@ -1845,6 +1845,7 @@
       parent = document.querySelector(selector);
       if (parent.firstElementChild) {
         parent.firstElementChild.remove();
+        parent.innerHTML = "";
       }
       parent.insertAdjacentHTML("beforeend", html);
       return true;
@@ -1854,15 +1855,25 @@
   }
 
   // js/etc.js
-  var etc_form = document.querySelector("#etc-form");
-  etc_form.addEventListener("submit", async function(e) {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(this)), instrumentID2 = get_instrumentID(), results = fetch_data(etc_url + "/" + instrumentID2 + "/data?" + new URLSearchParams(data));
+  async function update_etcform(instrument2) {
     fetch_html(
-      "#modal-slot",
-      ui_url + "/etc_results?" + new URLSearchParams(await results)
-    );
-  });
+      "#main-content",
+      ui_url + "/" + instrument2.id + "/etc_form"
+    ).then((result) => {
+      const etc_form = document.querySelector("#etc-form");
+      update_filters(instrument2);
+      etc_form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(this)), results = fetch_data(etc_url + "/" + instrumentID + "/data?" + new URLSearchParams(data));
+        if (results) {
+          fetch_html(
+            "#modal-slot",
+            ui_url + "/etc_results?" + new URLSearchParams(await results)
+          );
+        }
+      });
+    });
+  }
   function update_filters(instrument2) {
     if (select_filters = document.querySelector("#select-filters")) {
       while (select_filters.firstChild) {
@@ -1909,7 +1920,7 @@
   function update_instrument(instrumentID2) {
     get_instruments().then((instruments) => {
       instrument = instruments[instrumentID2];
-      update_filters(instrument);
+      update_etcform(instrument);
       localStorage.setItem("pyDIETDefaultInstrument", instrumentID2);
       return instrumentID2;
     });
