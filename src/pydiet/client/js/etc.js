@@ -11,8 +11,9 @@ etc_form.addEventListener('submit', async function (e){
 	// Prevent default behavior on submit
 	e.preventDefault();
 	const data = Object.fromEntries(new FormData(this)),
-	    instrument = get_instrument(),
-		results = fetch_data(etc_url + '/' + instrument + '/data?' + new URLSearchParams(data));
+	    instrumentID = get_instrumentID(),
+		results = fetch_data(etc_url + '/' + instrumentID + '/data?'
+			+ new URLSearchParams(data));
 	fetch_html(
 		'#modal-slot',
 		ui_url + '/etc_results?' + new URLSearchParams(await results)

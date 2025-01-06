@@ -1857,7 +1857,7 @@
   var etc_form = document.querySelector("#etc-form");
   etc_form.addEventListener("submit", async function(e) {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(this)), instrument2 = get_instrument(), results = fetch_data(etc_url + "/" + instrument2 + "/data?" + new URLSearchParams(data));
+    const data = Object.fromEntries(new FormData(this)), instrumentID2 = get_instrumentID(), results = fetch_data(etc_url + "/" + instrumentID2 + "/data?" + new URLSearchParams(data));
     fetch_html(
       "#modal-slot",
       ui_url + "/etc_results?" + new URLSearchParams(await results)
