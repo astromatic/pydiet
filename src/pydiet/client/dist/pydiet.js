@@ -18511,7 +18511,6 @@
   // js/plot.js
   auto_default.register(plugin);
   function plot_filter(filter2, canvas) {
-    console.log(filter2.response.response);
     const wave = filter2.response.wave.value, response = filter2.response.response.value, unit = filter2.response.wave.unit, chart = new auto_default(
       canvas,
       {
@@ -18548,7 +18547,7 @@
           plugins: {
             title: {
               display: true,
-              text: filter2.id
+              text: filter2.name
             },
             legend: { display: false },
             zoom: {

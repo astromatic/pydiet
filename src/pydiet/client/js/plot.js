@@ -8,7 +8,6 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 Chart.register(zoomPlugin);
 
 export function plot_filter(filter, canvas) {
-	console.log(filter.response.response);
 	const wave = filter.response.wave.value,
 		response = filter.response.response.value,
 		unit = filter.response.wave.unit,
@@ -48,7 +47,7 @@ export function plot_filter(filter, canvas) {
 					plugins: {
 						title: {
 							display: true,
-							text: filter.id,
+							text: filter.name,
 						},
 						legend: {display: false},
 						zoom: {
