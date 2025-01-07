@@ -28,6 +28,8 @@
 		"tidy-jsdoc": "^1.4.1"
 	},
 	"devDependencies": {
+		"chart.js": "=4.3.0",
+		"chartjs-plugin-zoom": "^2.0.1",
 		"esbuild": "^0.14.53",
 		"eslint": "^8.23.1",
 		"jsdoc": "^4.0"

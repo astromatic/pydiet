@@ -1,5 +1,5 @@
 // Manage instruments
-// Copyright CEA/CFHT/CNRS/UParisSaclay
+// Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
 
 import { loadingController } from '@ionic/core';

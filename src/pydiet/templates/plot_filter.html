@@ -1,0 +1,17 @@
+{#
+# Jinja2 template for plotting PyDIET filter curves.
+#
+# Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
+# Licensed under the MIT licence
+#}
+<ion-modal is-open=true backdrop-dismiss=true style="--height:auto;">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Filter transmission curve</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas id="filter-canvas" />
+    </ion-card-content>
+  </ion-card>
+</ion-modal>
+

@@ -1,9 +1,11 @@
 // Manage web interface settings
-// Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
+// Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under GPL v3
 
-import {get_filterID, update_filter} from "./instrument";
+import {inject_node} from "./dom";
 import {fetch_data, fetch_html} from "./fetch";
+import {get_filterID, update_filter} from "./instrument";
+import {plot_filter} from "./plot";
 import {etc_url, ui_url} from "./url";
 
 export async function update_etcform(instrument) {
@@ -36,8 +38,8 @@ function update_filters(instrument) {
 		while (select_filters.firstChild) {
 			select_filters.lastChild.remove()
 		}
-		instrumentID = instrument.id;
-		filters = instrument.filters;
+		const	instrumentID = instrument.id,
+			filters = instrument.filters;
 		let f_default = get_filterID(instrumentID);
 		for (f in filters) {
 			let  option = document.createElement("ion-select-option");
@@ -53,7 +55,20 @@ function update_filters(instrument) {
 		select_filters.value = f_default;
 		update_filter(instrumentID, f_default);
 		select_filters.addEventListener('ionChange', (event) => {
-			update_filter(instrumentID, event.detail.value);
+			const	filterID = event.detail.value;
+			update_filter(instrumentID, filterID);
+			fetch_html(
+				'#modal-slot',
+				ui_url + '/plot_filter'
+			).then( (result) => {
+				plot_filter(
+					filters[filterID],
+					document.getElementById('filter-canvas').getContext('2d')
+				);
+			});
 		});
 	}
 }
+
+
+

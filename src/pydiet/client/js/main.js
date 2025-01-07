@@ -1,5 +1,5 @@
 // Javascript code entry point
-// Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
+// Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
 import {get_instruments} from "./instrument"
 import {setup_instrument_settings, setup_theme_settings} from "./settings";

@@ -1,6 +1,9 @@
 // Fetch HTML components
-// Copyright CFHT/CNRS/IAP/SorbonneU
+// Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under GPL v3
+
+import {inject_html} from "./dom";
+
 
 export async function fetch_data(url) {
 	return await fetch(url, {credentials: "include"})
@@ -28,12 +31,7 @@ export async function fetch_html(selector, url) {
 		}).then( (html) => {
 			// Remove possible remaining modal
 			// Insert the HTML string into the current element
-			parent = document.querySelector(selector)
-			if (parent.firstElementChild) {
-				parent.firstElementChild.remove();
-				parent.innerHTML = "";
-			}
-			parent.insertAdjacentHTML("beforeend", html);
+			inject_html(selector, html);
 			return true;
 		}).catch( (err) => {
 			// There was an error

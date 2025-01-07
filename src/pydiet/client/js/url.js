@@ -1,5 +1,5 @@
 // Root URLs for APIs 
-// Copyright CFHT/CNRS/IAP/SorbonneU
+// Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under GPL v3
 
 const root_path = document.querySelector('#root_path').content;
