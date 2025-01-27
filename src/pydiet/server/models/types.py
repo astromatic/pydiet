@@ -7,7 +7,7 @@ Custom types for PyDIET data models
 from enum import Enum
 from typing import Literal
 
-from ..types.string import AnnotatedStr
+from ..types import AnnotatedStr
 from .data import default_instrument, filters, instruments
 
 

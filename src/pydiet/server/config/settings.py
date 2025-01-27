@@ -15,7 +15,7 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from ... import package
-from ..types.quantity import AnnotatedQuantity
+from ..types import AnnotatedQuantity
 from .fields import SField
 
 # Enable imperial units such as inches

@@ -10,7 +10,7 @@ from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, ConfigDict
 
 from ... import package
-from ..types.quantity import AnnotatedQuantity
+from ..types import AnnotatedQuantity
 
 
 class InstrumentModel(BaseModel):
