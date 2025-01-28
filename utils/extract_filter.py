@@ -5,7 +5,7 @@ https://www.cfht.hawaii.edu/Instruments/Filters/megaprimenew.html
 to a format that PyDIET understands
 """
 # Author: Emmanuel Bertin DAp/CEA/AIM/OSUPS
-# Copyright (c) 2024 DAp/CEA/AIM/OSUPS/UParisSaclay
+# Copyright (c) 2024, 2025 DAp/CEA/AIM/OSUPS/UParisSaclay
 # Licensed under the MIT licence
 import argparse
 from datetime import datetime
@@ -26,6 +26,7 @@ def main() -> int:
     default_origin = "PyDIET table converter"
     default_telescope = "CFHT"
     default_type = "transmission"
+    default_unit = ""
 
     parser = argparse.ArgumentParser(
         description="Convert response curves and SEDs for use with PyDIET"
@@ -84,6 +85,12 @@ def main() -> int:
         help=f"Response type  (default: {default_type})"
     )
     parser.add_argument(
+        '-u', '--unit',
+        type=str,
+        default=default_unit,
+        help=f"Astropy unit  (default: {default_unit})"
+    )
+    parser.add_argument(
         '-V', '--version',
         action='version',
         version=1.0
@@ -97,15 +104,19 @@ def main() -> int:
     output_origin = args['origin']
     output_telescope = args['telescope']
     output_type = args['type']
+    unit = args['unit']
     quiet = args['quiet']
     input_name = args['input']
     output_name = args['output']
 
     input_table = ascii.read(input_name[0])
     wave = input_table['col1'] * u.nm
-    resp = np.mean(
-        np.array([input_table[col] for col in input_table.columns[1:]]),
-        axis=0
+    resp = u.Quantity(
+        np.mean(
+            np.array([input_table[col] for col in input_table.columns[1:]]),
+            axis=0
+        ),
+        unit=unit
     )
     output_table = Table()
     output_table['wavelength'] = wave
