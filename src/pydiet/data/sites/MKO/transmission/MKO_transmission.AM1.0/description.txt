@@ -1,0 +1,5 @@
+Atmospheric transmission at Mauna Kea Observatories at airmass 1.0
+* shortward of 0.85 micron: O3+Rayleigh+aerosol model from Buton et al. 2012 (http://snfactory.in2p3.fr/soft/atmosphericExtinction)
+* above 0.85 micron: model with standard atmosphere mix and default water vapor overburden from Lord 1992, NASA Technical Memorandum 103957 (http://atran.sofia.usra.edu/cgi-bin/atran/atran.cgi)
+* all data smoothed and resampled to 10A resolution by E.Bertin (2013)
+

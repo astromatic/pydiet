@@ -13,26 +13,10 @@ from ... import package
 from ..types import AnnotatedQuantity
 
 
-class InstrumentModel(BaseModel):
-    id: str
-    name: str
-    description: str
-    filters: Dict[str, 'FilterModel']
-    #sky: SkyModel
-    default: bool = False
-
-
-
-class FilterModel(BaseModel):
-    id: str
-    name: str
-    description: str
-    response: 'ResponseModel'
-    default: bool = False
-
-
-
 class ResponseModel(BaseModel):
+    '''
+    Pydantic model for an instrumental response curve as a function of wavelength.
+    '''
     wave: AnnotatedQuantity(
         unit = "nm",
         ge = 100. * u.nm,
@@ -53,6 +37,30 @@ class ResponseModel(BaseModel):
     model_config = ConfigDict(
         arbitrary_types_allowed=True
     )
+
+
+
+class InstrumentModel(BaseModel):
+    '''
+    Pydantic model for a PyDIET instrument.
+    '''
+    id: str
+    name: str
+    description: str
+    filters: Dict[str, 'FilterModel']
+    #sky: SkyModel
+    default: bool = False
+
+
+
+class FilterModel(BaseModel):
+    id: str
+    name: str
+    description: str
+    response: 'ResponseModel'
+    default: bool = False
+
+
 
 
 

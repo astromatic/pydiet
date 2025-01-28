@@ -1,0 +1,2 @@
+Transmission of the CFHT 3.58m primary mirror (bare aluminium, freshly coated) as a function of wavelength.
+

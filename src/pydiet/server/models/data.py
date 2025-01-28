@@ -62,8 +62,9 @@ def get_filters(instrument_dir: str) -> dict:
 
 def get_instruments(data_dir: Optional[str] = None) -> dict:
     data_dir = override("data_dir", data_dir)
+    instrument_dir = join(data_dir, "instruments")
     instruments = {}
-    for instrument_name in get_dirs(data_dir): #type: ignore[arg-type]
+    for instrument_name in get_dirs(instrument_dir): #type: ignore[arg-type]
         # Get the name alone
         instrument_basename = basename(instrument_name)
         # Get the ID
