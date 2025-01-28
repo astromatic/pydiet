@@ -12,7 +12,13 @@ from pydantic import BaseModel, Field
 
 from ... import package
 from ..config import override, settings
-from .instrument import FilterModel, InstrumentModel, ResponseModel
+from .instrument import (
+    DetectorModel,
+    FilterModel,
+    InstrumentModel,
+    SBSEDModel,
+    SEDModel
+)
 
 
 def get_data(filename: str):
@@ -39,9 +45,33 @@ def get_description(parent_dir: str, default: str):
     return description
 
 
-def get_filters(instrument_dir: str) -> dict:
+def get_detector(instrument_dir: str) -> dict:
+    qes = {}
+    for qe_name in get_dirs(join(instrument_dir, "detector", "qes")):
+        # Get the name alone
+        qe_basename = basename(qe_name)
+        # Get the ID
+        qe_id = qe_basename.lower()
+        data = get_data(join(qe_name, qe_basename + ".fits"))
+        # Instantiate the model
+        qes[qe_id] = FilterModel(
+            id = qe_id,
+            name = qe_basename,
+            description = get_description(qe_name, "A Quantum Efficiency curve"),
+            wave = u.Quantity(data['wavelength']),
+            response = u.Quantity(data['transmission'])
+        )
+    return DetectorModel(
+        gain = 1.5 * u.electron / u.adu,
+        ron = 5. * u.electron,
+        pixel = [0.186, 0.186] * u.arcsec**2,
+        qes = qes
+    )
+
+
+def get_filters(parent_dir: str, subdir: str="filters") -> dict:
     filters = {}
-    for filter_name in get_dirs(join(instrument_dir, "filters")):
+    for filter_name in get_dirs(join(parent_dir, subdir)):
         # Get the name alone
         filter_basename = basename(filter_name)
         # Get the ID
@@ -51,13 +81,55 @@ def get_filters(instrument_dir: str) -> dict:
         filters[filter_id] = FilterModel(
             id = filter_id,
             name = filter_basename,
-            description = get_description(filter_name, "Another filter"),
-            response = ResponseModel(
-            	wave = u.Quantity(data['wavelength']),
-                response = u.Quantity(data['transmission'])
-            )
+            description = get_description(filter_name, "A filter"),
+            wave = u.Quantity(data['wavelength']),
+            response = u.Quantity(data['transmission'])
         )
     return filters
+
+
+def get_seds(parent_dir: str, subdir: str="seds") -> dict:
+    seds = {}
+    for sed_name in get_dirs(join(parent_dir, subdir)):
+        # Get the name alone
+        sed_basename = basename(sed_name)
+        # Get the ID
+        sed_id = sed_basename.lower()
+        data = get_data(join(sed_name, sed_basename + ".fits"))
+        # Instantiate the model
+        seds[sed_id] = SEDModel(
+            id = sed_id,
+            name = sed_basename,
+            description = get_description(
+                sed_name,
+                "A spectral energy distribution"
+            ),
+            wave = u.Quantity(data['wavelength']),
+            response = u.Quantity(data['spectral flux density'])
+        )
+    return seds
+
+
+def get_sbseds(parent_dir: str, subdir: str="seds") -> dict:
+    sbseds = {}
+    for sbsed_name in get_dirs(join(parent_dir, subdir)):
+        # Get the name alone
+        sbsed_basename = basename(sbsed_name)
+        # Get the ID
+        sbsed_id = sbsed_basename.lower()
+        data = get_data(join(sbsed_name, sbsed_basename + ".fits"))
+        # Instantiate the model
+        sbseds[sbsed_id] = SDSEDModel(
+            id = sbsed_id,
+            name = sbsed_basename,
+            description = get_description(
+                sbsed_name,
+                "A surface brightness spectral energy distribution"
+            ),
+            wave = u.Quantity(data['wavelength']),
+            response = u.Quantity(data['surface brightness'])
+        )
+    return sbseds
 
 
 def get_instruments(data_dir: Optional[str] = None) -> dict:
@@ -74,11 +146,37 @@ def get_instruments(data_dir: Optional[str] = None) -> dict:
         instruments[instrument_id] = InstrumentModel(
             id = instrument_id,
             name = instrument_basename,
-            description = get_description(instrument_name, "Another instrument."),
+            description = get_description(instrument_name, "An instrument."),
             filters = get_filters(instrument_name),
+            optics = get_filters(join(instrument_name, "optics"), "transmission"),
+            detector = get_detector(instrument_name),
+            telescope = 'cfht',
+            site = 'mko',
             default = is_default(instrument_name)
         )
     return instruments
+
+
+def get_sites(data_dir: Optional[str] = None) -> dict:
+    data_dir = override("data_dir", data_dir)
+    assert data_dir is not None     # make mypy happy
+    site_dir = join(data_dir, "sites")
+    sites = {}
+    for site_name in get_dirs(site_dir): #type: ignore[arg-type]
+        # Get the name alone
+        site_basename = basename(site_name)
+        # Get the ID
+        site_id = site_basename.lower()
+        # Instantiate the model
+        sites[site_id] = SiteModel(
+            id = site_id,
+            name = site_basename,
+            description = get_description(site_name, "An observation site."),
+            sky_transmissions = get_filters(site_name, "transmission"),
+            sky_emissions = get_sbseds(site_name, "emission"),
+            default = is_default(site_name)
+        )
+    return sites
 
 
 def is_default(parent_dir):

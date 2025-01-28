@@ -13,10 +13,63 @@ from ... import package
 from ..types import AnnotatedQuantity
 
 
-class ResponseModel(BaseModel):
+class SEDModel(BaseModel):
     '''
-    Pydantic model for an instrumental response curve as a function of wavelength.
+    Pydantic model for a Spectral Energy Distribution (SED).
     '''
+    id: str
+    name: str
+    description: str
+    wave: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "nm",
+        ge = 100. * u.nm,
+        le = 100. * u.micron,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 4
+    )
+    sed:  AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "Jy",
+        ge = 0. * u.Jy,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 6
+    )
+
+
+
+class SBSEDModel(BaseModel):
+    '''
+    Pydantic model for a Surface Brightness Spectral Energy Distribution (SBSED).
+    '''
+    id: str
+    name: str
+    description: str
+    wave: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "nm",
+        ge = 100. * u.nm,
+        le = 100. * u.micron,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 4
+    )
+    sed:  AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "Jy / arcsec2",
+        ge = 0. * u.Jy / u.arcsec**2,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 6
+    )
+
+
+
+class FilterModel(BaseModel):
+    '''
+    Pydantic model for a transmission curve (with wavelength).
+    '''
+    id: str
+    name: str
+    description: str
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",
         ge = 100. * u.nm,
@@ -33,56 +86,43 @@ class ResponseModel(BaseModel):
         max_shape = (20000),
         decimals = 4
     )
-
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True
-    )
-
-
-
-class SEDModel(BaseModel):
-    wave: AnnotatedQuantity(    #type: ignore[valid-type]
-        unit = "nm",
-        ge = 100. * u.nm,
-        le = 100. * u.micron,
-        min_shape = (2),
-        max_shape = (20000),
-        decimals = 4
-    )
-    sed:  AnnotatedQuantity(    #type: ignore[valid-type]
-        unit = "W / (m2 Hz)",
-        ge = 0. * u.Watt / u.m**2 / u.Hz,
-        min_shape = (2),
-        max_shape = (20000),
-        decimals = 6
-    )
-
-
-
-class TransmissionModel(BaseModel):
-    id: str
-    name: str
-    description: str
-    response: 'ResponseModel'
     default: bool = False
 
 
 
-class FilterModel(TransmissionModel):
-    pass
+class DetectorModel(BaseModel):
+    '''
+    Pydantic model for an instrument detector (e.g., CMOS or CCD).
+    '''
+    gain: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "electron / adu",
+        gt = 0. * u.electron / u.adu,
+        decimals = 4
+    )
+    ron: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "electron",
+        ge = 0. * u.electron,
+        decimals = 4
+    )
+    pixel: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "arcsec**2",
+        gt = [0., 0.] * u.arcsec**2,
+        min_shape = (2),
+        max_shape = (2),
+        decimals = 4
+    )
+    qes: Dict[str, 'FilterModel']
 
 
 
-class DetectorModel(TransmissionModel):
-    pass
-
-
-
-class SkyModel(BaseModel):
+class SiteModel(BaseModel):
+    '''
+    Pydantic model for the observing site.
+    '''
     id: str
     name: str
-    description: str
-    sed: SEDModel
+    sky_transmissions: Dict[str, 'FilterModel']
+    sky_emissions: Dict[str, 'SBSEDModel']
 
 
 
@@ -94,12 +134,10 @@ class InstrumentModel(BaseModel):
     name: str
     description: str
     filters: Dict[str, 'FilterModel']
-    #optics: FilterModel
-    #atmosphere: FilterModel
-    #background: SkyModel
+    optics: Dict[str, 'FilterModel']
+    detector: DetectorModel
+    telescope: str
+    site: str
     default: bool = False
-
-
-
 
 

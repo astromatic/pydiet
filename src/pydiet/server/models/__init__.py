@@ -7,5 +7,11 @@ Data models
 from .exceptions import ETCValidationError
 from .query import ETCQueryModel
 from .response import ETCResponseModel
-from .instrument import FilterModel, InstrumentModel, ResponseModel, SkyModel
+from .instrument import (
+    DetectorModel,
+    FilterModel,
+    InstrumentModel,
+    SBSEDModel,
+    SEDModel
+)
 
