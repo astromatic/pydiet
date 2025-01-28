@@ -86,12 +86,71 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatedQuantity</span>
 
 
-<div class="viewcode-block" id="ResponseModel">
-<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.ResponseModel">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ResponseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="SEDModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.SEDModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SEDModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Pydantic model for an instrumental response curve as a function of wavelength.</span>
+<span class="sd">    Pydantic model for a Spectral Energy Distribution (SED).</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span>
+    <span class="n">sed</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;Jy&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Jy</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="SBSEDModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.SBSEDModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SBSEDModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for a Surface Brightness Spectral Energy Distribution (SBSED).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span>
+    <span class="n">sbsed</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;Jy / arcsec2&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Jy</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">arcsec</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="FilterModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.FilterModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FilterModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for a transmission curve (with wavelength).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
         <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
         <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
@@ -108,71 +167,51 @@
         <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
         <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="p">)</span>
-
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
-        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span></div>
-
-
-
-
-<div class="viewcode-block" id="SEDModel">
-<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.SEDModel">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SEDModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
-        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
-        <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
-        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
-        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
-        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
-        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
-    <span class="p">)</span>
-    <span class="n">sed</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
-        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;W / (m2 Hz)&quot;</span><span class="p">,</span>
-        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Watt</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">Hz</span><span class="p">,</span>
-        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
-        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20000</span><span class="p">),</span>
-        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">6</span>
-    <span class="p">)</span></div>
-
-
-
-
-<div class="viewcode-block" id="TransmissionModel">
-<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.TransmissionModel">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TransmissionModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">response</span><span class="p">:</span> <span class="s1">&#39;ResponseModel&#39;</span>
     <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
-
-
-
-
-<div class="viewcode-block" id="FilterModel">
-<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.FilterModel">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">FilterModel</span><span class="p">(</span><span class="n">TransmissionModel</span><span class="p">):</span>
-    <span class="k">pass</span></div>
 
 
 
 
 <div class="viewcode-block" id="DetectorModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.DetectorModel">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DetectorModel</span><span class="p">(</span><span class="n">TransmissionModel</span><span class="p">):</span>
-    <span class="k">pass</span></div>
+<span class="k">class</span><span class="w"> </span><span class="nc">DetectorModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for an instrument detector (e.g., CMOS or CCD).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">gain</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;electron / adu&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span>
+    <span class="n">ron</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;electron&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span>
+    <span class="n">pixel</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;arcsec**2&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">arcsec</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span>
+    <span class="n">qes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;FilterModel&#39;</span><span class="p">]</span></div>
 
 
 
 
-<div class="viewcode-block" id="SkyModel">
-<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.SkyModel">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SkyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="SiteModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.SiteModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SiteModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for the observing site.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">sed</span><span class="p">:</span> <span class="n">SEDModel</span></div>
+    <span class="n">sky_transmissions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;FilterModel&#39;</span><span class="p">]</span>
+    <span class="n">sky_emissions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;SBSEDModel&#39;</span><span class="p">]</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
 
@@ -187,13 +226,11 @@
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">filters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;FilterModel&#39;</span><span class="p">]</span>
-    <span class="c1">#optics: FilterModel</span>
-    <span class="c1">#atmosphere: FilterModel</span>
-    <span class="c1">#background: SkyModel</span>
+    <span class="n">optics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;FilterModel&#39;</span><span class="p">]</span>
+    <span class="n">detector</span><span class="p">:</span> <span class="n">DetectorModel</span>
+    <span class="n">telescope</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">site</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
-
-
-
 
 
 
