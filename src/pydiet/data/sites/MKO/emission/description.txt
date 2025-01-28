@@ -1,0 +1,2 @@
+Atmospheric emission curves for the Maunakea Observatories.
+

@@ -1,0 +1,2 @@
+Atmospheric transmission curves for the Maunakea Observatories.
+
