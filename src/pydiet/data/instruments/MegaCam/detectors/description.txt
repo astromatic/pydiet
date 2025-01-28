@@ -1,0 +1,1 @@
+MegaCam CCD and readout electronics properties.

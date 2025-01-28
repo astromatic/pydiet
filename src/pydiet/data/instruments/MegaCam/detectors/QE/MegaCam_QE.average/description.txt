@@ -1,0 +1,2 @@
+Average MegaCam CCD quantum efficiency as a function of wavelength.
+
