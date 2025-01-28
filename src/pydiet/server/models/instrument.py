@@ -53,7 +53,7 @@ class SBSEDModel(BaseModel):
         max_shape = (20000),
         decimals = 4
     )
-    sed:  AnnotatedQuantity(    #type: ignore[valid-type]
+    sbsed:  AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "Jy / arcsec2",
         ge = 0. * u.Jy / u.arcsec**2,
         min_shape = (2),
@@ -121,8 +121,10 @@ class SiteModel(BaseModel):
     '''
     id: str
     name: str
+    description: str
     sky_transmissions: Dict[str, 'FilterModel']
     sky_emissions: Dict[str, 'SBSEDModel']
+    default: bool = False
 
 
 

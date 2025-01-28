@@ -12,6 +12,7 @@ from .instrument import (
     FilterModel,
     InstrumentModel,
     SBSEDModel,
-    SEDModel
+    SEDModel,
+    SiteModel
 )
 

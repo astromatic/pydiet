@@ -17,7 +17,8 @@ from .instrument import (
     FilterModel,
     InstrumentModel,
     SBSEDModel,
-    SEDModel
+    SEDModel,
+    SiteModel
 )
 
 
@@ -45,7 +46,7 @@ def get_description(parent_dir: str, default: str):
     return description
 
 
-def get_detector(instrument_dir: str) -> dict:
+def get_detector(instrument_dir: str) -> DetectorModel:
     qes = {}
     for qe_name in get_dirs(join(instrument_dir, "detector", "qes")):
         # Get the name alone
@@ -105,7 +106,7 @@ def get_seds(parent_dir: str, subdir: str="seds") -> dict:
                 "A spectral energy distribution"
             ),
             wave = u.Quantity(data['wavelength']),
-            response = u.Quantity(data['spectral flux density'])
+            sed = u.Quantity(data['spectral flux density'])
         )
     return seds
 
@@ -119,7 +120,7 @@ def get_sbseds(parent_dir: str, subdir: str="seds") -> dict:
         sbsed_id = sbsed_basename.lower()
         data = get_data(join(sbsed_name, sbsed_basename + ".fits"))
         # Instantiate the model
-        sbseds[sbsed_id] = SDSEDModel(
+        sbseds[sbsed_id] = SBSEDModel(
             id = sbsed_id,
             name = sbsed_basename,
             description = get_description(
@@ -127,7 +128,7 @@ def get_sbseds(parent_dir: str, subdir: str="seds") -> dict:
                 "A surface brightness spectral energy distribution"
             ),
             wave = u.Quantity(data['wavelength']),
-            response = u.Quantity(data['surface brightness'])
+            sbsed = u.Quantity(data['surface brightness'])
         )
     return sbseds
 
