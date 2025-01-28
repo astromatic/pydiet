@@ -51,9 +51,9 @@
 <li class="toctree-l3"><a class="reference internal" href="app.html">Web API</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Models</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.exceptions.ETCValidationError"><code class="docutils literal notranslate"><span class="pre">ETCValidationError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.ResponseModel"><code class="docutils literal notranslate"><span class="pre">ResponseModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel"><code class="docutils literal notranslate"><span class="pre">InstrumentModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.FilterModel"><code class="docutils literal notranslate"><span class="pre">FilterModel</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.ResponseModel"><code class="docutils literal notranslate"><span class="pre">ResponseModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.SEDModel"><code class="docutils literal notranslate"><span class="pre">SEDModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.SkyModel"><code class="docutils literal notranslate"><span class="pre">SkyModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel"><code class="docutils literal notranslate"><span class="pre">ETCQueryModel</span></code></a></li>
@@ -109,12 +109,106 @@
 
 <p id="module-pydiet.server.models.instrument">Data models</p>
 <dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="pydiet.server.models.instrument.ResponseModel">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResponseModel</span></span><a class="reference internal" href="../../_modules/pydiet/server/models/instrument.html#ResponseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Pydantic model for an instrumental response curve as a function of wavelength.</p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ResponseModel&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pydantic model for an instrumental response curve as a function of wavelength.&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20000&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0 micron&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0 nm&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;length&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wave&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20000&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-100.0&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dimensionless&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Response&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;wave&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;response&quot;</span>
+<span class="w">   </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arbitrary_types_allowed</strong>: <em>bool = True</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Fields<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.models.instrument.ResponseModel.response" title="pydiet.server.models.instrument.ResponseModel.response"><code class="xref py py-obj docutils literal notranslate"><span class="pre">response</span> <span class="pre">(astropy.units.quantity.Quantity)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.instrument.ResponseModel.wave" title="pydiet.server.models.instrument.ResponseModel.wave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave</span> <span class="pre">(astropy.units.quantity.Quantity)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.instrument.ResponseModel.response">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0',</span> <span class="pre">'physType':</span> <span class="pre">'dimensionless'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.response" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>strict</strong> = True</p></li>
+<li><p><strong>unit</strong> =</p></li>
+<li><p><strong>description</strong> =</p></li>
+<li><p><strong>decimals</strong> = 4</p></li>
+<li><p><strong>min_shape</strong> = 2</p></li>
+<li><p><strong>max_shape</strong> = 20000</p></li>
+<li><p><strong>ge</strong> = -100.0</p></li>
+<li><p><strong>le</strong> = 100.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.instrument.ResponseModel.wave">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">nm',</span> <span class="pre">'physType':</span> <span class="pre">'length'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.wave" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>strict</strong> = True</p></li>
+<li><p><strong>unit</strong> = nm</p></li>
+<li><p><strong>description</strong> =</p></li>
+<li><p><strong>decimals</strong> = 3</p></li>
+<li><p><strong>min_shape</strong> = 2</p></li>
+<li><p><strong>max_shape</strong> = 20000</p></li>
+<li><p><strong>ge</strong> = 100.0 nm</p></li>
+<li><p><strong>le</strong> = 100.0 micron</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.InstrumentModel">
 <em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InstrumentModel</span></span><a class="reference internal" href="../../_modules/pydiet/server/models/instrument.html#InstrumentModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Pydantic model for a PyDIET instrument.</p>
 <p><details  class="autodoc_pydantic_collapsable_json">
 <summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InstrumentModel&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pydantic model for a PyDIET instrument.&quot;</span><span class="p">,</span>
 <span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
 <span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -176,6 +270,7 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;ResponseModel&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pydantic model for an instrumental response curve as a function of wavelength.&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="nt">&quot;wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -285,6 +380,7 @@
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;$defs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;ResponseModel&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pydantic model for an instrumental response curve as a function of wavelength.&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="nt">&quot;wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -359,96 +455,6 @@
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.FilterModel.response">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.instrument.ResponseModel" title="pydiet.server.models.instrument.ResponseModel"><span class="pre">ResponseModel</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.FilterModel.response" title="Link to this definition"></a></dt>
 <dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="pydiet.server.models.instrument.ResponseModel">
-<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResponseModel</span></span><a class="reference internal" href="../../_modules/pydiet/server/models/instrument.html#ResponseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p><details  class="autodoc_pydantic_collapsable_json">
-<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ResponseModel&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20000&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0 micron&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0 nm&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;length&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wave&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20000&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-100.0&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dimensionless&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Response&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">},</span>
-<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;wave&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;response&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</details></p><dl class="field-list simple">
-<dt class="field-odd">Config<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>arbitrary_types_allowed</strong>: <em>bool = True</em></p></li>
-</ul>
-</dd>
-<dt class="field-even">Fields<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#pydiet.server.models.instrument.ResponseModel.response" title="pydiet.server.models.instrument.ResponseModel.response"><code class="xref py py-obj docutils literal notranslate"><span class="pre">response</span> <span class="pre">(astropy.units.quantity.Quantity)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#pydiet.server.models.instrument.ResponseModel.wave" title="pydiet.server.models.instrument.ResponseModel.wave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave</span> <span class="pre">(astropy.units.quantity.Quantity)</span></code></a></p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="pydiet.server.models.instrument.ResponseModel.response">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">response</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0',</span> <span class="pre">'physType':</span> <span class="pre">'dimensionless'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.response" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Constraints<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>strict</strong> = True</p></li>
-<li><p><strong>unit</strong> =</p></li>
-<li><p><strong>description</strong> =</p></li>
-<li><p><strong>decimals</strong> = 4</p></li>
-<li><p><strong>min_shape</strong> = 2</p></li>
-<li><p><strong>max_shape</strong> = 20000</p></li>
-<li><p><strong>ge</strong> = -100.0</p></li>
-<li><p><strong>le</strong> = 100.0</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="pydiet.server.models.instrument.ResponseModel.wave">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">nm',</span> <span class="pre">'physType':</span> <span class="pre">'length'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.ResponseModel.wave" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Constraints<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>strict</strong> = True</p></li>
-<li><p><strong>unit</strong> = nm</p></li>
-<li><p><strong>description</strong> =</p></li>
-<li><p><strong>decimals</strong> = 3</p></li>
-<li><p><strong>min_shape</strong> = 2</p></li>
-<li><p><strong>max_shape</strong> = 20000</p></li>
-<li><p><strong>ge</strong> = 100.0 nm</p></li>
-<li><p><strong>le</strong> = 100.0 micron</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
 
 </dd></dl>
 
