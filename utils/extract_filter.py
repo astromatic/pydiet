@@ -23,6 +23,7 @@ def main() -> int:
     default_filter = ''
     default_format = 'fits'
     default_instrument = "MegaPrime"
+    default_multiply = 1.
     default_origin = "PyDIET table converter"
     default_telescope = "CFHT"
     default_type = "transmission"
@@ -60,6 +61,12 @@ def main() -> int:
         type=str,
         default=default_instrument,
         help=f"Instrument applicable to the data (default: {default_instrument})"
+    )
+    parser.add_argument(
+        '-m', '--multiply',
+        type=float,
+        default=default_multiply,
+        help=f"Multiplication factor  (default: {default_multiply})"
     )
     parser.add_argument(
         '-o', '--origin',
@@ -104,6 +111,7 @@ def main() -> int:
     output_origin = args['origin']
     output_telescope = args['telescope']
     output_type = args['type']
+    multiply = args['multiply']
     unit = args['unit']
     quiet = args['quiet']
     input_name = args['input']
@@ -112,7 +120,7 @@ def main() -> int:
     input_table = ascii.read(input_name[0])
     wave = input_table['col1'] * u.nm
     resp = u.Quantity(
-        np.mean(
+        multiply * np.mean(
             np.array([input_table[col] for col in input_table.columns[1:]]),
             axis=0
         ),
