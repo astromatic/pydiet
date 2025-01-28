@@ -10,6 +10,7 @@ from .types import ComputeID, InstrumentID
 
 
 class ETCResponseModel(BaseModel):
+    instrument: InstrumentID
     compute: ComputeID
     etime: float=Field(
         default=1.,

@@ -62,6 +62,7 @@ def get_filters(instrument_dir: str) -> dict:
 
 def get_instruments(data_dir: Optional[str] = None) -> dict:
     data_dir = override("data_dir", data_dir)
+    assert data_dir is not None     # make mypy happy
     instrument_dir = join(data_dir, "instruments")
     instruments = {}
     for instrument_name in get_dirs(instrument_dir): #type: ignore[arg-type]

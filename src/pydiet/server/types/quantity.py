@@ -445,6 +445,7 @@ def AnnotatedQuantity(
         unit = default.unit
     elif unit is None:
         raise ValueError
+    assert unit is not None     # Make mypy happy
     physType = u.get_physical_type(u.Quantity("1 " + str(unit)))
     json_extra: dict = {}
     if default is not None:
@@ -482,7 +483,7 @@ def AnnotatedQuantity(
             lt=lt
         ),
         Field(
-            default_factory=None if default is None else lambda: default,
+            default_factory=None if default is None else lambda: default, #type: ignore[arg-type]
             description=description,
             validate_default=True,
             json_schema_extra=json_extra

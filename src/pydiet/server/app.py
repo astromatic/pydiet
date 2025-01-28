@@ -247,7 +247,7 @@ def create_app() -> FastAPI:
         )
     # PyDIET instrument-dependent UI component endpoint
     @app.get("/ui/{instrument}/{component}", tags=["UI"], response_class=HTMLResponse)
-    async def component(request: Request, instrument: str, component: str):
+    async def instrument_component(request: Request, instrument: str, component: str):
         """
         UI instrument-dependent component endpoint.
         """
