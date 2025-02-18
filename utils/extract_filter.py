@@ -21,6 +21,7 @@ def main() -> int:
     """
 
     default_filter = ''
+    default_airmass = 1.
     default_format = 'fits'
     default_instrument = "MegaPrime"
     default_multiply = 1.
@@ -28,6 +29,7 @@ def main() -> int:
     default_telescope = "CFHT"
     default_type = "transmission"
     default_unit = ""
+    default_wunit = "nm"
 
     parser = argparse.ArgumentParser(
         description="Convert response curves and SEDs for use with PyDIET"
@@ -43,6 +45,12 @@ def main() -> int:
         metavar='output table',
         nargs=1,
         help="Input CFHT table."
+    )
+    parser.add_argument(
+        '-a', '--airmass',
+        type=float,
+        default=default_multiply,
+        help=f"Airmass  (default: {default_airmass})"
     )
     parser.add_argument(
         '-f', '--filter',
@@ -80,6 +88,11 @@ def main() -> int:
         help="Run quietly"
     )
     parser.add_argument(
+        '-r', '--rows',
+        action='store_true',
+        help="Assume that table ."
+    )
+    parser.add_argument(
         '-T', '--telescope',
         type=str,
         default=default_telescope,
@@ -95,16 +108,23 @@ def main() -> int:
         '-u', '--unit',
         type=str,
         default=default_unit,
-        help=f"Astropy unit  (default: {default_unit})"
+        help=f"Astropy unit for curve (default: {default_unit})"
     )
     parser.add_argument(
         '-V', '--version',
         action='version',
         version=1.0
     )
+    parser.add_argument(
+        '-w', '--wunit',
+        type=str,
+        default=default_wunit,
+        help=f"Astropy unit for wavelength (default: {default_wunit})"
+    )
 
     args = vars(parser.parse_args())
 
+    output_airmass = args['airmass']
     output_filter = args['filter']
     output_format = args['format']
     output_instrument = args['instrument']
@@ -112,24 +132,34 @@ def main() -> int:
     output_telescope = args['telescope']
     output_type = args['type']
     multiply = args['multiply']
+    rows = args['rows']	
     unit = args['unit']
+    wunit = args['wunit']
     quiet = args['quiet']
     input_name = args['input']
     output_name = args['output']
 
     input_table = ascii.read(input_name[0])
-    wave = input_table['col1'] * u.nm
-    resp = u.Quantity(
-        multiply * np.mean(
-            np.array([input_table[col] for col in input_table.columns[1:]]),
-            axis=0
-        ),
-        unit=unit
-    )
+    if rows:
+        wave = u.Quantity(list(input_table[0]), wunit).to(u.nm)
+        resp = u.Quantity(
+            multiply * np.array(list(input_table[1])),
+            unit=unit
+        )
+    else:
+        wave = u.Quantity(input_table['col1'], wunit)
+        resp = u.Quantity(
+            multiply * np.mean(
+                np.array([input_table[col] for col in input_table.columns[1:]]),
+                axis=0
+            ),
+            unit=unit
+        )
     output_table = Table()
     output_table['wavelength'] = wave
     output_table[output_type] = resp
     output_table.meta = {
+        "airmass": output_airmass,
         "date": datetime.now().isoformat(),
         "filter": output_filter,
         "instrume": output_instrument,
