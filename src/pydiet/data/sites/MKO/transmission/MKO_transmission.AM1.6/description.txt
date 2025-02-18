@@ -1,4 +1,4 @@
-Atmospheric transmission at Mauna Kea Observatories at airmass 1.0:
+Atmospheric transmission at Mauna Kea Observatories at airmass 1.6:
 * Computed by E.Bertin (2025) using MODTRAN6, using the default "tropical" atmosphere and the "rural" aerosol model settings.
 * CO2 concentration set to 430ppm.
 * Pointing upward from an altitude of 4204m.
