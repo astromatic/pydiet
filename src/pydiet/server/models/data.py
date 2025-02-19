@@ -184,6 +184,8 @@ def is_default(parent_dir):
     return exists(join(parent_dir, "default"))
 
 
+sites = get_sites()
+default_site = get_default(sites)
 instruments = get_instruments()
 default_instrument = get_default(instruments)
 filters = {k:v for key,val in instruments.items() for k,v in val.filters.items()}
