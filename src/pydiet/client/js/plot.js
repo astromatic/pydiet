@@ -8,9 +8,9 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 Chart.register(zoomPlugin);
 
 export function plot_filter(filter, canvas) {
-	const wave = filter.response.wave.value,
-		response = filter.response.response.value,
-		unit = filter.response.wave.unit,
+	const wave = filter.wave.value,
+		response = filter.response.value,
+		unit = filter.wave.unit,
 		chart = new Chart(
 			canvas,
 			{

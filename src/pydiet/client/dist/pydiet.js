@@ -18511,7 +18511,7 @@
   // js/plot.js
   auto_default.register(plugin);
   function plot_filter(filter2, canvas) {
-    const wave = filter2.response.wave.value, response = filter2.response.response.value, unit = filter2.response.wave.unit, chart = new auto_default(
+    const wave = filter2.wave.value, response = filter2.response.value, unit = filter2.wave.unit, chart = new auto_default(
       canvas,
       {
         type: "line",
