@@ -10,7 +10,7 @@ to a format that PyDIET understands
 import argparse
 from datetime import datetime
 
-from astropy.io import ascii #type: ignore
+from astropy.io import ascii, fits #type: ignore
 from astropy.table import Table  #type: ignore
 import astropy.units as u #type: ignore
 import numpy as np
@@ -27,7 +27,7 @@ def main() -> int:
     default_multiply = 1.
     default_origin = "PyDIET table converter"
     default_telescope = "CFHT"
-    default_type = "transmission"
+    default_type = "THROUGHPUT"
     default_unit = ""
     default_wunit = "nm"
 
@@ -139,7 +139,10 @@ def main() -> int:
     input_name = args['input']
     output_name = args['output']
 
-    input_table = ascii.read(input_name[0])
+    if input_name[0].endswith(".fits"):
+        input_table = Table(fits.getdata(input_name[0]), names=('col1', 'col2'))
+    else:
+        input_table = ascii.read(input_name[0])
     if rows:
         wave = u.Quantity(list(input_table[0]), wunit).to(u.nm)
         resp = u.Quantity(
@@ -156,7 +159,7 @@ def main() -> int:
             unit=unit
         )
     output_table = Table()
-    output_table['wavelength'] = wave
+    output_table['WAVELENGTH'] = wave
     output_table[output_type] = resp
     output_table.meta = {
         "airmass": output_airmass,
