@@ -59,8 +59,8 @@ def get_detector(instrument_dir: str) -> DetectorModel:
             id = qe_id,
             name = qe_basename,
             description = get_description(qe_name, "A Quantum Efficiency curve"),
-            wave = u.Quantity(data['wavelength']),
-            response = u.Quantity(data['transmission'])
+            wave = u.Quantity(data['WAVELENGTH']),
+            response = u.Quantity(data['THROUGHPUT'])
         )
     return DetectorModel(
         gain = 1.5 * u.electron / u.adu,
@@ -83,8 +83,8 @@ def get_filters(parent_dir: str, subdir: str="filters") -> dict:
             id = filter_id,
             name = filter_basename,
             description = get_description(filter_name, "A filter"),
-            wave = u.Quantity(data['wavelength']),
-            response = u.Quantity(data['transmission'])
+            wave = u.Quantity(data['WAVELENGTH']),
+            response = u.Quantity(data['THROUGHPUT'])
         )
     return filters
 
@@ -105,8 +105,8 @@ def get_seds(parent_dir: str, subdir: str="seds") -> dict:
                 sed_name,
                 "A spectral energy distribution"
             ),
-            wave = u.Quantity(data['wavelength']),
-            sed = u.Quantity(data['spectral flux density'])
+            wave = u.Quantity(data['WAVELENGTH']),
+            sed = u.Quantity(data['FLUX'])
         )
     return seds
 
