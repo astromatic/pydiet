@@ -1,10 +1,15 @@
 // Javascript code entry point
-// Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
+// Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
-import {update_theme} from "./theme";
-import * as etc from "./etc";
-import * as settings from "./settings";
+import {get_instruments} from "./instrument"
+import {setup_instrument_settings, setup_theme_settings} from "./settings";
 
-// Set theme based on existing settings
-update_theme()
+// Set up theme section of settings
+setup_theme_settings();
+
+get_instruments().then( (instruments) => {
+// Set up instrument section of settings
+	setup_instrument_settings(instruments);
+});
+
 

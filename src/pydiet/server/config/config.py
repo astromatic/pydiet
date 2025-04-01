@@ -17,7 +17,7 @@ from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import ValidationError
 
 from ... import package
-from .quantity import str_to_quantity_array
+from ..types import str_to_quantity_array
 from .settings import AppSettings
 
 

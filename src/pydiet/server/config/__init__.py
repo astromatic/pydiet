@@ -8,9 +8,7 @@ from sys import exit, modules
 from typing import Any
 
 from .config import Config
-from .quantity import AnnotatedQuantity, QuantityAnnotation
 from .settings import AppSettings
-from .string import AnnotatedStr, StrAnnotation
 
 # Initialize global dictionary
 # Set up settings by instantiating a configuration object

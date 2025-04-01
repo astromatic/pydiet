@@ -5,7 +5,7 @@ Application module
 # Licensed under the MIT licence
 from io import BytesIO
 from logging import getLogger
-from os import path
+from os.path import abspath, exists, join
 from typing import get_args, Literal, Tuple
 from urllib.parse import urlencode
 
@@ -36,7 +36,7 @@ from .compute import  etc_response, make_image
 from .models import ETCQueryModel, ETCResponseModel, ETCValidationError
 
 
-from .models.data import filters, instruments
+from .models.data import default_instrument, filters, instruments
 from .models.types import InstrumentID
 
 
@@ -47,10 +47,10 @@ def create_app() -> FastAPI:
 
     banner_template = settings["banner_template"]
     base_template = settings["base_template"]
-    template_dir = path.abspath(settings["template_dir"])
-    client_dir = path.abspath(settings["client_dir"])
-    data_dir = path.abspath(settings["data_dir"])
-    extra_dir = path.abspath(settings["extra_dir"])
+    template_dir = abspath(settings["template_dir"])
+    client_dir = abspath(settings["client_dir"])
+    data_dir = abspath(settings["data_dir"])
+    extra_dir = abspath(settings["extra_dir"])
     doc_dir = settings["doc_dir"]
     doc_path = settings["doc_path"]
     userdoc_url = settings["userdoc_url"]
@@ -113,7 +113,7 @@ def create_app() -> FastAPI:
     )
 
     # Provide an endpoint for the user's manual (if it exists)
-    if path.exists(doc_dir):
+    if exists(doc_dir):
         logger.info(f"Default documentation found at {doc_dir}.")
         app.mount(
             doc_path,
@@ -128,7 +128,7 @@ def create_app() -> FastAPI:
 
     # Instantiate templates
     templates = Jinja2Templates(
-        directory=path.join(package.src_dir, template_dir)
+        directory=join(package.src_dir, template_dir)
     )
 
     @app.exception_handler(ETCValidationError)
@@ -160,7 +160,7 @@ def create_app() -> FastAPI:
         )
 
 
-    @app.get("/etc/instruments", tags=["ETC parameters"])
+    @app.get("/etc/instruments", tags=["ETC instruments"])
     async def read_instruments():
         """
         Instrument list endpoint.
@@ -171,16 +171,17 @@ def create_app() -> FastAPI:
             [JSON response](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
             with the list of supported instruments
         """
-        return {
-                instruments
-        }
+        return JSONResponse(
+            content=jsonable_encoder(instruments, exclude={'response'})
+        )
+
 
     @app.get("/etc/{instrument}/{rtype}", tags=["ETC results"], response_class=HTMLResponse)
-    async def read_instrument(
+    async def etc_query(
             request: Request,
             instrument: str = Path(     
                 title="Instrument ID",
-                description="CFHT instrument ID"
+                description="Instrument ID"
             ),
             rtype: Literal['data', 'image'] = Path(
                 title="Response type",
@@ -207,26 +208,30 @@ def create_app() -> FastAPI:
             )
         else:
           return r.model_dump_json()
-    # Another PyDIET UI component endpoint
-    @app.get("/ui/etc_results", tags=["UI"], response_class=HTMLResponse)
+    # PyDIET UI ETC results endpoint
+    @app.get("/ui/{instrument}/etc_results", tags=["UI"], response_class=HTMLResponse)
     async def etc_results(
-        request: Request,
-        r: ETCResponseModel = Depends()):
+            request: Request,
+            instrument: str = Path(     
+                title="Instrument ID",
+                description="Instrument ID"
+            ),
+            r: ETCResponseModel = Depends()):
         """
         UI ETC results endpoint.
         """
         return templates.TemplateResponse(
-            "etc_results.html",
+            join(instrument, "etc_results.html"),
             {
                 "request": request,
                 "root_path": request.scope.get("root_path"),
                 "package": package.title,
                 "etime": r.etime,
-                "instrument": "megacam",
+                "instrument": instrument,
                 "rstring": urlencode(r.model_dump())
             }
         )
-    # PyDIET UI component endpoint
+    # PyDIET main UI component endpoint
     @app.get("/ui/{component}", tags=["UI"], response_class=HTMLResponse)
     async def component(request: Request, component: str):
         """
@@ -240,8 +245,22 @@ def create_app() -> FastAPI:
                 "package": package.title
             }
         )
+    # PyDIET instrument-dependent UI component endpoint
+    @app.get("/ui/{instrument}/{component}", tags=["UI"], response_class=HTMLResponse)
+    async def instrument_component(request: Request, instrument: str, component: str):
+        """
+        UI instrument-dependent component endpoint.
+        """
+        return templates.TemplateResponse(
+            join(instrument, component + ".html"),
+            {
+                "request": request,
+                "root_path": request.scope.get("root_path"),
+                "package": package.title
+            }
+        )
 
-    # PyDIET client endpoint
+    # Default PyDIET client endpoint
     @app.get("/", tags=["UI"], response_class=HTMLResponse)
     async def pydiet(request: Request):
         """
@@ -254,7 +273,7 @@ def create_app() -> FastAPI:
                 "root_path": request.scope.get("root_path"),
                 "api_path": api_path,
                 "doc_url": userdoc_url,
-                "package": package.title
+                "package": package.title,
             }
         )
 

@@ -10,76 +10,136 @@ from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, ConfigDict
 
 from ... import package
-from ..config.quantity import QuantityAnnotation
-from ..config.ndarray import NdArray
+from ..types import AnnotatedQuantity
 
 
-class InstrumentModel(BaseModel):
+class SEDModel(BaseModel):
+    '''
+    Pydantic model for a Spectral Energy Distribution (SED).
+    '''
     id: str
     name: str
     description: str
-    filters: Dict[str, 'FilterModel']
-    #sky: SkyModel
-    default: bool = False
-
-
-
-class FilterModel(BaseModel):
-    id: str
-    name: str
-    description: str
-    response: 'ResponseModel'
-    default: bool = False
-
-
-
-class ResponseModel(BaseModel):
-    wave: Annotated[
-        u.Quantity,
-        QuantityAnnotation(
-            "micron",
-            ge = 100. * u.nm,
-            le = 100. * u.micron,
-            min_shape = (2),
-            max_shape = (20000)
-        )
-    ]
-    response: NdArray
-
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True
+    wave: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "nm",
+        ge = 100. * u.nm,
+        le = 100. * u.micron,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 4
+    )
+    sed:  AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "Jy",
+        ge = 0. * u.Jy,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 6
     )
 
 
 
-class SEDModel(BaseModel):
-    wave: Annotated[
-        u.Quantity,
-        QuantityAnnotation(
-            "micron",
-            ge = 100. * u.nm,
-            le = 100. * u.micron,
-            min_shape = (2),
-            max_shape = (20000)
-        )
-    ]
-    sed:  Annotated[
-        u.Quantity,
-        QuantityAnnotation(
-            "W/m**2/Hz",
-            ge = 0. * u.Watt / u.m**2 / u.Hz,
-            min_shape = (2),
-            max_shape = (20000)
-        )
-    ]
-
-
-
-class SkyModel(BaseModel):
+class SBSEDModel(BaseModel):
+    '''
+    Pydantic model for a Surface Brightness Spectral Energy Distribution (SBSED).
+    '''
     id: str
     name: str
     description: str
-    sed: SEDModel
+    wave: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "nm",
+        ge = 100. * u.nm,
+        le = 100. * u.micron,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 4
+    )
+    sbsed:  AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "Jy / arcsec2",
+        ge = 0. * u.Jy / u.arcsec**2,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 6
+    )
 
+
+
+class FilterModel(BaseModel):
+    '''
+    Pydantic model for a transmission curve (with wavelength).
+    '''
+    id: str
+    name: str
+    description: str
+    wave: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "nm",
+        ge = 100. * u.nm,
+        le = 100. * u.micron,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 3
+    )
+    response: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "",
+        ge = -100.,
+        le = 100.,
+        min_shape = (2),
+        max_shape = (20000),
+        decimals = 4
+    )
+    default: bool = False
+
+
+
+class DetectorModel(BaseModel):
+    '''
+    Pydantic model for an instrument detector (e.g., CMOS or CCD).
+    '''
+    gain: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "electron / adu",
+        gt = 0. * u.electron / u.adu,
+        decimals = 4
+    )
+    ron: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "electron",
+        ge = 0. * u.electron,
+        decimals = 4
+    )
+    pixel: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "arcsec**2",
+        gt = [0., 0.] * u.arcsec**2,
+        min_shape = (2),
+        max_shape = (2),
+        decimals = 4
+    )
+    qes: Dict[str, 'FilterModel']
+
+
+
+class SiteModel(BaseModel):
+    '''
+    Pydantic model for the observing site.
+    '''
+    id: str
+    name: str
+    description: str
+    sky_transmissions: Dict[str, 'FilterModel']
+    sky_emissions: Dict[str, 'SBSEDModel']
+    default: bool = False
+
+
+
+class InstrumentModel(BaseModel):
+    '''
+    Pydantic model for a PyDIET instrument.
+    '''
+    id: str
+    name: str
+    description: str
+    filters: Dict[str, 'FilterModel']
+    optics: Dict[str, 'FilterModel']
+    detector: DetectorModel
+    telescope: str
+    site: str
+    default: bool = False
 
 

@@ -1,5 +1,5 @@
 // Manage web interface settings
-// Copyright CEA/CFHT/CNRS/UParisSaclay
+// Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
 
 export const	themes = ["Light", "Dark", "Auto"],
