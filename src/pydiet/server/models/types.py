@@ -8,7 +8,7 @@ from enum import Enum
 from typing import Literal
 
 from ..types import AnnotatedStr
-from .data import default_instrument, filters, instruments
+from .default import default_instrument, filters, instruments
 
 
 ComputeID = Literal['etime', 'snr']

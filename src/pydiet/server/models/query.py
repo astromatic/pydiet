@@ -7,7 +7,7 @@ Query models
 from typing import Literal
 from pydantic import BaseModel, Field, PydanticUserError, ValidationInfo, field_validator
 
-from .data import default_filter, default_instrument, filters, instruments
+from .default import default_filter, default_instrument, filters, instruments
 from .exceptions import ETCValidationError
 from .types import ComputeID, FilterID, InstrumentID
 
@@ -55,7 +55,7 @@ class ETCQueryModel(BaseModel):
         le=1.,
         description="Sky transparency"
         )
-    unit: Literal['mag', 'flux']
+    unit: Literal['abmag', 'vegamag', 'flambda', 'fnu', 'fjansky']
 
     @field_validator('filter')
     def validate_filter(cls, f: str, info: ValidationInfo) -> str:

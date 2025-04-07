@@ -13,6 +13,7 @@ from .instrument import (
     InstrumentModel,
     SBSEDModel,
     SEDModel,
-    SiteModel
+    SiteModel,
+    TelescopeModel
 )
 

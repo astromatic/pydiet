@@ -36,7 +36,7 @@ from .compute import  etc_response, make_image
 from .models import ETCQueryModel, ETCResponseModel, ETCValidationError
 
 
-from .models.data import default_instrument, filters, instruments
+from .data import default_instrument, filters, instruments
 
 
 def create_app() -> FastAPI:

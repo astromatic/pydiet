@@ -7,13 +7,22 @@ Computation module
 from math import sqrt
 from typing import Literal
 
+from astropy import units as u  #type: ignore[import-untyped]
 from cv2 import imencode
 import numpy as np
-
 from pydantic import BaseModel, Field
+from synphot import Observation
 
 from .models import ETCQueryModel, ETCResponseModel
-from .models.data import instruments
+from .data import instruments, ab_spectrum, st_spectrum, vega_spectrum
+
+ref_spectra = {
+    'abmag': ab_spectrum,
+    'vegamag': vega_spectrum,
+    'flambda': st_spectrum,
+    'fnu': ab_spectrum,
+    'fjansky': ab_spectrum
+}
 
 
 def etc_response(q: ETCQueryModel) -> ETCResponseModel:
@@ -40,16 +49,20 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
         telescope_resp *= transmissions[transmission].spectral
     # Atmospheric transmission
     airmass = q.airmass
-    atmo_resp = instrument.site.sky_transmissions['mko_transmission.am1.2'].spectral
+    atmo_resp = instrument.site.sky_transmissions['mko_transmission.am1.0'].spectral
     # Effective transmission
-    effective_resp = detector_resp * filter_resp * optics_resp * telescope_resp * atmo_resp
-    unit = effective_resp.unit_response(telescope.area)
-    print(unit)
+    total_resp = detector_resp * filter_resp * optics_resp * telescope_resp * atmo_resp
+    ref_spectrum = ref_spectra[q.unit]
+    observation = Observation(ref_spectrum, total_resp)
+    ct = observation.countrate(area=telescope.area, binned=False) / detector.gain.value
+    zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct)
+    print(zp)
     if q.compute == 'etime':
         etime = (10.**(0.4*(q.brightness-26.))) * 10. * q.snr**2
         return ETCResponseModel(
             instrument = q.instrument,
             compute = q.compute,
+            zp = zp,
             etime = etime,
             etime_skysat = etime * 100.,
             etime_sourcesat = etime * 10.,
@@ -59,6 +72,7 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
         return ETCResponseModel(
             instrument = q.instrument,
             compute = q.compute,
+            zp = zp,
             etime = q.etime,
             etime_skysat = q.etime * 100.,
             etime_sourcesat = q.etime * 10.,

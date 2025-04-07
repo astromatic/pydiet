@@ -11,11 +11,11 @@ from astropy.table import QTable #type: ignore[import-untyped]
 from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 from specutils import Spectrum1D
-from synphot import SpectralElement
+from synphot import ConstFlux1D, SourceSpectrum, SpectralElement
 
-from ... import package
-from ..config import override, settings
-from .instrument import (
+from .. import package
+from .config import override, settings
+from .models.instrument import (
     DetectorModel,
     FilterModel,
     InstrumentModel,
@@ -71,7 +71,7 @@ def get_detector(instrument_dir: str) -> DetectorModel:
                 Spectrum1D(spectral_axis=wave, flux=response), keep_neg=True)
         )
     return DetectorModel(
-        gain = 1.5 * u.electron / u.adu,
+        gain = 1.62 * u.electron / u.adu,
         ron = 5. * u.electron,
         pixel = [0.186, 0.186] * u.arcsec**2,
         qes = qes
@@ -224,10 +224,18 @@ def is_default(parent_dir):
 
 sites = get_sites()
 default_site = get_default(sites)
+
 telescopes = get_telescopes()
 default_telescope = get_default(telescopes)
+
 instruments = get_instruments(telescopes, sites)
 default_instrument = get_default(instruments)
+
 filters = {k:v for key,val in instruments.items() for k,v in val.filters.items()}
 default_filter = get_default(default_instrument.filters)
+
+# Load reference spectra
+ab_spectrum = SourceSpectrum(ConstFlux1D, amplitude = 0.*u.ABmag)
+st_spectrum = SourceSpectrum(ConstFlux1D, amplitude = 0.*u.STmag)
+vega_spectrum = SourceSpectrum.from_vega()
 
