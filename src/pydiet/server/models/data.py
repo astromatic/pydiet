@@ -6,9 +6,12 @@ Functions that gather data.
 from os import scandir
 from os.path import basename, exists, join
 from typing import Any, Optional
+
 from astropy.table import QTable #type: ignore[import-untyped]
 from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
+from specutils import Spectrum1D
+from synphot import SpectralElement
 
 from ... import package
 from ..config import override, settings
@@ -18,7 +21,8 @@ from .instrument import (
     InstrumentModel,
     SBSEDModel,
     SEDModel,
-    SiteModel
+    SiteModel,
+    TelescopeModel
 )
 
 
@@ -55,12 +59,16 @@ def get_detector(instrument_dir: str) -> DetectorModel:
         qe_id = qe_basename.lower()
         data = get_data(join(qe_name, qe_basename + ".fits"))
         # Instantiate the model
+        wave = u.Quantity(data['WAVELENGTH'])
+        response = u.Quantity(data['THROUGHPUT'])
         qes[qe_id] = FilterModel(
             id = qe_id,
             name = qe_basename,
             description = get_description(qe_name, "A Quantum Efficiency curve"),
-            wave = u.Quantity(data['WAVELENGTH']),
-            response = u.Quantity(data['THROUGHPUT'])
+            wave = wave,
+            response = response,
+            spectral = SpectralElement.from_spectrum1d(
+                Spectrum1D(spectral_axis=wave, flux=response), keep_neg=True)
         )
     return DetectorModel(
         gain = 1.5 * u.electron / u.adu,
@@ -79,12 +87,16 @@ def get_filters(parent_dir: str, subdir: str="filters") -> dict:
         filter_id = filter_basename.lower()
         data = get_data(join(filter_name, filter_basename + ".fits"))
         # Instantiate the model
+        wave = u.Quantity(data['WAVELENGTH'])
+        response = u.Quantity(data['THROUGHPUT'])
         filters[filter_id] = FilterModel(
             id = filter_id,
             name = filter_basename,
             description = get_description(filter_name, "A filter"),
-            wave = u.Quantity(data['WAVELENGTH']),
-            response = u.Quantity(data['THROUGHPUT'])
+            wave = wave,
+            response = response,
+            spectral = SpectralElement.from_spectrum1d(
+                Spectrum1D(spectral_axis=wave, flux=response), keep_neg=True)
         )
     return filters
 
@@ -133,7 +145,10 @@ def get_sbseds(parent_dir: str, subdir: str="seds") -> dict:
     return sbseds
 
 
-def get_instruments(data_dir: Optional[str] = None) -> dict:
+def get_instruments(
+		telescopes: Optional[dict[str, 'TelescopeModel']] = None,
+		sites: Optional[dict[str, 'SiteModel']] = None,
+		data_dir: Optional[str] = None) -> dict:
     data_dir = override("data_dir", data_dir)
     assert data_dir is not None     # make mypy happy
     instrument_dir = join(data_dir, "instruments")
@@ -151,8 +166,8 @@ def get_instruments(data_dir: Optional[str] = None) -> dict:
             filters = get_filters(instrument_name),
             optics = get_filters(join(instrument_name, "optics"), "transmission"),
             detector = get_detector(instrument_name),
-            telescope = 'cfht',
-            site = 'mko',
+            telescope = telescopes['cfht'],
+            site = sites['mko'],
             default = is_default(instrument_name)
         )
     return instruments
@@ -180,13 +195,38 @@ def get_sites(data_dir: Optional[str] = None) -> dict:
     return sites
 
 
+def get_telescopes(data_dir: Optional[str] = None) -> dict:
+    data_dir = override("data_dir", data_dir)
+    assert data_dir is not None     # make mypy happy
+    telescope_dir = join(data_dir, "telescopes")
+    telescopes = {}
+    for telescope_name in get_dirs(telescope_dir): #type: ignore[arg-type]
+        # Get the name alone
+        telescope_basename = basename(telescope_name)
+        # Get the ID
+        telescope_id = telescope_basename.lower()
+        # Instantiate the model
+        telescopes[telescope_id] = TelescopeModel(
+            id = telescope_id,
+            name = telescope_basename,
+            area = 8.0216 * u.m**2,
+            description = get_description(telescope_name, "A telescope."),
+            transmissions = get_filters(telescope_name, "transmission"),
+            emissions = get_sbseds(telescope_name, "emission"),
+            default = is_default(telescope_name)
+        )
+    return telescopes
+
+
 def is_default(parent_dir):
     return exists(join(parent_dir, "default"))
 
 
 sites = get_sites()
 default_site = get_default(sites)
-instruments = get_instruments()
+telescopes = get_telescopes()
+default_telescope = get_default(telescopes)
+instruments = get_instruments(telescopes, sites)
 default_instrument = get_default(instruments)
 filters = {k:v for key,val in instruments.items() for k,v in val.filters.items()}
 default_filter = get_default(default_instrument.filters)

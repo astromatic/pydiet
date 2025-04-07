@@ -7,7 +7,8 @@ Data models
 from typing import Annotated, Dict
 
 from astropy import units as u  #type: ignore[import-untyped]
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
+from synphot import SpectralElement
 
 from ... import package
 from ..types import AnnotatedQuantity
@@ -86,8 +87,10 @@ class FilterModel(BaseModel):
         max_shape = (20000),
         decimals = 4
     )
+    spectral: SpectralElement = Field(exclude=True)
     default: bool = False
 
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class DetectorModel(BaseModel):
@@ -115,6 +118,24 @@ class DetectorModel(BaseModel):
 
 
 
+class TelescopeModel(BaseModel):
+    '''
+    Pydantic model for the telescope.
+    '''
+    id: str
+    name: str
+    description: str
+    area: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "m**2",
+        gt = 0. * u.m**2,
+        decimals = 4
+    )
+    transmissions: Dict[str, 'FilterModel']
+    emissions: Dict[str, 'SBSEDModel']
+    default: bool = False
+
+
+
 class SiteModel(BaseModel):
     '''
     Pydantic model for the observing site.
@@ -138,8 +159,8 @@ class InstrumentModel(BaseModel):
     filters: Dict[str, 'FilterModel']
     optics: Dict[str, 'FilterModel']
     detector: DetectorModel
-    telescope: str
-    site: str
+    telescope: TelescopeModel
+    site: SiteModel
     default: bool = False
 
 

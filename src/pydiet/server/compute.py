@@ -13,10 +13,38 @@ import numpy as np
 from pydantic import BaseModel, Field
 
 from .models import ETCQueryModel, ETCResponseModel
-from .models.types import InstrumentID
+from .models.data import instruments
 
 
 def etc_response(q: ETCQueryModel) -> ETCResponseModel:
+    instrument = instruments[q.instrument.value]
+    # Detector transmission
+    detector = instrument.detector
+    detector_resp = 1.
+    qes = detector.qes
+    for qe in qes:
+        detector_resp *= qes[qe].spectral
+    # Filter transmission
+    filter = instrument.filters[q.filter]
+    filter_resp = filter.spectral
+    # Optics transmission
+    optics_resp = 1.
+    optics = instrument.optics
+    for optic in optics:
+        optics_resp *= optics[optic].spectral
+    # Telescope transmission
+    telescope = instrument.telescope
+    telescope_resp = 1.
+    transmissions = telescope.transmissions
+    for transmission in transmissions:
+        telescope_resp *= transmissions[transmission].spectral
+    # Atmospheric transmission
+    airmass = q.airmass
+    atmo_resp = instrument.site.sky_transmissions['mko_transmission.am1.2'].spectral
+    # Effective transmission
+    effective_resp = detector_resp * filter_resp * optics_resp * telescope_resp * atmo_resp
+    unit = effective_resp.unit_response(telescope.area)
+    print(unit)
     if q.compute == 'etime':
         etime = (10.**(0.4*(q.brightness-26.))) * 10. * q.snr**2
         return ETCResponseModel(

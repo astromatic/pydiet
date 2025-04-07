@@ -37,7 +37,6 @@ from .models import ETCQueryModel, ETCResponseModel, ETCValidationError
 
 
 from .models.data import default_instrument, filters, instruments
-from .models.types import InstrumentID
 
 
 def create_app() -> FastAPI:
