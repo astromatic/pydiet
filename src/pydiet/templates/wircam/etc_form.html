@@ -47,9 +47,12 @@
       </ion-col>
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="mag">
-              <ion-select-option value="mag">mag<sub>AB</sub></ion-select-option>
-              <ion-select-option value="flux">flux (erg/s/cm<sup>2</sup>)</ion-select-option>
+          <ion-select name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
+              <ion-select-option value="abmag">AB mag</ion-select-option>
+              <ion-select-option value="vegamag">Vega mag</sub></ion-select-option>
+              <ion-select-option value="flambda">flux density &fscr;(&lambda;)&nbsp;&nbsp;[erg.s&dash;&sup1;.cm.&dash;&sup2;.&#8491;&dash;&sup1;]</ion-select-option>
+              <ion-select-option value="fnu">flux density &fscr;(&nu;)&nbsp;&nbsp;[erg.s&dash;&sup1;.cm&dash;&sup2;.Hz&dash;&sup1;]</ion-select-option>
+              <ion-select-option value="fjansky">flux density &fscr;(&nu;)&nbsp;&nbsp;[Jy]</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
