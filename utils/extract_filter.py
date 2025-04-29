@@ -88,9 +88,9 @@ def main() -> int:
         help="Run quietly"
     )
     parser.add_argument(
-        '-r', '--rows',
+        '-R', '--rows',
         action='store_true',
-        help="Assume that table ."
+        help="Read table as rows instead of columns"
     )
     parser.add_argument(
         '-T', '--telescope',
@@ -121,6 +121,11 @@ def main() -> int:
         default=default_wunit,
         help=f"Astropy unit for wavelength (default: {default_wunit})"
     )
+    parser.add_argument(
+        '-z', '--zero',
+        action='store_true',
+        help="Zero negative values"
+    )
 
     args = vars(parser.parse_args())
 
@@ -136,6 +141,7 @@ def main() -> int:
     unit = args['unit']
     wunit = args['wunit']
     quiet = args['quiet']
+    zero = args['zero']	
     input_name = args['input']
     output_name = args['output']
 
@@ -158,6 +164,12 @@ def main() -> int:
             ),
             unit=unit
         )
+    if zero:
+        resp[resp<0.] = 0.
+    # Sort by increasing wavelength
+    sindex = np.argsort(wave)
+    wave = wave[sindex]
+    resp = resp[sindex]
     output_table = Table()
     output_table['WAVELENGTH'] = wave
     output_table[output_type] = resp
