@@ -1,0 +1,2 @@
+Average Hawaii-2RG (with 2.5 micron cutoff) quantum efficiency as a function of wavelength, from Finger et al. 2006.
+

@@ -71,7 +71,8 @@ def get_detector(instrument_dir: str) -> DetectorModel:
                 Spectrum1D(spectral_axis=wave, flux=response), keep_neg=True)
         )
     return DetectorModel(
-        gain = 1.62 * u.electron / u.adu,
+        #gain = 1.62 * u.electron / u.adu,
+        gain = 3.7 * u.electron / u.adu,
         ron = 5. * u.electron,
         pixel = [0.186, 0.186] * u.arcsec**2,
         qes = qes
@@ -209,7 +210,8 @@ def get_telescopes(data_dir: Optional[str] = None) -> dict:
         telescopes[telescope_id] = TelescopeModel(
             id = telescope_id,
             name = telescope_basename,
-            area = 8.0216 * u.m**2,
+            #area = 8.0216 * u.m**2,
+            area = 8.4 * u.m**2,
             description = get_description(telescope_name, "A telescope."),
             transmissions = get_filters(telescope_name, "transmission"),
             emissions = get_sbseds(telescope_name, "emission"),
