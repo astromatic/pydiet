@@ -35,7 +35,8 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
         detector_resp *= qes[qe].spectral
     # Filter transmission
     filter = instrument.filters[q.filter]
-    filter_resp = filter.spectral
+    # Apply tapering to filters to avoid possible spurious spectral leaks
+    filter_resp = filter.spectral.taper()
     # Optics transmission
     optics_resp = 1.
     optics = instrument.optics
@@ -49,9 +50,10 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
         telescope_resp *= transmissions[transmission].spectral
     # Atmospheric transmission
     airmass = q.airmass
-    atmo_resp = instrument.site.sky_transmissions['mko_transmission.am1.0'].spectral
+    atmo_resp = instrument.site.sky_transmissions['mko_transmission.am1.2'].spectral
     # Effective transmission
-    total_resp = detector_resp * filter_resp * optics_resp * telescope_resp * atmo_resp
+    total_resp = detector_resp * optics_resp * telescope_resp * atmo_resp
+    total_resp.to_fits("resp.fits", overwrite=True)
     ref_spectrum = ref_spectra[q.unit]
     observation = Observation(ref_spectrum, total_resp)
     ct = observation.countrate(area=telescope.area, binned=False) / detector.gain.value
