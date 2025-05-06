@@ -113,7 +113,7 @@ def main() -> int:
     parser.add_argument(
         '-V', '--version',
         action='version',
-        version=1.0
+        version='1.0'
     )
     parser.add_argument(
         '-w', '--wunit',

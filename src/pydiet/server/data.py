@@ -8,10 +8,10 @@ from os.path import basename, exists, join
 from typing import Any, Optional
 
 from astropy.table import QTable #type: ignore[import-untyped]
-from astropy import units as u  #type: ignore[import-untyped]
+from astropy import units as u #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
-from specutils import Spectrum1D
-from synphot import ConstFlux1D, SourceSpectrum, SpectralElement
+from specutils import Spectrum1D #type: ignore[import-untyped]
+from synphot import ConstFlux1D, SourceSpectrum, SpectralElement #type: ignore[import-untyped]
 
 from .. import package
 from .config import override, settings
@@ -147,8 +147,8 @@ def get_sbseds(parent_dir: str, subdir: str="seds") -> dict:
 
 
 def get_instruments(
-		telescopes: Optional[dict[str, 'TelescopeModel']] = None,
-		sites: Optional[dict[str, 'SiteModel']] = None,
+		telescopes: dict[str, 'TelescopeModel'],
+		sites: dict[str, 'SiteModel'],
 		data_dir: Optional[str] = None) -> dict:
     data_dir = override("data_dir", data_dir)
     assert data_dir is not None     # make mypy happy

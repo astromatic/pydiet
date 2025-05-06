@@ -8,7 +8,7 @@ from typing import Annotated, Dict
 
 from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, ConfigDict, Field
-from synphot import SpectralElement
+from synphot import SpectralElement #type: ignore[import-untyped]
 
 from ... import package
 from ..types import AnnotatedQuantity

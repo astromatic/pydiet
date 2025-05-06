@@ -4,7 +4,7 @@ Response models
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
-from astropy import units as u
+from astropy import units as u #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 
 from ..types import AnnotatedQuantity

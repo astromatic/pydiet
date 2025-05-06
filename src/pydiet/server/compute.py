@@ -11,7 +11,7 @@ from astropy import units as u  #type: ignore[import-untyped]
 from cv2 import imencode
 import numpy as np
 from pydantic import BaseModel, Field
-from synphot import Observation
+from synphot import Observation  #type: ignore[import-untyped]
 
 from .models import ETCQueryModel, ETCResponseModel
 from .data import instruments, ab_spectrum, st_spectrum, vega_spectrum
