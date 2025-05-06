@@ -1,2 +1,2 @@
-Atmospheric emission curves for the Maunakea Observatories.
+Atmospheric emission spectrum for the Maunakea Observatories.
 

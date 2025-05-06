@@ -1,0 +1,2 @@
+Emission spectrum for the CFHT telescope.
+
