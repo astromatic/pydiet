@@ -72,9 +72,11 @@ def get_detector(instrument_dir: str) -> DetectorModel:
         )
     return DetectorModel(
         #gain = 1.62 * u.electron / u.adu,
-        gain = 3.7 * u.electron / u.adu,
-        ron = 5. * u.electron,
-        pixel = [0.186, 0.186] * u.arcsec**2,
+        gain = 3.8 * u.electron / u.adu,
+        #ron = 5. * u.electron,
+        ron = 30. * u.electron,
+        #pixel = [0.186, 0.186] * u.arcsec**2,
+        pixel = [0.306, 0.306] * u.arcsec**2,
         qes = qes
     )
 
