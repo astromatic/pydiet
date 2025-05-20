@@ -56,10 +56,15 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
     total_resp = detector_resp * filter_resp * optics_resp * telescope_resp * atmo_resp
     total_resp.to_fits("resp.fits", overwrite=True)
     ref_spectrum = ref_spectra[q.unit]
+    sky_spectrum = instrument.site.sky_emissions['mko_emission.am1.0'].spectral
+    print(type(ref_spectrum), type(sky_spectrum))
     observation = Observation(ref_spectrum, total_resp)
+    sky_observation = Observation(sky_spectrum, total_resp, force='extrap')
     ct = observation.countrate(area=telescope.area, binned=False) / detector.gain.value
     zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct)
-    print(zp)
+    ct_sky = sky_observation.countrate(area=telescope.area, binned=False) / detector.gain.value
+    mag_sky =  zp + u.Magnitude(ct_sky)
+    print(zp, mag_sky)
     if q.compute == 'etime':
         etime = (10.**(0.4*(q.brightness-26.))) * 10. * q.snr**2
         return ETCResponseModel(

@@ -8,7 +8,7 @@ from typing import Annotated, Dict
 
 from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, ConfigDict, Field
-from synphot import SpectralElement #type: ignore[import-untyped]
+from synphot import SourceSpectrum, SpectralElement #type: ignore[import-untyped]
 
 from ... import package
 from ..types import AnnotatedQuantity
@@ -61,7 +61,10 @@ class SBSEDModel(BaseModel):
         max_shape = (20000),
         decimals = 6
     )
+    spectral: SourceSpectrum = Field(exclude=True)
+    default: bool = False
 
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class FilterModel(BaseModel):

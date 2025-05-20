@@ -71,12 +71,12 @@ def get_detector(instrument_dir: str) -> DetectorModel:
                 Spectrum1D(spectral_axis=wave, flux=response), keep_neg=True)
         )
     return DetectorModel(
-        #gain = 1.62 * u.electron / u.adu,
-        gain = 3.8 * u.electron / u.adu,
-        #ron = 5. * u.electron,
-        ron = 30. * u.electron,
-        #pixel = [0.186, 0.186] * u.arcsec**2,
-        pixel = [0.306, 0.306] * u.arcsec**2,
+        gain = 1.62 * u.electron / u.adu,
+        #gain = 3.8 * u.electron / u.adu,
+        ron = 5. * u.electron,
+        #ron = 30. * u.electron,
+        pixel = [0.186, 0.186] * u.arcsec**2,
+        #pixel = [0.306, 0.306] * u.arcsec**2,
         qes = qes
     )
 
@@ -99,7 +99,7 @@ def get_filters(parent_dir: str, subdir: str="filters") -> dict:
             wave = wave,
             response = response,
             spectral = SpectralElement.from_spectrum1d(
-                Spectrum1D(spectral_axis=wave, flux=response), keep_neg=True)
+                Spectrum1D(spectral_axis=wave, flux=response), keep_neg=False)
         )
     return filters
 
@@ -121,7 +121,7 @@ def get_seds(parent_dir: str, subdir: str="seds") -> dict:
                 "A spectral energy distribution"
             ),
             wave = u.Quantity(data['WAVELENGTH']),
-            sed = u.Quantity(data['FLUX'])
+            sed = u.Quantity(data['PHOTLAM'])
         )
     return seds
 
@@ -134,6 +134,11 @@ def get_sbseds(parent_dir: str, subdir: str="seds") -> dict:
         # Get the ID
         sbsed_id = sbsed_basename.lower()
         data = get_data(join(sbsed_name, sbsed_basename + ".fits"))
+        wave = u.Quantity(data['WAVELENGTH'])
+        sbsed = u.Quantity(data['PHOTLAM']).to(
+            u.Jy / u.arcsec**2,
+            equivalencies=u.spectral_density(wave)
+        )
         # Instantiate the model
         sbseds[sbsed_id] = SBSEDModel(
             id = sbsed_id,
@@ -142,8 +147,15 @@ def get_sbseds(parent_dir: str, subdir: str="seds") -> dict:
                 sbsed_name,
                 "A surface brightness spectral energy distribution"
             ),
-            wave = u.Quantity(data['wavelength']),
-            sbsed = u.Quantity(data['surface brightness'])
+            wave = wave,
+            sbsed =sbsed,
+            spectral = SourceSpectrum.from_spectrum1d(
+                Spectrum1D(
+                    spectral_axis=wave,
+                    flux=sbsed*u.arcsec**2
+                ),
+                keep_neg=False
+            )
         )
     return sbseds
 

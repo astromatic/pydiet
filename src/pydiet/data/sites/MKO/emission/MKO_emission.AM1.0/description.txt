@@ -1,0 +1,3 @@
+ESO SkyCalc sky emission model computed with default settings
+(except for the Moon set at -90 deg elevation).
+
