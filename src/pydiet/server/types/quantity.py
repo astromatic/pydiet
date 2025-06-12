@@ -518,8 +518,8 @@ def str_to_quantity_array(s: str) -> u.Quantity | None:
         Astropy units Quantity object.
     """
     found = findall(
-        r"^\s*[\(|\[]*([\(\[\)\]\,\;\.eE\+\-\d\s]+)[\)|\]]*\s*"
-            r"(\w+[\w\d\s\/\^\*\-\.]*)*$",
+        r"^\s*[\(\[]?((?:[\(\[\)\]\,\;\s]|(?:[\+\-]*\d\.?\d*(?:[eE][\+\-]?\d+)?))+)"
+            r"[\)\]]?\s*(\w+[\w\d\s\/\^\*\-\.]*)*$",
         s
     )
     if found is None:

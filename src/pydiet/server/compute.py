@@ -57,7 +57,6 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
     total_resp.to_fits("resp.fits", overwrite=True)
     ref_spectrum = ref_spectra[q.unit]
     sky_spectrum = instrument.site.sky_emissions['mko_emission.am1.0'].spectral
-    print(type(ref_spectrum), type(sky_spectrum))
     observation = Observation(ref_spectrum, total_resp)
     sky_observation = Observation(sky_spectrum, total_resp, force='extrap')
     ct = observation.countrate(area=telescope.area, binned=False) / detector.gain.value

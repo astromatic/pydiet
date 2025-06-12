@@ -1,0 +1,181 @@
+#
+# Data configuration for PyDIET
+#
+# The format is TOML (https://toml.io)
+# Numerical quantities must be written as strings and support physical units
+
+# Parent path for all data files
+path = "."
+
+####################### Table array of observatory sites ######################
+
+[[sites]]
+default = true
+id = 'mko'
+name = "Mauna Kea Observatories"
+description = "Mauna Kea Observatories, Hawaii, USA"
+altitude = "4205 m"
+path = "sites/MKO"
+[sites.transmission]
+# Atmospheric transmission at Mauna Kea Observatories at various airmasses:
+# - Computed by E.Bertin (2025) using MODTRAN6, using the default "tropical"
+#   atmosphere and the "rural" aerosol model settings.
+# -  Pointing upward from an altitude of 4204m.
+# -  CO2 concentration set to 430ppm.
+path = "transmission"
+files = [
+    { id = "am1.0", name = "AM 1.0", file = "MKO_transmission.AM1.0.fits", default=true },
+    { id = "am1.1", name = "AM 1.1", file = "MKO_transmission.AM1.1.fits" },
+    { id = "am1.2", name = "AM 1.2", file = "MKO_transmission.AM1.2.fits" },
+    { id = "am1.3", name = "AM 1.3", file = "MKO_transmission.AM1.3.fits" },
+    { id = "am1.4", name = "AM 1.4", file = "MKO_transmission.AM1.4.fits" },
+    { id = "am1.5", name = "AM 1.5", file = "MKO_transmission.AM1.5.fits" },
+    { id = "am1.6", name = "AM 1.6", file = "MKO_transmission.AM1.6.fits" },
+    { id = "am1.7", name = "AM 1.7", file = "MKO_transmission.AM1.7.fits" },
+    { id = "am1.8", name = "AM 1.8", file = "MKO_transmission.AM1.8.fits" },
+    { id = "am1.9", name = "AM 1.9", file = "MKO_transmission.AM1.9.fits" },
+    { id = "am2.0", name = "AM 2.0", file = "MKO_transmission.AM2.0.fits" },
+    { id = "am2.5", name = "AM 2.5", file = "MKO_transmission.AM2.5.fits" },
+    { id = "am3.0", name = "AM 3.0", file = "MKO_transmission.AM3.0.fits" },
+    { id = "am3.5", name = "AM 3.5", file = "MKO_transmission.AM3.5.fits" },
+    { id = "am4.0", name = "AM 4.0", file = "MKO_transmission.AM4.0.fits" },
+    { id = "am4.5", name = "AM 4.5", file = "MKO_transmission.AM4.5.fits" },
+    { id = "am5.0", name = "AM 5.0", file = "MKO_transmission.AM5.0.fits" }
+]
+[sites.emission]
+# ESO SkyCalc sky emission model computed with default settings
+# (except for the Moon set at -90 deg elevation).
+path = "emission"
+files = [
+    { id = "am1.0", name = "AM 1.0", file = "MKO_emission.AM1.0.fits", default=true },
+    { id = "am1.1", name = "AM 1.1", file = "MKO_emission.AM1.1.fits" },
+    { id = "am1.2", name = "AM 1.2", file = "MKO_emission.AM1.2.fits" },
+    { id = "am1.3", name = "AM 1.3", file = "MKO_emission.AM1.3.fits" },
+    { id = "am1.4", name = "AM 1.4", file = "MKO_emission.AM1.4.fits" },
+    { id = "am1.5", name = "AM 1.5", file = "MKO_emission.AM1.5.fits" },
+    { id = "am1.6", name = "AM 1.6", file = "MKO_emission.AM1.6.fits" },
+    { id = "am1.7", name = "AM 1.7", file = "MKO_emission.AM1.7.fits" },
+    { id = "am1.8", name = "AM 1.8", file = "MKO_emission.AM1.8.fits" },
+    { id = "am1.9", name = "AM 1.9", file = "MKO_emission.AM1.9.fits" },
+    { id = "am2.0", name = "AM 2.0", file = "MKO_emission.AM2.0.fits" },
+    { id = "am2.5", name = "AM 2.5", file = "MKO_emission.AM2.5.fits" },
+    { id = "am3.0", name = "AM 3.0", file = "MKO_emission.AM3.0.fits" },
+    { id = "am3.5", name = "AM 3.5", file = "MKO_emission.AM3.5.fits" },
+    { id = "am4.0", name = "AM 4.0", file = "MKO_emission.AM4.0.fits" },
+    { id = "am4.5", name = "AM 4.5", file = "MKO_emission.AM4.5.fits" },
+    { id = "am5.0", name = "AM 5.0", file = "MKO_emission.AM5.0.fits" }
+]
+
+
+######################### Table array of telescopes ###########################
+
+[[telescopes]]
+default = true
+id = 'cfht'
+name = "CFHT"
+description = "Canada-France-Hawaii 3.6m telescope"
+path = "telescopes/cfht"
+# Full collecting area _including_ possible mirror hole and spider branches
+collecting_area = "10.134 m2" # from CFHT's observatory manual: 3.592m diameter
+# Default obstruction area (only used if not specified for the instrument)
+obstruction_area = "0.974 m2" # 0.951m diameter hole and 4x5cm spider branches
+[telescopes.transmission]
+# Transmission curves for the CFHT 3.6m telescope
+path = "transmission"
+files = [ {file = "CFHT_M1_transmission.fits"} ]
+
+
+########################## Table array of instruments #########################
+
+[[instruments]]
+# MegaCam/MegaPrime instrument. All infos derived from the MegaCam web pages at
+# https://www.cfht.hawaii.edu/Instruments/Imaging/Megacam/index.html
+default = true
+id = 'megacam'
+name = "MegaCam"
+description = "The MegaPrime/MegaCam instrument"
+path = "instruments/megacam"
+obstruction_area = "2.112 m2" # Forged by subtracting 
+overhead = "40 s"
+scale = "0.186 arcsec/pix"
+site = 'mko'
+telescope = 'cfht'
+[instruments.optics]
+# MegaPrime/MegaCam optical properties
+path = "optics"
+[instruments.optics.transmission]
+# Transmission as a function of wavelength for all MegaPrime optical components
+path = "transmission"
+files = [ {file = "MegaPrime_transmission.fits"} ]
+[instruments.filters]
+path = "filters"
+files = [
+    {id = 'u', name = "u", file = "u.MP9302.fits"},
+    {id = 'g', name = "g", file = "g.MP9402.fits"},
+    {id = 'r', name = "r", file = "r.MP9602.fits", default=true},
+    {id = 'i', name = "i", file = "i.MP9703.fits"},
+    {id = 'z', name = "z", file = "z.MP9901.fits"},
+    {id = 'gri', name = "gri", file = "gri.MP9605.fits"},
+    {id = 'cahk', name = "CaHK", file = "CaHK.MP9303.fits"},
+    {id = 'oiii', name = "OIII", file = "OIII.MP9501.fits"},
+    {id = 'oiiioff', name = "OIII off", file = "OIIIOFF.MP9502.fits"},
+    {id = 'ha', name = "Ha", file = "Ha.MP9603.fits"},
+    {id = 'haoff', name = "Ha off", file = "Ha.MP9604.fits"}
+]
+[instruments.detector]
+# Average MegaCam E2V CCD characteristics
+path = "detector"
+gain = "1.62 electron/adu"
+ron = "5 electron"
+[instruments.detector.transmission]
+# Average MegaCam CCD quantum efficiency as a function of wavelength
+path = "transmission"
+files = [ {file = "MegaCam_QE.average.fits"} ]
+
+[[instruments]]
+# WIRCam instrument. Most infos derived from the WIRCam web pages at
+# https://www.cfht.hawaii.edu/Instruments/Imaging/WIRCam/
+id = 'wircam'
+name = "WIRCam"
+description = "The WIRCam instrument"
+path = "instruments/wircam"
+obstruction_area = "1.734 m2" # Forged by subtracting 8.4m2 from 10.134 m2
+overhead = "40 s"
+scale = "0.306 arcsec/pix"
+site = 'mko'
+telescope = 'cfht'
+[instruments.optics]
+# WIRCam optical properties
+path = "optics"
+[instruments.optics.transmission]
+# Transmission as a function of wavelength for all WIRCam optical components
+path = "transmission"
+files = [ {file = "WIRCam_transmission.fits"} ]
+[instruments.filters]
+path = "filters"
+files = [
+    {id = 'y', name = "Y", file = "Y.WC8002.fits", default=true},
+    {id = 'j', name = "J", file = "J.WC8103.fits"},
+    {id = 'h', name = "H", file = "H.WC8202.fits"},
+    {id = 'ks', name = "Ks", file = "Ks.WC8302.fits"},
+    {id = 'h2', name = "H2 (1-0)", file = "H2.WC8304.fits"},
+    {id = 'lowoh1', name = "Low OH1", file = "LowOH1.WC8104.fits"},
+    {id = 'lowoh2', name = "Low OH2", file = "LowOH2.WC8102.fits"},
+    {id = 'ch4on', name = "CH4 on", file = "CH4On.WC8203.fits"},
+    {id = 'ch4off', name = "CH4 off", file = "CH4Off.WC8204.fits"},
+    {id = 'kcont', name = "K cont.", file = "Kcont.WC8303.fits"},
+    {id = 'brg', name = "Br.gamma", file = "BrG.WC8305.fits"},
+    {id = 'w', name = "W", file = "W.WC8105.fits"}
+]
+[instruments.detector]
+# Average WIRCam Hawaii-2RG CMOS characteristics
+gain = "3.8 electron/adu"
+ron = "30 electron"
+path = "detector"
+[instruments.detector.transmission]
+# Average Hawaii-2RG quantum efficiency as a function of wavelength from the
+# science-grade sample of Finger+2006, which has a 2.5 μm cut-off; see
+# https://info.cfht.hawaii.edu/display/~bertin/WIRCam+quantum+efficiency+curve
+path = "transmission"
+files = [ {file = "MegaCam_QE.average.fits"} ]
+

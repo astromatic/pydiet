@@ -5,8 +5,8 @@ Functions that gather data.
 # Licensed under the MIT licence
 from os import scandir
 from os.path import basename, exists, join
+import tomllib
 from typing import Any, Optional
-
 from astropy.table import QTable #type: ignore[import-untyped]
 from astropy import units as u #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
@@ -15,6 +15,7 @@ from synphot import ConstFlux1D, SourceSpectrum, SpectralElement #type: ignore[i
 
 from .. import package
 from .config import override, settings
+from .models.dataconfig import DataConfigModel
 from .models.instrument import (
     DetectorModel,
     FilterModel,
@@ -25,6 +26,13 @@ from .models.instrument import (
     TelescopeModel
 )
 
+
+def load_data_config(data_config: Optional[str] = None) -> dict:
+    data_config = override("data_config", data_config)
+    with open(data_config, "rb") as f:
+        data = tomllib.load(f)
+    config_model = DataConfigModel.model_validate(data)
+    return config_model
 
 def get_data(filename: str):
     return QTable.read(filename)
@@ -68,7 +76,7 @@ def get_detector(instrument_dir: str) -> DetectorModel:
             wave = wave,
             response = response,
             spectral = SpectralElement.from_spectrum1d(
-                Spectrum1D(spectral_axis=wave, flux=response), keep_neg=True)
+                Spectrum1D(spectral_axis=wave, flux=response), keep_neg=False)
         )
     return DetectorModel(
         gain = 1.62 * u.electron / u.adu,
@@ -237,6 +245,7 @@ def get_telescopes(data_dir: Optional[str] = None) -> dict:
 def is_default(parent_dir):
     return exists(join(parent_dir, "default"))
 
+data_config = load_data_config()
 
 sites = get_sites()
 default_site = get_default(sites)
