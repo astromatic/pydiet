@@ -5,7 +5,7 @@
 # Numerical quantities must be written as strings and support physical units
 
 # Parent path for all data files
-path = "."
+path = "data"
 
 ####################### Table array of observatory sites ######################
 
@@ -15,7 +15,7 @@ id = 'mko'
 name = "Mauna Kea Observatories"
 description = "Mauna Kea Observatories, Hawaii, USA"
 altitude = "4205 m"
-path = "sites/MKO"
+path = "sites/mko"
 [sites.transmission]
 # Atmospheric transmission at Mauna Kea Observatories at various airmasses:
 # - Computed by E.Bertin (2025) using MODTRAN6, using the default "tropical"
@@ -83,6 +83,10 @@ obstruction_area = "0.974 m2" # 0.951m diameter hole and 4x5cm spider branches
 # Transmission curves for the CFHT 3.6m telescope
 path = "transmission"
 files = [ {file = "CFHT_M1_transmission.fits"} ]
+[telescopes.emission]
+# Emission curves for the CFHT 3.6m telescope
+path = "emission"
+files = []
 
 
 ########################## Table array of instruments #########################
@@ -97,9 +101,8 @@ description = "The MegaPrime/MegaCam instrument"
 path = "instruments/megacam"
 obstruction_area = "2.112 m2" # Forged by subtracting 
 overhead = "40 s"
-scale = "0.186 arcsec/pix"
-site = 'mko'
-telescope = 'cfht'
+site_id = 'mko'
+telescope_id = 'cfht'
 [instruments.optics]
 # MegaPrime/MegaCam optical properties
 path = "optics"
@@ -107,6 +110,10 @@ path = "optics"
 # Transmission as a function of wavelength for all MegaPrime optical components
 path = "transmission"
 files = [ {file = "MegaPrime_transmission.fits"} ]
+[instruments.optics.emission]
+# Emission as a function of wavelength for all MegaPrime optical components
+path = "emission"
+files = []
 [instruments.filters]
 path = "filters"
 files = [
@@ -126,7 +133,8 @@ files = [
 # Average MegaCam E2V CCD characteristics
 path = "detector"
 gain = "1.62 electron/adu"
-ron = "5 electron"
+ron = "5. electron"
+scale = "0.186 arcsec/pix"
 [instruments.detector.transmission]
 # Average MegaCam CCD quantum efficiency as a function of wavelength
 path = "transmission"
@@ -140,10 +148,9 @@ name = "WIRCam"
 description = "The WIRCam instrument"
 path = "instruments/wircam"
 obstruction_area = "1.734 m2" # Forged by subtracting 8.4m2 from 10.134 m2
-overhead = "40 s"
-scale = "0.306 arcsec/pix"
-site = 'mko'
-telescope = 'cfht'
+overhead = "10. s"
+site_id = 'mko'
+telescope_id = 'cfht'
 [instruments.optics]
 # WIRCam optical properties
 path = "optics"
@@ -151,6 +158,10 @@ path = "optics"
 # Transmission as a function of wavelength for all WIRCam optical components
 path = "transmission"
 files = [ {file = "WIRCam_transmission.fits"} ]
+[instruments.optics.emission]
+# Emission as a function of wavelength for all WIRCam optical components
+path = "emission"
+files = []
 [instruments.filters]
 path = "filters"
 files = [
@@ -170,7 +181,8 @@ files = [
 [instruments.detector]
 # Average WIRCam Hawaii-2RG CMOS characteristics
 gain = "3.8 electron/adu"
-ron = "30 electron"
+ron = "30. electron"
+scale = "0.306 arcsec/pix"
 path = "detector"
 [instruments.detector.transmission]
 # Average Hawaii-2RG quantum efficiency as a function of wavelength from the

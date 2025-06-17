@@ -67,7 +67,7 @@ class SBSEDModel(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
-class FilterModel(BaseModel):
+class TransmissionModel(BaseModel):
     '''
     Pydantic model for a transmission curve (with wavelength).
     '''
@@ -117,7 +117,7 @@ class DetectorModel(BaseModel):
         max_shape = (2),
         decimals = 4
     )
-    qes: Dict[str, 'FilterModel']
+    qes: Dict[str, 'TransmissionModel']
 
 
 
@@ -128,12 +128,17 @@ class TelescopeModel(BaseModel):
     id: str
     name: str
     description: str
-    area: AnnotatedQuantity(    #type: ignore[valid-type]
+    collecting_area: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "m**2",
         gt = 0. * u.m**2,
         decimals = 4
     )
-    transmissions: Dict[str, 'FilterModel']
+    obstruction_area: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "m**2",
+        gt = 0. * u.m**2,
+        decimals = 4
+    )
+    transmissions: Dict[str, 'TransmissionModel']
     emissions: Dict[str, 'SBSEDModel']
     default: bool = False
 
@@ -146,7 +151,7 @@ class SiteModel(BaseModel):
     id: str
     name: str
     description: str
-    sky_transmissions: Dict[str, 'FilterModel']
+    sky_transmissions: Dict[str, 'TransmissionModel']
     sky_emissions: Dict[str, 'SBSEDModel']
     default: bool = False
 
@@ -159,8 +164,8 @@ class InstrumentModel(BaseModel):
     id: str
     name: str
     description: str
-    filters: Dict[str, 'FilterModel']
-    optics: Dict[str, 'FilterModel']
+    filters: Dict[str, 'TransmissionModel']
+    optics: Dict[str, 'TransmissionModel']
     detector: DetectorModel
     telescope: TelescopeModel
     site: SiteModel

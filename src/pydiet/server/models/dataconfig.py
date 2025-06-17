@@ -16,7 +16,8 @@ class FileConfigModel(BaseModel):
     '''
     default: bool = False
     id: str = 'file'
-    name: str = 'File'
+    name: str = "File"
+    description: str = ""
     file: str
 
 
@@ -72,6 +73,7 @@ class TelescopeConfigModel(BaseModel):
         description = "Default obstruction area (only used if not specified for the instrument)."
     )
     transmission: FilesConfigModel
+    emission: FilesConfigModel
 
 
 class DetectorConfigModel(BaseModel):
@@ -91,6 +93,12 @@ class DetectorConfigModel(BaseModel):
         decimals = 3,
         description = "Total readout noise in electrons."
     )
+    scale:  AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "arcsec/pix",
+        gt = 0. * u.arcsec / u.pix,
+        decimals = 4,
+        description = "Angular plate scale." 
+    )
     transmission: FilesConfigModel
 
 
@@ -101,6 +109,7 @@ class OpticsConfigModel(BaseModel):
     '''
     path: str
     transmission: FilesConfigModel
+    emission: FilesConfigModel
 
 
 
@@ -126,14 +135,8 @@ class InstrumentConfigModel(BaseModel):
         decimals = 3,
         description = "Total instrument time overhead between exposures."
     )
-    scale:  AnnotatedQuantity(    #type: ignore[valid-type]
-        unit = "arcsec/pix",
-        gt = 0. * u.arcsec / u.pix,
-        decimals = 4,
-        description = "Angular plate scale." 
-    )
-    site: str
-    telescope: str
+    site_id: str
+    telescope_id: str
     optics: OpticsConfigModel
     filters: FilesConfigModel
     detector: DetectorConfigModel

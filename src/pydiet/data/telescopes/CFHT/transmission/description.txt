@@ -1,1 +1,0 @@
-Transmission curves for the CFHT 3.6m telescope.
