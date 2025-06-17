@@ -127,17 +127,17 @@ files = [
     {id = 'oiii', name = "OIII", file = "OIII.MP9501.fits"},
     {id = 'oiiioff', name = "OIII off", file = "OIIIOFF.MP9502.fits"},
     {id = 'ha', name = "Ha", file = "Ha.MP9603.fits"},
-    {id = 'haoff', name = "Ha off", file = "Ha.MP9604.fits"}
+    {id = 'haoff', name = "Ha off", file = "HaOFF.MP9604.fits"}
 ]
 [instruments.detector]
 # Average MegaCam E2V CCD characteristics
 path = "detector"
 gain = "1.62 electron/adu"
 ron = "5. electron"
-scale = "0.186 arcsec/pix"
+scale = "[0.186, 0.186] arcsec/pix"
 [instruments.detector.transmission]
 # Average MegaCam CCD quantum efficiency as a function of wavelength
-path = "transmission"
+path = "qe"
 files = [ {file = "MegaCam_QE.average.fits"} ]
 
 [[instruments]]
@@ -182,12 +182,12 @@ files = [
 # Average WIRCam Hawaii-2RG CMOS characteristics
 gain = "3.8 electron/adu"
 ron = "30. electron"
-scale = "0.306 arcsec/pix"
+scale = "[0.306, 0.306] arcsec/pix"
 path = "detector"
 [instruments.detector.transmission]
 # Average Hawaii-2RG quantum efficiency as a function of wavelength from the
 # science-grade sample of Finger+2006, which has a 2.5 μm cut-off; see
 # https://info.cfht.hawaii.edu/display/~bertin/WIRCam+quantum+efficiency+curve
-path = "transmission"
-files = [ {file = "MegaCam_QE.average.fits"} ]
+path = "qe"
+files = [ {file = "WIRCam_QE.average.fits"} ]
 

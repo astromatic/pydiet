@@ -1,1 +1,2 @@
-Transmission as a function of wavelength for WIRCam optical components.
+Transmission curve of the WIRCam optics, excluding the tip-tilt plate.
+

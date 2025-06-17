@@ -1,1 +1,2 @@
-Transmission as a function of wavelength for MegaPrime components.
+Transmission curve of the MegaPrime/MegaCam optics (wide-field corrector + camera window).
+

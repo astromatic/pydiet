@@ -110,12 +110,13 @@ class DetectorModel(BaseModel):
         ge = 0. * u.electron,
         decimals = 4
     )
-    pixel: AnnotatedQuantity(    #type: ignore[valid-type]
-        unit = "arcsec**2",
-        gt = [0., 0.] * u.arcsec**2,
+    scale: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "arcsec/pix",
+        gt = [0., 0.] * u.arcsec / u.pix,
         min_shape = (2),
         max_shape = (2),
-        decimals = 4
+        decimals = 4,
+        description = "Angular pixel scale along each axis."
     )
     qes: Dict[str, 'TransmissionModel']
 

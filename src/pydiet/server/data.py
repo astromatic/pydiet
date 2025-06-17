@@ -201,8 +201,8 @@ def get_instruments(
             ),
             filters = get_transmissions(path, instrument.filters),
             detector = get_detector(path, instrument.detector),
-            telescope = telescopes[intrument.telescope_id],
-            site = sites[intrument.site_id],
+            telescope = telescopes[instrument.telescope_id],
+            site = sites[instrument.site_id],
             default = instrument.default
         )
     return instruments

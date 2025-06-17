@@ -93,11 +93,13 @@ class DetectorConfigModel(BaseModel):
         decimals = 3,
         description = "Total readout noise in electrons."
     )
-    scale:  AnnotatedQuantity(    #type: ignore[valid-type]
+    scale: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "arcsec/pix",
-        gt = 0. * u.arcsec / u.pix,
+        gt = [0., 0.] * u.arcsec / u.pix,
+        min_shape = (2),
+        max_shape = (2),
         decimals = 4,
-        description = "Angular plate scale." 
+        description = "Angular pixel scale along each axis."
     )
     transmission: FilesConfigModel
 

@@ -1,2 +1,0 @@
-WIRCam CO narrow band filter (2320 nm).
-

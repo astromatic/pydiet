@@ -1,2 +1,0 @@
-WIRCam J broad band filter (1253 nm).
-
