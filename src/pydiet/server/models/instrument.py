@@ -165,6 +165,18 @@ class InstrumentModel(BaseModel):
     id: str
     name: str
     description: str
+    obstruction_area:  AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "m2",
+        gt = 0. * u.m**2,
+        decimals = 3,
+        description = "Default obstruction area (only used if not specified for the instrument)."
+    )
+    overhead:  AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "s",
+        ge = 0. * u.second,
+        decimals = 3,
+        description = "Total instrument time overhead between exposures."
+    )
     filters: Dict[str, 'TransmissionModel']
     optics: Dict[str, 'TransmissionModel']
     detector: DetectorModel
