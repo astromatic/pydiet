@@ -67,7 +67,7 @@ class SBSEDModel(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
-class FilterModel(BaseModel):
+class TransmissionModel(BaseModel):
     '''
     Pydantic model for a transmission curve (with wavelength).
     '''
@@ -110,14 +110,15 @@ class DetectorModel(BaseModel):
         ge = 0. * u.electron,
         decimals = 4
     )
-    pixel: AnnotatedQuantity(    #type: ignore[valid-type]
-        unit = "arcsec**2",
-        gt = [0., 0.] * u.arcsec**2,
+    scale: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "arcsec/pix",
+        gt = [0., 0.] * u.arcsec / u.pix,
         min_shape = (2),
         max_shape = (2),
-        decimals = 4
+        decimals = 4,
+        description = "Angular pixel scale along each axis."
     )
-    qes: Dict[str, 'FilterModel']
+    qes: Dict[str, 'TransmissionModel']
 
 
 
@@ -128,12 +129,17 @@ class TelescopeModel(BaseModel):
     id: str
     name: str
     description: str
-    area: AnnotatedQuantity(    #type: ignore[valid-type]
+    collecting_area: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "m**2",
         gt = 0. * u.m**2,
         decimals = 4
     )
-    transmissions: Dict[str, 'FilterModel']
+    obstruction_area: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "m**2",
+        gt = 0. * u.m**2,
+        decimals = 4
+    )
+    transmissions: Dict[str, 'TransmissionModel']
     emissions: Dict[str, 'SBSEDModel']
     default: bool = False
 
@@ -146,7 +152,7 @@ class SiteModel(BaseModel):
     id: str
     name: str
     description: str
-    sky_transmissions: Dict[str, 'FilterModel']
+    sky_transmissions: Dict[str, 'TransmissionModel']
     sky_emissions: Dict[str, 'SBSEDModel']
     default: bool = False
 
@@ -159,8 +165,20 @@ class InstrumentModel(BaseModel):
     id: str
     name: str
     description: str
-    filters: Dict[str, 'FilterModel']
-    optics: Dict[str, 'FilterModel']
+    obstruction_area:  AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "m2",
+        gt = 0. * u.m**2,
+        decimals = 3,
+        description = "Default obstruction area (only used if not specified for the instrument)."
+    )
+    overhead:  AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "s",
+        ge = 0. * u.second,
+        decimals = 3,
+        description = "Total instrument time overhead between exposures."
+    )
+    filters: Dict[str, 'TransmissionModel']
+    optics: Dict[str, 'TransmissionModel']
     detector: DetectorModel
     telescope: TelescopeModel
     site: SiteModel

@@ -1,2 +1,0 @@
-Atmospheric emission spectrum for the Maunakea Observatories.
-

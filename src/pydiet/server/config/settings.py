@@ -85,6 +85,10 @@ class ServerSettings(BaseSettings):
         default=path.join(package.src_dir, "client"),
         description="Directory containing the web client code, style and media"
         )
+    data_config: str = SField(
+        default=path.join(package.root_dir, "data", "data_config.toml"),
+        description="Data configuration filename"
+        )
     data_dir: str = SField(
         default=path.join(package.root_dir, "data"),
         description="Data root directory"

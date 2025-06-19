@@ -9,11 +9,11 @@ from .query import ETCQueryModel
 from .response import ETCResponseModel
 from .instrument import (
     DetectorModel,
-    FilterModel,
     InstrumentModel,
     SBSEDModel,
     SEDModel,
     SiteModel,
-    TelescopeModel
+    TelescopeModel,
+    TransmissionModel
 )
 
