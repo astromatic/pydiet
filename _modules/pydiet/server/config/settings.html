@@ -164,6 +164,10 @@
         <span class="n">default</span><span class="o">=</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">src_dir</span><span class="p">,</span> <span class="s2">&quot;client&quot;</span><span class="p">),</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Directory containing the web client code, style and media&quot;</span>
         <span class="p">)</span>
+    <span class="n">data_config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">SField</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">root_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;data_config.toml&quot;</span><span class="p">),</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data configuration filename&quot;</span>
+        <span class="p">)</span>
     <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">SField</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">root_dir</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">),</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data root directory&quot;</span>
