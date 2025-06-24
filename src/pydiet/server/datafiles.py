@@ -79,7 +79,7 @@ def get_emissions(
         parent_dir: str,
         files_config: FilesConfigModel,
         sb = False) -> dict:
-    emissions = {}
+    emissions : dict[str, SEDModel | SBSEDModel] = {}
     for file_config in files_config.files:
         data = get_data_file(
             join(parent_dir, files_config.path, file_config.file)
@@ -188,7 +188,7 @@ def get_telescopes(data_config: DataConfigModel) -> dict:
 def get_transmissions(
         parent_dir: str,
         files_config: FilesConfigModel) -> dict:
-    transmissions = {}
+    transmissions : dict[str, TransmissionModel] = {}
     for file_config in files_config.files:
         data = get_data_file(
             join(parent_dir, files_config.path, file_config.file)
