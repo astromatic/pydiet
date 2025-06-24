@@ -445,7 +445,6 @@ def AnnotatedQuantity(
         unit = default.unit #type: ignore[union-attr]
     elif unit is None:
         raise ValueError
-    assert unit is not None     # Make mypy happy
     physType = u.get_physical_type(u.Quantity("1 " + str(unit)))
     json_extra: dict = {}
     if default is not None:
