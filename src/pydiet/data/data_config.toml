@@ -23,47 +23,49 @@ path = "sites/mko"
 # -  Pointing upward from an altitude of 4204m.
 # -  CO2 concentration set to 430ppm.
 path = "transmission"
+keys = ["airmass"]
 files = [
-    { id = "am1.0", name = "AM 1.0", file = "MKO_transmission.AM1.0.fits", default=true },
-    { id = "am1.1", name = "AM 1.1", file = "MKO_transmission.AM1.1.fits" },
-    { id = "am1.2", name = "AM 1.2", file = "MKO_transmission.AM1.2.fits" },
-    { id = "am1.3", name = "AM 1.3", file = "MKO_transmission.AM1.3.fits" },
-    { id = "am1.4", name = "AM 1.4", file = "MKO_transmission.AM1.4.fits" },
-    { id = "am1.5", name = "AM 1.5", file = "MKO_transmission.AM1.5.fits" },
-    { id = "am1.6", name = "AM 1.6", file = "MKO_transmission.AM1.6.fits" },
-    { id = "am1.7", name = "AM 1.7", file = "MKO_transmission.AM1.7.fits" },
-    { id = "am1.8", name = "AM 1.8", file = "MKO_transmission.AM1.8.fits" },
-    { id = "am1.9", name = "AM 1.9", file = "MKO_transmission.AM1.9.fits" },
-    { id = "am2.0", name = "AM 2.0", file = "MKO_transmission.AM2.0.fits" },
-    { id = "am2.5", name = "AM 2.5", file = "MKO_transmission.AM2.5.fits" },
-    { id = "am3.0", name = "AM 3.0", file = "MKO_transmission.AM3.0.fits" },
-    { id = "am3.5", name = "AM 3.5", file = "MKO_transmission.AM3.5.fits" },
-    { id = "am4.0", name = "AM 4.0", file = "MKO_transmission.AM4.0.fits" },
-    { id = "am4.5", name = "AM 4.5", file = "MKO_transmission.AM4.5.fits" },
-    { id = "am5.0", name = "AM 5.0", file = "MKO_transmission.AM5.0.fits" }
+    { vars = {am = 1.0}, file = "MKO_transmission.AM1.0.fits", default=true },
+    { vars = {am = 1.1}, file = "MKO_transmission.AM1.1.fits" },
+    { vars = {am = 1.2}, file = "MKO_transmission.AM1.2.fits" },
+    { vars = {am = 1.3}, file = "MKO_transmission.AM1.3.fits" },
+    { vars = {am = 1.4}, file = "MKO_transmission.AM1.4.fits" },
+    { vars = {am = 1.5}, file = "MKO_transmission.AM1.5.fits" },
+    { vars = {am = 1.6}, file = "MKO_transmission.AM1.6.fits" },
+    { vars = {am = 1.7}, file = "MKO_transmission.AM1.7.fits" },
+    { vars = {am = 1.8}, file = "MKO_transmission.AM1.8.fits" },
+    { vars = {am = 1.9}, file = "MKO_transmission.AM1.9.fits" },
+    { vars = {am = 2.0}, file = "MKO_transmission.AM2.0.fits" },
+    { vars = {am = 2.5}, file = "MKO_transmission.AM2.5.fits" },
+    { vars = {am = 3.0}, file = "MKO_transmission.AM3.0.fits" },
+    { vars = {am = 3.5}, file = "MKO_transmission.AM3.5.fits" },
+    { vars = {am = 4.0}, file = "MKO_transmission.AM4.0.fits" },
+    { vars = {am = 4.5}, file = "MKO_transmission.AM4.5.fits" },
+    { vars = {am = 5.0}, file = "MKO_transmission.AM5.0.fits" }
 ]
 [sites.emission]
 # ESO SkyCalc sky emission model computed with default settings
 # (except for the Moon set at -90 deg elevation).
 path = "emission"
+keys = ["airmass"]
 files = [
-    { id = "am1.0", name = "AM 1.0", file = "MKO_emission.AM1.0.fits", default=true },
-    { id = "am1.1", name = "AM 1.1", file = "MKO_emission.AM1.1.fits" },
-    { id = "am1.2", name = "AM 1.2", file = "MKO_emission.AM1.2.fits" },
-    { id = "am1.3", name = "AM 1.3", file = "MKO_emission.AM1.3.fits" },
-    { id = "am1.4", name = "AM 1.4", file = "MKO_emission.AM1.4.fits" },
-    { id = "am1.5", name = "AM 1.5", file = "MKO_emission.AM1.5.fits" },
-    { id = "am1.6", name = "AM 1.6", file = "MKO_emission.AM1.6.fits" },
-    { id = "am1.7", name = "AM 1.7", file = "MKO_emission.AM1.7.fits" },
-    { id = "am1.8", name = "AM 1.8", file = "MKO_emission.AM1.8.fits" },
-    { id = "am1.9", name = "AM 1.9", file = "MKO_emission.AM1.9.fits" },
-    { id = "am2.0", name = "AM 2.0", file = "MKO_emission.AM2.0.fits" },
-    { id = "am2.5", name = "AM 2.5", file = "MKO_emission.AM2.5.fits" },
-    { id = "am3.0", name = "AM 3.0", file = "MKO_emission.AM3.0.fits" },
-    { id = "am3.5", name = "AM 3.5", file = "MKO_emission.AM3.5.fits" },
-    { id = "am4.0", name = "AM 4.0", file = "MKO_emission.AM4.0.fits" },
-    { id = "am4.5", name = "AM 4.5", file = "MKO_emission.AM4.5.fits" },
-    { id = "am5.0", name = "AM 5.0", file = "MKO_emission.AM5.0.fits" }
+    { vars = {am = 1.0}, file = "MKO_emission.AM1.0.fits", default=true },
+    { vars = {am = 1.1}, file = "MKO_emission.AM1.1.fits" },
+    { vars = {am = 1.2}, file = "MKO_emission.AM1.2.fits" },
+    { vars = {am = 1.3}, file = "MKO_emission.AM1.3.fits" },
+    { vars = {am = 1.4}, file = "MKO_emission.AM1.4.fits" },
+    { vars = {am = 1.5}, file = "MKO_emission.AM1.5.fits" },
+    { vars = {am = 1.6}, file = "MKO_emission.AM1.6.fits" },
+    { vars = {am = 1.7}, file = "MKO_emission.AM1.7.fits" },
+    { vars = {am = 1.8}, file = "MKO_emission.AM1.8.fits" },
+    { vars = {am = 1.9}, file = "MKO_emission.AM1.9.fits" },
+    { vars = {am = 2.0}, file = "MKO_emission.AM2.0.fits" },
+    { vars = {am = 2.5}, file = "MKO_emission.AM2.5.fits" },
+    { vars = {am = 3.0}, file = "MKO_emission.AM3.0.fits" },
+    { vars = {am = 3.5}, file = "MKO_emission.AM3.5.fits" },
+    { vars = {am = 4.0}, file = "MKO_emission.AM4.0.fits" },
+    { vars = {am = 4.5}, file = "MKO_emission.AM4.5.fits" },
+    { vars = {am = 5.0}, file = "MKO_emission.AM5.0.fits" }
 ]
 
 
@@ -116,6 +118,7 @@ path = "emission"
 files = []
 [instruments.filters]
 path = "filters"
+vars = ['id']
 files = [
     {id = 'u', name = "u", file = "u.MP9302.fits"},
     {id = 'g', name = "g", file = "g.MP9402.fits"},
@@ -164,6 +167,7 @@ path = "emission"
 files = []
 [instruments.filters]
 path = "filters"
+vars = ['id']
 files = [
     {id = 'y', name = "Y", file = "Y.WC8002.fits", default=true},
     {id = 'j', name = "J", file = "J.WC8103.fits"},

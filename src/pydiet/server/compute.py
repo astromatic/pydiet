@@ -11,9 +11,16 @@ from astropy import units as u  #type: ignore[import-untyped]
 from cv2 import imencode
 import numpy as np
 from pydantic import BaseModel, Field
-from synphot import Observation  #type: ignore[import-untyped]
+from synphot import Observation, SpectralElement  #type: ignore[import-untyped]
 
-from .models import ETCQueryModel, ETCResponseModel
+from .models import (
+    ETCQueryModel,
+    ETCResponseModel,
+    SBSEDModel,
+    SEDModel,
+    TransmissionModel
+)
+
 from .data import instruments, ab_spectrum, st_spectrum, vega_spectrum
 
 ref_spectra = {
@@ -25,39 +32,70 @@ ref_spectra = {
 }
 
 
+def spectrum_at_airmass(
+        models: dict[str, SBSEDModel | SEDModel | TransmissionModel],
+        am: float) -> SpectralElement:
+    # Build a dictionary of transmission spectra
+    am_spectra = {models[m].vars['am'] : models[m].spectral for m in models}
+    ams = sorted(list(am_spectra.keys()))
+    # bracket the requested airmass for interpolation
+    aml = ams[0]
+    amp = ams[-1]
+    for a in ams:
+        if a >= am:
+            amp = a
+            break
+        else:
+            aml = a
+    # Linear interpolation
+    fac = (am - aml) / (amp - aml) if am < amp else 1.
+    return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac
+
+
 def etc_response(q: ETCQueryModel) -> ETCResponseModel:
     instrument = instruments[q.instrument.value]
+
     # Detector transmission
     detector = instrument.detector
     detector_resp = 1.
     qes = detector.qes
-    for qe in qes:
-        detector_resp *= qes[qe].spectral
+    for e in qes:
+        detector_resp *= qes[e].spectral
+
     # Filter transmission
     filter = instrument.filters[q.filter]
+
     # Apply tapering to filters to avoid possible spurious spectral leaks
     filter_resp = filter.spectral.taper()
+
     # Optics transmission
     optics_resp = 1.
     optics = instrument.optics
-    for optic in optics:
-        optics_resp *= optics[optic].spectral
+    for o in optics:
+        optics_resp *= optics[o].spectral
+
     # Telescope transmission
     telescope = instrument.telescope
     telescope_resp = 1.
-    transmissions = telescope.transmissions
-    for transmission in transmissions:
-        telescope_resp *= transmissions[transmission].spectral
+    trans = telescope.transmissions
+    for t in trans:
+        telescope_resp *= trans[t].spectral
+
     # Atmospheric transmission
-    airmass = q.airmass
-    airmasses = instrument.site.sky_transmissions.keys()
-    print(airmasses)
-    atmo_resp = instrument.site.sky_transmissions['am1.2'].spectral
+    atmo_resp = spectrum_at_airmass(
+        instrument.site.sky_transmissions,
+        q.airmass
+    )
     # Effective transmission
     total_resp = detector_resp * filter_resp * optics_resp * telescope_resp * atmo_resp
     total_resp.to_fits("resp.fits", overwrite=True)
     ref_spectrum = ref_spectra[q.unit]
-    sky_spectrum = instrument.site.sky_emissions['am1.0'].spectral
+
+    # Atmospheric emission
+    sky_spectrum = spectrum_at_airmass(
+        instrument.site.sky_emissions,
+        q.airmass
+    )
     observation = Observation(ref_spectrum, total_resp)
     sky_observation = Observation(sky_spectrum, total_resp, force='extrap')
     area = telescope.collecting_area - instrument.obstruction_area

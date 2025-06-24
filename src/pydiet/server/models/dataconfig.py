@@ -15,9 +15,10 @@ class FileConfigModel(BaseModel):
     Pydantic model for datafile configuration.
     '''
     default: bool = False
-    id: str = 'file'
-    name: str = "File"
+    id: str = ''
+    name: str = ""
     description: str = ""
+    vars: dict[str, float] = {}
     file: str
 
 

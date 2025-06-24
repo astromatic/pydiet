@@ -30,6 +30,16 @@ from .models.instrument import (
     TransmissionModel
 )
 
+def add_trans(self, other):
+    """Add ``self`` with ``other``."""
+    self._validate_other_mul_div(other)
+    result = self.__class__(self.model + other.model)
+    self._merge_meta(self, other, result)
+    return result
+
+
+SpectralElement.__add__ = add_trans
+
 
 def get_data_config(data_config: Optional[str] = None) -> DataConfigModel:
     data_config = override("data_config", data_config)
@@ -80,11 +90,13 @@ def get_emissions(
             equivalencies=u.spectral_density(wave)
         ) if sb else u.Quantity(data['PHOTLAM'])
         # Instantiate the model
-        emissions[file_config.id] = SBSEDModel(
+        key = file_config.id if file_config.id != '' else str(len(emissions))
+        emissions[key] = SBSEDModel(
             id = file_config.id,
             name = file_config.name,
             description = file_config.description,
             wave = wave,
+            vars = file_config.vars,
             sbsed = sed,
             spectral = SourceSpectrum.from_spectrum1d(
                 Spectrum1D(
@@ -97,6 +109,7 @@ def get_emissions(
             id = file_config.id,
             name = file_config.name,
             description = file_config.description,
+            vars = file_config.vars,
             wave = wave,
             sed = sed,
             spectral = SourceSpectrum.from_spectrum1d(
@@ -183,10 +196,13 @@ def get_transmissions(
         # Instantiate the model
         wave = u.Quantity(data['WAVELENGTH'])
         response = u.Quantity(data['THROUGHPUT'])
-        transmissions[file_config.id] = TransmissionModel(
+        
+        key = file_config.id if file_config.id != '' else str(len(transmissions))
+        transmissions[key] = TransmissionModel(
             id = file_config.id,
             name = file_config.name,
             description = file_config.description,
+            vars = file_config.vars,
             wave = wave,
             response = response,
             spectral = SpectralElement.from_spectrum1d(

@@ -75,6 +75,7 @@ class SBSEDModel(BaseModel):
     id: str
     name: str
     description: str
+    vars: dict[str, float] = {}
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",
         ge = 100. * u.nm,
@@ -104,6 +105,7 @@ class SEDModel(BaseModel):
     id: str
     name: str
     description: str
+    vars: dict[str, float] = {}
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",
         ge = 100. * u.nm,
@@ -169,6 +171,7 @@ class TransmissionModel(BaseModel):
     id: str
     name: str
     description: str
+    vars: dict[str, float]
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",
         ge = 100. * u.nm,
