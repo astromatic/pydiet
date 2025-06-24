@@ -442,30 +442,30 @@ def AnnotatedQuantity(
     """
     if default is not None:
         default = u.Quantity(default)
-        unit = default.unit
+        unit = default.unit #type: ignore[union-attr]
     elif unit is None:
         raise ValueError
     assert unit is not None     # Make mypy happy
     physType = u.get_physical_type(u.Quantity("1 " + str(unit)))
     json_extra: dict = {}
     if default is not None:
-        json_extra['default'] = default.to_string()
+        json_extra['default'] = default.to_string() #type: ignore[union-attr]
     if min_shape is not None:
         json_extra['minShape'] = str(min_shape)
     if max_shape is not None:
         json_extra['maxShape'] = str(max_shape)
     if lt is not None:
         lt = u.Quantity(lt)
-        json_extra['exclusiveMaximum'] = lt.to_string()
+        json_extra['exclusiveMaximum'] = lt.to_string() #type: ignore[union-attr]
     if gt is not None:
         gt = u.Quantity(gt)
-        json_extra['exclusiveMinimum'] = gt.to_string()
+        json_extra['exclusiveMinimum'] = gt.to_string() #type: ignore[union-attr]
     if le is not None:
         le = u.Quantity(le)
-        json_extra['maximum'] = le.to_string()
+        json_extra['maximum'] = le.to_string() #type: ignore[union-attr]
     if ge is not None:
         ge = u.Quantity(ge)
-        json_extra['minimum'] = ge.to_string()
+        json_extra['minimum'] = ge.to_string() #type: ignore[union-attr]
     if physType is not None:
         json_extra['physType'] = str(physType)
     if short:
