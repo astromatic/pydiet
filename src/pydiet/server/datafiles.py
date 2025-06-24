@@ -123,6 +123,8 @@ def get_instruments(
             id = instrument.id,
             name = instrument.name,
             description = instrument.description,
+            obstruction_area = instrument.obstruction_area,
+            overhead = instrument.overhead,
             optics = get_transmissions(
                 join(path, instrument.optics.path),
                 instrument.optics.transmission
