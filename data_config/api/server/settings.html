@@ -1,0 +1,641 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings &mdash; PyDIET 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=329c186a" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="JS client" href="../client/index.html" />
+    <link rel="prev" title="Config" href="config.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyDIET
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Python server</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="app.html">Web API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config.html">Config</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.config.settings.HostSettings"><code class="docutils literal notranslate"><span class="pre">HostSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings"><code class="docutils literal notranslate"><span class="pre">ServerSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.config.settings.EngineSettings"><code class="docutils literal notranslate"><span class="pre">EngineSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.config.settings.MiscSettings"><code class="docutils literal notranslate"><span class="pre">MiscSettings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.config.settings.AppSettings"><code class="docutils literal notranslate"><span class="pre">AppSettings</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../client/index.html">JS client</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyDIET</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">API reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Python server</a></li>
+      <li class="breadcrumb-item active">Settings</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api/server/settings.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pydiet.server.config.settings">
+<span id="settings"></span><h1>Settings<a class="headerlink" href="#module-pydiet.server.config.settings" title="Link to this heading"></a></h1>
+<p>Configuration settings for the application.</p>
+<dl class="py class pydantic_settings">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.HostSettings">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">settings</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HostSettings</span></span><a class="reference internal" href="../../_modules/pydiet/server/config/settings.html#HostSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.config.settings.HostSettings" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSettings</span></code></p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HostSettings&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Host name or IP address&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;H&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Host&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8009</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Port&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">65535</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;p&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Port&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;root_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASGI root_path&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;R&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Root Path&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;access_log&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Display access log&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Access Log&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;reload&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Enable auto-reload (turns off multiple workers)&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Reload&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;workers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Number of workers&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Workers&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = ignore</em></p></li>
+<li><p><strong>env_prefix</strong>: <em>str = pydiet_</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Fields<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.HostSettings.access_log" title="pydiet.server.config.settings.HostSettings.access_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">access_log</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.HostSettings.host" title="pydiet.server.config.settings.HostSettings.host"><code class="xref py py-obj docutils literal notranslate"><span class="pre">host</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.HostSettings.port" title="pydiet.server.config.settings.HostSettings.port"><code class="xref py py-obj docutils literal notranslate"><span class="pre">port</span> <span class="pre">(int)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.HostSettings.reload" title="pydiet.server.config.settings.HostSettings.reload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reload</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.HostSettings.root_path" title="pydiet.server.config.settings.HostSettings.root_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">root_path</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.HostSettings.workers" title="pydiet.server.config.settings.HostSettings.workers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">workers</span> <span class="pre">(int)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.HostSettings.access_log">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">access_log</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydiet.server.config.settings.HostSettings.access_log" title="Link to this definition"></a></dt>
+<dd><p>Display access log</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.HostSettings.host">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">host</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'localhost'</span></em><a class="headerlink" href="#pydiet.server.config.settings.HostSettings.host" title="Link to this definition"></a></dt>
+<dd><p>Host name or IP address</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.HostSettings.port">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">port</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8009</span></em><a class="headerlink" href="#pydiet.server.config.settings.HostSettings.port" title="Link to this definition"></a></dt>
+<dd><p>Port</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 1</p></li>
+<li><p><strong>le</strong> = 65535</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.HostSettings.reload">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reload</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydiet.server.config.settings.HostSettings.reload" title="Link to this definition"></a></dt>
+<dd><p>Enable auto-reload (turns off multiple workers)</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.HostSettings.root_path">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">root_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#pydiet.server.config.settings.HostSettings.root_path" title="Link to this definition"></a></dt>
+<dd><p>ASGI root_path</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.HostSettings.workers">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">workers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#pydiet.server.config.settings.HostSettings.workers" title="Link to this definition"></a></dt>
+<dd><p>Number of workers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 1</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_settings">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">settings</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ServerSettings</span></span><a class="reference internal" href="../../_modules/pydiet/server/config/settings.html#ServerSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSettings</span></code></p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ServerSettings&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;api_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Endpoint URL for the webservice API&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Api Path&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;banner_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;banner.html&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Name of the HTML template file for the service banner&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Banner Template&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;base_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base.html&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Name of the HTML template file for the web client&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Base Template&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;browser&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Start browser when launching the server&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Browser&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;client_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/client&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Directory containing the web client code, style and media&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Client Dir&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;data_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/data/data_config.toml&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Data configuration filename&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Data Config&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;data_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/data&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Data root directory&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Data Dir&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;doc_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/doc/html&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HTML documentation root directory (after build)&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Doc Dir&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;doc_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/manual&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Endpoint URL for the root of the HTML documentation&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Doc Path&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;extra_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Extra data root directory&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Extra Dir&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;template_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/templates&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Directory containing templates&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Template Dir&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;userdoc_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/manual/&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Endpoint URL for the user&#39;s HTML documentation&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Userdoc Url&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = ignore</em></p></li>
+<li><p><strong>env_prefix</strong>: <em>str = pydiet_</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Fields<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.api_path" title="pydiet.server.config.settings.ServerSettings.api_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">api_path</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.banner_template" title="pydiet.server.config.settings.ServerSettings.banner_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">banner_template</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.base_template" title="pydiet.server.config.settings.ServerSettings.base_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_template</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.browser" title="pydiet.server.config.settings.ServerSettings.browser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">browser</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.client_dir" title="pydiet.server.config.settings.ServerSettings.client_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">client_dir</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.data_config" title="pydiet.server.config.settings.ServerSettings.data_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_config</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.data_dir" title="pydiet.server.config.settings.ServerSettings.data_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_dir</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.doc_dir" title="pydiet.server.config.settings.ServerSettings.doc_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">doc_dir</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.doc_path" title="pydiet.server.config.settings.ServerSettings.doc_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">doc_path</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.extra_dir" title="pydiet.server.config.settings.ServerSettings.extra_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extra_dir</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.template_dir" title="pydiet.server.config.settings.ServerSettings.template_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">template_dir</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.ServerSettings.userdoc_url" title="pydiet.server.config.settings.ServerSettings.userdoc_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">userdoc_url</span> <span class="pre">(str)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.api_path">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">api_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/api'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.api_path" title="Link to this definition"></a></dt>
+<dd><p>Endpoint URL for the webservice API</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.banner_template">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">banner_template</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'banner.html'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.banner_template" title="Link to this definition"></a></dt>
+<dd><p>Name of the HTML template file for the service banner</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.base_template">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">base_template</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'base.html'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.base_template" title="Link to this definition"></a></dt>
+<dd><p>Name of the HTML template file for the web client</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.browser">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">browser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.browser" title="Link to this definition"></a></dt>
+<dd><p>Start browser when launching the server</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.client_dir">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/pydiet/pydiet/src/pydiet/client'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.client_dir" title="Link to this definition"></a></dt>
+<dd><p>Directory containing the web client code, style and media</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.data_config">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/pydiet/pydiet/src/pydiet/data/data_config.toml'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.data_config" title="Link to this definition"></a></dt>
+<dd><p>Data configuration filename</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.data_dir">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/pydiet/pydiet/src/pydiet/data'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.data_dir" title="Link to this definition"></a></dt>
+<dd><p>Data root directory</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.doc_dir">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">doc_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/pydiet/pydiet/src/pydiet/doc/html'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.doc_dir" title="Link to this definition"></a></dt>
+<dd><p>HTML documentation root directory (after build)</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.doc_path">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">doc_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/manual'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.doc_path" title="Link to this definition"></a></dt>
+<dd><p>Endpoint URL for the root of the HTML documentation</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.extra_dir">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extra_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'.'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.extra_dir" title="Link to this definition"></a></dt>
+<dd><p>Extra data root directory</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.template_dir">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">template_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/home/runner/work/pydiet/pydiet/src/pydiet/templates'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.template_dir" title="Link to this definition"></a></dt>
+<dd><p>Directory containing templates</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.userdoc_url">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">userdoc_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/manual/'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.userdoc_url" title="Link to this definition"></a></dt>
+<dd><p>Endpoint URL for the user's HTML documentation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_settings">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.EngineSettings">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">settings</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EngineSettings</span></span><a class="reference internal" href="../../_modules/pydiet/server/config/settings.html#EngineSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.config.settings.EngineSettings" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSettings</span></code></p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EngineSettings&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;thread_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Number of engine threads&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1024</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;t&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Thread Count&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = ignore</em></p></li>
+<li><p><strong>env_prefix</strong>: <em>str = pydiet_</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Fields<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.EngineSettings.thread_count" title="pydiet.server.config.settings.EngineSettings.thread_count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">thread_count</span> <span class="pre">(int)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.EngineSettings.thread_count">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thread_count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pydiet.server.config.settings.EngineSettings.thread_count" title="Link to this definition"></a></dt>
+<dd><p>Number of engine threads</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0</p></li>
+<li><p><strong>le</strong> = 1024</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_settings">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.MiscSettings">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">settings</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MiscSettings</span></span><a class="reference internal" href="../../_modules/pydiet/server/config/settings.html#MiscSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.config.settings.MiscSettings" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSettings</span></code></p>
+<p>Miscellaneous settings.</p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MiscSettings&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Miscellaneous settings.&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;verbose&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Verbose output&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Verbose&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = ignore</em></p></li>
+<li><p><strong>env_prefix</strong>: <em>str = pydiet_</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Fields<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.MiscSettings.verbose" title="pydiet.server.config.settings.MiscSettings.verbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">verbose</span> <span class="pre">(bool)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.MiscSettings.verbose">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#pydiet.server.config.settings.MiscSettings.verbose" title="Link to this definition"></a></dt>
+<dd><p>Verbose output</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_settings">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.AppSettings">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">settings</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AppSettings</span></span><a class="reference internal" href="../../_modules/pydiet/server/config/settings.html#AppSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.config.settings.AppSettings" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSettings</span></code></p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AppSettings&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/BaseSettings&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;host&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8009</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;root_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;access_log&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;reload&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;workers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">         </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;server&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/BaseSettings&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;api_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;banner_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;banner.html&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;base_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base.html&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;browser&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;client_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/client&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;data_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/data/data_config.toml&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;data_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/data&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;doc_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/doc/html&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;doc_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/manual&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;extra_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;template_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/templates&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;userdoc_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/manual/&quot;</span>
+<span class="w">         </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;engine&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/BaseSettings&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;thread_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">         </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;misc&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/BaseSettings&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;verbose&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">         </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;$defs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;BaseSettings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Base class for settings, allowing values to be overridden by environment variables.\n\nThis is useful in production for secrets you do not wish to save in code, it plays nicely with docker(-compose),\nHeroku and any 12 factor app design.\n\nAll the below attributes can be set via `model_config`.\n\nArgs:\n    _case_sensitive: Whether environment and CLI variable names should be read with case-sensitivity.\n        Defaults to `None`.\n    _nested_model_default_partial_update: Whether to allow partial updates on nested model default object fields.\n        Defaults to `False`.\n    _env_prefix: Prefix for all environment variables. Defaults to `None`.\n    _env_file: The env file(s) to load settings values from. Defaults to `Path(&#39;&#39;)`, which\n        means that the value from `model_config[&#39;env_file&#39;]` should be used. You can also pass\n        `None` to indicate that environment variables should not be loaded from an env file.\n    _env_file_encoding: The env file encoding, e.g. `&#39;latin-1&#39;`. Defaults to `None`.\n    _env_ignore_empty: Ignore environment variables where the value is an empty string. Default to `False`.\n    _env_nested_delimiter: The nested env values delimiter. Defaults to `None`.\n    _env_nested_max_split: The nested env values maximum nesting. Defaults to `None`, which means no limit.\n    _env_parse_none_str: The env string value that should be parsed (e.g. \&quot;null\&quot;, \&quot;void\&quot;, \&quot;None\&quot;, etc.)\n        into `None` type(None). Defaults to `None` type(None), which means no parsing should occur.\n    _env_parse_enums: Parse enum field names to values. Defaults to `None.`, which means no parsing should occur.\n    _cli_prog_name: The CLI program name to display in help text. Defaults to `None` if _cli_parse_args is `None`.\n        Otherwise, defaults to sys.argv[0].\n    _cli_parse_args: The list of CLI arguments to parse. Defaults to None.\n        If set to `True`, defaults to sys.argv[1:].\n    _cli_settings_source: Override the default CLI settings source with a user defined instance. Defaults to None.\n    _cli_parse_none_str: The CLI string value that should be parsed (e.g. \&quot;null\&quot;, \&quot;void\&quot;, \&quot;None\&quot;, etc.) into\n        `None` type(None). Defaults to _env_parse_none_str value if set. Otherwise, defaults to \&quot;null\&quot; if\n        _cli_avoid_json is `False`, and \&quot;None\&quot; if _cli_avoid_json is `True`.\n    _cli_hide_none_type: Hide `None` values in CLI help text. Defaults to `False`.\n    _cli_avoid_json: Avoid complex JSON objects in CLI help text. Defaults to `False`.\n    _cli_enforce_required: Enforce required fields at the CLI. Defaults to `False`.\n    _cli_use_class_docs_for_groups: Use class docstrings in CLI group help text instead of field descriptions.\n        Defaults to `False`.\n    _cli_exit_on_error: Determines whether or not the internal parser exits with error info when an error occurs.\n        Defaults to `True`.\n    _cli_prefix: The root parser command line arguments prefix. Defaults to \&quot;\&quot;.\n    _cli_flag_prefix_char: The flag prefix character to use for CLI optional arguments. Defaults to &#39;-&#39;.\n    _cli_implicit_flags: Whether `bool` fields should be implicitly converted into CLI boolean flags.\n        (e.g. --flag, --no-flag). Defaults to `False`.\n    _cli_ignore_unknown_args: Whether to ignore unknown CLI args and parse only known ones. Defaults to `False`.\n    _cli_kebab_case: CLI args use kebab case. Defaults to `False`.\n    _cli_shortcuts: Mapping of target field name to alias names. Defaults to `None`.\n    _secrets_dir: The secret files directory or a sequence of directories. Defaults to `None`.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BaseSettings&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.AppSettings.engine" title="pydiet.server.config.settings.AppSettings.engine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">engine</span> <span class="pre">(pydantic_settings.main.BaseSettings)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.AppSettings.host" title="pydiet.server.config.settings.AppSettings.host"><code class="xref py py-obj docutils literal notranslate"><span class="pre">host</span> <span class="pre">(pydantic_settings.main.BaseSettings)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.AppSettings.misc" title="pydiet.server.config.settings.AppSettings.misc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">misc</span> <span class="pre">(pydantic_settings.main.BaseSettings)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.config.settings.AppSettings.server" title="pydiet.server.config.settings.AppSettings.server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">server</span> <span class="pre">(pydantic_settings.main.BaseSettings)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.AppSettings.engine">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">engine</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseSettings</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">EngineSettings(thread_count=1)</span></em><a class="headerlink" href="#pydiet.server.config.settings.AppSettings.engine" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.AppSettings.host">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">host</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseSettings</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">HostSettings(host='localhost',</span> <span class="pre">port=8009,</span> <span class="pre">root_path='',</span> <span class="pre">access_log=False,</span> <span class="pre">reload=False,</span> <span class="pre">workers=4)</span></em><a class="headerlink" href="#pydiet.server.config.settings.AppSettings.host" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.AppSettings.misc">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">misc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseSettings</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">MiscSettings(verbose=True)</span></em><a class="headerlink" href="#pydiet.server.config.settings.AppSettings.misc" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.config.settings.AppSettings.server">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseSettings</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ServerSettings(api_path='/api',</span> <span class="pre">banner_template='banner.html',</span> <span class="pre">base_template='base.html',</span> <span class="pre">browser=False,</span> <span class="pre">client_dir='/home/runner/work/pydiet/pydiet/src/pydiet/client',</span> <span class="pre">data_config='/home/runner/work/pydiet/pydiet/src/pydiet/data/data_config.toml',</span> <span class="pre">data_dir='/home/runner/work/pydiet/pydiet/src/pydiet/data',</span> <span class="pre">doc_dir='/home/runner/work/pydiet/pydiet/src/pydiet/doc/html',</span> <span class="pre">doc_path='/manual',</span> <span class="pre">extra_dir='.',</span> <span class="pre">template_dir='/home/runner/work/pydiet/pydiet/src/pydiet/templates',</span> <span class="pre">userdoc_url='/manual/')</span></em><a class="headerlink" href="#pydiet.server.config.settings.AppSettings.server" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="config.html" class="btn btn-neutral float-left" title="Config" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../client/index.html" class="btn btn-neutral float-right" title="JS client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Emmanuel Bertin.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
