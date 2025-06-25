@@ -61,11 +61,7 @@ files = [
     { vars = {am = 1.9}, file = "MKO_emission.AM1.9.fits" },
     { vars = {am = 2.0}, file = "MKO_emission.AM2.0.fits" },
     { vars = {am = 2.5}, file = "MKO_emission.AM2.5.fits" },
-    { vars = {am = 3.0}, file = "MKO_emission.AM3.0.fits" },
-    { vars = {am = 3.5}, file = "MKO_emission.AM3.5.fits" },
-    { vars = {am = 4.0}, file = "MKO_emission.AM4.0.fits" },
-    { vars = {am = 4.5}, file = "MKO_emission.AM4.5.fits" },
-    { vars = {am = 5.0}, file = "MKO_emission.AM5.0.fits" }
+    { vars = {am = 3.0}, file = "MKO_emission.AM3.0.fits" }
 ]
 
 

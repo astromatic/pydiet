@@ -1,8 +1,8 @@
 #! /usr/bin/python3
 """
-Script for converting filter response curves on
-https://www.cfht.hawaii.edu/Instruments/Filters/megaprimenew.html
-to a format that PyDIET understands
+Script for converting transmission/emission curves to the synphot format (
+https://www.stsci.edu/hst/instrumentation/reference-data-for-calibration-and-
+tools/synphot-throughput-tables) that PyDIET understands.
 """
 # Author: Emmanuel Bertin DAp/CEA/AIM/OSUPS
 # Copyright (c) 2024, 2025 DAp/CEA/AIM/OSUPS/UParisSaclay
@@ -17,7 +17,7 @@ import numpy as np
 
 def main() -> int:
     """
-    Run inference on the provided images.
+    Convert the input response/emission curve.
     """
 
     default_filter = ''
@@ -44,12 +44,12 @@ def main() -> int:
         'output',
         metavar='output table',
         nargs=1,
-        help="Input CFHT table."
+        help="Output table."
     )
     parser.add_argument(
         '-a', '--airmass',
         type=float,
-        default=default_multiply,
+        default=default_airmass,
         help=f"Airmass  (default: {default_airmass})"
     )
     parser.add_argument(

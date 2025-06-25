@@ -81,14 +81,14 @@ class SBSEDModel(BaseModel):
         ge = 100. * u.nm,
         le = 100. * u.micron,
         min_shape = (2),
-        max_shape = (20000),
+        max_shape = (100000),
         decimals = 4
     )
     sbsed:  AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "Jy / arcsec2",
         ge = 0. * u.Jy / u.arcsec**2,
         min_shape = (2),
-        max_shape = (20000),
+        max_shape = (100000),
         decimals = 6
     )
     spectral: SourceSpectrum = Field(exclude=True)
@@ -111,14 +111,14 @@ class SEDModel(BaseModel):
         ge = 100. * u.nm,
         le = 100. * u.micron,
         min_shape = (2),
-        max_shape = (20000),
+        max_shape = (100000),
         decimals = 4
     )
     sed:  AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "Jy",
         ge = 0. * u.Jy,
         min_shape = (2),
-        max_shape = (20000),
+        max_shape = (100000),
         decimals = 6
     )
     spectral: SourceSpectrum = Field(exclude=True)
@@ -177,7 +177,7 @@ class TransmissionModel(BaseModel):
         ge = 100. * u.nm,
         le = 100. * u.micron,
         min_shape = (2),
-        max_shape = (20000),
+        max_shape = (100000),
         decimals = 3
     )
     response: AnnotatedQuantity(    #type: ignore[valid-type]
@@ -185,7 +185,7 @@ class TransmissionModel(BaseModel):
         ge = -100.,
         le = 100.,
         min_shape = (2),
-        max_shape = (20000),
+        max_shape = (100000),
         decimals = 4
     )
     spectral: SpectralElement = Field(exclude=True)
