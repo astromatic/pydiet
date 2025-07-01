@@ -1,5 +1,5 @@
 """
-Functions that gather data.
+Gather data.
 """
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence

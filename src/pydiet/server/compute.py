@@ -4,7 +4,7 @@ Computation module
 # Copyright CFHT
 # Licensed under the MIT licence
 
-from math import sqrt
+from math import pi, sqrt
 from typing import Literal
 
 from astropy import units as u  #type: ignore[import-untyped]
@@ -52,6 +52,47 @@ def spectrum_at_airmass(
     return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac
 
 
+def moffat_nea(
+        fwhm: u.Quantity['angle'], #type: ignore[name-defined]
+        beta: float) -> u.Quantity['solid angle']: #type: ignore[name-defined] 
+    """
+    Return King's Noise Equivalent Area of a Moffat function of given
+    Full Width at Half-Maximum (FWHM) and beta parameters.
+    See `King 1983 <https://adsabs.harvard.edu/abs/1983PASP...95..163K>`_
+
+    Examples
+    --------
+    >>> from pydiet.server.compute import moffat_nea
+    
+    >>> moffat_nea("1 arcsec", 3.2)
+    <Quantity 3.62308197 arcsec2>
+
+    # beta values < 1 trigger a ValueError exception
+    >>> moffat_nea("1 arcsec", 0.8)
+    Traceback (most recent call last):
+    ...
+    ValueError: Moffat beta must be > 1.
+
+    Parameters
+    ----------
+    fwhm: ~astropy.units.Quantity['angle']
+        Angular Full-Width at Half-Maximum of the Moffat function.
+    beta: float
+        Moffat beta parameter (must be strictly greater than 1).
+
+    Returns
+    -------
+    nea: ~astropy.units.Quantity['solid angle']
+        Noise Equivalent Area as a solid angle.
+    """
+    if beta <= 1.:
+        raise ValueError("Moffat beta must be > 1.")
+    # Compute the square of the alpha parameter from the FWHM
+    alpha2 = u.Quantity(fwhm)**2 / (4. * (2.**(1./beta) - 1.))
+    # Integrate f(r)**2 from 0 to +infty and take the inverse
+    return pi * (2. * beta - 1.) / (beta - 1.)**2. * alpha2 
+
+
 def etc_response(q: ETCQueryModel) -> ETCResponseModel:
     instrument = instruments[q.instrument.value]
 
@@ -96,16 +137,45 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
         instrument.site.sky_emissions,
         q.airmass
     )
+
+    # Make virtual observation
+    # Actual source
     observation = Observation(ref_spectrum, total_resp)
+    # Sky background
     sky_observation = Observation(sky_spectrum, total_resp, force='extrap')
+
+    # Compute effective collecting area, compensating for possible obstruction
     area = telescope.collecting_area - instrument.obstruction_area
-    ct = observation.countrate(area=area, binned=False) / detector.gain.value
-    zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct)
-    ct_sky = sky_observation.countrate(area=area, binned=False) / detector.gain.value
-    mag_sky =  zp + u.Magnitude(ct_sky)
-    print(zp, mag_sky)
+
+    # Compute ref source count rate to get effective zero-point
+    gain = detector.gain.value
+    ct_ref = observation.countrate(area=area, binned=False) / gain
+    zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct_ref)
+
+    # Compute background count rate to get background surface brightness
+    ct_skysb = sky_observation.countrate(area=area, binned=False) / gain
+    mag_skysb =  zp + u.Magnitude(ct_skysb)
+    
+    # Compute King's Noise Equivalent Area
+    nea = moffat_nea(q.seeing, 3.2)
+    
+    # Compute total number of reference source electrons over NEA
+    e_ref = (ct_ref * gain).value * 10.**(-0.4*q.brightness)
+
+    # Compute total number of background electrons over NEA
+    e_sky = (ct_skysb * gain * nea).value
+    # Use 'counts' instead of electrons for the RON for compatibility with synphot
+    e_ron = detector.ron.to('electron').value
+    print(e_ref, e_sky, e_ron)
+
     if q.compute == 'etime':
-        etime = (10.**(0.4*(q.brightness-26.))) * 10. * q.snr**2
+        # Compute exposure time (solution to a second degree equation) in s
+        etime = (
+            q.snr * (q.snr * e_sky + sqrt(
+                (q.snr * e_sky)**2 + 4. * (e_ref * e_ron)**2
+            ))
+        ) / (2. * e_ref**2) 
+        print(q.snr, f"ExpTime={etime} s")
         return ETCResponseModel(
             instrument = q.instrument,
             compute = q.compute,
@@ -116,6 +186,9 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
             snr = q.snr
         )
     else:
+        # Compute SNR
+        snr = e_ref * q.etime / sqrt(e_sky * q.etime + e_ron**2)
+        print(q.etime, f"SNR={snr}")
         return ETCResponseModel(
             instrument = q.instrument,
             compute = q.compute,
@@ -123,7 +196,7 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
             etime = q.etime,
             etime_skysat = q.etime * 100.,
             etime_sourcesat = q.etime * 10.,
-            snr = sqrt(0.1 * (10.**(0.4*(26.-q.brightness))) * q.etime)
+            snr = snr
         )
 
 
