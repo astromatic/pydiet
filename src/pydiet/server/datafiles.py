@@ -3,9 +3,17 @@ Functions that gather data from files.
 """
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
+
 from os import scandir
 from os.path import basename, exists, join
-import tomllib
+
+# Manage TOML library for Python versions < 3.11
+import sys
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
+
 from typing import Any, Optional
 from astropy.table import QTable #type: ignore[import-untyped]
 from astropy import units as u #type: ignore[import-untyped]

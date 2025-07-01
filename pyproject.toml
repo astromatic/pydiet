@@ -26,6 +26,7 @@ dependencies = [
     "setuptools",
     "specutils >= 1.18.0",
     "synphot >= 1.5.0",
+    "tomli >= 1.1.0 ; python_version < 3.11",
     "uvicorn[standard] >= 0.30"
 ]
 requires-python = ">=3.10"
