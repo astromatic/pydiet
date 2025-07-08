@@ -1,5 +1,5 @@
 {#
-# Jinja2 template for PyDIET ETC results.
+# Jinja2 template for PyDIET ETC results with the MegaPrime instrument.
 #
 # Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
 # Licensed under the MIT licence
@@ -10,9 +10,73 @@
       <ion-card-title>ETC estimate</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-    <p>{{ etime }}</p>
-    <ion-img src=/etc/{{ instrument }}/image?{{ rstring }}>
-    </ion-img>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="videocam"></ion-icon>
+            <ion-label>
+              Instrument
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              {{ r.instrument }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="glasses"></ion-icon>
+            <ion-label>
+              Filter
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              {{ r.filter }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="timer"></ion-icon>
+            <ion-label>
+              Exposure time
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              {{ '%.2f' % r.etime }}s
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="cellular"></ion-icon>
+            <ion-label>
+              SNR
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              {{ '%.2f' % r.snr }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="speedometer"></ion-icon>
+            <ion-label>
+              Magnitude zero-point
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              {{ '%.3f' % r.zp }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-modal>

@@ -93,7 +93,7 @@ def moffat_nea(
     return pi * (2. * beta - 1.) / (beta - 1.)**2. * alpha2 
 
 
-def etc_response(q: ETCQueryModel) -> ETCResponseModel:
+def get_response(q: ETCQueryModel) -> ETCResponseModel:
     instrument = instruments[q.instrument.value]
 
     # Detector transmission
@@ -166,38 +166,29 @@ def etc_response(q: ETCQueryModel) -> ETCResponseModel:
     e_sky = (ct_skysb * gain * nea).value
     # Use 'counts' instead of electrons for the RON for compatibility with synphot
     e_ron = detector.ron.to('electron').value
-    print(e_ref, e_sky, e_ron)
 
     if q.compute == 'etime':
+        snr = q.snr
         # Compute exposure time (solution to a second degree equation) in s
         etime = (
-            q.snr * (q.snr * e_sky + sqrt(
-                (q.snr * e_sky)**2 + 4. * (e_ref * e_ron)**2
+            snr * (snr * e_sky + sqrt(
+                (snr * e_sky)**2 + 4. * (e_ref * e_ron)**2
             ))
-        ) / (2. * e_ref**2) 
-        print(q.snr, f"ExpTime={etime} s")
-        return ETCResponseModel(
-            instrument = q.instrument,
+        ) / (2. * e_ref**2)
+    else:
+        etime = q.etime
+        # Compute SNR
+        snr = e_ref * etime / sqrt(e_sky * etime + e_ron**2)
+    return ETCResponseModel(
+            instrument = instrument.name,
+            filter = filter.name,
             compute = q.compute,
-            zp = zp,
+            zp = zp.value,
             etime = etime,
             etime_skysat = etime * 100.,
             etime_sourcesat = etime * 10.,
-            snr = q.snr
-        )
-    else:
-        # Compute SNR
-        snr = e_ref * q.etime / sqrt(e_sky * q.etime + e_ron**2)
-        print(q.etime, f"SNR={snr}")
-        return ETCResponseModel(
-            instrument = q.instrument,
-            compute = q.compute,
-            zp = zp,
-            etime = q.etime,
-            etime_skysat = q.etime * 100.,
-            etime_sourcesat = q.etime * 10.,
             snr = snr
-        )
+    )
 
 
 def make_image(r: ETCResponseModel):

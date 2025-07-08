@@ -220,3 +220,14 @@ def get_transmissions(
         )
     return transmissions
 
+
+def get_webapi_instruments(
+    instruments: dict[InstrumentModel]
+) -> dict:
+    winstruments = {}
+    for instrument in instruments:
+        winstruments[instrument] = instruments[instrument].copy(exclude={
+            'site': {'sky_emissions', 'sky_transmissions'}
+        })
+    return winstruments
+

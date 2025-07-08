@@ -18,16 +18,12 @@ export async function update_etcform(instrument) {
 		etc_form.addEventListener('submit', async function (e){
 			// Prevent default behavior on submit
 			e.preventDefault();
-			const data = Object.fromEntries(new FormData(this)),
-				results = fetch_data(etc_url + '/' + instrument.id
-					+ '/data?' + new URLSearchParams(data));
-			if (results) {
-				fetch_html(
-					'#modal-slot',
-					ui_url + '/' + instrument.id
-						+ '/etc_results?' + new URLSearchParams(await results)
-				);
-			}
+			const data = Object.fromEntries(new FormData(this));
+			fetch_html(
+				'#modal-slot',
+				ui_url + '/' + instrument.id + '/etc_results/query?'
+					+ new URLSearchParams(data)
+			);
 		});
 	});
 }
@@ -59,7 +55,7 @@ function update_filters(instrument) {
 			update_filter(instrumentID, filterID);
 			fetch_html(
 				'#modal-slot',
-				ui_url + '/plot_filter'
+				ui_url + '/common/plot_filter'
 			).then( (result) => {
 				plot_filter(
 					filters[filterID],

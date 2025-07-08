@@ -6,7 +6,7 @@ Application module
 from io import BytesIO
 from logging import getLogger
 from os.path import abspath, exists, join
-from typing import get_args, Literal, Tuple
+from typing import Annotated, get_args, Literal, Optional, Tuple
 from urllib.parse import urlencode
 
 from fastapi import (
@@ -31,12 +31,16 @@ from pydantic_core import InitErrorDetails, PydanticCustomError
 
 from .. import package
 from .config import config_filename, settings
-from .compute import  etc_response, make_image
+from .response import get_response
 
-from .models import ETCQueryModel, ETCResponseModel, ETCValidationError
+from .models import (
+    ETCQueryModel,
+    ETCResponseModel,
+    ETCValidationError
+)
 
+from .data import winstruments
 
-from .data import default_instrument, filters, instruments
 
 
 def create_app() -> FastAPI:
@@ -130,6 +134,7 @@ def create_app() -> FastAPI:
         directory=join(package.src_dir, template_dir)
     )
 
+
     @app.exception_handler(ETCValidationError)
     async def validation_exception_handler(request: Request, exc: ETCValidationError):
         """
@@ -138,7 +143,7 @@ def create_app() -> FastAPI:
         Returns
         -------
         response: byte stream
-            [JSON response](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
+            `JSON response <https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse>`_
             containing the error diagnostic.
         """
         dico = exc.args[0]
@@ -159,120 +164,121 @@ def create_app() -> FastAPI:
         )
 
 
-    @app.get("/etc/instruments", tags=["ETC instruments"])
-    async def read_instruments():
+    @app.get(api_path + "/instruments", tags=["Web API"])
+    async def api_instruments():
         """
-        Instrument list endpoint.
+        Endpoint for instrument list.
 
         Returns
         -------
         response: byte stream
-            [JSON response](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
+            `JSON response <https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse>`_
             with the list of supported instruments
         """
         return JSONResponse(
-            content=jsonable_encoder(instruments, exclude={'response'})
+            content=jsonable_encoder(winstruments)
         )
 
 
-    @app.get("/etc/{instrument}/{rtype}", tags=["ETC results"], response_class=HTMLResponse)
-    async def etc_query(
+    @app.get(api_path + "/{instrument}", tags=["Web API"])
+    async def api_query(
             request: Request,
             instrument: str = Path(     
                 title="Instrument ID",
                 description="Instrument ID"
             ),
-            rtype: Literal['data', 'image'] = Path(
-                title="Response type",
-                description="Type of response: image or data"
-            ),
-            query: ETCQueryModel = Depends()
-        ):
+            query: ETCQueryModel = Depends()):
         """
-        Exposure type calculator endpoint.
+        Endpoint for exposure type calculator JSON output.
 
         Returns
         -------
         response: byte stream
-            [Streaming](https://fastapi.tiangolo.com/advanced/custom-response/#streamingresponse>)
-            or [JSON](https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse)
-            response containing the exposure data.
+            `JSON response <https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse>`_
+            containing the computed ETC data.
         """
-        r = etc_response(query)
-        if rtype == 'image':
-            png = make_image(r)
-            return StreamingResponse(
-                BytesIO(png.tobytes()),
-                media_type="image/png"
-            )
-        else:
-          return r.model_dump_json()
-    # PyDIET UI ETC results endpoint
-    @app.get("/ui/{instrument}/etc_results", tags=["UI"], response_class=HTMLResponse)
-    async def etc_results(
+        return get_response(query).model_dump_json()
+
+
+    # PyDIET UI component endpoint with query string
+    @app.get("/ui/{instrument}/{component}/query", tags=["UI"], response_class=HTMLResponse)
+    async def ui_component_query(
             request: Request,
             instrument: str = Path(     
                 title="Instrument ID",
                 description="Instrument ID"
             ),
-            r: ETCResponseModel = Depends()):
+            component: str = Path(
+                title="Component name",
+                description="Name of the UI component"
+            ),
+            query: ETCQueryModel = Depends()):
         """
-        UI ETC results endpoint.
+        Endpoint for UI component with ETC query string.
+        Use "common" as instrument for components shared by all instruments.
+
+        Returns
+        -------
+        response: byte stream
+            `HTML response <https://fastapi.tiangolo.com/advanced/custom-response/#htmlresponse>`_
+            with UI component.
         """
         return templates.TemplateResponse(
-            join(instrument, "etc_results.html"),
-            {
-                "request": request,
+            request = request,
+            name = join(instrument, component + ".html"),
+            context = {
                 "root_path": request.scope.get("root_path"),
                 "package": package.title,
-                "etime": r.etime,
-                "instrument": instrument,
-                "rstring": urlencode(r.model_dump())
+                "r": get_response(query)
             }
         )
-    # PyDIET main UI component endpoint
-    @app.get("/ui/{component}", tags=["UI"], response_class=HTMLResponse)
-    async def component(request: Request, component: str):
-        """
-        UI component endpoint.
-        """
-        return templates.TemplateResponse(
-            component + ".html",
-            {
-                "request": request,
-                "root_path": request.scope.get("root_path"),
-                "package": package.title
-            }
-        )
-    # PyDIET instrument-dependent UI component endpoint
+
+
+    # PyDIET UI component endpoint without a query string
     @app.get("/ui/{instrument}/{component}", tags=["UI"], response_class=HTMLResponse)
-    async def instrument_component(request: Request, instrument: str, component: str):
+    async def ui_component(
+            request: Request,
+            instrument: str = Path(     
+                title="Instrument ID",
+                description="Instrument ID"
+            ),
+            component: str = Path(
+                title="Component name",
+                description="Name of the UI component"
+            )):
         """
-        UI instrument-dependent component endpoint.
+        Endpoint for UI component without an ETC query string.
+        Use "common" as instrument for components shared by all instruments.
+
+        Returns
+        -------
+        response: byte stream
+            `HTML response <https://fastapi.tiangolo.com/advanced/custom-response/#htmlresponse>`_
+            with UI component.
         """
         return templates.TemplateResponse(
-            join(instrument, component + ".html"),
-            {
-                "request": request,
+            request = request,
+            name = join(instrument, component + ".html"),
+            context = {
                 "root_path": request.scope.get("root_path"),
                 "package": package.title
             }
         )
 
+
     # Default PyDIET client endpoint
     @app.get("/", tags=["UI"], response_class=HTMLResponse)
-    async def pydiet(request: Request):
+    async def ui(request: Request):
         """
         Main web user interface.
         """
         return templates.TemplateResponse(
-            base_template,
-            {
-                "request": request,
+            request = request,
+            name = base_template,
+            context = {
                 "root_path": request.scope.get("root_path"),
-                "api_path": api_path,
                 "doc_url": userdoc_url,
-                "package": package.title,
+                "package": package.title
             }
         )
 

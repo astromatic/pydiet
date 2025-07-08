@@ -32,10 +32,7 @@ class ETCQueryModel(BaseModel):
         le=1e30,
         description="Required exposure time"
         )
-    filter: str = Field(
-        default=default_filter.id,
-        description="Filter"
-    )
+    filter: FilterID
     photometry: Literal['aperture', 'psf']
     seeing: float = Field(
         default=0.7,

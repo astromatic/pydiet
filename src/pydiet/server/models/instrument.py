@@ -68,6 +68,14 @@ class InstrumentModel(BaseModel):
 
 
 
+class InstrumentsModel(BaseModel):
+    '''
+    Pydantic model for a list of PyDIET instruments.
+    '''
+    instruments: Dict[str, InstrumentModel]
+
+
+
 class SBSEDModel(BaseModel):
     '''
     Pydantic model for a Surface Brightness Spectral Energy Distribution (SBSED).

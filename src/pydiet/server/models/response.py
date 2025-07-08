@@ -8,11 +8,12 @@ from astropy import units as u #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 
 from ..types import AnnotatedQuantity
-from .types import ComputeID, InstrumentID
+from .types import ComputeID, FilterID, InstrumentID
 
 
 class ETCResponseModel(BaseModel):
-    instrument: InstrumentID
+    instrument: str
+    filter: str
     compute: ComputeID
     zp: float=Field(
         default=0.,

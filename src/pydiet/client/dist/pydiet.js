@@ -3340,7 +3340,7 @@
   // js/url.js
   var root_path = document.querySelector("#root_path").content;
   var root_url = root_path;
-  var etc_url = root_url + "/etc";
+  var etc_url = root_url + "/api";
   var ui_url = root_url + "/ui";
   var ui_auth_url = ui_url + "/auth";
 
@@ -18580,13 +18580,11 @@
       update_filters(instrument2);
       etc_form.addEventListener("submit", async function(e) {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(this)), results = fetch_data(etc_url + "/" + instrument2.id + "/data?" + new URLSearchParams(data));
-        if (results) {
-          fetch_html(
-            "#modal-slot",
-            ui_url + "/" + instrument2.id + "/etc_results?" + new URLSearchParams(await results)
-          );
-        }
+        const data = Object.fromEntries(new FormData(this));
+        fetch_html(
+          "#modal-slot",
+          ui_url + "/" + instrument2.id + "/etc_results/query?" + new URLSearchParams(data)
+        );
       });
     });
   }
@@ -18614,7 +18612,7 @@
         update_filter(instrumentID, filterID);
         fetch_html(
           "#modal-slot",
-          ui_url + "/plot_filter"
+          ui_url + "/common/plot_filter"
         ).then((result) => {
           plot_filter(
             filters[filterID],

@@ -10,6 +10,7 @@ from .response import ETCResponseModel
 from .instrument import (
     DetectorModel,
     InstrumentModel,
+    InstrumentsModel,
     SBSEDModel,
     SEDModel,
     SiteModel,

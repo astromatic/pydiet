@@ -69,11 +69,11 @@ class ServerSettings(BaseSettings):
         description="Endpoint URL for the webservice API"
         )
     banner_template: str = SField(
-        default="banner.html",
+        default="common/banner.html",
         description="Name of the HTML template file for the service banner"
         )
     base_template: str = SField(
-        default="base.html",
+        default="common/base.html",
         description="Name of the HTML template file for the web client"
         )
     browser: bool = SField(
