@@ -9,6 +9,7 @@
   <title>Models &mdash; PyDIET 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx_js.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=329c186a" />
 
@@ -53,6 +54,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.exceptions.ETCValidationError"><code class="docutils literal notranslate"><span class="pre">ETCValidationError</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.DetectorModel"><code class="docutils literal notranslate"><span class="pre">DetectorModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel"><code class="docutils literal notranslate"><span class="pre">InstrumentModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentsModel"><code class="docutils literal notranslate"><span class="pre">InstrumentsModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.SBSEDModel"><code class="docutils literal notranslate"><span class="pre">SBSEDModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.SEDModel"><code class="docutils literal notranslate"><span class="pre">SEDModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.SiteModel"><code class="docutils literal notranslate"><span class="pre">SiteModel</span></code></a></li>
@@ -369,6 +371,38 @@
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.InstrumentModel.telescope">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">telescope</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.instrument.TelescopeModel" title="pydiet.server.models.instrument.TelescopeModel"><span class="pre">TelescopeModel</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.telescope" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="pydiet.server.models.instrument.InstrumentsModel">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InstrumentsModel</span></span><a class="reference internal" href="../../_modules/pydiet/server/models/instrument.html#InstrumentsModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentsModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Pydantic model for a list of PyDIET instruments.</p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InstrumentsModel&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;instruments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Instruments&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentsModel.instruments" title="pydiet.server.models.instrument.InstrumentsModel.instruments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instruments</span> <span class="pre">(Dict[str,</span> <span class="pre">pydiet.server.models.instrument.InstrumentModel])</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.instrument.InstrumentsModel.instruments">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instruments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel" title="pydiet.server.models.instrument.InstrumentModel"><span class="pre">InstrumentModel</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentsModel.instruments" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

@@ -9,6 +9,7 @@
   <title>Settings &mdash; PyDIET 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx_js.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=329c186a" />
 
@@ -241,14 +242,14 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;banner_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;banner.html&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;common/banner.html&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Name of the HTML template file for the service banner&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Banner Template&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;base_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base.html&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;common/base.html&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Name of the HTML template file for the web client&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Base Template&quot;</span><span class="p">,</span>
@@ -353,13 +354,13 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.banner_template">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">banner_template</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'banner.html'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.banner_template" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">banner_template</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'common/banner.html'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.banner_template" title="Link to this definition"></a></dt>
 <dd><p>Name of the HTML template file for the service banner</p>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.base_template">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">base_template</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'base.html'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.base_template" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">base_template</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'common/base.html'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.base_template" title="Link to this definition"></a></dt>
 <dd><p>Name of the HTML template file for the web client</p>
 </dd></dl>
 
@@ -537,8 +538,8 @@
 <span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/BaseSettings&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="nt">&quot;api_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;banner_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;banner.html&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;base_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base.html&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;banner_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;common/banner.html&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;base_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;common/base.html&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;browser&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;client_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/client&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;data_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/data/data_config.toml&quot;</span><span class="p">,</span>
@@ -603,7 +604,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.config.settings.AppSettings.server">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseSettings</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ServerSettings(api_path='/api',</span> <span class="pre">banner_template='banner.html',</span> <span class="pre">base_template='base.html',</span> <span class="pre">browser=False,</span> <span class="pre">client_dir='/home/runner/work/pydiet/pydiet/src/pydiet/client',</span> <span class="pre">data_config='/home/runner/work/pydiet/pydiet/src/pydiet/data/data_config.toml',</span> <span class="pre">data_dir='/home/runner/work/pydiet/pydiet/src/pydiet/data',</span> <span class="pre">doc_dir='/home/runner/work/pydiet/pydiet/src/pydiet/doc/html',</span> <span class="pre">doc_path='/manual',</span> <span class="pre">extra_dir='.',</span> <span class="pre">template_dir='/home/runner/work/pydiet/pydiet/src/pydiet/templates',</span> <span class="pre">userdoc_url='/manual/')</span></em><a class="headerlink" href="#pydiet.server.config.settings.AppSettings.server" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseSettings</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ServerSettings(api_path='/api',</span> <span class="pre">banner_template='common/banner.html',</span> <span class="pre">base_template='common/base.html',</span> <span class="pre">browser=False,</span> <span class="pre">client_dir='/home/runner/work/pydiet/pydiet/src/pydiet/client',</span> <span class="pre">data_config='/home/runner/work/pydiet/pydiet/src/pydiet/data/data_config.toml',</span> <span class="pre">data_dir='/home/runner/work/pydiet/pydiet/src/pydiet/data',</span> <span class="pre">doc_dir='/home/runner/work/pydiet/pydiet/src/pydiet/doc/html',</span> <span class="pre">doc_path='/manual',</span> <span class="pre">extra_dir='.',</span> <span class="pre">template_dir='/home/runner/work/pydiet/pydiet/src/pydiet/templates',</span> <span class="pre">userdoc_url='/manual/')</span></em><a class="headerlink" href="#pydiet.server.config.settings.AppSettings.server" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
