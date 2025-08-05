@@ -48,7 +48,7 @@
       <ion-footer>
         <ion-toolbar >
           <ion-item lines="none" slot="start">
-             <ion-note style="align-self:center">Terms of Service</ion-note>
+             <ion-note id="terms" style="align-self:center; cursor:pointer">Terms of Service</ion-note>
           </ion-item>
           <ion-fab horizontal="center" vertical="center">
             <ion-fab-button href="https://cfht.hawaii.edu" color="light" size="small">
@@ -56,10 +56,16 @@
             </ion-fab-button>
           </ion-fab>
           <ion-item lines="none" slot="end">
-            <ion-note style="align-self:center">Privacy Policy</ion-note>
+            <ion-note id="privacy" style="align-self:center; cursor:pointer">Privacy Policy</ion-note>
           </ion-item>
         </ion-toolbar>
       </ion-footer>
+      <ion-modal trigger="terms">
+        {% include "common/terms.html" %}
+      </ion-modal>
+      <ion-modal trigger="privacy">
+        {% include "common/privacy.html" %}
+      </ion-modal>
     </ion-app>
     <script src="{{ root_path }}/client/dist/pydiet.js"></script>
   </body>
