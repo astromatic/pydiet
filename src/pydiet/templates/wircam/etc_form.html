@@ -1,5 +1,5 @@
 {#
-# Jinja2 template for PyDIET ETC form.
+# Jinja2 template for the  PyDIET ETC form of the WIRCam instrument.
 #
 # Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
 # Licensed under the MIT licence
@@ -13,7 +13,7 @@
     <ion-row class="ion-align-items-center">
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select name="compute" label="Compute" width=200px" label-placement="floating" fill="solid" interface="popover" value="etime">
+          <ion-select  id=select-compute name="compute" label="Compute" width=200px" label-placement="floating" fill="solid" interface="popover" value="etime">
             <ion-select-option value="etime">Exposure time</ion-select-option>
             <ion-select-option value="snr">SNR</ion-select-option>
           </ion-select>
@@ -30,7 +30,7 @@
       </ion-col>
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-input name="snr" label="SNR" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" step="0.1"  value="10.0"></ion-input>
+          <ion-input id=input-snr-etime name="snr" label="SNR" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" step="0.1"  value="10.0"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
@@ -70,7 +70,6 @@
               <ion-select-option value="dark">Dark</ion-select-option>
               <ion-select-option value="grey">Grey</ion-select-option>
               <ion-select-option value="bright">Bright</ion-select-option>
-              <ion-select-option value="manuel">Manual</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
