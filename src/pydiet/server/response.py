@@ -20,6 +20,7 @@ from .models import (
     SEDModel,
     TransmissionModel
 )
+from .models.types import SkyID
 
 from .data import instruments, ab_spectrum, st_spectrum, vega_spectrum
 
@@ -34,9 +35,13 @@ ref_spectra = {
 
 def spectrum_at_airmass(
         models: dict[str, SBSEDModel | SEDModel | TransmissionModel],
-        am: float) -> SpectralElement:
+        sky: SkyID|None = None,
+        am: float = 1.) -> SpectralElement:
     # Build a dictionary of transmission spectra
-    am_spectra = {models[m].vars['am'] : models[m].spectral for m in models}
+    am_spectra = {
+        models[m].vars['am'] : models[m].spectral for m in models \
+        if sky is None or models[m].vars['sky']==sky
+    }
     ams = sorted(list(am_spectra.keys()))
     # bracket the requested airmass for interpolation
     aml = ams[0]
@@ -125,7 +130,7 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
     # Atmospheric transmission
     atmo_resp = spectrum_at_airmass(
         instrument.site.sky_transmissions,
-        q.airmass
+        am=q.airmass
     )
     # Effective transmission
     total_resp = detector_resp * filter_resp * optics_resp * telescope_resp * atmo_resp
@@ -135,7 +140,8 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
     # Atmospheric emission
     sky_spectrum = spectrum_at_airmass(
         instrument.site.sky_emissions,
-        q.airmass
+        sky=q.sky,
+        am=q.airmass
     )
 
     # Make virtual observation

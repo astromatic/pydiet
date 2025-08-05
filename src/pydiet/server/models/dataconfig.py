@@ -18,7 +18,7 @@ class FileConfigModel(BaseModel):
     id: str = ''
     name: str = ""
     description: str = ""
-    vars: dict[str, float] = {}
+    vars: dict[str, float|str] = {}
     file: str
 
 

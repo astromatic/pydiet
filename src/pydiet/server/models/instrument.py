@@ -83,7 +83,7 @@ class SBSEDModel(BaseModel):
     id: str
     name: str
     description: str
-    vars: dict[str, float] = {}
+    vars: dict[str, float|str] = {}
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",
         ge = 100. * u.nm,

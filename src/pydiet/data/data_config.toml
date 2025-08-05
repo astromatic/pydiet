@@ -23,7 +23,6 @@ path = "sites/mko"
 # -  Pointing upward from an altitude of 4204m.
 # -  CO2 concentration set to 430ppm.
 path = "transmission"
-keys = ["airmass"]
 files = [
     { vars = {am = 1.0}, file = "MKO_transmission.AM1.0.fits", default=true },
     { vars = {am = 1.1}, file = "MKO_transmission.AM1.1.fits" },
@@ -44,24 +43,54 @@ files = [
     { vars = {am = 5.0}, file = "MKO_transmission.AM5.0.fits" }
 ]
 [sites.emission]
+# Sky emission models
+path = "emission"
+files = [
 # ESO SkyCalc sky emission model computed with default settings
 # (except for the Moon set at -90 deg elevation).
-path = "emission"
-keys = ["airmass"]
-files = [
-    { vars = {am = 1.0}, file = "MKO_emission.AM1.0.fits", default=true },
-    { vars = {am = 1.1}, file = "MKO_emission.AM1.1.fits" },
-    { vars = {am = 1.2}, file = "MKO_emission.AM1.2.fits" },
-    { vars = {am = 1.3}, file = "MKO_emission.AM1.3.fits" },
-    { vars = {am = 1.4}, file = "MKO_emission.AM1.4.fits" },
-    { vars = {am = 1.5}, file = "MKO_emission.AM1.5.fits" },
-    { vars = {am = 1.6}, file = "MKO_emission.AM1.6.fits" },
-    { vars = {am = 1.7}, file = "MKO_emission.AM1.7.fits" },
-    { vars = {am = 1.8}, file = "MKO_emission.AM1.8.fits" },
-    { vars = {am = 1.9}, file = "MKO_emission.AM1.9.fits" },
-    { vars = {am = 2.0}, file = "MKO_emission.AM2.0.fits" },
-    { vars = {am = 2.5}, file = "MKO_emission.AM2.5.fits" },
-    { vars = {am = 3.0}, file = "MKO_emission.AM3.0.fits" }
+    { vars = {sky='dark', am=1.0}, file = "MKO_emission.dark.AM1.0.fits", default=true },
+    { vars = {sky='dark', am=1.1}, file = "MKO_emission.dark.AM1.1.fits" },
+    { vars = {sky='dark', am=1.2}, file = "MKO_emission.dark.AM1.2.fits" },
+    { vars = {sky='dark', am=1.3}, file = "MKO_emission.dark.AM1.3.fits" },
+    { vars = {sky='dark', am=1.4}, file = "MKO_emission.dark.AM1.4.fits" },
+    { vars = {sky='dark', am=1.5}, file = "MKO_emission.dark.AM1.5.fits" },
+    { vars = {sky='dark', am=1.6}, file = "MKO_emission.dark.AM1.6.fits" },
+    { vars = {sky='dark', am=1.7}, file = "MKO_emission.dark.AM1.7.fits" },
+    { vars = {sky='dark', am=1.8}, file = "MKO_emission.dark.AM1.8.fits" },
+    { vars = {sky='dark', am=1.9}, file = "MKO_emission.dark.AM1.9.fits" },
+    { vars = {sky='dark', am=2.0}, file = "MKO_emission.dark.AM2.0.fits" },
+    { vars = {sky='dark', am=2.5}, file = "MKO_emission.dark.AM2.5.fits" },
+    { vars = {sky='dark', am=3.0}, file = "MKO_emission.dark.AM3.0.fits" },
+# ESO SkyCalc sky emission model with 30% Moon component
+# (66.4 deg phase at 45 deg elevation and 45 deg distance).
+    { vars = {sky='grey', am=1.0}, file = "MKO_emission.grey.AM1.0.fits" },
+    { vars = {sky='grey', am=1.1}, file = "MKO_emission.grey.AM1.1.fits" },
+    { vars = {sky='grey', am=1.2}, file = "MKO_emission.grey.AM1.2.fits" },
+    { vars = {sky='grey', am=1.3}, file = "MKO_emission.grey.AM1.3.fits" },
+    { vars = {sky='grey', am=1.4}, file = "MKO_emission.grey.AM1.4.fits" },
+    { vars = {sky='grey', am=1.5}, file = "MKO_emission.grey.AM1.5.fits" },
+    { vars = {sky='grey', am=1.6}, file = "MKO_emission.grey.AM1.6.fits" },
+    { vars = {sky='grey', am=1.7}, file = "MKO_emission.grey.AM1.7.fits" },
+    { vars = {sky='grey', am=1.8}, file = "MKO_emission.grey.AM1.8.fits" },
+    { vars = {sky='grey', am=1.9}, file = "MKO_emission.grey.AM1.9.fits" },
+    { vars = {sky='grey', am=2.0}, file = "MKO_emission.grey.AM2.0.fits" },
+    { vars = {sky='grey', am=2.5}, file = "MKO_emission.grey.AM2.5.fits" },
+    { vars = {sky='grey', am=3.0}, file = "MKO_emission.grey.AM3.0.fits" },
+# ESO SkyCalc sky emission model with 60% Moon component 
+# (101.5 deg phase, at 45 deg elevation and 45 deg distance).
+    { vars = {sky='bright', am=1.0}, file = "MKO_emission.bright.AM1.0.fits", default=true },
+    { vars = {sky='bright', am=1.1}, file = "MKO_emission.bright.AM1.1.fits" },
+    { vars = {sky='bright', am=1.2}, file = "MKO_emission.bright.AM1.2.fits" },
+    { vars = {sky='bright', am=1.3}, file = "MKO_emission.bright.AM1.3.fits" },
+    { vars = {sky='bright', am=1.4}, file = "MKO_emission.bright.AM1.4.fits" },
+    { vars = {sky='bright', am=1.5}, file = "MKO_emission.bright.AM1.5.fits" },
+    { vars = {sky='bright', am=1.6}, file = "MKO_emission.bright.AM1.6.fits" },
+    { vars = {sky='bright', am=1.7}, file = "MKO_emission.bright.AM1.7.fits" },
+    { vars = {sky='bright', am=1.8}, file = "MKO_emission.bright.AM1.8.fits" },
+    { vars = {sky='bright', am=1.9}, file = "MKO_emission.bright.AM1.9.fits" },
+    { vars = {sky='bright', am=2.0}, file = "MKO_emission.bright.AM2.0.fits" },
+    { vars = {sky='bright', am=2.5}, file = "MKO_emission.bright.AM2.5.fits" },
+    { vars = {sky='bright', am=3.0}, file = "MKO_emission.bright.AM3.0.fits" }
 ]
 
 

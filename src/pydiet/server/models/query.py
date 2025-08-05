@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field, PydanticUserError, ValidationInfo, field_
 
 from .default import default_filter, default_instrument, filters, instruments
 from .exceptions import ETCValidationError
-from .types import ComputeID, FilterID, InstrumentID
+from .types import ComputeID, FilterID, InstrumentID, SkyID
 
 
 class ETCQueryModel(BaseModel):
@@ -39,7 +39,7 @@ class ETCQueryModel(BaseModel):
         ge=0.1,
         le=100.
         )
-    sky: Literal['dark', 'grey', 'bright', 'custom']
+    sky: SkyID
     snr: float = Field(
         default=10.,
         gt=0.,

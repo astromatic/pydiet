@@ -13,6 +13,11 @@ from .default import default_instrument, filters, instruments
 
 ComputeID = Literal['etime', 'snr']
 
+FilterID = Enum(  # type: ignore[misc]
+    "FilterID",
+    {tag : tag for tag in filters.keys()},
+    type=str
+)
 
 InstrumentID = Enum(  # type: ignore[misc]
     "InstrumentID",
@@ -20,11 +25,6 @@ InstrumentID = Enum(  # type: ignore[misc]
     type=str
 )
 
-
-FilterID = Enum(  # type: ignore[misc]
-    "FilterID",
-    {tag : tag for tag in filters.keys()},
-    type=str
-)
+SkyID = Literal['dark', 'grey', 'bright']
 
 

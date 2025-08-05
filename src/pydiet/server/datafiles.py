@@ -100,7 +100,7 @@ def get_emissions(
         # Instantiate the model
         key = file_config.id if file_config.id != '' else str(len(emissions))
         emissions[key] = SBSEDModel(
-            id = file_config.id,
+            id = key,
             name = file_config.name,
             description = file_config.description,
             wave = wave,
@@ -114,7 +114,7 @@ def get_emissions(
                 keep_neg=False
             )
         ) if sb else SEDModel(
-            id = file_config.id,
+            id = key,
             name = file_config.name,
             description = file_config.description,
             vars = file_config.vars,

@@ -1,2 +1,5 @@
-ESO SkyCalc sky emission model computed with default settings
-(except for the Moon contribution turned off for various airmasses).
+ESO SkyCalc sky emission models computed with default settings at various airmasses except:
+Dark: Moon set at -90 deg elevation.
+Grey: 30% Moon component (66.4 deg phase) at 45 deg elevation and 45 deg distance.
+Bright: 60% Moon component (101.5 deg phase) at 45 deg elevation and 45 deg distance.
+
