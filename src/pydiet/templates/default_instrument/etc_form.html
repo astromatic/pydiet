@@ -1,15 +1,17 @@
 {#
-# Jinja2 template for PyDIET ETC form.
+# Jinja2 template for the PyDIET ETC form of a default instrument.
 #
 # Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
 # Licensed under the MIT licence
 #}
+<ion-card>
+<ion-card-content>
 <form id="etc-form">
   <ion-grid>
     <ion-row class="ion-align-items-center">
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select name="compute" label="Compute" width=200px" label-placement="floating" fill="solid" interface="popover" value="etime">
+          <ion-select  id=select-compute name="compute" label="Compute" width=200px" label-placement="floating" fill="solid" interface="popover" value="etime">
             <ion-select-option value="etime">Exposure time</ion-select-option>
             <ion-select-option value="snr">SNR</ion-select-option>
           </ion-select>
@@ -26,7 +28,7 @@
       </ion-col>
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-input name="SNR" label="SNR" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" step="0.1"  value="10.0"></ion-input>
+          <ion-input id=input-snr-etime name="snr" label="SNR" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" step="0.1"  value="10.0"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
@@ -43,9 +45,12 @@
       </ion-col>
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="mag">
-              <ion-select-option value="mag">mag<sub>AB</sub></ion-select-option>
-              <ion-select-option value="flux">flux (erg/s/cm<sup>2</sup>)</ion-select-option>
+          <ion-select name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
+              <ion-select-option value="abmag">AB mag</ion-select-option>
+              <ion-select-option value="vegamag">Vega mag</sub></ion-select-option>
+              <ion-select-option value="flambda">flux density &fscr;(&lambda;)&nbsp;&nbsp;[erg.s&dash;&sup1;.cm.&dash;&sup2;.&#8491;&dash;&sup1;]</ion-select-option>
+              <ion-select-option value="fnu">flux density &fscr;(&nu;)&nbsp;&nbsp;[erg.s&dash;&sup1;.cm&dash;&sup2;.Hz&dash;&sup1;]</ion-select-option>
+              <ion-select-option value="fjansky">flux density &fscr;(&nu;)&nbsp;&nbsp;[Jy]</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -63,7 +68,6 @@
               <ion-select-option value="dark">Dark</ion-select-option>
               <ion-select-option value="grey">Grey</ion-select-option>
               <ion-select-option value="bright">Bright</ion-select-option>
-              <ion-select-option value="manuel">Manual</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -94,4 +98,6 @@
     </ion-row>
   </ion-grid>
 </form>
+</ion-card-content>
+</ion-card>
 
