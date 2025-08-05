@@ -431,7 +431,14 @@
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;vars&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">            </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">               </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">               </span><span class="p">},</span>
+<span class="w">               </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">               </span><span class="p">}</span>
+<span class="w">            </span><span class="p">]</span>
 <span class="w">         </span><span class="p">},</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Vars&quot;</span><span class="p">,</span>
@@ -477,7 +484,7 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.SBSEDModel.name" title="pydiet.server.models.instrument.SBSEDModel.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.SBSEDModel.sbsed" title="pydiet.server.models.instrument.SBSEDModel.sbsed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sbsed</span> <span class="pre">(astropy.units.quantity.Quantity)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.SBSEDModel.spectral" title="pydiet.server.models.instrument.SBSEDModel.spectral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral</span> <span class="pre">(synphot.spectrum.SourceSpectrum)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#pydiet.server.models.instrument.SBSEDModel.vars" title="pydiet.server.models.instrument.SBSEDModel.vars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vars</span> <span class="pre">(dict[str,</span> <span class="pre">float])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.instrument.SBSEDModel.vars" title="pydiet.server.models.instrument.SBSEDModel.vars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vars</span> <span class="pre">(dict[str,</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">str])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.SBSEDModel.wave" title="pydiet.server.models.instrument.SBSEDModel.wave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave</span> <span class="pre">(astropy.units.quantity.Quantity)</span></code></a></p></li>
 </ul>
 </dd>
@@ -527,7 +534,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.SBSEDModel.vars">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vars</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SBSEDModel.vars" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vars</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#pydiet.server.models.instrument.SBSEDModel.vars" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
