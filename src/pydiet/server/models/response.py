@@ -45,6 +45,12 @@ class ETCResponseModel(BaseModel):
         lt=1e30,
         description="Estimated source Signal-to-Noise Ratio"
     )
+    sky_mag: float=Field(
+        default=99.,
+        gt=-100.,
+        lt=100.,
+        description="Estimated sky background in mag/arcsec2"
+    )
 
 
 

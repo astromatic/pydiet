@@ -161,9 +161,9 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
     # Compute background count rate to get background surface brightness
     ct_skysb = sky_observation.countrate(area=area, binned=False) / gain
     mag_skysb =  zp + u.Magnitude(ct_skysb)
-    
+
     # Compute King's Noise Equivalent Area
-    nea = moffat_nea(q.seeing, 3.2)
+    nea = moffat_nea(q.seeing * u.arcsec, 3.2)
     
     # Compute total number of reference source electrons over NEA
     e_ref = (ct_ref * gain).value * 10.**(-0.4*q.brightness)
@@ -172,19 +172,19 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
     e_sky = (ct_skysb * gain * nea).value
     # Use 'counts' instead of electrons for the RON for compatibility with synphot
     e_ron = detector.ron.to('electron').value
-
+    e_ron_eff2 = (e_ron**2 * nea / (detector.scale[0] * detector.scale[1])).value
     if q.compute == 'etime':
         snr = q.snr
         # Compute exposure time (solution to a second degree equation) in s
         etime = (
             snr * (snr * e_sky + sqrt(
-                (snr * e_sky)**2 + 4. * (e_ref * e_ron)**2
+                (snr * e_sky)**2 + 4. * e_ref**2 * e_ron_eff2
             ))
         ) / (2. * e_ref**2)
     else:
         etime = q.etime
         # Compute SNR
-        snr = e_ref * etime / sqrt(e_sky * etime + e_ron**2)
+        snr = e_ref * etime / sqrt(e_sky * etime + e_ron_eff2)
     return ETCResponseModel(
             instrument = instrument.name,
             filter = filter.name,
@@ -193,7 +193,8 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
             etime = etime,
             etime_skysat = etime * 100.,
             etime_sourcesat = etime * 10.,
-            snr = snr
+            snr = snr,
+            sky_mag = mag_skysb.value
     )
 
 

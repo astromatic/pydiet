@@ -18,7 +18,7 @@ from typing import Any, Optional
 from astropy.table import QTable #type: ignore[import-untyped]
 from astropy import units as u #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
-from specutils import Spectrum1D #type: ignore[import-untyped]
+from specutils import Spectrum #type: ignore[import-untyped]
 from synphot import SourceSpectrum, SpectralElement #type: ignore[import-untyped]
 
 from .. import package
@@ -107,7 +107,7 @@ def get_emissions(
             vars = file_config.vars,
             sbsed = sed,
             spectral = SourceSpectrum.from_spectrum1d(
-                Spectrum1D(
+                Spectrum(
                     spectral_axis = wave,
                     flux = sed * u.arcsec**2
                 ),
@@ -121,7 +121,7 @@ def get_emissions(
             wave = wave,
             sed = sed,
             spectral = SourceSpectrum.from_spectrum1d(
-                Spectrum1D(
+                Spectrum(
                     spectral_axis = wave,
                     flux = sed
                 ),
@@ -214,7 +214,7 @@ def get_transmissions(
             wave = wave,
             response = response,
             spectral = SpectralElement.from_spectrum1d(
-                Spectrum1D(spectral_axis=wave, flux=response),
+                Spectrum(spectral_axis=wave, flux=response),
                 keep_neg=False
             )
         )
