@@ -57,6 +57,56 @@ def spectrum_at_airmass(
     return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac
 
 
+def moffat_img(
+        fwhm: u.Quantity['angle'], #type: ignore[name-defined]
+        beta: float,
+        scale: [u.Quantity['solid angle'], u.Quantity['solid angle']],
+        image_size: [int, int] = [64, 64]) -> np.ndarray:
+    """
+    Return a noiseless, normalized image of a 2D Moffat distribution.
+
+    Examples
+    --------
+    >>> from pydiet.server.compute import moffat_img
+    
+    >>> moffat_img("1 arcsec", 3.2, ["0.1 arcsec", "0.1 arcsec"])
+    <Quantity 3.62308197 arcsec2>
+
+    # beta values < 1 trigger a ValueError exception
+    >>> moffat_nea("1 arcsec", 0.8, ["0.1 arcsec", "0.1 arcsec"])
+    Traceback (most recent call last):
+    ...
+    ValueError: Moffat beta must be > 1.
+
+    Parameters
+    ----------
+    fwhm: ~astropy.units.Quantity['angle']
+        Angular Full-Width at Half-Maximum of the Moffat function.
+    beta: float
+        Moffat beta parameter (must be strictly greater than 1).
+
+    Returns
+    -------
+    img: ~numpy.ndarray
+        Image of the Moffat distribution.
+    """
+    if beta <= 1.:
+        raise ValueError("Moffat beta must be > 1.")
+    # Compute the square of the alpha parameter from the FWHM
+    alpha2 = u.Quantity(fwhm)**2 / (4. * (2.**(1./beta) - 1.)) \
+        / (scale[0] * scale[1])
+    yx = np.mgrid[
+        -image_size[0]//2:image_size[0] - image_size[0]//2,
+        -image_size[1]//2:image_size[1] - image_size[1]//2
+    ]
+    r2 = yx[0]**2 + yx[1]**2
+    img = np.pow(1. + r2 / alpha2, -beta) 
+    # Truncate inside a disk
+    mask = r2 <= r2[0, image_size[1]//2]
+    img *= mask
+    return img / img.sum()
+
+
 def moffat_nea(
         fwhm: u.Quantity['angle'], #type: ignore[name-defined]
         beta: float) -> u.Quantity['solid angle']: #type: ignore[name-defined] 
@@ -173,18 +223,34 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
     # Use 'counts' instead of electrons for the RON for compatibility with synphot
     e_ron = detector.ron.to('electron').value
     e_ron_eff2 = (e_ron**2 * nea / (detector.scale[0] * detector.scale[1])).value
+
+    '''
+    # Compute total number of reference source electrons
+    e_ref = (ct_ref * gain).value * 10.**(-0.4*q.brightness)
+    # Compute image of the seeing-limited PSF
+    img = moffat_nea(q.seeing * u.arcsec, 3.2, detector.scale)
+    img_ref = img * e_ref
+
+    # Compute number of background electrons per pixel
+    e_sky = (ct_skysb * gain * (detector.scale[0] * detector.scale[1])).value
+    # Use 'counts' instead of electrons for the RON for compatibility with synphot
+    e_ron = detector.ron.to('electron').value
+    e_ron_eff2 = (e_ron**2 * nea / (detector.scale[0] * detector.scale[1])).value
+    '''
+
     if q.compute == 'etime':
         snr = q.snr
         # Compute exposure time (solution to a second degree equation) in s
         etime = (
-            snr * (snr * e_sky + sqrt(
-                (snr * e_sky)**2 + 4. * e_ref**2 * e_ron_eff2
+            snr * (snr * (e_sky + e_ref) + sqrt(
+                (snr * (e_sky + e_ref))**2 + 4. * e_ref**2 * e_ron_eff2
             ))
         ) / (2. * e_ref**2)
     else:
         etime = q.etime
         # Compute SNR
-        snr = e_ref * etime / sqrt(e_sky * etime + e_ron_eff2)
+        snr = e_ref * etime / sqrt((e_ref + e_sky) * etime + e_ron_eff2)
+
     return ETCResponseModel(
             instrument = instrument.name,
             filter = filter.name,

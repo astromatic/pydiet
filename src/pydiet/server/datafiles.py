@@ -106,6 +106,7 @@ def get_emissions(
             wave = wave,
             vars = file_config.vars,
             sbsed = sed,
+            # We drop the surface part as Spectrum does cannot deal with SBs.
             spectral = SourceSpectrum.from_spectrum1d(
                 Spectrum(
                     spectral_axis = wave,
