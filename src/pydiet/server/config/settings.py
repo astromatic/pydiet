@@ -30,7 +30,7 @@ class HostSettings(BaseSettings):
         )
     port: int = SField(
         short='p',
-        default=8009,
+        default=8010,
         ge=1,
         le=65535,
         description="Port"
