@@ -6,6 +6,6 @@ Python server
 
    app
    models
+   types
    config
    settings
-
