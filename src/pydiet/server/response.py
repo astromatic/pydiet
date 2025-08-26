@@ -212,6 +212,7 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
     ct_skysb = sky_observation.countrate(area=area, binned=False) / gain
     mag_skysb =  zp + u.Magnitude(ct_skysb)
 
+    '''
     # Compute King's Noise Equivalent Area
     nea = moffat_nea(q.seeing * u.arcsec, 3.2)
     
@@ -223,8 +224,8 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
     # Use 'counts' instead of electrons for the RON for compatibility with synphot
     e_ron = detector.ron.to('electron').value
     e_ron_eff2 = (e_ron**2 * nea / (detector.scale[0] * detector.scale[1])).value
-
     '''
+
     # Compute total number of reference source electrons
     e_ref = (ct_ref * gain).value * 10.**(-0.4*q.brightness)
     # Compute image of the seeing-limited PSF
@@ -235,8 +236,8 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
     e_sky = (ct_skysb * gain * (detector.scale[0] * detector.scale[1])).value
     # Use 'counts' instead of electrons for the RON for compatibility with synphot
     e_ron = detector.ron.to('electron').value
-    e_ron_eff2 = (e_ron**2 * nea / (detector.scale[0] * detector.scale[1])).value
-    '''
+    e_ron_eff2 = e_ron**2
+
 
     if q.compute == 'etime':
         snr = q.snr

@@ -19,7 +19,7 @@ import adsarxiv
 # -- Project information -----------------------------------------------------
 
 project = 'PyDIET'
-copyright = '2024, Emmanuel Bertin'
+copyright = '2025 CFHT/CNRS/UParisSaclay'
 author = 'Emmanuel Bertin'
 release = '0.1.0'
 
@@ -86,7 +86,7 @@ mathjax3_config = {
              'oper': ['\\mathbf{#1}',1],
              'dvol': ['{\\rm d}^{#1}\\hspace{-2pt}#2', 2],
              'sinc': ['\\mbox{sinc}'],
-             'esp': ['\\mbox{E}\\left\\{#1\\right\\}', 1]
+             'esp': ['\\mathbb{E}\\left[#1\\right]', 1]
         }
     }
 }

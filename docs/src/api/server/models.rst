@@ -1,7 +1,11 @@
 Models
 ======
 
-.. automodule:: pydiet.server.models.data
+.. automodule:: pydiet.server.models.dataconfig
+   :members:
+   :show-inheritance:
+
+.. automodule:: pydiet.server.models.default
    :members:
    :show-inheritance:
 

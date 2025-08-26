@@ -5,7 +5,7 @@ Functions that gather data from files.
 # Licensed under the MIT licence
 
 from os import scandir
-from os.path import basename, exists, join
+from os.path import basename, exists, isabs, join
 
 # Manage TOML library for Python versions < 3.11
 import sys
@@ -55,6 +55,9 @@ def get_data_config(data_config: Optional[str] = None) -> DataConfigModel:
     with open(data_config, "rb") as f:
         data = tomllib.load(f)
     assert data is not None # This is to make mypy happy
+    # if "path" value is not absolute, assume it is relative to pkg root dir
+    if not isabs(data['path']):
+        data['path'] = join(package.root_dir, data['path'])
     data_config_model = DataConfigModel.model_validate(data)
     return data_config_model
 
