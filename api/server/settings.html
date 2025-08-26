@@ -312,7 +312,7 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;userdoc_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/manual/&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/manual/index.html&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Endpoint URL for the user&#39;s HTML documentation&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;short&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Userdoc Url&quot;</span><span class="p">,</span>
@@ -414,7 +414,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.config.settings.ServerSettings.userdoc_url">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">userdoc_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/manual/'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.userdoc_url" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">userdoc_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/manual/index.html'</span></em><a class="headerlink" href="#pydiet.server.config.settings.ServerSettings.userdoc_url" title="Link to this definition"></a></dt>
 <dd><p>Endpoint URL for the user's HTML documentation</p>
 </dd></dl>
 
@@ -548,7 +548,7 @@
 <span class="w">            </span><span class="nt">&quot;doc_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/manual&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;extra_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;template_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/home/runner/work/pydiet/pydiet/src/pydiet/templates&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;userdoc_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/manual/&quot;</span>
+<span class="w">            </span><span class="nt">&quot;userdoc_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/manual/index.html&quot;</span>
 <span class="w">         </span><span class="p">}</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;engine&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -604,7 +604,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.config.settings.AppSettings.server">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseSettings</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ServerSettings(api_path='/api',</span> <span class="pre">banner_template='common/banner.html',</span> <span class="pre">base_template='common/base.html',</span> <span class="pre">browser=False,</span> <span class="pre">client_dir='/home/runner/work/pydiet/pydiet/src/pydiet/client',</span> <span class="pre">data_config='/home/runner/work/pydiet/pydiet/src/pydiet/data/data_config.toml',</span> <span class="pre">data_dir='/home/runner/work/pydiet/pydiet/src/pydiet/data',</span> <span class="pre">doc_dir='/home/runner/work/pydiet/pydiet/src/pydiet/doc/html',</span> <span class="pre">doc_path='/manual',</span> <span class="pre">extra_dir='.',</span> <span class="pre">template_dir='/home/runner/work/pydiet/pydiet/src/pydiet/templates',</span> <span class="pre">userdoc_url='/manual/')</span></em><a class="headerlink" href="#pydiet.server.config.settings.AppSettings.server" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">server</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BaseSettings</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ServerSettings(api_path='/api',</span> <span class="pre">banner_template='common/banner.html',</span> <span class="pre">base_template='common/base.html',</span> <span class="pre">browser=False,</span> <span class="pre">client_dir='/home/runner/work/pydiet/pydiet/src/pydiet/client',</span> <span class="pre">data_config='/home/runner/work/pydiet/pydiet/src/pydiet/data/data_config.toml',</span> <span class="pre">data_dir='/home/runner/work/pydiet/pydiet/src/pydiet/data',</span> <span class="pre">doc_dir='/home/runner/work/pydiet/pydiet/src/pydiet/doc/html',</span> <span class="pre">doc_path='/manual',</span> <span class="pre">extra_dir='.',</span> <span class="pre">template_dir='/home/runner/work/pydiet/pydiet/src/pydiet/templates',</span> <span class="pre">userdoc_url='/manual/index.html')</span></em><a class="headerlink" href="#pydiet.server.config.settings.AppSettings.server" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
