@@ -110,7 +110,7 @@ class ServerSettings(BaseSettings):
         description="Directory containing templates"
         )
     userdoc_url: str = SField(
-        default = doc_path.default + "/", #type: ignore
+        default = doc_path.default + "/index.html", #type: ignore
         description="Endpoint URL for the user's HTML documentation"
         )
 
