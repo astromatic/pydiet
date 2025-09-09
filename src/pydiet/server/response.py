@@ -11,7 +11,9 @@ from astropy import units as u  #type: ignore[import-untyped]
 from cv2 import imencode
 import numpy as np
 from pydantic import BaseModel, Field
+from scipy.optimize import brentq
 from synphot import Observation, SpectralElement  #type: ignore[import-untyped]
+
 
 from .models import (
     ETCQueryModel,
@@ -31,6 +33,68 @@ ref_spectra = {
     'fnu': ab_spectrum,
     'fjansky': ab_spectrum
 }
+
+
+
+class Image(object):
+    def __init__(
+            self,
+            type: Literal["star", "galaxy"]="star",
+            psf_fwhm: u.Quantity['angle']=1.*u.arcsec, #type: ignore[name-defined],
+            psf_beta: float=3.2,
+            pixel: [u.Quantity['solid angle'],
+                u.Quantity['solid angle']]=[0.2*u.arcsec,0.2*u.arcsec],
+            image_size: [int, int] = [64, 64],
+            flux: float=1.,
+            bkg: float=0.,
+            ron: float=0.
+            ) -> np.ndarray:
+        self.flux = flux
+        self.var_flux = flux
+        self.var_bkg = bkg
+        self.var_ron = ron*ron
+
+        # Rasterize PSF
+        if psf_beta <= 1.:
+            raise ValueError("Moffat beta must be > 1.")
+        # Compute the square of the alpha parameter from the FWHM
+        alpha2 = u.Quantity(psf_fwhm)**2 / (4. * (2.**(1./psf_beta) - 1.)) \
+            / (pixel[0] * pixel[1])
+        yx = np.mgrid[
+            -image_size[0]//2:image_size[0] - image_size[0]//2,
+            -image_size[1]//2:image_size[1] - image_size[1]//2
+        ]
+        r2 = yx[0]**2 + yx[1]**2
+        img = np.power(1. + r2 / alpha2.value, -psf_beta) 
+        # Truncate inside a disk
+        mask = r2 <= r2[0, image_size[1]//2]
+        img *= mask
+        self.psf = img / img.sum()
+
+
+    def snr(self, t: float=1.) -> float:
+        # Compute the "noise variance image"
+        var_tot = self.var_ron + (self.var_bkg + self.var_flux * self.psf) * t
+        # Return SNR
+        return self.flux * t * np.sqrt(np.sum(self.psf**2 / var_tot))
+
+
+    def delta_snr2(self, t: float, snr: float) -> float:
+        return self.snr(t)**2 - snr**2
+
+
+
+    def etime_max(self, snr:float) -> float:
+        # Find exposure time range for root finding
+        t_high = 1.
+        while (tsnr:=self.snr(t_high)) < snr and tsnr < 1.e12:
+            t_high *= 2.
+        return t_high
+
+
+    def etime(self, snr:float) -> float:
+        return brentq(self.delta_snr2, 0., self.etime_max(snr), args=snr, xtol=1e-6, maxiter=100)
+
 
 
 def spectrum_at_airmass(
@@ -100,11 +164,12 @@ def moffat_img(
         -image_size[1]//2:image_size[1] - image_size[1]//2
     ]
     r2 = yx[0]**2 + yx[1]**2
-    img = np.pow(1. + r2 / alpha2, -beta) 
+    img = np.power(1. + r2 / alpha2.value, -beta) 
     # Truncate inside a disk
     mask = r2 <= r2[0, image_size[1]//2]
     img *= mask
     return img / img.sum()
+
 
 
 def moffat_nea(
@@ -212,45 +277,35 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
     ct_skysb = sky_observation.countrate(area=area, binned=False) / gain
     mag_skysb =  zp + u.Magnitude(ct_skysb)
 
-    '''
-    # Compute King's Noise Equivalent Area
-    nea = moffat_nea(q.seeing * u.arcsec, 3.2)
-    
-    # Compute total number of reference source electrons over NEA
-    e_ref = (ct_ref * gain).value * 10.**(-0.4*q.brightness)
-
-    # Compute total number of background electrons over NEA
-    e_sky = (ct_skysb * gain * nea).value
-    # Use 'counts' instead of electrons for the RON for compatibility with synphot
-    e_ron = detector.ron.to('electron').value
-    e_ron_eff2 = (e_ron**2 * nea / (detector.scale[0] * detector.scale[1])).value
-    '''
-
     # Compute total number of reference source electrons
-    e_ref = (ct_ref * gain).value * 10.**(-0.4*q.brightness)
-    # Compute image of the seeing-limited PSF
-    img = moffat_nea(q.seeing * u.arcsec, 3.2, detector.scale)
-    img_ref = img * e_ref
+    flux = (ct_ref * gain).value * 10.**(-0.4*q.brightness)
+
+    # Compute number of background electrons per pixel per second
+    bkg = (ct_skysb * gain * (detector.scale[0] * detector.scale[1])).value
 
     # Compute number of background electrons per pixel
-    e_sky = (ct_skysb * gain * (detector.scale[0] * detector.scale[1])).value
     # Use 'counts' instead of electrons for the RON for compatibility with synphot
-    e_ron = detector.ron.to('electron').value
-    e_ron_eff2 = e_ron**2
+    ron = detector.ron.to('electron').value
+
+    # Instantiate image model
+    img = Image(
+        psf_fwhm=q.seeing * u.arcsec,
+        psf_beta=3.2,
+        pixel=detector.scale,
+        flux=flux,
+        bkg=bkg,
+        ron=ron
+    )
 
 
     if q.compute == 'etime':
         snr = q.snr
         # Compute exposure time (solution to a second degree equation) in s
-        etime = (
-            snr * (snr * (e_sky + e_ref) + sqrt(
-                (snr * (e_sky + e_ref))**2 + 4. * e_ref**2 * e_ron_eff2
-            ))
-        ) / (2. * e_ref**2)
+        etime = img.etime(snr)
     else:
         etime = q.etime
-        # Compute SNR
-        snr = e_ref * etime / sqrt((e_ref + e_sky) * etime + e_ron_eff2)
+        snr = img.snr(etime)
+
 
     return ETCResponseModel(
             instrument = instrument.name,
