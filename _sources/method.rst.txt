@@ -55,7 +55,7 @@ with
    {\cal I}(\hat{F}) = \var{\left. \frac{\partial \ln{\cal L}(F|\vec{I})}{\partial F}\right|_{F=\hat{F}}}_\vec{I}\,,
 
 where the expectation is taken over pixel values, at the |MLE| :math:`F=\hat{F}`.
-Note that in order to simplify the computations, we expressed the Fisher information as the variance of the score instead of minus the expectation of the second derivative of the likelihood.
+Note that in order to simplify the computations, we expressed the Fisher information as the variance of the `score <https://en.wikipedia.org/wiki/Informant_(statistics)>`_ instead of minus the expectation of the second derivative of the likelihood.
 
 Plugging :eq:`likelihood` in :eq:`fisher` we get
 
