@@ -97,4 +97,8 @@ and we have
 .. math::
   :label:
 
-  \mathrm{SNR} \leq F \sqrt{\sum_i \frac{\phi_i^2}{\sigma_i^2} + \sum_i \frac{\phi_i^2}{2\sigma_i^4}} = f.t \sqrt{\sum_i \frac{\phi_i^2}{\sigma_r^2 + (\sigma_b^2 + f\phi_i)t}}.
+  \begin{aligned}
+  \mathrm{SNR} \leq & F \sqrt{\sum_i \frac{\phi_i^2}{\sigma_i^2} + \sum_i \frac{\phi_i^2}{2\sigma_i^4}}\\
+               \leq & f.t \sqrt{\sum_i \frac{\phi_i^2}{\sigma_r^2 + (\sigma_b^2 + f\phi_i)t} + \sum_i \frac{\phi_i^2}{2\left(\sigma_r^2 + (\sigma_b^2 + f\phi_i)t\right)^2}}.
+  \end{aligned}
+

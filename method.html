@@ -132,7 +132,10 @@ Note that in order to simplify the computations, we expressed the Fisher informa
 <span class="eqno">(8)<a class="headerlink" href="#equation-method-4" title="Link to this equation"></a></span>\[{\cal I}(\hat{F}) = \sum_i \frac{\phi_i^2}{\sigma_i^2} + \sum_i \frac{\phi_i^2}{2\sigma_i^4},\]</div>
 <p>and we have</p>
 <div class="math notranslate nohighlight" id="equation-method-5">
-<span class="eqno">(9)<a class="headerlink" href="#equation-method-5" title="Link to this equation"></a></span>\[\mathrm{SNR} \leq F \sqrt{\sum_i \frac{\phi_i^2}{\sigma_i^2} + \sum_i \frac{\phi_i^2}{2\sigma_i^4}} = f.t \sqrt{\sum_i \frac{\phi_i^2}{\sigma_r^2 + (\sigma_b^2 + f\phi_i)t}}.\]</div>
+<span class="eqno">(9)<a class="headerlink" href="#equation-method-5" title="Link to this equation"></a></span>\[\begin{split}\begin{aligned}
+\mathrm{SNR} \leq &amp; F \sqrt{\sum_i \frac{\phi_i^2}{\sigma_i^2} + \sum_i \frac{\phi_i^2}{2\sigma_i^4}}\\
+             \leq &amp; f.t \sqrt{\sum_i \frac{\phi_i^2}{\sigma_r^2 + (\sigma_b^2 + f\phi_i)t} + \sum_i \frac{\phi_i^2}{2\left(\sigma_r^2 + (\sigma_b^2 + f\phi_i)t\right)^2}}.
+\end{aligned}\end{split}\]</div>
 </section>
 </section>
 
