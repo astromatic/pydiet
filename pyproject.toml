@@ -23,6 +23,7 @@ dependencies = [
     "platformdirs >= 3.4.0",
     "pydantic >= 2.2",
     "pydantic-settings >= 2.2",
+    "scipy >= 1.15",
     "setuptools",
     "specutils >= 1.18.0",
     "synphot >= 1.5.0",
