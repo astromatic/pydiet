@@ -100,13 +100,13 @@ From there, using <a class="reference external" href="https://en.wikipedia.org/w
 <div class="math notranslate nohighlight" id="equation-method-1">
 <span class="eqno">(3)<a class="headerlink" href="#equation-method-1" title="Link to this equation"></a></span>\[\sigma_i^2 = \sigma_r^2 + \sigma_b^2.t + F\phi_i,\]</div>
 <p>comprising contributions from the readout noise <span class="math notranslate nohighlight">\(\sigma_r^2\)</span>, from the background noise (per unit of time) <span class="math notranslate nohighlight">\(\sigma_b^2\)</span>, and from Poisson noise (in the Gaussian regime) from the source photons themselves, <span class="math notranslate nohighlight">\(F\)</span>.
-Now, the Cramér-Rao bound to the variance of the  <abbr title="Maximum Likelihood Estimation">MLE</abbr>, <span class="math notranslate nohighlight">\(\var{\hat{F}}\)</span>, is simply the inverse of the Fisher information:</p>
+Now, the Cramér-Rao bound to the variance of the <abbr title="Maximum Likelihood Estimation">MLE</abbr>, <span class="math notranslate nohighlight">\(\var{\hat{F}}\)</span>, is simply the inverse of the Fisher information:</p>
 <div class="math notranslate nohighlight" id="equation-method-2">
 <span class="eqno">(4)<a class="headerlink" href="#equation-method-2" title="Link to this equation"></a></span>\[\var{\hat{F}} \geq \frac{1}{{\cal I}(\hat{F})},\]</div>
 <p>with</p>
 <div class="math notranslate nohighlight" id="equation-fisher">
 <span class="eqno">(5)<a class="headerlink" href="#equation-fisher" title="Link to this equation"></a></span>\[ {\cal I}(\hat{F}) = \var{\left. \frac{\partial \ln{\cal L}(F|\vec{I})}{\partial F}\right|_{F=\hat{F}}}_\vec{I}\,,\]</div>
-<p>where the expectation is taken over pixel values, at the <abbr title="Maximum Likelihood Estimation">MLE</abbr> <span class="math notranslate nohighlight">\(F=\hat{F}\)</span>.
+<p>where the variance is taken over pixel values, at the <abbr title="Maximum Likelihood Estimation">MLE</abbr> <span class="math notranslate nohighlight">\(F=\hat{F}\)</span>.
 Note that in order to simplify the computations, we expressed the Fisher information as the variance of the <a class="reference external" href="https://en.wikipedia.org/wiki/Informant_(statistics)">score</a> instead of minus the expectation of the second derivative of the likelihood.</p>
 <p>Plugging <a class="reference internal" href="#equation-likelihood">(2)</a> in <a class="reference internal" href="#equation-fisher">(5)</a> we get</p>
 <div class="math notranslate nohighlight" id="equation-method-3">
