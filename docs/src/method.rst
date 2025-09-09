@@ -40,7 +40,7 @@ where :math:`\vec{\phi}` is the source image model normalized such that :math:`\
   \sigma_i^2 = \sigma_r^2 + \sigma_b^2.t + F\phi_i,
 
 comprising contributions from the readout noise :math:`\sigma_r^2`, from the background noise (per unit of time) :math:`\sigma_b^2`, and from Poisson noise (in the Gaussian regime) from the source photons themselves, :math:`F`.
-Now, the Cramér-Rao bound to the variance of the  |MLE|, :math:`\var{\hat{F}}`, is simply the inverse of the Fisher information:
+Now, the Cramér-Rao bound to the variance of the |MLE|, :math:`\var{\hat{F}}`, is simply the inverse of the Fisher information:
 
 .. math::
   :label:
@@ -54,7 +54,7 @@ with
 
    {\cal I}(\hat{F}) = \var{\left. \frac{\partial \ln{\cal L}(F|\vec{I})}{\partial F}\right|_{F=\hat{F}}}_\vec{I}\,,
 
-where the expectation is taken over pixel values, at the |MLE| :math:`F=\hat{F}`.
+where the variance is taken over pixel values, at the |MLE| :math:`F=\hat{F}`.
 Note that in order to simplify the computations, we expressed the Fisher information as the variance of the `score <https://en.wikipedia.org/wiki/Informant_(statistics)>`_ instead of minus the expectation of the second derivative of the likelihood.
 
 Plugging :eq:`likelihood` in :eq:`fisher` we get
