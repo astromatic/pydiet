@@ -4,6 +4,9 @@
 .. |API| replace:: :abbr:`API (Application Programming Interface)`
 .. _API: https://en.wikipedia.org/wiki/Application_programming_interface
 
+.. |MLE| replace:: :abbr:`MLE (Maximum Likelihood Estimation)`
+.. _MLE: https://en.wikipedia.org/wiki/Maximum_likelihood_estimation
+
 .. |Python| replace:: `Python`
 .. _Python: https://python.org
 

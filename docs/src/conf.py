@@ -86,7 +86,9 @@ mathjax3_config = {
              'oper': ['\\mathbf{#1}',1],
              'dvol': ['{\\rm d}^{#1}\\hspace{-2pt}#2', 2],
              'sinc': ['\\mbox{sinc}'],
-             'esp': ['\\mathbb{E}\\left[#1\\right]', 1]
+             'esp': ['\\mathbb{E}\\left[#1\\right]', 1],
+             'var': ['\\mathrm{Var}\\left[#1\\right]', 1],
+             'cov': ['\\mathrm{Cov}\\left[#1,#2\\right]', 2]
         }
     }
 }
@@ -114,7 +116,9 @@ latex_elements = {
 \def\oper#1{\mathbf{#1}}
 \def\dvol#1#2{{\rm d}^{#1}\hspace{-2pt}#2}
 \def\sinc{\mbox{sinc}}
-\def\esp#1{\mbox{E}\left\{#1\right\}}
+\def\esp#1{\mathbb{E}\left\[#1\right\]}
+\def\var#1{\mathrm{Var}\left\[#1\right\]}
+\def\cov#1{\mathrm{Cov}\left\[#1,#2\right\]}
 ''',
     # Latex figure (float) alignment
     #
