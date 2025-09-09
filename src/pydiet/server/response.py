@@ -74,9 +74,12 @@ class Image(object):
 
     def snr(self, t: float=1.) -> float:
         # Compute the "noise variance image"
+        psf2 = self.psf**2
         var_tot = self.var_ron + (self.var_bkg + self.var_flux * self.psf) * t
         # Return SNR
-        return self.flux * t * np.sqrt(np.sum(self.psf**2 / var_tot))
+        return self.flux * t * np.sqrt(
+            np.sum(psf2 / var_tot + psf2 / (2. * var_tot**2))
+        )
 
 
     def delta_snr2(self, t: float, snr: float) -> float:
