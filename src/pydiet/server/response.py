@@ -54,7 +54,7 @@ class Image(object):
         self.var_bkg = bkg
         self.var_ron = ron*ron
 
-        # Rasterize PSF
+        # Rasterize the PSF
         if psf_beta <= 1.:
             raise ValueError("Moffat beta must be > 1.")
         # Compute the square of the alpha parameter from the FWHM
@@ -123,97 +123,6 @@ def spectrum_at_airmass(
     fac = (am - aml) / (amp - aml) if am < amp else 1.
     return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac
 
-
-def moffat_img(
-        fwhm: u.Quantity['angle'], #type: ignore[name-defined]
-        beta: float,
-        scale: [u.Quantity['solid angle'], u.Quantity['solid angle']],
-        image_size: [int, int] = [64, 64]) -> np.ndarray:
-    """
-    Return a noiseless, normalized image of a 2D Moffat distribution.
-
-    Examples
-    --------
-    >>> from pydiet.server.compute import moffat_img
-    
-    >>> moffat_img("1 arcsec", 3.2, ["0.1 arcsec", "0.1 arcsec"])
-    <Quantity 3.62308197 arcsec2>
-
-    # beta values < 1 trigger a ValueError exception
-    >>> moffat_nea("1 arcsec", 0.8, ["0.1 arcsec", "0.1 arcsec"])
-    Traceback (most recent call last):
-    ...
-    ValueError: Moffat beta must be > 1.
-
-    Parameters
-    ----------
-    fwhm: ~astropy.units.Quantity['angle']
-        Angular Full-Width at Half-Maximum of the Moffat function.
-    beta: float
-        Moffat beta parameter (must be strictly greater than 1).
-
-    Returns
-    -------
-    img: ~numpy.ndarray
-        Image of the Moffat distribution.
-    """
-    if beta <= 1.:
-        raise ValueError("Moffat beta must be > 1.")
-    # Compute the square of the alpha parameter from the FWHM
-    alpha2 = u.Quantity(fwhm)**2 / (4. * (2.**(1./beta) - 1.)) \
-        / (scale[0] * scale[1])
-    yx = np.mgrid[
-        -image_size[0]//2:image_size[0] - image_size[0]//2,
-        -image_size[1]//2:image_size[1] - image_size[1]//2
-    ]
-    r2 = yx[0]**2 + yx[1]**2
-    img = np.power(1. + r2 / alpha2.value, -beta) 
-    # Truncate inside a disk
-    mask = r2 <= r2[0, image_size[1]//2]
-    img *= mask
-    return img / img.sum()
-
-
-
-def moffat_nea(
-        fwhm: u.Quantity['angle'], #type: ignore[name-defined]
-        beta: float) -> u.Quantity['solid angle']: #type: ignore[name-defined] 
-    """
-    Return King's Noise Equivalent Area of a Moffat function of given
-    Full Width at Half-Maximum (FWHM) and beta parameters.
-    See `King 1983 <https://adsabs.harvard.edu/abs/1983PASP...95..163K>`_
-
-    Examples
-    --------
-    >>> from pydiet.server.compute import moffat_nea
-    
-    >>> moffat_nea("1 arcsec", 3.2)
-    <Quantity 3.62308197 arcsec2>
-
-    # beta values < 1 trigger a ValueError exception
-    >>> moffat_nea("1 arcsec", 0.8)
-    Traceback (most recent call last):
-    ...
-    ValueError: Moffat beta must be > 1.
-
-    Parameters
-    ----------
-    fwhm: ~astropy.units.Quantity['angle']
-        Angular Full-Width at Half-Maximum of the Moffat function.
-    beta: float
-        Moffat beta parameter (must be strictly greater than 1).
-
-    Returns
-    -------
-    nea: ~astropy.units.Quantity['solid angle']
-        Noise Equivalent Area as a solid angle.
-    """
-    if beta <= 1.:
-        raise ValueError("Moffat beta must be > 1.")
-    # Compute the square of the alpha parameter from the FWHM
-    alpha2 = u.Quantity(fwhm)**2 / (4. * (2.**(1./beta) - 1.))
-    # Integrate f(r)**2 from 0 to +infty and take the inverse
-    return pi * (2. * beta - 1.) / (beta - 1.)**2. * alpha2 
 
 
 def get_response(q: ETCQueryModel) -> ETCResponseModel:
