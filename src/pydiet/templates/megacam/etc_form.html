@@ -88,6 +88,15 @@
           <ion-input name="seeing" label='Seeing  ( " )' label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.1" max="20.0" step="0.01" value="0.7"></ion-input>
         </ion-item>
       </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select name="cutout" label="Cutout" label-placement="floating" fill="solid" interface="popover" value="single">
+            <ion-select-option value="none">None</ion-select-option>
+            <ion-select-option value="single">Single</ion-select-option>
+            <ion-select-option value="animate">Animate</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>

@@ -14,7 +14,9 @@ from .types import ComputeID, FilterID, InstrumentID, SkyID
 
 class ETCQueryModel(BaseModel):
 
-    instrument: InstrumentID
+    instrument: InstrumentID = Field(
+        description="Instrument ID"
+        )
 
     airmass: float = Field(
         default=1.2,
@@ -29,7 +31,14 @@ class ETCQueryModel(BaseModel):
         description="Source brightness"
         )
 
-    compute: ComputeID
+    compute: ComputeID = Field(
+        description="Computation type"
+        )
+
+    cutout: Literal['none', 'single', 'animate'] = Field(
+        default='none',
+        description="Cutout generation"
+        )
 
     etime: float = Field(
         default=20.,
@@ -38,7 +47,9 @@ class ETCQueryModel(BaseModel):
         description="Required exposure time"
         )
 
-    filter: FilterID
+    filter: FilterID = Field(
+        description="Instrument filter"
+    )
 
     photometry: Literal['aperture', 'psf']
 
@@ -55,7 +66,10 @@ class ETCQueryModel(BaseModel):
         description="Required source Signal-to-Noise Ratio"
         )
 
-    source: Literal['pointsource', 'galaxy', 'extended']
+    source: Literal['pointsource', 'galaxy', 'extended'] = Field(
+        default='pointsource',
+        description="Source type"
+        )
 
     transparency: float = Field(
         default=1.,
@@ -64,8 +78,6 @@ class ETCQueryModel(BaseModel):
         description="Sky transparency"
         )
 
-    unit: Literal['abmag', 'vegamag', 'flambda', 'fnu', 'fjansky']
-
     transparency: float = Field(
         default=1.,
         gt=0.,
@@ -73,7 +85,11 @@ class ETCQueryModel(BaseModel):
         description="Sky transparency"
         )
 
-    unit: Literal['abmag', 'vegamag', 'flambda', 'fnu', 'fjansky']
+    unit: Literal['abmag', 'vegamag', 'flambda', 'fnu', 'fjansky'] = Field(
+        default='abmag',
+        description="Photometric system"
+        )
+
 
 
     @field_validator('filter')
