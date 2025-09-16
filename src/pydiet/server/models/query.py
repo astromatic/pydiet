@@ -16,36 +16,31 @@ class ETCQueryModel(BaseModel):
 
     instrument: InstrumentID = Field(
         description="Instrument ID"
-        )
+    )
 
     airmass: float = Field(
         default=1.2,
         ge=1.,
         description="Observation airmass"
-        )
+    )
 
     brightness: float = Field(
         default=20.,
         ge=-100.,
         le=100.,
         description="Source brightness"
-        )
+    )
 
     compute: ComputeID = Field(
         description="Computation type"
-        )
-
-    cutout: Literal['none', 'single', 'animate'] = Field(
-        default='none',
-        description="Cutout generation"
-        )
+    )
 
     etime: float = Field(
         default=20.,
         ge=0.,
         le=1e30,
         description="Required exposure time"
-        )
+    )
 
     filter: FilterID = Field(
         description="Instrument filter"
@@ -57,40 +52,38 @@ class ETCQueryModel(BaseModel):
         default=0.7,
         ge=0.1,
         le=100.
-        )
+    )
     sky: SkyID
 
     snr: float = Field(
         default=10.,
         gt=0.,
         description="Required source Signal-to-Noise Ratio"
-        )
+    )
 
     source: Literal['pointsource', 'galaxy', 'extended'] = Field(
         default='pointsource',
         description="Source type"
-        )
+    )
 
     transparency: float = Field(
         default=1.,
         gt=0.,
         le=1.,
         description="Sky transparency"
-        )
+    )
 
     transparency: float = Field(
         default=1.,
         gt=0.,
         le=1.,
         description="Sky transparency"
-        )
+    )
 
     unit: Literal['abmag', 'vegamag', 'flambda', 'fnu', 'fjansky'] = Field(
         default='abmag',
         description="Photometric system"
-        )
-
-
+    )
 
     @field_validator('filter')
     def validate_filter(cls, f: str, info: ValidationInfo) -> str:

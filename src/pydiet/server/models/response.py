@@ -4,6 +4,8 @@ Response models
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
+from typing import Optional
+
 from astropy import units as u #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 
@@ -51,6 +53,8 @@ class ETCResponseModel(BaseModel):
         lt=100.,
         description="Estimated sky background in mag/arcsec2"
     )
-
-
+    cutout: Optional[str]=Field(
+        default=None,
+        description="GIF animation of the source"
+    )
 

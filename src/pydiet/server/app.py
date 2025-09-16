@@ -197,7 +197,7 @@ def create_app() -> FastAPI:
             `JSON response <https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse>`_
             containing the computed ETC data.
         """
-        return get_response(query).model_dump_json()
+        return get_response(query).model_dump(exclude_none=True)
 
 
     # PyDIET UI component endpoint with query string
@@ -229,7 +229,7 @@ def create_app() -> FastAPI:
             context = {
                 "root_path": request.scope.get("root_path"),
                 "package": package.title,
-                "r": get_response(query)
+                "r": get_response(query, ui=True)
             }
         )
 

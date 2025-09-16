@@ -8,7 +8,10 @@ from math import pi, sqrt
 from typing import Literal
 
 from astropy import units as u  #type: ignore[import-untyped]
+from base64 import b64encode
 from cv2 import imencode
+from io import BytesIO
+from PIL.Image import fromarray
 import numpy as np
 from pydantic import BaseModel, Field
 from scipy.optimize import brentq
@@ -47,12 +50,16 @@ class Image(object):
             image_size: [int, int] = [64, 64],
             flux: float=1.,
             bkg: float=0.,
-            ron: float=0.
+            ron: float=0.,
+            gain: float=1.
             ) -> np.ndarray:
         self.flux = flux
+        self.bkg = bkg
+        self.ron = ron
         self.var_flux = flux
         self.var_bkg = bkg
         self.var_ron = ron*ron
+        self.gain = gain
 
         # Rasterize the PSF
         if psf_beta <= 1.:
@@ -99,6 +106,51 @@ class Image(object):
         return brentq(self.delta_snr2, 0., self.etime_max(snr), args=snr, xtol=1e-6, maxiter=100)
 
 
+    def get_gif(self, etime: float, frames: int=10) -> str:
+        # Initialize random generator
+        rng = np.random.default_rng()
+        # Use the PSF as a template image and generate a noiseless image
+        noisy = (self.flux * np.array([self.psf] * frames) + self.bkg) * etime
+        # Generate Poisson + Gaussian noise realizations
+        # We add a 10 sigma_RON offset to prevent negative values
+        noisy = np.round(
+            (
+                rng.poisson(lam=noisy) + rng.normal(
+                    loc=4.*self.ron,
+                    scale=self.ron,
+                    size=noisy.shape
+                ) - self.bkg * etime
+            ) / self.gain
+        )
+        # Normalize to a max of 1
+        noisy[noisy < 0.] = 0.
+        noisy /= noisy.max()
+        # Apply sRGB gamma correction and convert to 0...255 unsigned integers
+        noisy = (
+            np.where(
+                noisy <= 0.0031308,
+                12.92 * noisy,
+                1.055 * np.power(noisy, 1/2.4) - 0.055
+            ) * 255.
+        ).astype(np.uint8)
+        
+        # Create image buffer
+        buffer = BytesIO()
+        # Save GIF to buffer and append the rest of the animation
+        fromarray(noisy[0], mode="L").save(
+            buffer,
+            format='GIF',
+            save_all=True,
+            append_images=[fromarray(im) for im in noisy[1:]],
+            duration=100,
+            loop=0
+        )
+        buffer.seek(0)
+        # Encode GIF as base64
+        gif_base64 = b64encode(buffer.read()).decode("utf-8")
+        return f"data:image/gif;base64,{gif_base64}"
+
+
 
 def spectrum_at_airmass(
         models: dict[str, SBSEDModel | SEDModel | TransmissionModel],
@@ -125,7 +177,7 @@ def spectrum_at_airmass(
 
 
 
-def get_response(q: ETCQueryModel) -> ETCResponseModel:
+def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
     instrument = instruments[q.instrument.value]
 
     # Detector transmission
@@ -206,7 +258,8 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
         pixel=detector.scale,
         flux=flux,
         bkg=bkg,
-        ron=ron
+        ron=ron,
+        gain=gain
     )
 
 
@@ -228,25 +281,8 @@ def get_response(q: ETCQueryModel) -> ETCResponseModel:
             etime_skysat = etime * 100.,
             etime_sourcesat = etime * 10.,
             snr = snr,
-            sky_mag = mag_skysb.value
+            sky_mag = mag_skysb.value,
+            cutout = img.get_gif(etime) if ui else None
     )
 
-
-def make_image(r: ETCResponseModel):
-    '''
-    Simulate an astronomical image of a point-source
-    '''
-    # Pixel size in arcsec
-    pixsize = 0.186 if r.instrument == 'megacam' else 0.307
-    # Compute point source image
-    y,x = np.mgrid[-shape[0]//2:shape[0]//2,-shape[1]//2:shape[1]//2] * pixsize #type: ignore
-    sigma2 = (fwhm / 2.35) ** 2 #type: ignore
-    psf = np.exp( - (x*x + y*y) / (2 * sigma2))
-    # Add point-source plus background plus realization of Gaussian noise
-    image = r.snr * psf + np.random.normal(size=shape) #type: ignore
-    # Normalize and encode to PNG format
-    mini = np.min(image)
-    maxi = np.max(image)
-    res, png = imencode('.png', 255.0 * (image - mini) / (maxi - mini))
-    return png
 
