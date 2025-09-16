@@ -90,46 +90,77 @@
 <div class="viewcode-block" id="ETCQueryModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.query.ETCQueryModel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ETCQueryModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">instrument</span><span class="p">:</span> <span class="n">InstrumentID</span>
+
+    <span class="n">instrument</span><span class="p">:</span> <span class="n">InstrumentID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span>
+    <span class="p">)</span>
+
     <span class="n">airmass</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Observation airmass&quot;</span>
-        <span class="p">)</span>
+    <span class="p">)</span>
+
     <span class="n">brightness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">20.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=-</span><span class="mf">100.</span><span class="p">,</span>
         <span class="n">le</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Source brightness&quot;</span>
-        <span class="p">)</span>
-    <span class="n">compute</span><span class="p">:</span> <span class="n">ComputeID</span>
+    <span class="p">)</span>
+
+    <span class="n">compute</span><span class="p">:</span> <span class="n">ComputeID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Computation type&quot;</span>
+    <span class="p">)</span>
+
     <span class="n">etime</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">20.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">le</span><span class="o">=</span><span class="mf">1e30</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Required exposure time&quot;</span>
-        <span class="p">)</span>
-    <span class="nb">filter</span><span class="p">:</span> <span class="n">FilterID</span>
+    <span class="p">)</span>
+
+    <span class="nb">filter</span><span class="p">:</span> <span class="n">FilterID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Instrument filter&quot;</span>
+    <span class="p">)</span>
+
     <span class="n">photometry</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;aperture&#39;</span><span class="p">,</span> <span class="s1">&#39;psf&#39;</span><span class="p">]</span>
+
     <span class="n">seeing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
         <span class="n">le</span><span class="o">=</span><span class="mf">100.</span>
-        <span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">sky</span><span class="p">:</span> <span class="n">SkyID</span>
+
     <span class="n">snr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span>
         <span class="n">gt</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Required source Signal-to-Noise Ratio&quot;</span>
-        <span class="p">)</span>
-    <span class="n">source</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;pointsource&#39;</span><span class="p">,</span> <span class="s1">&#39;galaxy&#39;</span><span class="p">,</span> <span class="s1">&#39;extended&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">source</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;pointsource&#39;</span><span class="p">,</span> <span class="s1">&#39;galaxy&#39;</span><span class="p">,</span> <span class="s1">&#39;extended&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;pointsource&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Source type&quot;</span>
+    <span class="p">)</span>
+
     <span class="n">transparency</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
         <span class="n">gt</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">le</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sky transparency&quot;</span>
-        <span class="p">)</span>
-    <span class="n">unit</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;abmag&#39;</span><span class="p">,</span> <span class="s1">&#39;vegamag&#39;</span><span class="p">,</span> <span class="s1">&#39;flambda&#39;</span><span class="p">,</span> <span class="s1">&#39;fnu&#39;</span><span class="p">,</span> <span class="s1">&#39;fjansky&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">transparency</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
+        <span class="n">gt</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+        <span class="n">le</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sky transparency&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">unit</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;abmag&#39;</span><span class="p">,</span> <span class="s1">&#39;vegamag&#39;</span><span class="p">,</span> <span class="s1">&#39;flambda&#39;</span><span class="p">,</span> <span class="s1">&#39;fnu&#39;</span><span class="p">,</span> <span class="s1">&#39;fjansky&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;abmag&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Photometric system&quot;</span>
+    <span class="p">)</span>
 
 <div class="viewcode-block" id="ETCQueryModel.validate_filter">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.query.ETCQueryModel.validate_filter">[docs]</a>

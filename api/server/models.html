@@ -2794,7 +2794,8 @@
 <span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
 <span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;instrument&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/InstrumentID&quot;</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/InstrumentID&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Instrument ID&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;airmass&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span>
@@ -2812,6 +2813,7 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;compute&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Computation type&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="s2">&quot;etime&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;snr&quot;</span>
@@ -2828,7 +2830,8 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;filter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/FilterID&quot;</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/FilterID&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Instrument filter&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;photometry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -2862,6 +2865,8 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pointsource&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Source type&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="s2">&quot;pointsource&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;galaxy&quot;</span><span class="p">,</span>
@@ -2879,6 +2884,8 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abmag&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Photometric system&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="s2">&quot;abmag&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;vegamag&quot;</span><span class="p">,</span>
@@ -2934,9 +2941,7 @@
 <span class="w">      </span><span class="s2">&quot;compute&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;filter&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;photometry&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;sky&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;source&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;unit&quot;</span>
+<span class="w">      </span><span class="s2">&quot;sky&quot;</span>
 <span class="w">   </span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
@@ -2995,7 +3000,8 @@
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.compute">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'etime'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'snr'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.compute" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Computation type</p>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.etime">
@@ -3014,7 +3020,8 @@
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.filter">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.FilterID" title="pydiet.server.models.types.FilterID"><span class="pre">FilterID</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.filter" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Instrument filter</p>
+<dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.validate_filter" title="pydiet.server.models.query.ETCQueryModel.validate_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_filter</span></code></a></p></li>
@@ -3026,7 +3033,8 @@
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.instrument">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instrument</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.InstrumentID" title="pydiet.server.models.types.InstrumentID"><span class="pre">InstrumentID</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.instrument" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Instrument ID</p>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.photometry">
@@ -3066,8 +3074,9 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.source">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'pointsource'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'galaxy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'extended'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.source" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'pointsource'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'galaxy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'extended'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pointsource'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.source" title="Link to this definition"></a></dt>
+<dd><p>Source type</p>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.transparency">
@@ -3085,8 +3094,9 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.unit">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'abmag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vegamag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'flambda'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fnu'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fjansky'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.unit" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'abmag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vegamag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'flambda'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fnu'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fjansky'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'abmag'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.unit" title="Link to this definition"></a></dt>
+<dd><p>Photometric system</p>
+</dd></dl>
 
 <dl class="py method pydantic_validator">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.validate_filter">
@@ -3169,6 +3179,19 @@
 <span class="w">         </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-100.0</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sky Mag&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;cutout&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GIF animation of the source&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Cutout&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -3183,6 +3206,7 @@
 <dt class="field-odd">Fields<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.compute" title="pydiet.server.models.response.ETCResponseModel.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span> <span class="pre">(Literal['etime',</span> <span class="pre">'snr'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.cutout" title="pydiet.server.models.response.ETCResponseModel.cutout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cutout</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime" title="pydiet.server.models.response.ETCResponseModel.etime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime_skysat" title="pydiet.server.models.response.ETCResponseModel.etime_skysat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime_skysat</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime_sourcesat" title="pydiet.server.models.response.ETCResponseModel.etime_sourcesat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime_sourcesat</span> <span class="pre">(float)</span></code></a></p></li>
@@ -3198,6 +3222,12 @@
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.compute">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'etime'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'snr'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.compute" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.cutout">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cutout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.cutout" title="Link to this definition"></a></dt>
+<dd><p>GIF animation of the source</p>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.etime">
