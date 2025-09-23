@@ -9,7 +9,6 @@ from typing import Literal
 
 from astropy import units as u  #type: ignore[import-untyped]
 from base64 import b64encode
-from cv2 import imencode
 from io import BytesIO
 from PIL.Image import fromarray
 import numpy as np
