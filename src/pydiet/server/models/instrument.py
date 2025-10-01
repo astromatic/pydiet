@@ -21,12 +21,14 @@ class DetectorModel(BaseModel):
     gain: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "electron / adu",
         gt = 0. * u.electron / u.adu,
-        decimals = 4
+        decimals = 4,
+        description = "Detector conversion factor."
     )
     ron: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "electron",
         ge = 0. * u.electron,
-        decimals = 4
+        decimals = 4,
+        description = "Read-out noise RMS amplitude."
     )
     scale: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "arcsec/pix",
