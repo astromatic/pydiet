@@ -211,7 +211,8 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
         am=q.airmass
     )
     # Effective transmission
-    total_resp = detector_resp * filter_resp * optics_resp * telescope_resp * atmo_resp
+    total_resp = detector_resp * filter_resp * optics_resp * telescope_resp \
+        * q.transparency * atmo_resp
     total_resp.to_fits("resp.fits", overwrite=True)
     ref_spectrum = ref_spectra[q.unit]
 
