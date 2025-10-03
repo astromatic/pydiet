@@ -48,6 +48,7 @@ def main() -> int:
     default_instrument = 'megacam'
     default_sky = 'dark'
     default_snr = 10.
+    default_unit = 'abmag'
     default_url = "http://127.0.0.1:8010/api/"
     default_multiply = 1.
 
@@ -102,7 +103,13 @@ def main() -> int:
         help=f"SNR  (default: {default_snr})"
     )
     parser.add_argument(
-        '-u', '--url',
+        '-u', '--unit',
+        choices=['abmag', 'vegamag', 'flambda', 'fnu', 'fjansky'],
+        default=default_unit,
+        help=f"Flux unit (default: {default_unit})"
+    )
+    parser.add_argument(
+        '-U', '--url',
         type=str,
         default=default_url,
         help=f"URL of the PyDIET API (default: {default_url})"
@@ -123,6 +130,7 @@ def main() -> int:
     quiet = args['quiet']
     sky = args['sky']
     snr = args['snr']
+    unit = args['unit']
     url = args['url']
 
     instruments = query_url(url, "instruments")
@@ -133,14 +141,14 @@ def main() -> int:
         r = query_url(
             url,
             f"{instrument}?compute=etime&source=pointsource&snr={snr}&"
-            f"filter={f}&brightness={brightness}&unit=abmag&photometry=psf&"
+            f"filter={f}&brightness={brightness}&unit={unit}&photometry=psf&"
             f"sky={sky}&airmass={airmass}&transparency=1.0&seeing={fwhm}"
         )
         if r is None:
             return 1
         print(
             f"{r['filter']:10s}:    "
-            f"Zero-point = {r['zp']:6.2f}  Exp.time = {r["etime"]:6.2f}"
+            f"Zero-point = {r['zp']:6.2f} | Background = {r['sky_mag']:6.2f} | Exp.time = {r['etime']:6.2f}"
         )
     if not quiet:
         print("Done.")
