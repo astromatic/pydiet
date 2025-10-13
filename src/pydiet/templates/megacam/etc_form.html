@@ -13,7 +13,17 @@
     <ion-row class="ion-align-items-center">
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select  id=select-compute name="compute" label="Compute" width=200px" label-placement="floating" fill="solid" interface="popover" value="etime">
+          <ion-select onfocus="
+              /* Change use of SNR input to exposure time if SNR is output */
+              const snr=document.querySelector('.snr');
+              if (this.value=='snr') {
+                snr.name = 'etime';
+                snr.label = 'Exposure Time [ s ]'
+              } else {
+                snr.name = 'snr';
+                snr.label = 'Signal-to-Noise ratio'
+              }
+              " name="compute" label="Compute" width="200px" label-placement="floating" fill="solid" interface="popover" value="etime">
             <ion-select-option value="etime">Exposure time</ion-select-option>
             <ion-select-option value="snr">SNR</ion-select-option>
           </ion-select>
@@ -21,16 +31,38 @@
       </ion-col>
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select name="source" label="Source type" label-placement="floating" fill="solid" interface="popover" value="pointsource">
+          <ion-input class="snr" name="snr" label="Signal-to-Noise ratio" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" step="0.1"  value="10.0"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select onfocus="
+              /* Display galaxy-related inputs if the source type is 'galaxy' */
+              const gal=document.querySelectorAll('.galaxy');
+              if (this.value=='galaxy')
+                gal.forEach(el => el.classList.remove('ion-hide'));
+              else
+                gal.forEach(el => el.classList.add('ion-hide'));
+              " name="source" label="Source type" label-placement="floating" fill="solid" interface="popover" value="pointsource">
             <ion-select-option value="pointsource">Point source</ion-select-option>
             <ion-select-option value="galaxy">Galaxy</ion-select-option>
             <ion-select-option value="extended">Extended</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
+      <ion-col class="galaxy ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-input name="sersic_radius" label="Sérsic Rₑ [ &quot; ]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" max="10.0" step="0.1" value="1.0"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col class="galaxy ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+         <ion-input name="sersic_index" label="Sérsic index" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.4" max="10.0" step="0.1" value="1.0"></ion-input>
+        </ion-item>
+      </ion-col>
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-input id=input-snr-etime name="snr" label="SNR" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" step="0.1"  value="10.0"></ion-input>
+          <ion-input name="seeing" label="Seeing  [ &quot; ]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.1" max="20.0" step="0.01" value="0.7"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
@@ -81,11 +113,6 @@
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-input name="transparency" label="Transparency" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" max="1.0" step="0.01" value="1.0"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
-        <ion-item>
-          <ion-input name="seeing" label='Seeing  ( " )' label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.1" max="20.0" step="0.01" value="0.7"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>

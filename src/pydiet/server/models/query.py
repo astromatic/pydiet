@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field, PydanticUserError, ValidationInfo, field_
 
 from .default import default_filter, default_instrument, filters, instruments
 from .exceptions import ETCValidationError
-from .types import ComputeID, FilterID, InstrumentID, SkyID
+from .types import ComputeID, FilterID, InstrumentID, SkyID, SourceID
 
 
 class ETCQueryModel(BaseModel):
@@ -39,7 +39,7 @@ class ETCQueryModel(BaseModel):
         default=20.,
         ge=0.,
         le=1e30,
-        description="Required exposure time"
+        description="Required exposure time [s]"
     )
 
     filter: FilterID = Field(
@@ -55,22 +55,28 @@ class ETCQueryModel(BaseModel):
     )
     sky: SkyID
 
+    sersic_radius: float = Field(
+        default=1.,
+        gt=0.,
+        le=10.,
+        description="Sérsic effective radius [\"]"
+    )
+
+    sersic_index: float = Field(
+        default=1.,
+        ge=0.3,
+        le=10.,
+        description="Sersic index"
+    )
+
     snr: float = Field(
         default=10.,
         gt=0.,
         description="Required source Signal-to-Noise Ratio"
     )
 
-    source: Literal['pointsource', 'galaxy', 'extended'] = Field(
-        default='pointsource',
+    source: SourceID = Field(
         description="Source type"
-    )
-
-    transparency: float = Field(
-        default=1.,
-        gt=0.,
-        le=1.,
-        description="Sky transparency"
     )
 
     transparency: float = Field(

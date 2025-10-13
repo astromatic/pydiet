@@ -14,7 +14,6 @@ export async function update_etcform(instrument) {
 		ui_url + "/" + instrument.id + "/etc_form"
 	).then( (result) => { 
 		const etc_form = document.querySelector('#etc-form');
-		update_snr_etime();
 		update_filters(instrument);
 		etc_form.addEventListener('submit', async function (e){
 			// Prevent default behavior on submit
@@ -29,21 +28,6 @@ export async function update_etcform(instrument) {
 	});
 }
 
-function update_snr_etime() {
-	if ((select_compute = document.querySelector('#select-compute'))) {
-		select_compute.addEventListener('ionChange', (event) => {    
-			const input = document.querySelector('#input-snr-etime'),
-				ctype = event.detail.value;
-			if (ctype == 'snr' && input.name == 'snr') {
-				input.name = 'etime';
-				input.label = "Exposure Time (s)"
-			} else if (ctype == 'etime' && input.name == 'etime') {
-				input.name = 'snr';
-				input.label = "SNR"
-			}
-		});
-	}
-}
 
 function update_filters(instrument) {
 	if ((select_filters = document.querySelector("#select-filters"))) {

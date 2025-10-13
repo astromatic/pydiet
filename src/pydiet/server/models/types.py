@@ -27,4 +27,6 @@ InstrumentID = Enum(  # type: ignore[misc]
 
 SkyID = Literal['dark', 'grey', 'bright']
 
+SourceID = Literal['pointsource', 'galaxy', 'extended']
+
 
