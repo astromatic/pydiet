@@ -143,19 +143,23 @@ class Image(object):
         # Use the PSF as a template image and generate a noiseless image
         noisy = (self.flux * np.array([self.image] * frames) + self.bkg) * etime
         # Generate Poisson + Gaussian noise realizations
-        # We add a 10 sigma_RON offset to prevent negative values
+        # We add a 3 sigma offset above the background to prevent negative values
+        sigmas = 3.*(self.ron*self.ron + self.bkg*etime)**0.5
+        offset = sigmas - self.bkg * etime
+        nmax = (noisy.max() + offset + sigmas)  / self.gain
         noisy = np.round(
             (
                 rng.poisson(lam=noisy) + rng.normal(
-                    loc=4.*self.ron,
+                    loc=offset,
                     scale=self.ron,
                     size=noisy.shape
-                ) - self.bkg * etime
+                )
             ) / self.gain
         )
         # Normalize to a max of 1
         noisy[noisy < 0.] = 0.
-        noisy /= noisy.max()
+        noisy /= nmax
+        noisy[noisy > 1.] = 1.
         # Apply sRGB gamma correction and convert to 0...255 unsigned integers
         noisy = (
             np.where(
@@ -187,7 +191,7 @@ def spectrum_at_airmass(
         models: dict[str, SBSEDModel | SEDModel | TransmissionModel],
         sky: SkyID|None = None,
         am: float = 1.) -> SpectralElement:
-    # Build a dictionary of transmission spectra
+    # Build a dictionary of emission or transmission spectra
     am_spectra = {
         models[m].vars['am'] : models[m].spectral for m in models \
         if sky is None or models[m].vars['sky']==sky
