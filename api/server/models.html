@@ -2854,9 +2854,28 @@
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="s2">&quot;dark&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;grey&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;bright&quot;</span>
+<span class="w">            </span><span class="s2">&quot;bright&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;specify&quot;</span>
 <span class="w">         </span><span class="p">],</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sky&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;sky_brightness&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">22.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sky surface brightness&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-100.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sky Brightness&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;sky_unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;abmag&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;vegamag&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;fjansky&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;photons&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sky Unit&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;sersic_radius&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -2959,6 +2978,7 @@
 <span class="w">      </span><span class="s2">&quot;filter&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;photometry&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;sky&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;sky_unit&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;source&quot;</span>
 <span class="w">   </span><span class="p">]</span>
 <span class="p">}</span>
@@ -2977,7 +2997,9 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.seeing" title="pydiet.server.models.query.ETCQueryModel.seeing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seeing</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sersic_index" title="pydiet.server.models.query.ETCQueryModel.sersic_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sersic_index</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sersic_radius" title="pydiet.server.models.query.ETCQueryModel.sersic_radius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sersic_radius</span> <span class="pre">(float)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sky" title="pydiet.server.models.query.ETCQueryModel.sky"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sky</span> <span class="pre">(Literal['dark',</span> <span class="pre">'grey',</span> <span class="pre">'bright'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sky" title="pydiet.server.models.query.ETCQueryModel.sky"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sky</span> <span class="pre">(Literal['dark',</span> <span class="pre">'grey',</span> <span class="pre">'bright',</span> <span class="pre">'specify'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sky_brightness" title="pydiet.server.models.query.ETCQueryModel.sky_brightness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sky_brightness</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sky_unit" title="pydiet.server.models.query.ETCQueryModel.sky_unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sky_unit</span> <span class="pre">(Literal['abmag',</span> <span class="pre">'vegamag',</span> <span class="pre">'fjansky',</span> <span class="pre">'photons'])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.snr" title="pydiet.server.models.query.ETCQueryModel.snr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">snr</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.source" title="pydiet.server.models.query.ETCQueryModel.source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">source</span> <span class="pre">(Literal['pointsource',</span> <span class="pre">'galaxy',</span> <span class="pre">'extended'])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.transparency" title="pydiet.server.models.query.ETCQueryModel.transparency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transparency</span> <span class="pre">(float)</span></code></a></p></li>
@@ -3104,7 +3126,26 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.sky">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sky</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'dark'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'grey'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'bright'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.sky" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sky</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'dark'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'grey'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'bright'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'specify'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.sky" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.sky_brightness">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sky_brightness</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">22.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.sky_brightness" title="Link to this definition"></a></dt>
+<dd><p>Sky surface brightness</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = -100.0</p></li>
+<li><p><strong>le</strong> = 100.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.sky_unit">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sky_unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'abmag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vegamag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fjansky'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'photons'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.sky_unit" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">

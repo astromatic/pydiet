@@ -80,12 +80,24 @@
 <span class="c1"># Licensed under the MIT licence</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">PydanticUserError</span><span class="p">,</span> <span class="n">ValidationInfo</span><span class="p">,</span> <span class="n">field_validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">PydanticUserError</span><span class="p">,</span>
+    <span class="n">ValidationInfo</span><span class="p">,</span>
+    <span class="n">field_validator</span>
+<span class="p">)</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.default</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_filter</span><span class="p">,</span> <span class="n">default_instrument</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">instruments</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ETCValidationError</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComputeID</span><span class="p">,</span> <span class="n">FilterID</span><span class="p">,</span> <span class="n">InstrumentID</span><span class="p">,</span> <span class="n">SkyID</span><span class="p">,</span> <span class="n">SourceID</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ComputeID</span><span class="p">,</span>
+    <span class="n">FilterID</span><span class="p">,</span>
+    <span class="n">InstrumentID</span><span class="p">,</span>
+    <span class="n">SkyID</span><span class="p">,</span>
+    <span class="n">SkyUnitID</span><span class="p">,</span>
+    <span class="n">SourceID</span>
+<span class="p">)</span>
 
 <div class="viewcode-block" id="ETCQueryModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.query.ETCQueryModel">[docs]</a>
@@ -131,6 +143,15 @@
         <span class="n">le</span><span class="o">=</span><span class="mf">100.</span>
     <span class="p">)</span>
     <span class="n">sky</span><span class="p">:</span> <span class="n">SkyID</span>
+
+    <span class="n">sky_brightness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">22.</span><span class="p">,</span>
+        <span class="n">ge</span><span class="o">=-</span><span class="mf">100.</span><span class="p">,</span>
+        <span class="n">le</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sky surface brightness&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">sky_unit</span><span class="p">:</span> <span class="n">SkyUnitID</span>
 
     <span class="n">sersic_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
