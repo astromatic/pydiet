@@ -5,12 +5,24 @@ Query models
 # Licensed under the MIT licence
 
 from typing import Literal
-from pydantic import BaseModel, Field, PydanticUserError, ValidationInfo, field_validator
+from pydantic import (
+    BaseModel,
+    Field,
+    PydanticUserError,
+    ValidationInfo,
+    field_validator
+)
 
 from .default import default_filter, default_instrument, filters, instruments
 from .exceptions import ETCValidationError
-from .types import ComputeID, FilterID, InstrumentID, SkyID, SourceID
-
+from .types import (
+    ComputeID,
+    FilterID,
+    InstrumentID,
+    SkyID,
+    SkyUnitID,
+    SourceID
+)
 
 class ETCQueryModel(BaseModel):
 
@@ -54,6 +66,15 @@ class ETCQueryModel(BaseModel):
         le=100.
     )
     sky: SkyID
+
+    sky_brightness: float = Field(
+        default=22.,
+        ge=-100.,
+        le=100.,
+        description="Sky surface brightness"
+    )
+
+    sky_unit: SkyUnitID
 
     sersic_radius: float = Field(
         default=1.,

@@ -11,6 +11,7 @@
 <form id="etc-form">
   <ion-grid>
     <ion-row class="ion-align-items-center">
+      <!----------------------------- compute -------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-select onfocus="
@@ -24,16 +25,20 @@
                 snr.label = 'Signal-to-Noise ratio'
               }
               " name="compute" label="Compute" width="200px" label-placement="floating" fill="solid" interface="popover" value="etime">
-            <ion-select-option value="etime">Exposure time</ion-select-option>
+            <ion-select-option value="etime">exposure time</ion-select-option>
             <ion-select-option value="snr">SNR</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
+
+      <!--------------------------- snr or etime ----------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-input class="snr" name="snr" label="Signal-to-Noise ratio" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" step="0.1"  value="10.0"></ion-input>
         </ion-item>
       </ion-col>
+
+      <!----------------------------- source --------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-select onfocus="
@@ -44,27 +49,35 @@
               else
                 gal.forEach(el => el.classList.add('ion-hide'));
               " name="source" label="Source type" label-placement="floating" fill="solid" interface="popover" value="pointsource">
-            <ion-select-option value="pointsource">Point source</ion-select-option>
-            <ion-select-option value="galaxy">Galaxy</ion-select-option>
-            <ion-select-option value="extended">Extended</ion-select-option>
+            <ion-select-option value="pointsource">point source</ion-select-option>
+            <ion-select-option value="galaxy">galaxy</ion-select-option>
+            <ion-select-option value="extended">extended</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
+
+      <!-------------------------- sersic_radius ----------------------------->
       <ion-col class="galaxy ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-input name="sersic_radius" label="Sérsic Rₑ [ &quot; ]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" max="10.0" step="0.1" value="1.0"></ion-input>
         </ion-item>
       </ion-col>
+
+      <!-------------------------- sersic_index ------------------------------>
       <ion-col class="galaxy ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
          <ion-input name="sersic_index" label="Sérsic index" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.4" max="10.0" step="0.1" value="1.0"></ion-input>
         </ion-item>
       </ion-col>
+
+      <!----------------------------- seeing --------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-input name="seeing" label="Seeing  [ &quot; ]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.1" max="20.0" step="0.01" value="0.7"></ion-input>
         </ion-item>
       </ion-col>
+
+      <!----------------------------- filter --------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-select id=select-filters name="filter" label="Filter" label-placement="floating" fill="solid" interface="popover" value="r">
@@ -72,44 +85,105 @@
           </ion-select>
         </ion-item>
       </ion-col>
+
+      <!--------------------------- brightness ------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-input name="brightness" label="Brightness" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-100." step="0.01" value="20.0"></ion-input>
+          <ion-input class="brightness" name="brightness" label="Brightness [mag]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-100." step="0.01" value="20.0"></ion-input>
         </ion-item>
       </ion-col>
+
+      <!------------------------------ unit ---------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
+           <ion-select onfocus="
+              /* Change brightness label depending on unit */
+              const bright=document.querySelector('.brightness');
+              if (this.value=='abmag' || this.value=='vegamag') {
+                bright.label = 'Brightness [mag]'
+              } else if (this.value=='flambda') {
+                bright.label = 'Brightness [erg.s&#8315;&sup1;.cm.&#8315;&sup2;.&#8491;&#8315;&sup1;]'
+              } else if (this.value=='fnu') {
+                bright.label = 'Brightness [erg.s&#8315;&sup1;.cm&#8315;&sup2;.Hz&&#8315;&sup1;]'
+              } else if (this.value=='fjansky') {
+                bright.label = 'Brightness [Jy]'
+              }
+              " name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag</ion-select-option>
               <ion-select-option value="vegamag">Vega mag</sub></ion-select-option>
-              <ion-select-option value="flambda">flux density &fscr;(&lambda;)&nbsp;&nbsp;[erg.s&dash;&sup1;.cm.&dash;&sup2;.&#8491;&dash;&sup1;]</ion-select-option>
-              <ion-select-option value="fnu">flux density &fscr;(&nu;)&nbsp;&nbsp;[erg.s&dash;&sup1;.cm&dash;&sup2;.Hz&dash;&sup1;]</ion-select-option>
-              <ion-select-option value="fjansky">flux density &fscr;(&nu;)&nbsp;&nbsp;[Jy]</ion-select-option>
+              <ion-select-option value="flambda">erg.s&#8315;&sup1;.cm.&#8315;&sup2;.&#8491;&#8315;&sup1;</ion-select-option>
+              <ion-select-option value="fnu">erg.s&#8315;&sup1;.cm&#8315;&sup2;.Hz&#8315;&sup1;</ion-select-option>
+              <ion-select-option value="fjansky">Jy</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
+
+      <!--------------------------- photometry ------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-select name="photometry" label="Photometry type" label-placement="floating" fill="solid" interface="popover" value="psf">
               <ion-select-option value="psf">PSF-fitting</ion-select-option>
-              <ion-select-option value="aperture">Aperture</ion-select-option>
+              <ion-select-option value="aperture">aperture</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
+
+      <!------------------------------ sky ----------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select name="sky" label="Sky brightness" label-placement="floating" fill="solid" interface="popover" value="dark">
-              <ion-select-option value="dark">Dark</ion-select-option>
-              <ion-select-option value="grey">Grey</ion-select-option>
-              <ion-select-option value="bright">Bright</ion-select-option>
+          <ion-select onfocus="
+              /* Display extra sky inputs if the sky type is 'specify' */
+              const sky=document.querySelectorAll('.sky-specify');
+              if (this.value=='specify')
+                sky.forEach(el => el.classList.remove('ion-hide'));
+              else
+                sky.forEach(el => el.classList.add('ion-hide'));
+              " name="sky" label="Sky brightness" label-placement="floating" fill="solid" interface="popover" value="dark">
+              <ion-select-option value="dark">dark</ion-select-option>
+              <ion-select-option value="grey">grey</ion-select-option>
+              <ion-select-option value="bright">bright</ion-select-option>
+              <ion-select-option value="specify">specify</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
+
+      <!--------------------------- sky_brightness --------------------------->
+      <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+         <ion-input class="sky-brightness" name="sky_brightness" label="Sky value [mag.arcsec&#8315;&sup2;]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-100.0" max="100.0" step="0.1" value="22.0"></ion-input>
+        </ion-item>
+      </ion-col>
+
+      <!---------------------------- sky_unit ------------------------------->
+      <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select onfocus="
+              /* Change sky brightness label depending on sky unit */
+              const sky=document.querySelector('.sky-brightness');
+              if (this.value=='abmag' || this.value=='vegamag') {
+                sky.label = 'Sky value [mag.arcsec&#8315;&sup2;]'
+              } else if (this.value=='fjansky') {
+                sky.label = 'Sky value [Jy.arcsec&#8315;&sup2;]'
+              } else if (this.value=='photons') {
+                sky.label = 'Sky value [photons.&#8315;&sup1;.px&#8315;&sup1;]'
+              }
+              " name="sky_unit" label="Sky unit" width="200px" label-placement="floating" fill="solid" interface="popover" value="abmag">
+              <ion-select-option value="abmag">AB mag.arcsec&dash;&sup2</ion-select-option>
+              <ion-select-option value="vegamag">Vega mag.arcsec&dash;&sup2</sub></ion-select-option>
+              <ion-select-option value="fjansky">Jy.str&dash;&sup1</ion-select-option>
+              <ion-select-option value="photons">photons.s&dash;&sup1.px&dash;&sup1</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <!---------------------------- airmass --------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-input name="airmass" label="Airmass" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="1.0" step="0.01" value="1.2"></ion-input>
         </ion-item>
       </ion-col>
+
+      <!--------------------------- transparency ----------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-input name="transparency" label="Transparency" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" max="1.0" step="0.01" value="1.0"></ion-input>

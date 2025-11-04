@@ -211,7 +211,6 @@ def spectrum_at_airmass(
     return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac
 
 
-
 def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
     instrument = instruments[q.instrument.value]
 
@@ -250,14 +249,21 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
     total_resp = detector_resp * filter_resp * optics_resp * telescope_resp \
         * q.transparency * atmo_resp
     total_resp.to_fits("resp.fits", overwrite=True)
+
+    # Source emission
     ref_spectrum = ref_spectra[q.unit]
 
     # Atmospheric emission
-    sky_spectrum = spectrum_at_airmass(
-        instrument.site.sky_emissions,
-        sky=q.sky,
-        am=q.airmass
-    )
+    if q.sky == 'specify':
+        sky_spectrum = ref_spectra[q.sky_unit]
+        if q.sky_unit == 'abmag' or q.sky_unit == 'vegamag':
+            sky_spectrum *= 10.**(-0.4*q.sky_brightness)
+    else:
+        sky_spectrum = spectrum_at_airmass(
+            instrument.site.sky_emissions,
+            sky=q.sky,
+            am=q.airmass
+        )
 
     # Make virtual observation
     # Actual source
