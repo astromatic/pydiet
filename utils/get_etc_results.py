@@ -104,7 +104,7 @@ def main() -> int:
     )
     parser.add_argument(
         '-u', '--unit',
-        choices=['abmag', 'vegamag', 'flambda', 'fnu', 'fjansky'],
+        choices=['abmag', 'vegamag', 'fmujy'],
         default=default_unit,
         help=f"Flux unit (default: {default_unit})"
     )

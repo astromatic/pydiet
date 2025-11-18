@@ -27,7 +27,7 @@ InstrumentID = Enum(  # type: ignore[misc]
 
 SkyID = Literal['dark', 'grey', 'bright', 'specify']
 
-SkyUnitID = Literal['abmag', 'vegamag', 'fjansky', 'photons']
+PhotSysID = Literal['abmag', 'vegamag', 'fmegajy', 'fmujy', 'photons']
 
 SourceID = Literal['pointsource', 'galaxy', 'extended']
 

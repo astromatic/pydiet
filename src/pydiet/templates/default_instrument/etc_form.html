@@ -86,7 +86,7 @@
       <!--------------------------- brightness ------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-input class="brightness" name="brightness" label="Brightness [mag]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-100." step="0.01" value="20.0"></ion-input>
+          <ion-input class="brightness" name="brightness" label="Brightness [mag]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.01" value="20.0"></ion-input>
         </ion-item>
       </ion-col>
 
@@ -98,19 +98,21 @@
               const bright=document.querySelector('.brightness');
               if (this.value=='abmag' || this.value=='vegamag') {
                 bright.label = 'Brightness [mag]'
-              } else if (this.value=='flambda') {
-                bright.label = 'Brightness [erg.s&#8315;&sup1;.cm.&#8315;&sup2;.&#8491;&#8315;&sup1;]'
-              } else if (this.value=='fnu') {
-                bright.label = 'Brightness [erg.s&#8315;&sup1;.cm&#8315;&sup2;.Hz&&#8315;&sup1;]'
-              } else if (this.value=='fjansky') {
-                bright.label = 'Brightness [Jy]'
+                bright.min = '-40.0'
+                bright.max = '40.0'
+                bright.step = '0.01'
+              } else if (this.value=='fmujy') {
+                bright.label = 'Brightness [μJy]'
+                bright.min = '0.0'
+                bright.max = '1000.0'
+                bright.step = 'any'
               }
               " name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag</ion-select-option>
               <ion-select-option value="vegamag">Vega mag</sub></ion-select-option>
               <ion-select-option value="flambda">erg.s&#8315;&sup1;.cm.&#8315;&sup2;.&#8491;&#8315;&sup1;</ion-select-option>
               <ion-select-option value="fnu">erg.s&#8315;&sup1;.cm&#8315;&sup2;.Hz&#8315;&sup1;</ion-select-option>
-              <ion-select-option value="fjansky">Jy</ion-select-option>
+              <ion-select-option value="fmujy">μJy</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -147,7 +149,7 @@
       <!--------------------------- sky_brightness --------------------------->
       <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-         <ion-input class="sky-brightness" name="sky_brightness" label="Sky value [mag.arcsec&#8315;&sup2;]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-100.0" max="100.0" step="0.1" value="22.0"></ion-input>
+         <ion-input class="sky-brightness" name="sky_brightness" label="Sky value [mag.arcsec&#8315;&sup2;]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.1" value="22.0"></ion-input>
         </ion-item>
       </ion-col>
 
@@ -155,19 +157,28 @@
       <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-select onfocus="
-              /* Change sky brightness label depending on sky unit */
+              /* Change sky brightness label and limits depending on sky unit */
               const sky=document.querySelector('.sky-brightness');
               if (this.value=='abmag' || this.value=='vegamag') {
                 sky.label = 'Sky value [mag.arcsec&#8315;&sup2;]'
-              } else if (this.value=='fjansky') {
-                sky.label = 'Sky value [Jy.arcsec&#8315;&sup2;]'
+                sky.min = '-40.0'
+                sky.max = '40.0'
+                sky.step = '0.1'
+              } else if (this.value=='fmegajy') {
+                sky.label = 'Sky value [MJy.str&dash;&sup1]'
+                sky.min = '0.0'
+                sky.max = '1000.0'
+                sky.step = 'any'
               } else if (this.value=='photons') {
                 sky.label = 'Sky value [photons.&#8315;&sup1;.px&#8315;&sup1;]'
+                sky.min = '0.0'
+                sky.max = '1000.0'
+                sky.step = 'any'
               }
               " name="sky_unit" label="Sky unit" width="200px" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag.arcsec&dash;&sup2</ion-select-option>
               <ion-select-option value="vegamag">Vega mag.arcsec&dash;&sup2</sub></ion-select-option>
-              <ion-select-option value="fjansky">Jy.str&dash;&sup1</ion-select-option>
+              <ion-select-option value="fmegajy">MJy.str&dash;&sup1</ion-select-option>
               <ion-select-option value="photons">photons.s&dash;&sup1.px&dash;&sup1</ion-select-option>
           </ion-select>
         </ion-item>

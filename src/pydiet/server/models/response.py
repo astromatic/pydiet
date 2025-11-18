@@ -49,8 +49,8 @@ class ETCResponseModel(BaseModel):
     )
     sky_mag: float=Field(
         default=99.,
-        gt=-100.,
-        lt=100.,
+        ge=-100.,
+        le=100.,
         description="Estimated sky background in mag/arcsec2"
     )
     cutout: Optional[str]=Field(

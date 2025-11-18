@@ -19,8 +19,8 @@ from .types import (
     ComputeID,
     FilterID,
     InstrumentID,
+    PhotSysID,
     SkyID,
-    SkyUnitID,
     SourceID
 )
 
@@ -39,7 +39,7 @@ class ETCQueryModel(BaseModel):
     brightness: float = Field(
         default=20.,
         ge=-100.,
-        le=100.,
+        le=1000.,
         description="Source brightness"
     )
 
@@ -70,11 +70,11 @@ class ETCQueryModel(BaseModel):
     sky_brightness: float = Field(
         default=22.,
         ge=-100.,
-        le=100.,
+        le=1000.,
         description="Sky surface brightness"
     )
 
-    sky_unit: SkyUnitID
+    sky_unit: PhotSysID
 
     sersic_radius: float = Field(
         default=1.,
@@ -107,7 +107,7 @@ class ETCQueryModel(BaseModel):
         description="Sky transparency"
     )
 
-    unit: Literal['abmag', 'vegamag', 'flambda', 'fnu', 'fjansky'] = Field(
+    unit: PhotSysID = Field(
         default='abmag',
         description="Photometric system"
     )
