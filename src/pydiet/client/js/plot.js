@@ -18,7 +18,7 @@ export function plot_filter(filter, canvas) {
 				data: {
 					labels: wave.map((w) => Math.round(w)),
 					datasets:	[{
-						label: 'Filter response',
+						label: 'Instrument response',
 						data: response,
 						fill: true
 					}]
@@ -40,14 +40,14 @@ export function plot_filter(filter, canvas) {
 						y: {
 							title: {
 								display: true,
-								text: 'Total transmission [%]'
+								text: 'Transmission [%]'
 							}
 						}
 					},
 					plugins: {
 						title: {
 							display: true,
-							text: filter.name,
+							text: filter.name + ' filter',
 						},
 						legend: {display: false},
 						zoom: {

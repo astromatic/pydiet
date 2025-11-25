@@ -18518,7 +18518,7 @@
         data: {
           labels: wave.map((w) => Math.round(w)),
           datasets: [{
-            label: "Filter response",
+            label: "Instrument response",
             data: response,
             fill: true
           }]
@@ -18540,14 +18540,14 @@
             y: {
               title: {
                 display: true,
-                text: "Total transmission [%]"
+                text: "Transmission [%]"
               }
             }
           },
           plugins: {
             title: {
               display: true,
-              text: filter2.name
+              text: filter2.name + " filter"
             },
             legend: { display: false },
             zoom: {
