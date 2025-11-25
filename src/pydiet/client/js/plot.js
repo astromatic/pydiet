@@ -40,7 +40,7 @@ export function plot_filter(filter, canvas) {
 						y: {
 							title: {
 								display: true,
-								text: 'Tranmission [%]'
+								text: 'Total transmission [%]'
 							}
 						}
 					},

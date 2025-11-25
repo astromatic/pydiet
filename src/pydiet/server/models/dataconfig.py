@@ -12,7 +12,7 @@ from ..types import AnnotatedQuantity
 
 class FileConfigModel(BaseModel):
     '''
-    Pydantic model for datafile configuration.
+    Pydantic model for transmission curve configuration.
     '''
     default: bool = False
     id: str = ''
@@ -22,14 +22,27 @@ class FileConfigModel(BaseModel):
     file: str
 
 
-
-class FilesConfigModel(BaseModel):
+class EmissionConfigModel(BaseModel):
     '''
-    Pydantic model for transmission curve data configuration.
+    Pydantic model for emission curve set configuration.
     '''
     path: str
     files: list[FileConfigModel]
 
+
+class TransmissionConfigModel(BaseModel):
+    '''
+    Pydantic model for transmission curve set configuration.
+    '''
+    path: str
+    temperature: AnnotatedQuantity(    #type: ignore[valid-type]
+        default = 283 * u.K,
+        unit = "K",
+        gt = 0. * u.K,
+        decimals = 2,
+        description  = "Device temperature."
+    )
+    files: list[FileConfigModel]
 
 
 class SiteConfigModel(BaseModel):
@@ -47,8 +60,8 @@ class SiteConfigModel(BaseModel):
         decimals = 3,
         description = "Altitude of the observation site."
     )
-    transmission: FilesConfigModel
-    emission: FilesConfigModel
+    transmission: TransmissionConfigModel
+    emission: EmissionConfigModel
 
 
 
@@ -73,8 +86,8 @@ class TelescopeConfigModel(BaseModel):
         decimals = 3,
         description = "Default obstruction area (only used if not specified for the instrument)."
     )
-    transmission: FilesConfigModel
-    emission: FilesConfigModel
+    transmission: TransmissionConfigModel
+    emission: EmissionConfigModel
 
 
 class DetectorConfigModel(BaseModel):
@@ -102,7 +115,7 @@ class DetectorConfigModel(BaseModel):
         decimals = 4,
         description = "Angular pixel scale along each axis."
     )
-    transmission: FilesConfigModel
+    transmission: TransmissionConfigModel
 
 
 
@@ -111,8 +124,8 @@ class OpticsConfigModel(BaseModel):
     Pydantic model for the intrument optics data configuration model.
     '''
     path: str
-    transmission: FilesConfigModel
-    emission: FilesConfigModel
+    transmission: TransmissionConfigModel
+    emission: EmissionConfigModel
 
 
 
@@ -141,7 +154,7 @@ class InstrumentConfigModel(BaseModel):
     site_id: str
     telescope_id: str
     optics: OpticsConfigModel
-    filters: FilesConfigModel
+    filters: TransmissionConfigModel
     detector: DetectorConfigModel
 
 

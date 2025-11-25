@@ -7,12 +7,32 @@ Data models
 from typing import Annotated, Dict
 
 from astropy import units as u  #type: ignore[import-untyped]
-from pydantic import BaseModel, ConfigDict, Field
-from synphot import SourceSpectrum, SpectralElement #type: ignore[import-untyped]
+import numpy as np
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+from synphot import (
+    BlackBodyNorm1D,
+    ConstFlux1D,
+    SourceSpectrum,
+    SpectralElement
+)
+from synphot.spectrum import BaseSpectrum
 
 from ... import package
 from ..types import AnnotatedQuantity
 
+
+def spectral_to_arrays(spectral: BaseSpectrum) -> (np.ndarray,np.ndarray):
+    w = spectral.waveset
+    x = spectral(w)
+
+    # Trim extra 0 values at beginning and at the end
+    idx = np.where(x.value != 0.)[0]
+    start = idx[0] - 1 if idx[0] > 0 else 0
+    end = idx[-1] + 2 if idx[-1] < w.size - 1 else w.size
+    w = w[start:end]
+    x = x[start:end]
+
+    return w, x
 
 class DetectorModel(BaseModel):
     '''
@@ -68,6 +88,67 @@ class InstrumentModel(BaseModel):
     site: 'SiteModel'
     default: bool = False
 
+    transmissions: dict = Field(default=None)
+    emissions: dict = Field(default=None)
+
+    @model_validator(mode="after")
+    def _compute(self):
+        # Compute extra parameters during initialization
+        # Filter emissions and transmissions
+        upstream_transmission = 1.
+        upstream_emission = SourceSpectrum(ConstFlux1D, amplitude=0.)
+        # Pre-filter list of transmissions
+        transmissions = self.telescope.transmissions | self.optics
+        for t in transmissions:
+            bb = SourceSpectrum(
+                BlackBodyNorm1D,
+                temperature=transmissions[t].temperature
+            )
+            transmission = transmissions[t].spectral
+            upstream_transmission *= transmission
+            # Emissivity is assumed to be 1 - transmission
+            upstream_emission = (upstream_emission - bb) * transmission + bb
+        self.transmissions : dict[str, TransmissionModel] = {}
+        self.emissions : dict[str, EmissionModel] = {}
+        for f in self.filters:
+            filter = self.filters[f]
+            transmissions = {f: self.filters[f]} | self.detector.qes
+            bb = SourceSpectrum(
+                    BlackBodyNorm1D,
+                    temperature=transmissions[t].temperature
+            )
+            filter_transmission = upstream_transmission * filter.spectral
+            # Emissivity is assumed to be 1 - transmission
+            filter_emission = (upstream_emission - bb) * filter.spectral + bb
+            filter_transmission *= self.detector.qes["0"].spectral
+            filter_emission *= self.detector.qes["0"].spectral
+
+            wave, response = spectral_to_arrays(filter_transmission)
+            self.transmissions[f] = TransmissionModel(
+                id = filter.id,
+                name = filter.name,
+                description = filter.description,
+                temperature = filter.temperature,
+                vars = filter.vars,
+                wave = wave,
+                response = response,
+                spectral = filter_transmission
+            )
+            wave, sed = spectral_to_arrays(filter_emission)
+            self.emissions[f] = SBSEDModel(
+                id = f,
+                name = filter.name,
+                description = "Thermal emission spectrum.",
+                vars = filter.vars,
+                wave = wave,
+                sbsed = sed.to(
+                    u.Jy,
+                    equivalencies=u.spectral_density(wave)
+                ) / u.arcsec**2,
+                spectral = filter_emission
+            )
+            
+        return self
 
 
 class InstrumentsModel(BaseModel):
@@ -161,12 +242,14 @@ class TelescopeModel(BaseModel):
     collecting_area: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "m**2",
         gt = 0. * u.m**2,
-        decimals = 4
+        decimals = 4,
+        description = "Full collecting area, ignoring obstructions."
     )
     obstruction_area: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "m**2",
         gt = 0. * u.m**2,
-        decimals = 4
+        decimals = 4,
+        description = "Minimum obstruction area."
     )
     transmissions: Dict[str, 'TransmissionModel']
     emissions: Dict[str, 'SBSEDModel']
@@ -181,6 +264,13 @@ class TransmissionModel(BaseModel):
     id: str
     name: str
     description: str
+    temperature: AnnotatedQuantity(    #type: ignore[valid-type]
+        default = 283 * u.K,
+        unit = "K",
+        gt = 0. * u.K,
+        decimals = 2,
+        description = "Device temperature."
+    )
     vars: dict[str, float]
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",

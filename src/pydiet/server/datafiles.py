@@ -26,7 +26,8 @@ from .config import override, settings
 from .models.dataconfig import (
     DataConfigModel,
     DetectorConfigModel,
-    FilesConfigModel
+    EmissionConfigModel,
+    TransmissionConfigModel
 )
 from .models.instrument import (
     DetectorModel,
@@ -88,12 +89,12 @@ def get_detector(
 
 def get_emissions(
         parent_dir: str,
-        files_config: FilesConfigModel,
+        emission_config: EmissionConfigModel,
         sb = False) -> dict:
     emissions : dict[str, SEDModel | SBSEDModel] = {}
-    for file_config in files_config.files:
+    for file_config in emission_config.files:
         data = get_data_file(
-            join(parent_dir, files_config.path, file_config.file)
+            join(parent_dir, emission_config.path, file_config.file)
         )
         wave = u.Quantity(data['WAVELENGTH'])
         sed = u.Quantity(data['PHOTLAM']).to(
@@ -199,35 +200,34 @@ def get_telescopes(data_config: DataConfigModel) -> dict:
 
 def get_transmissions(
         parent_dir: str,
-        files_config: FilesConfigModel) -> dict:
+        transmission_config: TransmissionConfigModel) -> dict:
     transmissions : dict[str, TransmissionModel] = {}
-    for file_config in files_config.files:
+    for file_config in transmission_config.files:
         data = get_data_file(
-            join(parent_dir, files_config.path, file_config.file)
+            join(parent_dir, transmission_config.path, file_config.file)
         )
         # Instantiate the model
         wave = u.Quantity(data['WAVELENGTH'])
         response = u.Quantity(data['THROUGHPUT'])
-        
         key = file_config.id if file_config.id != '' else str(len(transmissions))
         transmissions[key] = TransmissionModel(
             id = file_config.id,
             name = file_config.name,
             description = file_config.description,
+            temperature = transmission_config.temperature,
             vars = file_config.vars,
             wave = wave,
             response = response,
+            # Apply tapering to filters to avoid possible spurious spectral leaks
             spectral = SpectralElement.from_spectrum1d(
                 Spectrum(spectral_axis=wave, flux=response),
                 keep_neg=False
-            )
+            ).taper()
         )
     return transmissions
 
 
-def get_webapi_instruments(
-    instruments: dict[InstrumentModel]
-) -> dict:
+def get_webapi_instruments(instruments: dict[InstrumentModel]) -> dict:
     winstruments = {}
     for instrument in instruments:
         winstruments[instrument] = instruments[instrument].copy(exclude={

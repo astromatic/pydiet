@@ -1,5 +1,5 @@
 """
-Gather data.
+Gather data and prepare assets.
 """
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
@@ -16,6 +16,7 @@ from .datafiles import (
 data_config = get_data_config()
 
 instruments = get_instruments(data_config)
+
 default_instrument = get_default(instruments)
 winstruments = get_webapi_instruments(instruments)
 
@@ -26,4 +27,5 @@ default_filter = get_default(default_instrument.filters)
 ab_spectrum = SourceSpectrum(ConstFlux1D, amplitude = 0.*u.ABmag)
 st_spectrum = SourceSpectrum(ConstFlux1D, amplitude = 0.*u.STmag)
 vega_spectrum = SourceSpectrum.from_vega()
+
 

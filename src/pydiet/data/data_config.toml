@@ -109,6 +109,7 @@ obstruction_area = "0.974 m2" # 0.951m diameter hole and 4x5cm spider branches
 [telescopes.transmission]
 # Transmission curves for the CFHT 3.6m telescope
 path = "transmission"
+temperature = "273 K"
 files = [ {file = "CFHT_M1_transmission.fits"} ]
 [telescopes.emission]
 # Emission curves for the CFHT 3.6m telescope
@@ -136,6 +137,7 @@ path = "optics"
 [instruments.optics.transmission]
 # Transmission as a function of wavelength for all MegaPrime optical components
 path = "transmission"
+temperature = "273 K"
 files = [ {file = "MegaPrime_transmission.fits"} ]
 [instruments.optics.emission]
 # Emission as a function of wavelength for all MegaPrime optical components
@@ -143,6 +145,7 @@ path = "emission"
 files = []
 [instruments.filters]
 path = "filters"
+temperature = "273 K"
 vars = ['id']
 files = [
     {id = 'u', name = "u", file = "u.MP9302.fits"},
@@ -166,6 +169,7 @@ scale = "[0.186, 0.186] arcsec/pix"
 [instruments.detector.transmission]
 # Average MegaCam CCD quantum efficiency as a function of wavelength
 path = "qe"
+temperature = "153 K"
 files = [ {file = "MegaCam_QE.average.fits"} ]
 
 [[instruments]]
@@ -185,6 +189,7 @@ path = "optics"
 [instruments.optics.transmission]
 # Transmission as a function of wavelength for all WIRCam optical components
 path = "transmission"
+temperature = "80 K"
 files = [ {file = "WIRCam_transmission.fits"} ]
 [instruments.optics.emission]
 # Emission as a function of wavelength for all WIRCam optical components
@@ -192,6 +197,7 @@ path = "emission"
 files = []
 [instruments.filters]
 path = "filters"
+temperature = "80 K"
 vars = ['id']
 files = [
     {id = 'y', name = "Y", file = "Y.WC8002.fits", default=true},
@@ -218,5 +224,6 @@ path = "detector"
 # science-grade sample of Finger+2006, which has a 2.5 μm cut-off; see
 # https://info.cfht.hawaii.edu/display/~bertin/WIRCam+quantum+efficiency+curve
 path = "qe"
+temperature = "80 K"
 files = [ {file = "WIRCam_QE.average.fits"} ]
 

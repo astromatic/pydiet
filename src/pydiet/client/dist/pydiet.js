@@ -18540,7 +18540,7 @@
             y: {
               title: {
                 display: true,
-                text: "Tranmission [%]"
+                text: "Total transmission [%]"
               }
             }
           },
@@ -18593,7 +18593,7 @@
       while (select_filters.firstChild) {
         select_filters.lastChild.remove();
       }
-      const instrumentID = instrument2.id, filters = instrument2.filters;
+      const instrumentID = instrument2.id, filters = instrument2.transmissions;
       let f_default = get_filterID(instrumentID);
       for (f in filters) {
         let option = document.createElement("ion-select-option");
