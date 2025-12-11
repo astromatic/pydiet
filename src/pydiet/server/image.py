@@ -14,7 +14,7 @@ import numpy as np
 from scipy.optimize import brentq
 from synphot import Observation, SpectralElement  #type: ignore[import-untyped]
 
-from .models.types import SourceID
+from .models.types import ApertureID, PhotometryID, SourceID
 
 
 
@@ -33,7 +33,9 @@ class Image(object):
             bkg: float=0.,
             ron: float=0.,
             gain: float=1.,
-            oversamp: int=1) -> np.ndarray:
+            aperture_type: Optional(ApertureID)=None,
+            aperture_radius: Optional(float)=1.5,
+            oversamp: int=1,) -> np.ndarray:
 
         self.pixel = pixel
         self.flux = flux
@@ -48,11 +50,12 @@ class Image(object):
         # Rasterize the PSF
         if psf_beta <= 1.:
             raise ValueError("Moffat beta must be > 1.")
+
         # Compute the square of the alpha parameter from the FWHM
         alpha2 = u.Quantity(psf_fwhm)**2 / (4. * (2.**(1./psf_beta) - 1.)) \
             / (pixel[0] * pixel[1]) * (oversamp * oversamp)
 
-        # Create raster
+        # Create PSF raster
         raster_size = [image_size[0] * oversamp, image_size[1] * oversamp]
         yx = np.mgrid[
             -raster_size[0]//2:raster_size[0] - raster_size[0]//2,
@@ -61,27 +64,37 @@ class Image(object):
         r2 = yx[0]**2 + yx[1]**2
         self.r2 = r2
         moffat = np.power(1. + r2 / alpha2.value, -psf_beta) 
+
         # Truncate inside a disk
         mask = r2 <= r2[0, raster_size[1]//2]
         moffat *= mask
         self.psf = moffat / moffat.sum()
+
+        # Generate star of galaxy image
         self.image = self.sersic(
             re=sersic_radius, n=sersic_index
         ) if source == 'galaxy' else self.psf
 
+        # Create photometry measurement aperture
+        if aperture_type is not None:
+            r2max = self.aperture_radius**2 * u.arcsec**2
+                / (self.pixel[0] * self.pixel[1]))
+            self.aperture = r2 < r2max
 
-    def snr(self, t: float=1.) -> float:
+
+    def snr(self, t: float=1., photometry: PhotometryID) -> float:
         # Compute the "noise variance image"
         img2 = self.image**2
         var_tot = self.var_ron + (self.var_bkg + self.var_flux * self.image) * t
         # Return SNR
         return self.flux * t * np.sqrt(
             np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
-        )
+        ) if photometry == 'optimal' else self.flux * t * np.sqrt(
+            np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
 
 
-    def delta_snr2(self, t: float, snr: float) -> float:
-        return self.snr(t)**2 - snr**2
+    def delta_snr2(self, t: float, snr: float, photometry: PhotometryID) -> float:
+        return self.snr(t=t, photometry: PhotometryID)**2 - snr**2
 
 
     def etime_max(self, snr:float) -> float:
@@ -92,8 +105,15 @@ class Image(object):
         return t_high
 
 
-    def etime(self, snr:float) -> float:
-        return brentq(self.delta_snr2, 0., self.etime_max(snr), args=snr, xtol=1e-6, maxiter=100)
+    def etime(self, snr: float, photometry: PhotometryID) -> float:
+        return brentq(
+            f=self.delta_snr2,
+            a=0.,
+            b=self.etime_max(snr),
+            args=(snr, photometry),
+            xtol=1e-6,
+            maxiter=100
+        )
 
 
     def sersic(

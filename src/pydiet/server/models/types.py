@@ -10,6 +10,7 @@ from typing import Literal
 from ..types import AnnotatedStr
 from .default import default_instrument, filters, instruments
 
+ApertureID: Literal['optimal', 'fixed']
 
 ComputeID = Literal['etime', 'snr']
 
@@ -26,6 +27,8 @@ InstrumentID = Enum(  # type: ignore[misc]
 )
 
 SkyID = Literal['dark', 'grey', 'bright', 'specify']
+
+PhotometryID = Literal['aperture', 'psf']
 
 PhotSysID = Literal['abmag', 'vegamag', 'fmegajy', 'fmujy', 'photons']
 

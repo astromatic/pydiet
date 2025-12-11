@@ -52,6 +52,7 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
     telescope = instrument.telescope
     detector = instrument.detector
     transmission = instrument.transmissions[q.filter]
+    emission = instrument.emissions[q.filter]
 
     # Multiply Total instrument transmission with atmospheric transmission
     #transmission.spectral.to_fits(f"resp_{instrument.transmissions[q.filter].id}.fits", overwrite=True)
@@ -93,9 +94,10 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
             sky=q.sky,
             am=q.airmass
         )
+        print("sky:", sky_spectrum)
     if sky_spectrum is not None:
         bkg_observation = Observation(
-            sky_spectrum,
+            sky_spectrum + emission.spectral,
             transmission_spec,
             force='extrap'
         )

@@ -10,7 +10,7 @@ from astropy import units as u  #type: ignore[import-untyped]
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from synphot import (
-    BlackBodyNorm1D,
+    BlackBody1D,
     ConstFlux1D,
     SourceSpectrum,
     SpectralElement
@@ -101,9 +101,10 @@ class InstrumentModel(BaseModel):
         transmissions = self.telescope.transmissions | self.optics
         for t in transmissions:
             bb = SourceSpectrum(
-                BlackBodyNorm1D,
+                BlackBody1D,
                 temperature=transmissions[t].temperature
             )
+            print(t, transmissions[t].temperature)
             transmission = transmissions[t].spectral
             upstream_transmission *= transmission
             # Emissivity is assumed to be 1 - transmission
@@ -114,7 +115,7 @@ class InstrumentModel(BaseModel):
             filter = self.filters[f]
             transmissions = {f: self.filters[f]} | self.detector.qes
             bb = SourceSpectrum(
-                    BlackBodyNorm1D,
+                    BlackBody1D,
                     temperature=transmissions[t].temperature
             )
             filter_transmission = upstream_transmission * filter.spectral
@@ -135,16 +136,18 @@ class InstrumentModel(BaseModel):
                 spectral = filter_transmission
             )
             wave, sed = spectral_to_arrays(filter_emission)
+            # Convert from Photlam.str-1 to arcsec-2
+            sed = sed.to(
+                    u.Jy,
+                    equivalencies=u.spectral_density(wave)
+            ) * 2.350e-11 / u.arcsec**2
             self.emissions[f] = SBSEDModel(
                 id = f,
                 name = filter.name,
                 description = "Thermal emission spectrum.",
                 vars = filter.vars,
                 wave = wave,
-                sbsed = sed.to(
-                    u.Jy,
-                    equivalencies=u.spectral_density(wave)
-                ) / u.arcsec**2,
+                sbsed = sed,
                 spectral = filter_emission
             )
             
