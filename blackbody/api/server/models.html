@@ -3236,22 +3236,13 @@
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Airmass&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;aperture_diameter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;aperture&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Photometric aperture diameter [\&quot;]&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.0</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Aperture Diameter&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Aperture&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;aperture_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Photometric aperture type&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;optimal&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;fixed&quot;</span>
-<span class="w">         </span><span class="p">],</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Aperture Type&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;brightness&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">20.0</span><span class="p">,</span>
@@ -3262,6 +3253,7 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;compute&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;etime&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Computation type&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="s2">&quot;etime&quot;</span><span class="p">,</span>
@@ -3283,10 +3275,11 @@
 <span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Instrument filter&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;photometry&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;psf&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Photometry type&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;aperture&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;psf&quot;</span>
+<span class="w">            </span><span class="s2">&quot;psf&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;fixed_aperture&quot;</span>
 <span class="w">         </span><span class="p">],</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Photometry&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -3351,6 +3344,7 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pointsource&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Source type&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="s2">&quot;pointsource&quot;</span><span class="p">,</span>
@@ -3423,13 +3417,9 @@
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">      </span><span class="s2">&quot;instrument&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;aperture_type&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;compute&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;filter&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;photometry&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;sky&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;sky_unit&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;source&quot;</span>
+<span class="w">      </span><span class="s2">&quot;sky_unit&quot;</span>
 <span class="w">   </span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
@@ -3438,14 +3428,13 @@
 <dt class="field-odd">Fields<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.airmass" title="pydiet.server.models.query.ETCQueryModel.airmass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">airmass</span> <span class="pre">(float)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.aperture_diameter" title="pydiet.server.models.query.ETCQueryModel.aperture_diameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aperture_diameter</span> <span class="pre">(float)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.aperture_type" title="pydiet.server.models.query.ETCQueryModel.aperture_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aperture_type</span> <span class="pre">(Literal['optimal',</span> <span class="pre">'fixed'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.aperture" title="pydiet.server.models.query.ETCQueryModel.aperture"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aperture</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.brightness" title="pydiet.server.models.query.ETCQueryModel.brightness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brightness</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.compute" title="pydiet.server.models.query.ETCQueryModel.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span> <span class="pre">(Literal['etime',</span> <span class="pre">'snr'])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.etime" title="pydiet.server.models.query.ETCQueryModel.etime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.filter" title="pydiet.server.models.query.ETCQueryModel.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span> <span class="pre">(pydiet.server.models.types.FilterID)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.instrument" title="pydiet.server.models.query.ETCQueryModel.instrument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instrument</span> <span class="pre">(pydiet.server.models.types.InstrumentID)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.photometry" title="pydiet.server.models.query.ETCQueryModel.photometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">photometry</span> <span class="pre">(Literal['aperture',</span> <span class="pre">'psf'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.photometry" title="pydiet.server.models.query.ETCQueryModel.photometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">photometry</span> <span class="pre">(Literal['psf',</span> <span class="pre">'fixed_aperture'])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.seeing" title="pydiet.server.models.query.ETCQueryModel.seeing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seeing</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sersic_index" title="pydiet.server.models.query.ETCQueryModel.sersic_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sersic_index</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sersic_radius" title="pydiet.server.models.query.ETCQueryModel.sersic_radius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sersic_radius</span> <span class="pre">(float)</span></code></a></p></li>
@@ -3478,8 +3467,8 @@
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.aperture_diameter">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aperture_diameter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.aperture_diameter" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.aperture">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aperture</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.aperture" title="Link to this definition"></a></dt>
 <dd><p>Photometric aperture diameter [&quot;]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
@@ -3489,12 +3478,6 @@
 </ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.aperture_type">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aperture_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'optimal'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fixed'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.aperture_type" title="Link to this definition"></a></dt>
-<dd><p>Photometric aperture type</p>
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
@@ -3513,7 +3496,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.compute">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'etime'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'snr'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.compute" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'etime'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'snr'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'etime'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.compute" title="Link to this definition"></a></dt>
 <dd><p>Computation type</p>
 </dd></dl>
 
@@ -3552,7 +3535,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.photometry">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">photometry</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'aperture'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'psf'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.photometry" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">photometry</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'psf'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fixed_aperture'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'psf'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.photometry" title="Link to this definition"></a></dt>
 <dd><p>Photometry type</p>
 </dd></dl>
 
@@ -3636,7 +3619,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.source">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'pointsource'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'galaxy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'extended'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.source" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'pointsource'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'galaxy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'extended'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pointsource'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.source" title="Link to this definition"></a></dt>
 <dd><p>Source type</p>
 </dd></dl>
 
