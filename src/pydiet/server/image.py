@@ -33,8 +33,8 @@ class Image(object):
             bkg: float=0.,
             ron: float=0.,
             gain: float=1.,
-            photometry_type: PhotometryID='psf',
-            aperture_diameter: float=3.,
+            photometry: PhotometryID='psf',
+            aperture: float=3.,
             oversamp: int=1,) -> np.ndarray:
 
         self.pixel = pixel
@@ -46,6 +46,7 @@ class Image(object):
         self.var_ron = ron*ron
         self.gain = gain
         self.oversamp = oversamp
+        self.photometry = photometry
 
         # Rasterize the PSF
         if psf_beta <= 1.:
@@ -76,26 +77,27 @@ class Image(object):
         ) if source == 'galaxy' else self.psf
 
         # Create photometry measurement aperture
-        if photometry_type != 'psf':
-            r2max = aperture_diameter**2 * u.arcsec**2 \
+        if self.photometry != 'psf':
+            r2max = aperture**2 * (u.arcsec / u.pix)**2 \
                 / (self.pixel[0] * self.pixel[1])
             self.aperture = r2 < r2max
 
 
-    def snr(self, t: float=1., photometry: PhotometryID='psf') -> float:
+    def snr(self, t: float=1.) -> float:
         # Compute the "noise variance image"
         img2 = self.image**2
         var_tot = self.var_ron + (self.var_bkg + self.var_flux * self.image) * t
         # Return SNR
         return self.flux * t * np.sqrt(
             np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
-        ) if photometry == 'psf' else self.flux * t * np.sqrt(
-            np.sum(img2 / var_tot * self.aperture)
-        ) 
+        ) if self.photometry == 'psf' else self.flux * t * np.sum(
+            self.image * self.aperture) / np.sqrt(
+            np.sum(var_tot * self.aperture)
+        )
 
 
-    def delta_snr2(self, t: float, snr: float, photometry: PhotometryID) -> float:
-        return self.snr(t=t, photometry=photometry)**2 - snr**2
+    def delta_snr2(self, t: float, snr: float) -> float:
+        return self.snr(t=t)**2 - snr**2
 
 
     def etime_max(self, snr:float) -> float:
@@ -106,12 +108,12 @@ class Image(object):
         return t_high
 
 
-    def etime(self, snr: float, photometry: PhotometryID='psf') -> float:
+    def etime(self, snr: float) -> float:
         return brentq(
             f=self.delta_snr2,
             a=0.,
             b=self.etime_max(snr),
-            args=(snr, photometry),
+            args=(snr),
             xtol=1e-6,
             maxiter=100
         )

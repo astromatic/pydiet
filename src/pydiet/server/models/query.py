@@ -16,7 +16,6 @@ from pydantic import (
 from .default import default_filter, default_instrument, filters, instruments
 from .exceptions import ETCValidationError
 from .types import (
-    ApertureID,
     ComputeID,
     FilterID,
     InstrumentID,
@@ -38,15 +37,11 @@ class ETCQueryModel(BaseModel):
         description="Observation airmass"
     )
 
-    aperture_diameter: float = Field(
+    aperture: float = Field(
         default=3.,
         gt=0.,
         le=15.,
         description="Photometric aperture diameter [\"]"
-    )
-
-    aperture_type: ApertureID = Field(
-        description="Photometric aperture type"
     )
 
     brightness: float = Field(
@@ -57,6 +52,7 @@ class ETCQueryModel(BaseModel):
     )
 
     compute: ComputeID = Field(
+        default='etime',
         description="Computation type"
     )
 
@@ -72,6 +68,7 @@ class ETCQueryModel(BaseModel):
     )
 
     photometry: PhotometryID = Field(
+        default='psf',
         description="Photometry type"
     )
 
@@ -112,6 +109,7 @@ class ETCQueryModel(BaseModel):
     )
 
     source: SourceID = Field(
+        default='pointsource',
         description="Source type"
     )
 

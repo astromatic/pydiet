@@ -94,7 +94,6 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
             sky=q.sky,
             am=q.airmass
         )
-        print("sky:", sky_spectrum)
     if sky_spectrum is not None:
         bkg_observation = Observation(
             sky_spectrum + emission.spectral,
@@ -132,8 +131,8 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
         # Use RON 'counts' instead of electrons for compatibility with synphot
         ron=detector.ron.to('electron').value,
         gain=gain,
-        photometry_type=q.photometry_type,
-        aperture_diameter=q.aperture_diameter
+        photometry=q.photometry,
+        aperture=q.aperture
     )
 
 
