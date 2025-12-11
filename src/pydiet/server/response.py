@@ -131,7 +131,9 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
         bkg=bkg,
         # Use RON 'counts' instead of electrons for compatibility with synphot
         ron=detector.ron.to('electron').value,
-        gain=gain
+        gain=gain,
+        photometry_type=q.photometry_type,
+        aperture_diameter=q.aperture_diameter
     )
 
 

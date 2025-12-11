@@ -10,7 +10,7 @@ from typing import Literal
 from ..types import AnnotatedStr
 from .default import default_instrument, filters, instruments
 
-ApertureID: Literal['optimal', 'fixed']
+ApertureID = Literal['optimal', 'fixed']
 
 ComputeID = Literal['etime', 'snr']
 

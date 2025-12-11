@@ -38,11 +38,11 @@ class ETCQueryModel(BaseModel):
         description="Observation airmass"
     )
 
-    aperture_radius: float = Field(
-        default=1.5,
+    aperture_diameter: float = Field(
+        default=3.,
         gt=0.,
-        le=10.,
-        description="Photometric aperture radius [\"]"
+        le=15.,
+        description="Photometric aperture diameter [\"]"
     )
 
     aperture_type: ApertureID = Field(
