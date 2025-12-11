@@ -85,7 +85,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">synphot</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BlackBodyNorm1D</span><span class="p">,</span>
+    <span class="n">BlackBody1D</span><span class="p">,</span>
     <span class="n">ConstFlux1D</span><span class="p">,</span>
     <span class="n">SourceSpectrum</span><span class="p">,</span>
     <span class="n">SpectralElement</span>
@@ -181,9 +181,10 @@
         <span class="n">transmissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">transmissions</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">optics</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transmissions</span><span class="p">:</span>
             <span class="n">bb</span> <span class="o">=</span> <span class="n">SourceSpectrum</span><span class="p">(</span>
-                <span class="n">BlackBodyNorm1D</span><span class="p">,</span>
+                <span class="n">BlackBody1D</span><span class="p">,</span>
                 <span class="n">temperature</span><span class="o">=</span><span class="n">transmissions</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span>
             <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">transmissions</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span>
             <span class="n">transmission</span> <span class="o">=</span> <span class="n">transmissions</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
             <span class="n">upstream_transmission</span> <span class="o">*=</span> <span class="n">transmission</span>
             <span class="c1"># Emissivity is assumed to be 1 - transmission</span>
@@ -194,7 +195,7 @@
             <span class="nb">filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
             <span class="n">transmissions</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="n">f</span><span class="p">]}</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">qes</span>
             <span class="n">bb</span> <span class="o">=</span> <span class="n">SourceSpectrum</span><span class="p">(</span>
-                    <span class="n">BlackBodyNorm1D</span><span class="p">,</span>
+                    <span class="n">BlackBody1D</span><span class="p">,</span>
                     <span class="n">temperature</span><span class="o">=</span><span class="n">transmissions</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">temperature</span>
             <span class="p">)</span>
             <span class="n">filter_transmission</span> <span class="o">=</span> <span class="n">upstream_transmission</span> <span class="o">*</span> <span class="nb">filter</span><span class="o">.</span><span class="n">spectral</span>
@@ -215,16 +216,18 @@
                 <span class="n">spectral</span> <span class="o">=</span> <span class="n">filter_transmission</span>
             <span class="p">)</span>
             <span class="n">wave</span><span class="p">,</span> <span class="n">sed</span> <span class="o">=</span> <span class="n">spectral_to_arrays</span><span class="p">(</span><span class="n">filter_emission</span><span class="p">)</span>
+            <span class="c1"># Convert from Photlam.str-1 to arcsec-2</span>
+            <span class="n">sed</span> <span class="o">=</span> <span class="n">sed</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
+                    <span class="n">u</span><span class="o">.</span><span class="n">Jy</span><span class="p">,</span>
+                    <span class="n">equivalencies</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral_density</span><span class="p">(</span><span class="n">wave</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">*</span> <span class="mf">2.350e-11</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">arcsec</span><span class="o">**</span><span class="mi">2</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">emissions</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">SBSEDModel</span><span class="p">(</span>
                 <span class="nb">id</span> <span class="o">=</span> <span class="n">f</span><span class="p">,</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                 <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Thermal emission spectrum.&quot;</span><span class="p">,</span>
                 <span class="nb">vars</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">vars</span><span class="p">,</span>
                 <span class="n">wave</span> <span class="o">=</span> <span class="n">wave</span><span class="p">,</span>
-                <span class="n">sbsed</span> <span class="o">=</span> <span class="n">sed</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
-                    <span class="n">u</span><span class="o">.</span><span class="n">Jy</span><span class="p">,</span>
-                    <span class="n">equivalencies</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral_density</span><span class="p">(</span><span class="n">wave</span><span class="p">)</span>
-                <span class="p">)</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">arcsec</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">sbsed</span> <span class="o">=</span> <span class="n">sed</span><span class="p">,</span>
                 <span class="n">spectral</span> <span class="o">=</span> <span class="n">filter_emission</span>
             <span class="p">)</span>
             
