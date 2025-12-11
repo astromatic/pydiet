@@ -9,6 +9,7 @@
 <form id="etc-form">
   <ion-grid>
     <ion-row class="ion-align-items-center">
+      <!----------------------------- compute -------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
           <ion-select onfocus="
@@ -110,8 +111,6 @@
               " name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag</ion-select-option>
               <ion-select-option value="vegamag">Vega mag</sub></ion-select-option>
-              <ion-select-option value="flambda">erg.s&#8315;&sup1;.cm.&#8315;&sup2;.&#8491;&#8315;&sup1;</ion-select-option>
-              <ion-select-option value="fnu">erg.s&#8315;&sup1;.cm&#8315;&sup2;.Hz&#8315;&sup1;</ion-select-option>
               <ion-select-option value="fmujy">μJy</ion-select-option>
           </ion-select>
         </ion-item>
@@ -120,10 +119,24 @@
       <!--------------------------- photometry ------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select name="photometry" label="Photometry type" label-placement="floating" fill="solid" interface="popover" value="psf">
+          <ion-select onfocus="
+              /* Display extra aperture inputs if photometry type is 'aperture' */
+              const aperture=document.querySelectorAll('.photometry-aperture');
+              if (this.value=='fixed_aperture')
+                aperture.forEach(el => el.classList.remove('ion-hide'));
+              else
+                aperture.forEach(el => el.classList.add('ion-hide'));
+              " name="photometry" label="Photometry type" label-placement="floating" fill="solid" interface="popover" value="psf">
               <ion-select-option value="psf">PSF-fitting</ion-select-option>
-              <ion-select-option value="aperture">aperture</ion-select-option>
+              <ion-select-option value="fixed_aperture">Fixed aperture</ion-select-option>
           </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <!---------------------------- aperture --------------------------->
+      <ion-col class="photometry-aperture ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+         <ion-input class="aperture" name="aperture" label="Aperture diameter  [ &quot; ]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.1" max="15.0" step="0.1" value="3.0"></ion-input>
         </ion-item>
       </ion-col>
 
