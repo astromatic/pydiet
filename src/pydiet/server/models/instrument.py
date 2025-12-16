@@ -12,6 +12,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from synphot import (
     BlackBody1D,
     ConstFlux1D,
+    Observation,
     SourceSpectrum,
     SpectralElement
 )
@@ -33,6 +34,8 @@ def spectral_to_arrays(spectral: BaseSpectrum) -> (np.ndarray,np.ndarray):
     x = x[start:end]
 
     return w, x
+
+
 
 class DetectorModel(BaseModel):
     '''
@@ -58,7 +61,8 @@ class DetectorModel(BaseModel):
         decimals = 4,
         description = "Angular pixel scale along each axis."
     )
-    qes: Dict[str, 'TransmissionModel']
+    transmissions: Dict[str, 'TransmissionModel']
+    emissions: Dict[str, 'SBSEDModel']
 
 
 
@@ -81,15 +85,15 @@ class InstrumentModel(BaseModel):
         decimals = 3,
         description = "Total instrument time overhead between exposures."
     )
-    filters: Dict[str, 'TransmissionModel']
-    optics: Dict[str, 'TransmissionModel']
+    filters: 'FiltersModel'
+    optics: 'OpticsModel'
     detector: 'DetectorModel'
     telescope: 'TelescopeModel'
     site: 'SiteModel'
     default: bool = False
 
     transmissions: dict = Field(default=None)
-    emissions: dict = Field(default=None)
+    emissions_ct: dict = Field(default=None)
 
     @model_validator(mode="after")
     def _compute(self):
@@ -98,68 +102,59 @@ class InstrumentModel(BaseModel):
         upstream_transmission = 1.
         upstream_emission = SourceSpectrum(ConstFlux1D, amplitude=0.)
         # Pre-filter list of transmissions
-        transmissions = self.telescope.transmissions | self.optics
+        transmissions = self.telescope.transmissions | self.optics.transmissions
+        emissions = self.telescope.emissions | self.optics.emissions
         for t in transmissions:
-            bb = SourceSpectrum(
-                BlackBody1D,
-                temperature=transmissions[t].temperature
-            )
-            print(t, transmissions[t].temperature)
+            emission = emissions[t].spectral
             transmission = transmissions[t].spectral
             upstream_transmission *= transmission
-            # Emissivity is assumed to be 1 - transmission
-            upstream_emission = (upstream_emission - bb) * transmission + bb
+            upstream_emission = upstream_emission * transmission + emission
         self.transmissions : dict[str, TransmissionModel] = {}
-        self.emissions : dict[str, EmissionModel] = {}
-        for f in self.filters:
-            filter = self.filters[f]
-            transmissions = {f: self.filters[f]} | self.detector.qes
-            bb = SourceSpectrum(
-                    BlackBody1D,
-                    temperature=transmissions[t].temperature
-            )
-            filter_transmission = upstream_transmission * filter.spectral
-            # Emissivity is assumed to be 1 - transmission
-            filter_emission = (upstream_emission - bb) * filter.spectral + bb
-            filter_transmission *= self.detector.qes["0"].spectral
-            filter_emission *= self.detector.qes["0"].spectral
-
+        self.emissions_ct : dict[str, u.Quantity[u.ct/u.s]] = {}
+        filter_transmissions = self.filters.transmissions
+        filter_emissions = self.filters.emissions
+        for f in filter_transmissions:
+            filter = filter_transmissions[f]
+            filter_transmission = filter_transmissions[f].spectral
+            filter_emission = filter_emissions[f].spectral
+            transmission = upstream_transmission * filter_transmission
+            emission = upstream_emission * transmission + filter_emission
+            transmission *= self.detector.transmissions["0"].spectral
+            emission *= self.detector.transmissions["0"].spectral
             wave, response = spectral_to_arrays(filter_transmission)
+            # Compute countrate
+            observation = Observation(emission, transmission)
             self.transmissions[f] = TransmissionModel(
                 id = filter.id,
                 name = filter.name,
                 description = filter.description,
-                temperature = filter.temperature,
                 vars = filter.vars,
                 wave = wave,
                 response = response,
                 spectral = filter_transmission
             )
-            wave, sed = spectral_to_arrays(filter_emission)
-            # Convert from Photlam.str-1 to arcsec-2
-            sed = sed.to(
-                    u.Jy,
-                    equivalencies=u.spectral_density(wave)
-            ) * 2.350e-11 / u.arcsec**2
-            self.emissions[f] = SBSEDModel(
-                id = f,
-                name = filter.name,
-                description = "Thermal emission spectrum.",
-                vars = filter.vars,
-                wave = wave,
-                sbsed = sed,
-                spectral = filter_emission
-            )
+            self.emissions_ct[f] = observation.countrate(area=1*u.m**2).value
             
         return self
 
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
-class InstrumentsModel(BaseModel):
-    '''
-    Pydantic model for a list of PyDIET instruments.
-    '''
-    instruments: Dict[str, InstrumentModel]
 
+
+class OpticsModel(BaseModel):
+    '''
+    Pydantic model for optics.
+    '''
+    transmissions: dict[str, 'TransmissionModel']
+    emissions: dict[str, 'SBSEDModel']
+
+
+
+class FiltersModel(OpticsModel):
+    '''
+    Pydantic model for a filter set.
+    '''
+    pass
 
 
 class SBSEDModel(BaseModel):
@@ -177,14 +172,14 @@ class SBSEDModel(BaseModel):
         min_shape = (2),
         max_shape = (100000),
         decimals = 4
-    )
+    ) | None = None
     sbsed:  AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "Jy / arcsec2",
         ge = 0. * u.Jy / u.arcsec**2,
         min_shape = (2),
         max_shape = (100000),
         decimals = 6
-    )
+    ) | None = None
     spectral: SourceSpectrum = Field(exclude=True)
     default: bool = False
 
@@ -207,14 +202,14 @@ class SEDModel(BaseModel):
         min_shape = (2),
         max_shape = (100000),
         decimals = 4
-    )
+    ) | None = None
     sed:  AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "Jy",
         ge = 0. * u.Jy,
         min_shape = (2),
         max_shape = (100000),
         decimals = 6
-    )
+    ) | None = None
     spectral: SourceSpectrum = Field(exclude=True)
     default: bool = False
 
@@ -267,13 +262,6 @@ class TransmissionModel(BaseModel):
     id: str
     name: str
     description: str
-    temperature: AnnotatedQuantity(    #type: ignore[valid-type]
-        default = 283 * u.K,
-        unit = "K",
-        gt = 0. * u.K,
-        decimals = 2,
-        description = "Device temperature."
-    )
     vars: dict[str, float]
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",
@@ -282,7 +270,7 @@ class TransmissionModel(BaseModel):
         min_shape = (2),
         max_shape = (100000),
         decimals = 3
-    )
+    ) | None = None
     response: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "",
         ge = -100.,
@@ -290,7 +278,7 @@ class TransmissionModel(BaseModel):
         min_shape = (2),
         max_shape = (100000),
         decimals = 4
-    )
+    ) | None = None
     spectral: SpectralElement = Field(exclude=True)
     default: bool = False
 

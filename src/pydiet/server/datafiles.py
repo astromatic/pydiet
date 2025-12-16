@@ -19,7 +19,12 @@ from astropy.table import QTable #type: ignore[import-untyped]
 from astropy import units as u #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 from specutils import Spectrum #type: ignore[import-untyped]
-from synphot import SourceSpectrum, SpectralElement #type: ignore[import-untyped]
+from synphot import (
+    BlackBody1D,
+    SourceSpectrum,
+    SpectralElement,
+    ThermalSpectralElement
+) #type: ignore[import-untyped]
 
 from .. import package
 from .config import override, settings
@@ -27,11 +32,15 @@ from .models.dataconfig import (
     DataConfigModel,
     DetectorConfigModel,
     EmissionConfigModel,
+    FiltersConfigModel,
+    OpticsConfigModel,
     TransmissionConfigModel
 )
 from .models.instrument import (
     DetectorModel,
+    FiltersModel,
     InstrumentModel,
+    OpticsModel,
     SBSEDModel,
     SEDModel,
     SiteModel,
@@ -76,21 +85,28 @@ def get_detector(
         parent_dir: str,
         detector: DetectorConfigModel) -> DetectorModel:
     # Instantiate the model
+    transmissions = get_transmissions(
+            join(parent_dir, detector.path),
+            detector.transmission
+    )
+    emissions = get_emissions(
+            join(parent_dir, detector.path),
+            detector.emission
+    )
     return DetectorModel(
         gain = detector.gain,
         ron = detector.ron,
         scale = detector.scale,
-        qes = get_transmissions(
-            join(parent_dir, detector.path),
-            detector.transmission
-        )
+        transmissions = transmissions,
+        emissions = emissions
     )
 
 
 def get_emissions(
         parent_dir: str,
         emission_config: EmissionConfigModel,
-        sb = False) -> dict:
+        transmissions: dict[str, TransmissionModel] | None = None,
+        sb = False) -> dict[str, SBSEDModel | SEDModel]:
     emissions : dict[str, SEDModel | SBSEDModel] = {}
     for file_config in emission_config.files:
         data = get_data_file(
@@ -107,9 +123,7 @@ def get_emissions(
             id = key,
             name = file_config.name,
             description = file_config.description,
-            wave = wave,
             vars = file_config.vars,
-            sbsed = sed,
             # We drop the surface part as Spectrum does cannot deal with SBs.
             spectral = SourceSpectrum.from_spectrum1d(
                 Spectrum(
@@ -123,8 +137,6 @@ def get_emissions(
             name = file_config.name,
             description = file_config.description,
             vars = file_config.vars,
-            wave = wave,
-            sed = sed,
             spectral = SourceSpectrum.from_spectrum1d(
                 Spectrum(
                     spectral_axis = wave,
@@ -133,7 +145,47 @@ def get_emissions(
                 keep_neg=False
             )
         )
+    # No emission files: we use a blackbody with emissivity from transmission
+    if len(emission_config.files) == 0 and transmissions is not None:
+        temperatures = emission_config.temperatures
+        areas = emission_config.areas
+        for t, key in enumerate(transmissions):
+            transmission = transmissions[key]
+            temperature = temperatures[t] if t < len(temperatures) \
+                else temperatures[-1]
+            area = areas[t] if t < len(areas) else areas[-1]
+            # Thermal source spectral flux with Blackbody spectrum over 1 arcsec2
+            bb = ThermalSpectralElement(
+                BlackBody1D,
+                temperature=temperature
+            ).thermal_source() * area.to(u.m**2).value
+            emissions[key] = SBSEDModel(
+                id = key,
+                name = f"{transmission.name} emission",
+                description = f"Blackbody emission at {temperature.to(u.K).value:.1f} K",
+                # Apply emissivity
+                spectral = bb - bb * transmission.spectral
+            )
     return emissions
+
+
+def get_filters(
+        parent_dir: str,
+        filters_config: FiltersConfigModel) -> FiltersModel:
+    transmissions = get_transmissions(
+        join(parent_dir, filters_config.path),
+        filters_config.transmission
+    )
+    # For emissions we may have to use transmission curves
+    emissions = get_emissions(
+        join(parent_dir, filters_config.path),
+        filters_config.emission,
+        transmissions
+    )
+    return FiltersModel(
+        transmissions=transmissions,
+        emissions=emissions
+    )
 
 
 def get_instruments(
@@ -151,11 +203,8 @@ def get_instruments(
             description = instrument.description,
             obstruction_area = instrument.obstruction_area,
             overhead = instrument.overhead,
-            optics = get_transmissions(
-                join(path, instrument.optics.path),
-                instrument.optics.transmission
-            ),
-            filters = get_transmissions(path, instrument.filters),
+            optics = get_optics(path, instrument.optics),
+            filters = get_filters(path, instrument.filters),
             detector = get_detector(path, instrument.detector),
             telescope = telescopes[instrument.telescope_id],
             site = sites[instrument.site_id],
@@ -164,7 +213,26 @@ def get_instruments(
     return instruments
 
 
-def get_sites(data_config: DataConfigModel) -> dict:
+def get_optics(
+        parent_dir: str,
+        optics_config: OpticsConfigModel) -> OpticsModel:
+    transmissions = get_transmissions(
+        join(parent_dir, optics_config.path),
+        optics_config.transmission
+    )
+    # For emissions we may have to use transmission curves
+    emissions = get_emissions(
+        join(parent_dir, optics_config.path),
+        optics_config.emission,
+        transmissions
+    )
+    return OpticsModel(
+        transmissions=transmissions,
+        emissions=emissions
+    )
+
+
+def get_sites(data_config: DataConfigModel) -> dict[str, SiteModel]:
     sites = {}
     for site in data_config.sites:
         path = join(data_config.path, site.path)
@@ -180,7 +248,7 @@ def get_sites(data_config: DataConfigModel) -> dict:
     return sites
 
 
-def get_telescopes(data_config: DataConfigModel) -> dict:
+def get_telescopes(data_config: DataConfigModel) -> dict[str, TelescopeModel]:
     telescopes = {}
     for telescope in data_config.telescopes:
         path = join(data_config.path, telescope.path)
@@ -200,7 +268,7 @@ def get_telescopes(data_config: DataConfigModel) -> dict:
 
 def get_transmissions(
         parent_dir: str,
-        transmission_config: TransmissionConfigModel) -> dict:
+        transmission_config: TransmissionConfigModel) -> dict[str, TransmissionModel]:
     transmissions : dict[str, TransmissionModel] = {}
     for file_config in transmission_config.files:
         data = get_data_file(
@@ -214,10 +282,7 @@ def get_transmissions(
             id = file_config.id,
             name = file_config.name,
             description = file_config.description,
-            temperature = transmission_config.temperature,
             vars = file_config.vars,
-            wave = wave,
-            response = response,
             # Apply tapering to filters to avoid possible spurious spectral leaks
             spectral = SpectralElement.from_spectrum1d(
                 Spectrum(spectral_axis=wave, flux=response),

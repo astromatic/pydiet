@@ -22,27 +22,37 @@ class FileConfigModel(BaseModel):
     file: str
 
 
+
 class EmissionConfigModel(BaseModel):
     '''
     Pydantic model for emission curve set configuration.
     '''
-    path: str
-    files: list[FileConfigModel]
+    path: str = ""
+    temperatures: list[AnnotatedQuantity(    #type: ignore[valid-type]
+        default = 283 * u.K,
+        unit = "K",
+        gt = 0. * u.K,
+        decimals = 2,
+        description  = "Device temperature."
+    )] = []
+    areas: list[AnnotatedQuantity(    #type: ignore[valid-type]
+        default = "0 m2",
+        unit = "m2",
+        ge = 0. * u.m**2,
+        decimals = 3,
+        description = "Emissive area."
+    )] = []
+    files: list[FileConfigModel] = []
+
 
 
 class TransmissionConfigModel(BaseModel):
     '''
     Pydantic model for transmission curve set configuration.
     '''
-    path: str
-    temperature: AnnotatedQuantity(    #type: ignore[valid-type]
-        default = 283 * u.K,
-        unit = "K",
-        gt = 0. * u.K,
-        decimals = 2,
-        description  = "Device temperature."
-    )
-    files: list[FileConfigModel]
+    path: str = ""
+    files: list[FileConfigModel] = []
+
 
 
 class SiteConfigModel(BaseModel):
@@ -90,6 +100,7 @@ class TelescopeConfigModel(BaseModel):
     emission: EmissionConfigModel
 
 
+
 class DetectorConfigModel(BaseModel):
     '''
     Pydantic model for the detector data configuration model.
@@ -116,6 +127,7 @@ class DetectorConfigModel(BaseModel):
         description = "Angular pixel scale along each axis."
     )
     transmission: TransmissionConfigModel
+    emission: EmissionConfigModel
 
 
 
@@ -126,6 +138,14 @@ class OpticsConfigModel(BaseModel):
     path: str
     transmission: TransmissionConfigModel
     emission: EmissionConfigModel
+
+
+
+class FiltersConfigModel(OpticsConfigModel):
+    '''
+    Pydantic model for the intrument filters data configuration model.
+    '''
+    pass
 
 
 
@@ -154,7 +174,7 @@ class InstrumentConfigModel(BaseModel):
     site_id: str
     telescope_id: str
     optics: OpticsConfigModel
-    filters: TransmissionConfigModel
+    filters: FiltersConfigModel
     detector: DetectorConfigModel
 
 
