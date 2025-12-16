@@ -115,6 +115,8 @@
 </li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.ServerSettings.api_path">api_path (ServerSettings attribute)</a>
 </li>
+      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.EmissionConfigModel.areas">areas (EmissionConfigModel attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -229,24 +231,30 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.OpticsConfigModel.emission">emission (OpticsConfigModel attribute)</a>
+      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.emission">emission (DetectorConfigModel attribute)</a>
 
       <ul>
+        <li><a href="api/server/models.html#pydiet.server.models.dataconfig.OpticsConfigModel.emission">(OpticsConfigModel attribute)</a>
+</li>
         <li><a href="api/server/models.html#pydiet.server.models.dataconfig.SiteConfigModel.emission">(SiteConfigModel attribute)</a>
 </li>
         <li><a href="api/server/models.html#pydiet.server.models.dataconfig.TelescopeConfigModel.emission">(TelescopeConfigModel attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.emissions">emissions (InstrumentModel attribute)</a>
+      <li><a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.emissions">emissions (DetectorModel attribute)</a>
 
       <ul>
+        <li><a href="api/server/models.html#pydiet.server.models.instrument.OpticsModel.emissions">(OpticsModel attribute)</a>
+</li>
         <li><a href="api/server/models.html#pydiet.server.models.instrument.TelescopeModel.emissions">(TelescopeModel attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/server/settings.html#pydiet.server.config.settings.AppSettings.engine">engine (AppSettings attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.emissions_ct">emissions_ct (InstrumentModel attribute)</a>
+</li>
+      <li><a href="api/server/settings.html#pydiet.server.config.settings.AppSettings.engine">engine (AppSettings attribute)</a>
+</li>
       <li><a href="api/server/models.html#pydiet.server.models.exceptions.ETCValidationError">ETCValidationError</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.query.ETCQueryModel.etime">etime (ETCQueryModel attribute)</a>
@@ -354,11 +362,7 @@
       <li><a href="api/server/models.html#pydiet.server.models.types.InstrumentID">InstrumentID (class in pydiet.server.models.types)</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DataConfigModel.instruments">instruments (DataConfigModel attribute)</a>
-
-      <ul>
-        <li><a href="api/server/models.html#pydiet.server.models.instrument.InstrumentsModel.instruments">(InstrumentsModel attribute)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -576,10 +580,6 @@
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.qes">qes (DetectorModel attribute)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/server/types.html#pydiet.server.types.quantity.QuantityAnnotation">QuantityAnnotation (class in pydiet.server.types.quantity)</a>
 </li>
   </ul></td>
@@ -680,18 +680,12 @@
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DataConfigModel.telescopes">telescopes (DataConfigModel attribute)</a>
 </li>
-      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.TransmissionConfigModel.temperature">temperature (TransmissionConfigModel attribute)</a>
-
-      <ul>
-        <li><a href="api/server/models.html#pydiet.server.models.instrument.TransmissionModel.temperature">(TransmissionModel attribute)</a>
+      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures">temperatures (EmissionConfigModel attribute)</a>
 </li>
-      </ul></li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.ServerSettings.template_dir">template_dir (ServerSettings attribute)</a>
 </li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.EngineSettings.thread_count">thread_count (EngineSettings attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.transmission">transmission (DetectorConfigModel attribute)</a>
 
       <ul>
@@ -702,9 +696,15 @@
         <li><a href="api/server/models.html#pydiet.server.models.dataconfig.TelescopeConfigModel.transmission">(TelescopeConfigModel attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.transmissions">transmissions (InstrumentModel attribute)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.transmissions">transmissions (DetectorModel attribute)</a>
 
       <ul>
+        <li><a href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.transmissions">(InstrumentModel attribute)</a>
+</li>
+        <li><a href="api/server/models.html#pydiet.server.models.instrument.OpticsModel.transmissions">(OpticsModel attribute)</a>
+</li>
         <li><a href="api/server/models.html#pydiet.server.models.instrument.TelescopeModel.transmissions">(TelescopeModel attribute)</a>
 </li>
       </ul></li>

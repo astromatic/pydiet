@@ -100,14 +100,30 @@
 
 
 
+
 <div class="viewcode-block" id="EmissionConfigModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.EmissionConfigModel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EmissionConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Pydantic model for emission curve set configuration.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FileConfigModel</span><span class="p">]</span></div>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">temperatures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="mi">283</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">K</span><span class="p">,</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;K&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">K</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">description</span>  <span class="o">=</span> <span class="s2">&quot;Device temperature.&quot;</span>
+    <span class="p">)]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">areas</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;0 m2&quot;</span><span class="p">,</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Emissive area.&quot;</span>
+    <span class="p">)]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FileConfigModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
 
 
 
@@ -117,15 +133,9 @@
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Pydantic model for transmission curve set configuration.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">temperature</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
-        <span class="n">default</span> <span class="o">=</span> <span class="mi">283</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">K</span><span class="p">,</span>
-        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;K&quot;</span><span class="p">,</span>
-        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">K</span><span class="p">,</span>
-        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="n">description</span>  <span class="o">=</span> <span class="s2">&quot;Device temperature.&quot;</span>
-    <span class="p">)</span>
-    <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FileConfigModel</span><span class="p">]</span></div>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FileConfigModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
 
 
 
@@ -180,6 +190,7 @@
 
 
 
+
 <div class="viewcode-block" id="DetectorConfigModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DetectorConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -207,7 +218,8 @@
         <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Angular pixel scale along each axis.&quot;</span>
     <span class="p">)</span>
-    <span class="n">transmission</span><span class="p">:</span> <span class="n">TransmissionConfigModel</span></div>
+    <span class="n">transmission</span><span class="p">:</span> <span class="n">TransmissionConfigModel</span>
+    <span class="n">emission</span><span class="p">:</span> <span class="n">EmissionConfigModel</span></div>
 
 
 
@@ -221,6 +233,17 @@
     <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">transmission</span><span class="p">:</span> <span class="n">TransmissionConfigModel</span>
     <span class="n">emission</span><span class="p">:</span> <span class="n">EmissionConfigModel</span></div>
+
+
+
+
+<div class="viewcode-block" id="FiltersConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.FiltersConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FiltersConfigModel</span><span class="p">(</span><span class="n">OpticsConfigModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for the intrument filters data configuration model.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span></div>
 
 
 
@@ -252,7 +275,7 @@
     <span class="n">site_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">telescope_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">optics</span><span class="p">:</span> <span class="n">OpticsConfigModel</span>
-    <span class="n">filters</span><span class="p">:</span> <span class="n">TransmissionConfigModel</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="n">FiltersConfigModel</span>
     <span class="n">detector</span><span class="p">:</span> <span class="n">DetectorConfigModel</span></div>
 
 
