@@ -68,7 +68,7 @@ class ETCQueryModel(BaseModel):
     )
 
     photometry: PhotometryID = Field(
-        default='psf',
+        default='model_fitting',
         description="Photometry type"
     )
 
@@ -131,7 +131,7 @@ class ETCQueryModel(BaseModel):
         Kind of emulate Enum validation and errors.
         """
         instrument = info.data['instrument']
-        fids = list(instruments[instrument].filters)
+        fids = list(instruments[instrument].filters.transmissions)
         if f not in fids:
             expected = f"'{fids[0]}'" + \
                 (

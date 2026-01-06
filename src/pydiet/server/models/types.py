@@ -26,7 +26,7 @@ InstrumentID = Enum(  # type: ignore[misc]
 
 SkyID = Literal['dark', 'grey', 'bright', 'specify']
 
-PhotometryID = Literal['psf', 'fixed_aperture']
+PhotometryID = Literal['model_fitting', 'fixed_aperture', 'optimal_aperture', 'large_aperture']
 
 PhotSysID = Literal['abmag', 'vegamag', 'fmegajy', 'fmujy', 'photons']
 

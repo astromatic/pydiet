@@ -11,7 +11,7 @@ from base64 import b64encode
 from io import BytesIO
 from PIL.Image import fromarray
 import numpy as np
-from scipy.optimize import brentq
+from scipy.optimize import brentq, minimize_scalar
 from synphot import Observation, SpectralElement  #type: ignore[import-untyped]
 
 from .models.types import PhotometryID, SourceID
@@ -33,7 +33,7 @@ class Image(object):
             bkg: float=0.,
             ron: float=0.,
             gain: float=1.,
-            photometry: PhotometryID='psf',
+            photometry: PhotometryID='model_fitting',
             aperture: float=3.,
             oversamp: int=1,) -> np.ndarray:
 
@@ -67,8 +67,9 @@ class Image(object):
         moffat = np.power(1. + r2 / alpha2.value, -psf_beta) 
 
         # Truncate inside a disk
-        mask = r2 <= r2[0, raster_size[1]//2]
-        moffat *= mask
+        self.mask_r2 = r2[0, raster_size[1]//2]
+        self.mask = r2 <= self.mask_r2
+        moffat *= self.mask
         self.psf = moffat / moffat.sum()
 
         # Generate star of galaxy image
@@ -77,9 +78,22 @@ class Image(object):
         ) if source == 'galaxy' else self.psf
 
         # Create photometry measurement aperture
-        if self.photometry != 'psf':
-            r2max = aperture**2 * (u.arcsec / u.pix)**2 \
-                / (self.pixel[0] * self.pixel[1])
+        if self.photometry != 'model_fitting':
+            if self.photometry == 'fixed_aperture':
+                # User-provided aperture diameter
+                r2max = aperture**2 * (u.arcsec / u.pix)**2 \
+                    / (self.pixel[0] * self.pixel[1])
+            elif self.photometry == 'large_aperture':
+                # Aperture enclosing 96% of the flux
+                r2max = brentq(
+                    f = lambda r2: np.sum((self.r2 <= r2) * self.image) - 0.96,
+                    a=0.,
+                    b=self.mask_r2,
+                    xtol=1e-3,
+                    maxiter=100
+                ) 
+            elif self.photometry == 'optimal_aperture':
+                r2max = 0.
             self.aperture = r2 < r2max
 
 
@@ -87,13 +101,41 @@ class Image(object):
         # Compute the "noise variance image"
         img2 = self.image**2
         var_tot = self.var_ron + (self.var_bkg + self.var_flux * self.image) * t
-        # Return SNR
-        return self.flux * t * np.sqrt(
-            np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
-        ) if self.photometry == 'psf' else self.flux * t * np.sum(
-            self.image * self.aperture) / np.sqrt(
-            np.sum(var_tot * self.aperture)
-        )
+        if self.photometry == 'optimal_aperture':
+            # (Re-)compute optimal aperture
+            res = minimize_scalar(
+                fun = lambda r2: - self.snr_aper(
+                    self.flux * t,
+                    self.image,
+                    var_tot,
+                    self.r2 < r2,
+                ),
+                bounds=(0., self.mask_r2),
+                method='bounded'
+            )
+            # Return SNR at optimal aperture
+            return -res.fun
+        elif self.photometry == 'model_fitting':
+            # Return model-fitting SNR
+            return self.flux * t * np.sqrt(
+                np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
+            )
+        else:
+            # Return SNR for a predefined aperture
+            return self.snr_aper(
+                self.flux * t,
+                self.image,
+                var_tot,
+                self.aperture
+            )
+
+    def snr_aper(
+            self,
+            flux: float,
+            obj: np.ndarray,
+            var: np.ndarray,
+            aper: np.ndarray) -> float:
+        return flux * np.sum(obj * aper) / np.sqrt(np.sum(var * aper))
 
 
     def delta_snr2(self, t: float, snr: float) -> float:
@@ -136,7 +178,7 @@ class Image(object):
         sersic = np.exp(-bn * (np.power(self.r2 * invre2, inv2n) - 1.))
         sersic = np.fft.irfft2(
             np.fft.rfft2(sersic) * np.fft.rfft2(np.fft.fftshift(self.psf))
-        )
+        ) * self.mask
         return sersic / np.sum(sersic)
 
 

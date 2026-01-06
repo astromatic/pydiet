@@ -126,9 +126,11 @@
                 aperture.forEach(el => el.classList.remove('ion-hide'));
               else
                 aperture.forEach(el => el.classList.add('ion-hide'));
-              " name="photometry" label="Photometry type" label-placement="floating" fill="solid" interface="popover" value="psf">
-              <ion-select-option value="psf">PSF-fitting</ion-select-option>
-              <ion-select-option value="fixed_aperture">Fixed aperture</ion-select-option>
+              " name="photometry" label="Photometry type" label-placement="floating" fill="solid" interface="popover" value="model_fitting">
+              <ion-select-option value="model_fitting">model-fitting</ion-select-option>
+              <ion-select-option value="optimal_aperture">optimal aperture</ion-select-option>
+              <ion-select-option value="large_aperture">96% flux aperture</ion-select-option>
+              <ion-select-option value="fixed_aperture">fixed aperture</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>

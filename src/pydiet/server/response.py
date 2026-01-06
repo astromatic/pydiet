@@ -52,10 +52,8 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
     telescope = instrument.telescope
     detector = instrument.detector
     transmission = instrument.transmissions[q.filter]
-    emission = instrument.emissions[q.filter]
-    print(emissions)
+
     # Multiply Total instrument transmission with atmospheric transmission
-    #transmission.spectral.to_fits(f"resp_{instrument.transmissions[q.filter].id}.fits", overwrite=True)
     transmission_spec = transmission.spectral * spectrum_from_airmass(
         instrument.site.sky_transmissions,
         am=q.airmass
@@ -96,9 +94,15 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
         )
     if sky_spectrum is not None:
         # Compute background count rate to get background surface brightness
+        bkg_observation = Observation(
+            sky_spectrum,
+            transmission.spectral,
+            force='extrap'
+        )
+        print(instrument.emissions_ct[q.filter], bkg_observation.countrate(area=area, binned=False))
         ct_bkgsb = (
             bkg_observation.countrate(area=area, binned=False) \
-            + instrument.emissions_ct[q.filter]
+            + instrument.emissions_ct[q.filter] * u.ct / u.s
             ) / gain
         mag_bkgsb = zp + u.Magnitude(ct_bkgsb)
         if mag_bkgsb.value < -100. :

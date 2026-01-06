@@ -115,13 +115,13 @@ class InstrumentModel(BaseModel):
         filter_emissions = self.filters.emissions
         for f in filter_transmissions:
             filter = filter_transmissions[f]
-            filter_transmission = filter_transmissions[f].spectral
+            filter_transmission = filter.spectral
             filter_emission = filter_emissions[f].spectral
             transmission = upstream_transmission * filter_transmission
             emission = upstream_emission * transmission + filter_emission
             transmission *= self.detector.transmissions["0"].spectral
             emission *= self.detector.transmissions["0"].spectral
-            wave, response = spectral_to_arrays(filter_transmission)
+            wave, response = spectral_to_arrays(transmission)
             # Compute countrate
             observation = Observation(emission, transmission)
             self.transmissions[f] = TransmissionModel(
@@ -131,7 +131,7 @@ class InstrumentModel(BaseModel):
                 vars = filter.vars,
                 wave = wave,
                 response = response,
-                spectral = filter_transmission
+                spectral = transmission
             )
             self.emissions_ct[f] = observation.countrate(area=1*u.m**2).value
             

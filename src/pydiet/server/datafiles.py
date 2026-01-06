@@ -172,13 +172,11 @@ def get_emissions(
 def get_filters(
         parent_dir: str,
         filters_config: FiltersConfigModel) -> FiltersModel:
-    transmissions = get_transmissions(
-        join(parent_dir, filters_config.path),
-        filters_config.transmission
-    )
+    path = join(parent_dir, filters_config.path)
+    transmissions = get_transmissions(path, filters_config.transmission)
     # For emissions we may have to use transmission curves
     emissions = get_emissions(
-        join(parent_dir, filters_config.path),
+        path,
         filters_config.emission,
         transmissions
     )
@@ -216,13 +214,11 @@ def get_instruments(
 def get_optics(
         parent_dir: str,
         optics_config: OpticsConfigModel) -> OpticsModel:
-    transmissions = get_transmissions(
-        join(parent_dir, optics_config.path),
-        optics_config.transmission
-    )
+    path = join(parent_dir, optics_config.path)
+    transmissions = get_transmissions(path, optics_config.transmission)
     # For emissions we may have to use transmission curves
     emissions = get_emissions(
-        join(parent_dir, optics_config.path),
+        path,
         optics_config.emission,
         transmissions
     )
@@ -253,14 +249,21 @@ def get_telescopes(data_config: DataConfigModel) -> dict[str, TelescopeModel]:
     for telescope in data_config.telescopes:
         path = join(data_config.path, telescope.path)
         # Instantiate the model
+        transmissions = get_transmissions(path, telescope.transmission)
+        emissions = get_emissions(
+            path,
+            telescope.emission,
+            transmissions,
+            sb=True
+        )
         telescopes[telescope.id] = TelescopeModel(
             id = telescope.id,
             name = telescope.name,
             description = telescope.description,
             collecting_area = telescope.collecting_area,
             obstruction_area = telescope.obstruction_area,
-            transmissions = get_transmissions(path, telescope.transmission),
-            emissions = get_emissions(path, telescope.emission, sb=True),
+            transmissions = transmissions,
+            emissions = emissions,
             default = telescope.default
         )
     return telescopes
