@@ -99,10 +99,11 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
             transmission.spectral,
             force='extrap'
         )
+        # TODO: Fix instrumental thermal background and remove the 0.
         print(instrument.emissions_ct[q.filter], bkg_observation.countrate(area=area, binned=False))
         ct_bkgsb = (
             bkg_observation.countrate(area=area, binned=False) \
-            + instrument.emissions_ct[q.filter] * u.ct / u.s
+            + 0. * instrument.emissions_ct[q.filter] * u.ct / u.s
             ) / gain
         mag_bkgsb = zp + u.Magnitude(ct_bkgsb)
         if mag_bkgsb.value < -100. :
