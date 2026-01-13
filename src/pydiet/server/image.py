@@ -33,6 +33,9 @@ class Image(object):
             bkg: float=0.,
             ron: float=0.,
             gain: float=1.,
+            full_well: float=1e6,
+            range: int=65536,
+            bias: float=0.,
             photometry: PhotometryID='model_fitting',
             aperture: float=3.,
             oversamp: int=1,) -> np.ndarray:
@@ -47,6 +50,7 @@ class Image(object):
         self.gain = gain
         self.oversamp = oversamp
         self.photometry = photometry
+        self.saturation = min(range - 1. - bias, full_well / gain)
 
         # Rasterize the PSF
         if psf_beta <= 1.:
@@ -161,6 +165,14 @@ class Image(object):
         )
 
 
+    def etime_bkg_sat(self) -> float:
+        return self.saturation / self.bkg
+
+
+    def etime_source_sat(self) -> float:
+        return self.saturation / self.max()
+
+
     def sersic(
             self,
             re: u.Quantity['angle']=1.*u.arcsec,
@@ -182,27 +194,31 @@ class Image(object):
         return sersic / np.sum(sersic)
 
 
-    def get_gif(self, etime: float, frames: int=10) -> str:
+    def max(self) -> float:
+        return self.flux * self.image.max() + self.bkg
+
+
+    def gif(self, etime: float, exposures: int=1, frames: int=10) -> str:
         # Initialize random generator
         rng = np.random.default_rng()
         # Use the PSF as a template image and generate a noiseless image
-        noisy = (self.flux * np.array([self.image] * frames) + self.bkg) * etime
+        noiseless = (self.flux * np.array([self.image] * frames) + self.bkg) * etime
         # Generate Poisson + Gaussian noise realizations
         # We add a 3 sigma offset above the background to prevent negative values
-        sigmas = 3.*(self.ron*self.ron + self.bkg*etime)**0.5
+        sigmas = 3.*(self.ron*self.ron + self.bkg*etime)**0.5 / np.sqrt(exposures)
         offset = sigmas - self.bkg * etime
-        nmax = (noisy.max() + offset + sigmas)  / self.gain
+        nmax = (noiseless.max() + offset + sigmas)  / self.gain
         noisy = np.round(
-            (
-                rng.poisson(lam=noisy) + rng.normal(
+            exposures * (
+                rng.poisson(lam=noiseless*exposures) / exposures + rng.normal(
                     loc=offset,
-                    scale=self.ron,
-                    size=noisy.shape
+                    scale=self.ron / np.sqrt(exposures),
+                    size=noiseless.shape
                 )
             ) / self.gain
-        )
+        ) / exposures
         # Normalize to a max of 1
-        noisy[noisy < 0.] = 0.
+        noisy[noiseless < 0.] = 0.
         noisy /= nmax
         noisy[noisy > 1.] = 1.
         # Apply sRGB gamma correction and convert to 0...255 unsigned integers

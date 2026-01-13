@@ -46,7 +46,22 @@
           </ion-col>
           <ion-col>
             <ion-label>
-              {{ '%.2f' % r.etime }} s
+              {% set spec = '{:.3n}' if r.etime < 100 else '{:.0f}' %}
+              {{ spec.format(r.etime) }} s
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="timer"></ion-icon>
+            <ion-label>
+              Total time
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              {% set spec = '{:.3n}' if r.ttime < 100 else '{:.0f}' %}
+              {{ spec.format(r.ttime) }} s
             </ion-label>
           </ion-col>
         </ion-row>
@@ -59,7 +74,7 @@
           </ion-col>
           <ion-col>
             <ion-label>
-              {{ '%.2f' % r.snr }}
+              {{ '{:.5n}'.format(r.snr) }}
             </ion-label>
           </ion-col>
         </ion-row>
@@ -72,7 +87,7 @@
           </ion-col>
           <ion-col>
             <ion-label>
-              {{ '%.2f' % r.zp }} mag
+              {{ '{:.2f}'.format(r.zp) }} mag
             </ion-label>
           </ion-col>
         </ion-row>
@@ -85,7 +100,35 @@
           </ion-col>
           <ion-col>
             <ion-label>
-              {{ '%.2f' % r.sky_mag }} mag.arcsec<sup>-2</sup>
+              {{ '{:.2f}'.format(r.sky_mag) }} mag.arcsec<sup>-2</sup>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="timer"></ion-icon>
+            <ion-label>
+              Background saturation time
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              {% set spec = '{:.3n}' if r.etime_skysat < 100 else '{:.0f}' %}
+              {{ spec.format(r.etime_skysat) }} s
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="timer"></ion-icon>
+            <ion-label>
+              Source saturation time
+            </ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>
+              {% set spec = '{:.3n}' if r.etime_sourcesat < 100 else '{:.0f}' %}
+              {{ spec.format(r.etime_sourcesat) }} s
             </ion-label>
           </ion-col>
         </ion-row>

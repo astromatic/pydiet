@@ -29,6 +29,12 @@ class ETCResponseModel(BaseModel):
         lt=1e30,
         description="Estimated exposure time"
     )
+    ttime: float=Field(
+        default=1.,
+        ge=0.,
+        lt=1e30,
+        description="Estimated total time"
+    )
     etime_skysat: float=Field(
         default=0.,
         ge=0.,

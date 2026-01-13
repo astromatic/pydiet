@@ -32,4 +32,5 @@ PhotSysID = Literal['abmag', 'vegamag', 'fmegajy', 'fmujy', 'photons']
 
 SourceID = Literal['pointsource', 'galaxy', 'extended']
 
+StackingID = Literal['average', 'median']
 

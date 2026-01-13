@@ -19,14 +19,39 @@
               const snr=document.querySelector('.snr');
               if (this.value=='snr') {
                 snr.name = 'etime';
-                snr.label = 'Exposure Time [ s ]'
+                snr.label = 'Exposure Time [ s ]';
               } else {
                 snr.name = 'snr';
-                snr.label = 'Signal-to-Noise ratio'
+                snr.label = 'Signal-to-Noise ratio';
               }
               " name="compute" label="Compute" width="200px" label-placement="floating" fill="solid" interface="popover" value="etime">
             <ion-select-option value="etime">exposure time</ion-select-option>
             <ion-select-option value="snr">SNR</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <!----------------------- Number of exposures -------------------------->
+      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-input oninput="
+              /* Change use of SNR input to exposure time if SNR is output */
+              const stacking=document.querySelector('.stacking');
+              if (this.value > 1) {
+                stacking.classList.remove('ion-hide');
+              } else {
+                stacking.classList.add('ion-hide');
+              }
+              " name="exposures" label="Exposures" label-placement="floating" fill="solid" type="number" inputmode="numeric" min="1" step="1"  value="1"></ion-input>
+        </ion-item>
+      </ion-col>
+
+      <!----------------------------- Stacking ------------------------------->
+      <ion-col class="stacking ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+          <ion-select name="stacking" label="Stacking" label-placement="floating" fill="solid" interface="popover" value="median">
+            <ion-select-option value="average">average</ion-select-option>
+            <ion-select-option value="median">median</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -106,9 +131,9 @@
                 bright.step = '0.01'
               } else if (this.value=='fmujy') {
                 bright.label = 'Brightness [μJy]'
-                bright.min = '0.0'
-                bright.max = '1000.0'
-                bright.step = 'any'
+                bright.min = '0.0';
+                bright.max = '1000.0';
+                bright.step = 'any';
               }
               " name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag</ion-select-option>
@@ -177,20 +202,20 @@
               /* Change sky brightness label and limits depending on sky unit */
               const sky=document.querySelector('.sky-brightness');
               if (this.value=='abmag' || this.value=='vegamag') {
-                sky.label = 'Sky value [mag.arcsec&#8315;&sup2;]'
-                sky.min = '-40.0'
-                sky.max = '40.0'
-                sky.step = '0.1'
+                sky.label = 'Sky value [mag.arcsec&#8315;&sup2;]';
+                sky.min = '-40.0';
+                sky.max = '40.0';
+                sky.step = '0.1';
               } else if (this.value=='fmegajy') {
                 sky.label = 'Sky value [MJy.str&dash;&sup1]'
-                sky.min = '0.0'
-                sky.max = '1000.0'
-                sky.step = 'any'
+                sky.min = '0.0';
+                sky.max = '1000.0';
+                sky.step = 'any';
               } else if (this.value=='photons') {
                 sky.label = 'Sky value [photons.&#8315;&sup1;.px&#8315;&sup1;]'
-                sky.min = '0.0'
-                sky.max = '1000.0'
-                sky.step = 'any'
+                sky.min = '0.0';
+                sky.max = '1000.0';
+                sky.step = 'any';
               }
               " name="sky_unit" label="Sky unit" width="200px" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag.arcsec&dash;&sup2</ion-select-option>

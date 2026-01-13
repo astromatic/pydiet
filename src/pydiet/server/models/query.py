@@ -22,7 +22,8 @@ from .types import (
     PhotometryID,
     PhotSysID,
     SkyID,
-    SourceID
+    SourceID,
+    StackingID
 )
 
 class ETCQueryModel(BaseModel):
@@ -60,7 +61,14 @@ class ETCQueryModel(BaseModel):
         default=20.,
         ge=0.,
         le=1e30,
-        description="Required exposure time [s]"
+        description="Exposure time [s]"
+    )
+
+    exposures: int = Field(
+        default=1,
+        ge=0.,
+        le=1000000,
+        description="Number of exposures"
     )
 
     filter: FilterID = Field(
@@ -111,6 +119,11 @@ class ETCQueryModel(BaseModel):
     source: SourceID = Field(
         default='pointsource',
         description="Source type"
+    )
+
+    stacking: StackingID = Field(
+        default='median',
+        description="Stacking method"
     )
 
     transparency: float = Field(

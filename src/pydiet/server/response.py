@@ -138,9 +138,11 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
         aperture=q.aperture
     )
 
-
+    sexposures = sqrt(q.exposures * 2. / pi) if \
+        q.stacking == 'median' and q.exposures > 2 else sqrt(q.exposures)
+       
     if q.compute == 'etime':
-        snr = q.snr
+        snr = q.snr / sexposures
         # Compute exposure time (solution to a second degree equation) in s
         etime = img.etime(snr)
     else:
@@ -154,11 +156,12 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
             compute = q.compute,
             zp = zp.value,
             etime = etime,
-            etime_skysat = etime * 100.,
-            etime_sourcesat = etime * 10.,
-            snr = snr,
+            ttime = q.exposures * (etime + instrument.overhead.to(u.s).value),
+            etime_skysat = img.etime_bkg_sat(),
+            etime_sourcesat = img.etime_source_sat(),
+            snr = snr * sexposures,
             sky_mag = mag_bkgsb.value,
-            cutout = img.get_gif(etime) if ui else None
+            cutout = img.gif(etime, exposures=q.exposures) if ui else None
     )
 
 

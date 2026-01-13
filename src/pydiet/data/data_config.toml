@@ -168,6 +168,9 @@ path = "detector"
 gain = "1.62 electron/adu"
 ron = "5. electron"
 scale = "[0.186, 0.186] arcsec/pix"
+full_well = "240000 electron"
+range = "65536 adu"
+bias = "1200. adu"
 [instruments.detector.transmission]
 path = "qe"
 # Average MegaCam CCD quantum efficiency as a function of wavelength
@@ -225,6 +228,9 @@ gain = "3.8 electron/adu"
 ron = "30. electron"
 scale = "[0.306, 0.306] arcsec/pix"
 path = "detector"
+full_well = "130000 electron"
+range = "65536 adu"
+bias = "0. adu"
 [instruments.detector.transmission]
 path = "qe"
 # Average Hawaii-2RG quantum efficiency as a function of wavelength from the
