@@ -12,7 +12,7 @@ from ..types import AnnotatedQuantity
 
 class FileConfigModel(BaseModel):
     '''
-    Pydantic model for datafile configuration.
+    Pydantic model for transmission curve configuration.
     '''
     default: bool = False
     id: str = ''
@@ -23,12 +23,35 @@ class FileConfigModel(BaseModel):
 
 
 
-class FilesConfigModel(BaseModel):
+class EmissionConfigModel(BaseModel):
     '''
-    Pydantic model for transmission curve data configuration.
+    Pydantic model for emission curve set configuration.
     '''
-    path: str
-    files: list[FileConfigModel]
+    path: str = ""
+    temperatures: list[AnnotatedQuantity(    #type: ignore[valid-type]
+        default = 283 * u.K,
+        unit = "K",
+        gt = 0. * u.K,
+        decimals = 2,
+        description  = "Device temperature."
+    )] = []
+    areas: list[AnnotatedQuantity(    #type: ignore[valid-type]
+        default = "0 m2",
+        unit = "m2",
+        ge = 0. * u.m**2,
+        decimals = 3,
+        description = "Emissive area."
+    )] = []
+    files: list[FileConfigModel] = []
+
+
+
+class TransmissionConfigModel(BaseModel):
+    '''
+    Pydantic model for transmission curve set configuration.
+    '''
+    path: str = ""
+    files: list[FileConfigModel] = []
 
 
 
@@ -47,8 +70,8 @@ class SiteConfigModel(BaseModel):
         decimals = 3,
         description = "Altitude of the observation site."
     )
-    transmission: FilesConfigModel
-    emission: FilesConfigModel
+    transmission: TransmissionConfigModel
+    emission: EmissionConfigModel
 
 
 
@@ -73,8 +96,9 @@ class TelescopeConfigModel(BaseModel):
         decimals = 3,
         description = "Default obstruction area (only used if not specified for the instrument)."
     )
-    transmission: FilesConfigModel
-    emission: FilesConfigModel
+    transmission: TransmissionConfigModel
+    emission: EmissionConfigModel
+
 
 
 class DetectorConfigModel(BaseModel):
@@ -102,7 +126,8 @@ class DetectorConfigModel(BaseModel):
         decimals = 4,
         description = "Angular pixel scale along each axis."
     )
-    transmission: FilesConfigModel
+    transmission: TransmissionConfigModel
+    emission: EmissionConfigModel
 
 
 
@@ -111,8 +136,16 @@ class OpticsConfigModel(BaseModel):
     Pydantic model for the intrument optics data configuration model.
     '''
     path: str
-    transmission: FilesConfigModel
-    emission: FilesConfigModel
+    transmission: TransmissionConfigModel
+    emission: EmissionConfigModel
+
+
+
+class FiltersConfigModel(OpticsConfigModel):
+    '''
+    Pydantic model for the intrument filters data configuration model.
+    '''
+    pass
 
 
 
@@ -141,7 +174,7 @@ class InstrumentConfigModel(BaseModel):
     site_id: str
     telescope_id: str
     optics: OpticsConfigModel
-    filters: FilesConfigModel
+    filters: FiltersConfigModel
     detector: DetectorConfigModel
 
 

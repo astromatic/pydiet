@@ -35,7 +35,7 @@ function update_filters(instrument) {
 			select_filters.lastChild.remove()
 		}
 		const	instrumentID = instrument.id,
-			filters = instrument.filters;
+			filters = instrument.transmissions;
 		let f_default = get_filterID(instrumentID);
 		for (f in filters) {
 			let  option = document.createElement("ion-select-option");

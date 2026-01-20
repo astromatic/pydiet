@@ -112,8 +112,8 @@ path = "transmission"
 files = [ {file = "CFHT_M1_transmission.fits"} ]
 [telescopes.emission]
 # Emission curves for the CFHT 3.6m telescope
-path = "emission"
-files = []
+temperatures = ["273 K"]
+areas = ["10.134 m2"]
 
 
 ########################## Table array of instruments #########################
@@ -139,10 +139,11 @@ path = "transmission"
 files = [ {file = "MegaPrime_transmission.fits"} ]
 [instruments.optics.emission]
 # Emission as a function of wavelength for all MegaPrime optical components
-path = "emission"
-files = []
+temperatures = ["273 K"] # Typical temperature of the corrector optics
+areas = ["0.515 m2"] # Area of the front corrector lens
 [instruments.filters]
 path = "filters"
+[instruments.filters.transmission]
 vars = ['id']
 files = [
     {id = 'u', name = "u", file = "u.MP9302.fits"},
@@ -157,16 +158,26 @@ files = [
     {id = 'ha', name = "Ha", file = "Ha.MP9603.fits"},
     {id = 'haoff', name = "Ha off", file = "HaOFF.MP9604.fits"}
 ]
+[instruments.filters.emission]
+# Emission as a function of wavelength for all MegaPrime optical components
+temperatures = ["273 K"] # Typical temperature of the corrector optics
+areas = ["0.16 m2"] # Area of the filters (just a reasonable guess)
 [instruments.detector]
 # Average MegaCam E2V CCD characteristics
 path = "detector"
 gain = "1.62 electron/adu"
 ron = "5. electron"
 scale = "[0.186, 0.186] arcsec/pix"
+full_well = "240000 electron"
+range = "65536 adu"
+bias = "1200. adu"
 [instruments.detector.transmission]
-# Average MegaCam CCD quantum efficiency as a function of wavelength
 path = "qe"
+# Average MegaCam CCD quantum efficiency as a function of wavelength
 files = [ {file = "MegaCam_QE.average.fits"} ]
+[instruments.detector.emission]
+temperatures = ["153 K"]
+
 
 [[instruments]]
 # WIRCam instrument. Most infos derived from the WIRCam web pages at
@@ -188,10 +199,11 @@ path = "transmission"
 files = [ {file = "WIRCam_transmission.fits"} ]
 [instruments.optics.emission]
 # Emission as a function of wavelength for all WIRCam optical components
-path = "emission"
-files = []
+temperatures = ["80 K"]
+areas = ["491 cm2"] # 250mm diameter (educated guess)?
 [instruments.filters]
 path = "filters"
+[instruments.filters.transmission]
 vars = ['id']
 files = [
     {id = 'y', name = "Y", file = "Y.WC8002.fits", default=true},
@@ -207,16 +219,25 @@ files = [
     {id = 'brg', name = "Br.gamma", file = "BrG.WC8305.fits"},
     {id = 'w', name = "W", file = "W.WC8105.fits"}
 ]
+[instruments.filters.emission]
+temperatures = ["80 K"]
+areas = ["95.0 cm2"] # 110mm diameter
 [instruments.detector]
 # Average WIRCam Hawaii-2RG CMOS characteristics
 gain = "3.8 electron/adu"
 ron = "30. electron"
 scale = "[0.306, 0.306] arcsec/pix"
 path = "detector"
+full_well = "130000 electron"
+range = "65536 adu"
+bias = "0. adu"
 [instruments.detector.transmission]
+path = "qe"
 # Average Hawaii-2RG quantum efficiency as a function of wavelength from the
 # science-grade sample of Finger+2006, which has a 2.5 μm cut-off; see
 # https://info.cfht.hawaii.edu/display/~bertin/WIRCam+quantum+efficiency+curve
-path = "qe"
 files = [ {file = "WIRCam_QE.average.fits"} ]
+[instruments.detector.emission]
+temperatures = ["80 K"]
+
 

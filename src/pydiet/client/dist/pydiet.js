@@ -18518,7 +18518,7 @@
         data: {
           labels: wave.map((w) => Math.round(w)),
           datasets: [{
-            label: "Filter response",
+            label: "Instrument response",
             data: response,
             fill: true
           }]
@@ -18540,14 +18540,14 @@
             y: {
               title: {
                 display: true,
-                text: "Tranmission [%]"
+                text: "Transmission [%]"
               }
             }
           },
           plugins: {
             title: {
               display: true,
-              text: filter2.name
+              text: filter2.name + " filter"
             },
             legend: { display: false },
             zoom: {
@@ -18593,7 +18593,7 @@
       while (select_filters.firstChild) {
         select_filters.lastChild.remove();
       }
-      const instrumentID = instrument2.id, filters = instrument2.filters;
+      const instrumentID = instrument2.id, filters = instrument2.transmissions;
       let f_default = get_filterID(instrumentID);
       for (f in filters) {
         let option = document.createElement("ion-select-option");

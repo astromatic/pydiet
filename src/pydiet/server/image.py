@@ -11,10 +11,10 @@ from base64 import b64encode
 from io import BytesIO
 from PIL.Image import fromarray
 import numpy as np
-from scipy.optimize import brentq
+from scipy.optimize import brentq, minimize_scalar
 from synphot import Observation, SpectralElement  #type: ignore[import-untyped]
 
-from .models.types import SourceID
+from .models.types import PhotometryID, SourceID
 
 
 
@@ -33,8 +33,14 @@ class Image(object):
             bkg: float=0.,
             ron: float=0.,
             gain: float=1.,
-            oversamp: int=1) -> np.ndarray:
+            full_well: float=1e6,
+            range: int=65536,
+            bias: float=0.,
+            photometry: PhotometryID='model_fitting',
+            aperture: float=3.,
+            oversamp: int=1,) -> np.ndarray:
 
+        self.source = source
         self.pixel = pixel
         self.flux = flux
         self.bkg = bkg
@@ -44,15 +50,10 @@ class Image(object):
         self.var_ron = ron*ron
         self.gain = gain
         self.oversamp = oversamp
+        self.photometry = photometry
+        self.saturation = min(range - 1. - bias, full_well / gain)
 
-        # Rasterize the PSF
-        if psf_beta <= 1.:
-            raise ValueError("Moffat beta must be > 1.")
-        # Compute the square of the alpha parameter from the FWHM
-        alpha2 = u.Quantity(psf_fwhm)**2 / (4. * (2.**(1./psf_beta) - 1.)) \
-            / (pixel[0] * pixel[1]) * (oversamp * oversamp)
-
-        # Create raster
+        # Create image coordinate rasters
         raster_size = [image_size[0] * oversamp, image_size[1] * oversamp]
         yx = np.mgrid[
             -raster_size[0]//2:raster_size[0] - raster_size[0]//2,
@@ -60,28 +61,75 @@ class Image(object):
         ].astype(np.float32)
         r2 = yx[0]**2 + yx[1]**2
         self.r2 = r2
-        moffat = np.power(1. + r2 / alpha2.value, -psf_beta) 
+
+        # Create truncation disk
+        self.mask_r2 = r2[0, raster_size[1]//2]
+        self.mask = r2 <= self.mask_r2
+
+        self.pixel_area = (pixel[0] * pixel[1]) / oversamp**2 * u.pix**2
+
+        if source == 'extended':
+            self.image = self.extended()
+            return
+
+        # Rasterize the PSF
+        if psf_beta <= 1.:
+            raise ValueError("Moffat beta must be > 1.")
+
+        # Compute the square of the alpha parameter from the FWHM
+        alpha2 = u.Quantity(psf_fwhm)**2 / (4. * (2.**(1./psf_beta) - 1.)) \
+            / self.pixel_area
+
+        # Create PSF raster
+        moffat = np.power(1. + r2 / alpha2, -psf_beta) 
+
         # Truncate inside a disk
-        mask = r2 <= r2[0, raster_size[1]//2]
-        moffat *= mask
+        moffat *= self.mask
         self.psf = moffat / moffat.sum()
+
+        # Generate star or galaxy image
         self.image = self.sersic(
-            re=sersic_radius, n=sersic_index
+            re=sersic_radius,
+            n=sersic_index
         ) if source == 'galaxy' else self.psf
 
-
-    def snr(self, t: float=1.) -> float:
-        # Compute the "noise variance image"
-        img2 = self.image**2
-        var_tot = self.var_ron + (self.var_bkg + self.var_flux * self.image) * t
-        # Return SNR
-        return self.flux * t * np.sqrt(
-            np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
-        )
+        # Create photometry measurement aperture
+        if self.photometry != 'model_fitting':
+            if self.photometry == 'fixed_aperture':
+                # User-provided aperture diameter
+                r2max = aperture**2 * (u.arcsec / u.pix)**2 \
+                    / self.pixel_area
+            elif self.photometry == 'large_aperture':
+                # Aperture enclosing 96% of the flux
+                r2max = brentq(
+                    f = lambda r2: np.sum((self.r2 <= r2) * self.image) - 0.96,
+                    a=0.,
+                    b=self.mask_r2,
+                    xtol=1e-3,
+                    maxiter=100
+                ) 
+            elif self.photometry == 'optimal_aperture':
+                r2max = 0.
+            self.aperture = r2 < r2max
 
 
     def delta_snr2(self, t: float, snr: float) -> float:
-        return self.snr(t)**2 - snr**2
+        return self.snr(t=t)**2 - snr**2
+
+
+    def etime(self, snr: float) -> float:
+        return brentq(
+            f=self.delta_snr2,
+            a=0.,
+            b=self.etime_max(snr),
+            args=(snr),
+            xtol=1e-6,
+            maxiter=100
+        )
+
+
+    def etime_bkg_sat(self) -> float:
+        return self.saturation / self.bkg
 
 
     def etime_max(self, snr:float) -> float:
@@ -92,52 +140,35 @@ class Image(object):
         return t_high
 
 
-    def etime(self, snr:float) -> float:
-        return brentq(self.delta_snr2, 0., self.etime_max(snr), args=snr, xtol=1e-6, maxiter=100)
+    def etime_source_sat(self) -> float:
+        return self.saturation / self.max()
 
 
-    def sersic(
-            self,
-            re: u.Quantity['angle']=1.*u.arcsec,
-            n: float=1.) -> np.ndarray:
-        # Model validity limits
-        if n < 0.36:
-            n = 0.36
-        # R_e normalization from Ciotti & Bertin 1999
-        bn = 2.* n - 0.333333 + 9.8765e-3*n**(-1) + 1.8029e-3 * n**(-2) \
-            + 1.1409e-4 * n**(-3) - 7.151e-5 * n**(-4)
-        inv2n = 0.5 / n
-        invre2 = (
-            (self.pixel[0] * self.pixel[1]) / (self.oversamp**2 * re**2)
-        ).value
-        sersic = np.exp(-bn * (np.power(self.r2 * invre2, inv2n) - 1.))
-        sersic = np.fft.irfft2(
-            np.fft.rfft2(sersic) * np.fft.rfft2(np.fft.fftshift(self.psf))
-        )
-        return sersic / np.sum(sersic)
+    def extended(self) -> np.ndarray:
+        return self.mask * self.pixel_area.to(u.arcsec**2).value
 
 
-    def get_gif(self, etime: float, frames: int=10) -> str:
+    def gif(self, etime: float, exposures: int=1, frames: int=10) -> str:
         # Initialize random generator
         rng = np.random.default_rng()
         # Use the PSF as a template image and generate a noiseless image
-        noisy = (self.flux * np.array([self.image] * frames) + self.bkg) * etime
+        noiseless = (self.flux * np.array([self.image] * frames) + self.bkg) * etime
         # Generate Poisson + Gaussian noise realizations
         # We add a 3 sigma offset above the background to prevent negative values
-        sigmas = 3.*(self.ron*self.ron + self.bkg*etime)**0.5
+        sigmas = 3.*(self.ron*self.ron + self.bkg*etime)**0.5 / np.sqrt(exposures)
         offset = sigmas - self.bkg * etime
-        nmax = (noisy.max() + offset + sigmas)  / self.gain
+        nmax = (noiseless.max() + offset + sigmas)  / self.gain
         noisy = np.round(
-            (
-                rng.poisson(lam=noisy) + rng.normal(
+            exposures * (
+                rng.poisson(lam=noiseless*exposures) / exposures + rng.normal(
                     loc=offset,
-                    scale=self.ron,
-                    size=noisy.shape
+                    scale=self.ron / np.sqrt(exposures),
+                    size=noiseless.shape
                 )
             ) / self.gain
-        )
+        ) / exposures
         # Normalize to a max of 1
-        noisy[noisy < 0.] = 0.
+        noisy[noiseless < 0.] = 0.
         noisy /= nmax
         noisy[noisy > 1.] = 1.
         # Apply sRGB gamma correction and convert to 0...255 unsigned integers
@@ -164,5 +195,77 @@ class Image(object):
         # Encode GIF as base64
         gif_base64 = b64encode(buffer.read()).decode("utf-8")
         return f"data:image/gif;base64,{gif_base64}"
+
+
+    def max(self) -> float:
+        return self.flux * self.image.max() + self.bkg
+
+
+    def sersic(
+            self,
+            re: u.Quantity['angle']=1.*u.arcsec,
+            n: float=1.) -> np.ndarray:
+        # Model validity limits
+        if n < 0.36:
+            n = 0.36
+        # R_e normalization from Ciotti & Bertin 1999
+        bn = 2.* n - 0.333333 + 9.8765e-3*n**(-1) + 1.8029e-3 * n**(-2) \
+            + 1.1409e-4 * n**(-3) - 7.151e-5 * n**(-4)
+        inv2n = 0.5 / n
+        invre2 = (self.pixel_area / re**2).value
+        sersic = np.exp(-bn * (np.power(self.r2 * invre2, inv2n) - 1.))
+        sersic = np.fft.irfft2(
+            np.fft.rfft2(sersic) * np.fft.rfft2(np.fft.fftshift(self.psf))
+        ) * self.mask
+        return sersic / np.sum(sersic)
+
+
+    def snr(self, t: float=1.) -> float:
+        # First treat special case of extended source
+        if self.source == 'extended':
+            # Compute pixel area in arcsec2
+            invarea = 1. / self.pixel_area.to(u.arcsec**2).value
+            return self.flux * t / np.sqrt(
+                (self.var_bkg * invarea + self.var_flux) * t \
+                + self.var_ron * invarea
+            )
+        # Compute the "noise variance image"
+        img2 = self.image**2
+        var_tot = self.var_ron + (self.var_bkg + self.var_flux * self.image) * t
+        if self.photometry == 'optimal_aperture':
+            # (Re-)compute optimal aperture
+            res = minimize_scalar(
+                fun = lambda r2: - self.snr_aper(
+                    self.flux * t,
+                    self.image,
+                    var_tot,
+                    self.r2 < r2,
+                ),
+                bounds=(0., self.mask_r2),
+                method='bounded'
+            )
+            # Return SNR at optimal aperture
+            return -res.fun
+        elif self.photometry == 'model_fitting':
+            # Return model-fitting SNR
+            return self.flux * t * np.sqrt(
+                np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
+            )
+        else:
+            # Return SNR for a predefined aperture
+            return self.snr_aper(
+                self.flux * t,
+                self.image,
+                var_tot,
+                self.aperture
+            )
+
+    def snr_aper(
+            self,
+            flux: float,
+            obj: np.ndarray,
+            var: np.ndarray,
+            aper: np.ndarray) -> float:
+        return flux * np.sum(obj * aper) / np.sqrt(np.sum(var * aper))
 
 

@@ -19,9 +19,11 @@ from .types import (
     ComputeID,
     FilterID,
     InstrumentID,
+    PhotometryID,
     PhotSysID,
     SkyID,
-    SourceID
+    SourceID,
+    StackingID
 )
 
 class ETCQueryModel(BaseModel):
@@ -36,6 +38,13 @@ class ETCQueryModel(BaseModel):
         description="Observation airmass"
     )
 
+    aperture: float = Field(
+        default=3.,
+        gt=0.,
+        le=15.,
+        description="Photometric aperture diameter [\"]"
+    )
+
     brightness: float = Field(
         default=20.,
         ge=-100.,
@@ -44,6 +53,7 @@ class ETCQueryModel(BaseModel):
     )
 
     compute: ComputeID = Field(
+        default='etime',
         description="Computation type"
     )
 
@@ -51,14 +61,24 @@ class ETCQueryModel(BaseModel):
         default=20.,
         ge=0.,
         le=1e30,
-        description="Required exposure time [s]"
+        description="Exposure time [s]"
+    )
+
+    exposures: int = Field(
+        default=1,
+        ge=0.,
+        le=1000000,
+        description="Number of exposures"
     )
 
     filter: FilterID = Field(
         description="Instrument filter"
     )
 
-    photometry: Literal['aperture', 'psf']
+    photometry: PhotometryID = Field(
+        default='model_fitting',
+        description="Photometry type"
+    )
 
     seeing: float = Field(
         default=0.7,
@@ -97,7 +117,13 @@ class ETCQueryModel(BaseModel):
     )
 
     source: SourceID = Field(
+        default='pointsource',
         description="Source type"
+    )
+
+    stacking: StackingID = Field(
+        default='median',
+        description="Stacking method"
     )
 
     transparency: float = Field(
@@ -118,7 +144,7 @@ class ETCQueryModel(BaseModel):
         Kind of emulate Enum validation and errors.
         """
         instrument = info.data['instrument']
-        fids = list(instruments[instrument].filters)
+        fids = list(instruments[instrument].filters.transmissions)
         if f not in fids:
             expected = f"'{fids[0]}'" + \
                 (

@@ -48,51 +48,24 @@ def spectrum_from_airmass(
 
 
 def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
-    instrument = instruments[q.instrument.value]
-
-    # Detector transmission
-    detector = instrument.detector
-    detector_resp = 1.
-    qes = detector.qes
-    for e in qes:
-        detector_resp *= qes[e].spectral
-
-    # Filter transmission
-    filter = instrument.filters[q.filter]
-
-    # Apply tapering to filters to avoid possible spurious spectral leaks
-    filter_resp = filter.spectral.taper()
-
-    # Optics transmission
-    optics_resp = 1.
-    optics = instrument.optics
-    for o in optics:
-        optics_resp *= optics[o].spectral
-
-    # Telescope transmission
+    instrument = instruments[q.instrument]
     telescope = instrument.telescope
-    telescope_resp = 1.
-    trans = telescope.transmissions
-    for t in trans:
-        telescope_resp *= trans[t].spectral
+    detector = instrument.detector
+    transmission = instrument.transmissions[q.filter]
 
-    # Atmospheric transmission
-    atmo_resp = spectrum_from_airmass(
+    # Multiply Total instrument transmission with atmospheric transmission
+    transmission_spec = transmission.spectral * spectrum_from_airmass(
         instrument.site.sky_transmissions,
         am=q.airmass
-    )
-    # Effective transmission
-    total_resp = detector_resp * filter_resp * optics_resp * telescope_resp \
-        * q.transparency * atmo_resp
-    total_resp.to_fits("resp.fits", overwrite=True)
+    ) * q.transparency
 
     # Compute effective collecting area, compensating for possible obstruction
-    area = telescope.collecting_area - instrument.obstruction_area
+    area = instrument.telescope.collecting_area - instrument.obstruction_area
 
     # Make virtual observation
     # Actual source
     photsys = PhotSys(q.unit)
-    observation = Observation(photsys.spectrum, total_resp)
+    observation = Observation(photsys.spectrum, transmission_spec)
 
     # Compute ref source count rate to get effective zero-point
     gain = detector.gain.value
@@ -120,18 +93,27 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
             am=q.airmass
         )
     if sky_spectrum is not None:
-        sky_observation = Observation(sky_spectrum, total_resp, force='extrap')
         # Compute background count rate to get background surface brightness
-        ct_skysb = sky_observation.countrate(area=area, binned=False) / gain
-        mag_skysb = zp + u.Magnitude(ct_skysb)
-        if mag_skysb.value < -100. :
-            mag_skysb = u.Quantity('100 mag')
-        if mag_skysb.value > 100.:
-            mag_skysb = u.Quantity('100 mag')
+        bkg_observation = Observation(
+            sky_spectrum,
+            transmission.spectral,
+            force='extrap'
+        )
+        # TODO: Fix instrumental thermal background and remove the 0.
+        #print(instrument.emissions_ct[q.filter], bkg_observation.countrate(area=area, binned=False))
+        ct_bkgsb = (
+            bkg_observation.countrate(area=area, binned=False) \
+            + 0. * instrument.emissions_ct[q.filter] * u.ct / u.s
+            ) / gain
+        mag_bkgsb = zp + u.Magnitude(ct_bkgsb)
+        if mag_bkgsb.value < -100. :
+            mag_bkgsb = u.Quantity('100 mag')
+        if mag_bkgsb.value > 100.:
+            mag_bkgsb = u.Quantity('100 mag')
 
         # Compute number of background electrons per pixel per second
         # We explicitely assume that counts are per arcsec2
-        bkg = (ct_skysb * gain * (
+        bkg = (ct_bkgsb * gain * (
             detector.scale[0].to(u.arcsec / u.pix)
             * detector.scale[1].to(u.arcsec / u.pix)
         )).value
@@ -151,12 +133,16 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
         bkg=bkg,
         # Use RON 'counts' instead of electrons for compatibility with synphot
         ron=detector.ron.to('electron').value,
-        gain=gain
+        gain=gain,
+        photometry=q.photometry,
+        aperture=q.aperture
     )
 
-
+    sexposures = sqrt(q.exposures * 2. / pi) if \
+        q.stacking == 'median' and q.exposures > 2 else sqrt(q.exposures)
+       
     if q.compute == 'etime':
-        snr = q.snr
+        snr = q.snr / sexposures
         # Compute exposure time (solution to a second degree equation) in s
         etime = img.etime(snr)
     else:
@@ -166,15 +152,16 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
 
     return ETCResponseModel(
             instrument = instrument.name,
-            filter = filter.name,
+            filter = transmission.name,
             compute = q.compute,
             zp = zp.value,
             etime = etime,
-            etime_skysat = etime * 100.,
-            etime_sourcesat = etime * 10.,
-            snr = snr,
-            sky_mag = mag_skysb.value,
-            cutout = img.get_gif(etime) if ui else None
+            ttime = q.exposures * (etime + instrument.overhead.to(u.s).value),
+            etime_skysat = img.etime_bkg_sat(),
+            etime_sourcesat = img.etime_source_sat(),
+            snr = snr * sexposures,
+            sky_mag = mag_bkgsb.value,
+            cutout = img.gif(etime, exposures=q.exposures) if ui else None
     )
 
 
