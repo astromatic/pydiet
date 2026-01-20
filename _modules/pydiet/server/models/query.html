@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pydiet.server.models.query &mdash; PyDIET 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_js.css" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=329c186a" />
@@ -94,9 +94,11 @@
     <span class="n">ComputeID</span><span class="p">,</span>
     <span class="n">FilterID</span><span class="p">,</span>
     <span class="n">InstrumentID</span><span class="p">,</span>
+    <span class="n">PhotometryID</span><span class="p">,</span>
     <span class="n">PhotSysID</span><span class="p">,</span>
     <span class="n">SkyID</span><span class="p">,</span>
-    <span class="n">SourceID</span>
+    <span class="n">SourceID</span><span class="p">,</span>
+    <span class="n">StackingID</span>
 <span class="p">)</span>
 
 <div class="viewcode-block" id="ETCQueryModel">
@@ -113,6 +115,13 @@
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Observation airmass&quot;</span>
     <span class="p">)</span>
 
+    <span class="n">aperture</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">3.</span><span class="p">,</span>
+        <span class="n">gt</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+        <span class="n">le</span><span class="o">=</span><span class="mf">15.</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Photometric aperture diameter [</span><span class="se">\&quot;</span><span class="s2">]&quot;</span>
+    <span class="p">)</span>
+
     <span class="n">brightness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">20.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=-</span><span class="mf">100.</span><span class="p">,</span>
@@ -121,6 +130,7 @@
     <span class="p">)</span>
 
     <span class="n">compute</span><span class="p">:</span> <span class="n">ComputeID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;etime&#39;</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Computation type&quot;</span>
     <span class="p">)</span>
 
@@ -128,14 +138,24 @@
         <span class="n">default</span><span class="o">=</span><span class="mf">20.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">le</span><span class="o">=</span><span class="mf">1e30</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Required exposure time [s]&quot;</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Exposure time [s]&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">exposures</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">ge</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+        <span class="n">le</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of exposures&quot;</span>
     <span class="p">)</span>
 
     <span class="nb">filter</span><span class="p">:</span> <span class="n">FilterID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Instrument filter&quot;</span>
     <span class="p">)</span>
 
-    <span class="n">photometry</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;aperture&#39;</span><span class="p">,</span> <span class="s1">&#39;psf&#39;</span><span class="p">]</span>
+    <span class="n">photometry</span><span class="p">:</span> <span class="n">PhotometryID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;model_fitting&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Photometry type&quot;</span>
+    <span class="p">)</span>
 
     <span class="n">seeing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
@@ -174,7 +194,13 @@
     <span class="p">)</span>
 
     <span class="n">source</span><span class="p">:</span> <span class="n">SourceID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;pointsource&#39;</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Source type&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">stacking</span><span class="p">:</span> <span class="n">StackingID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Stacking method&quot;</span>
     <span class="p">)</span>
 
     <span class="n">transparency</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
@@ -197,7 +223,7 @@
 <span class="sd">        Kind of emulate Enum validation and errors.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">instrument</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;instrument&#39;</span><span class="p">]</span>
-        <span class="n">fids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">instruments</span><span class="p">[</span><span class="n">instrument</span><span class="p">]</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
+        <span class="n">fids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">instruments</span><span class="p">[</span><span class="n">instrument</span><span class="p">]</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">transmissions</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fids</span><span class="p">:</span>
             <span class="n">expected</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">fids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="o">+</span> \
                 <span class="p">(</span>
