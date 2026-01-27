@@ -16,12 +16,12 @@ else:
 import warnings
 
 from typing import Any, Optional
-from astropy.table import QTable #type: ignore[import-untyped]
-from astropy import units as u #type: ignore[import-untyped]
-from astropy.utils.exceptions import AstropyUserWarning
+from astropy.table import QTable  #type: ignore[import-untyped]
+from astropy import units as u  #type: ignore[import-untyped]
+from astropy.utils.exceptions import AstropyUserWarning  #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
-from specutils import Spectrum #type: ignore[import-untyped]
-from synphot import ( #type: ignore[import-untyped]
+from specutils import Spectrum  #type: ignore[import-untyped]
+from synphot import (  #type: ignore[import-untyped]
     BlackBody1D,
     SourceSpectrum,
     SpectralElement,
