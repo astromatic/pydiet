@@ -238,7 +238,6 @@
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">         </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;283.0 K&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Device temperature.&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 K&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -250,7 +249,6 @@
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">         </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissive area.&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -333,7 +331,7 @@
 </dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.EmissionConfigModel.areas">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">areas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fcb92d584f0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=False,</span> <span class="pre">default_factory=&lt;lambda&gt;,</span> <span class="pre">description='Emissive</span> <span class="pre">area.',</span> <span class="pre">json_schema_extra={'default':</span> <span class="pre">'0.0</span> <span class="pre">m2',</span> <span class="pre">'minimum':</span> <span class="pre">'0.0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.areas" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">areas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f38ef9432b0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=False,</span> <span class="pre">default=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">m2&gt;,</span> <span class="pre">json_schema_extra={'default':</span> <span class="pre">'0.0</span> <span class="pre">m2',</span> <span class="pre">'minimum':</span> <span class="pre">'0.0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.areas" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
@@ -348,7 +346,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.EmissionConfigModel.temperatures">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temperatures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fcb92d581c0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=False,</span> <span class="pre">default_factory=&lt;lambda&gt;,</span> <span class="pre">description='Device</span> <span class="pre">temperature.',</span> <span class="pre">json_schema_extra={'default':</span> <span class="pre">'283.0</span> <span class="pre">K',</span> <span class="pre">'exclusiveMinimum':</span> <span class="pre">'0.0</span> <span class="pre">K',</span> <span class="pre">'physType':</span> <span class="pre">'temperature'},</span> <span class="pre">validate_default=True)]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temperatures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f38ef9401c0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=False,</span> <span class="pre">default=&lt;Quantity</span> <span class="pre">283.</span> <span class="pre">K&gt;,</span> <span class="pre">json_schema_extra={'default':</span> <span class="pre">'283.0</span> <span class="pre">K',</span> <span class="pre">'exclusiveMinimum':</span> <span class="pre">'0.0</span> <span class="pre">K',</span> <span class="pre">'physType':</span> <span class="pre">'temperature'},</span> <span class="pre">validate_default=True)]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -485,7 +483,7 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;altitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Altitude of the observation site.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-1000.0 m&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;length&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Altitude&quot;</span><span class="p">,</span>
@@ -511,7 +509,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;283.0 K&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Device temperature.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 K&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -523,7 +520,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissive area.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -618,7 +614,6 @@
 <span class="w">      </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;description&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;altitude&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;transmission&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;emission&quot;</span>
 <span class="w">   </span><span class="p">]</span>
@@ -641,9 +636,8 @@
 </dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.SiteConfigModel.altitude">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">altitude</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m',</span> <span class="pre">'physType':</span> <span class="pre">'length'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.SiteConfigModel.altitude" title="Link to this definition"></a></dt>
-<dd><p>Altitude of the observation site.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">altitude</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m',</span> <span class="pre">'physType':</span> <span class="pre">'length'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.SiteConfigModel.altitude" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -728,14 +722,14 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;collecting_area&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Full collecting area, including possible mirror hole and spider branches.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Collecting Area&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;obstruction_area&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default obstruction area (only used if not specified for the instrument).&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Obstruction Area&quot;</span><span class="p">,</span>
@@ -761,7 +755,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;283.0 K&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Device temperature.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 K&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -773,7 +766,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissive area.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -868,8 +860,6 @@
 <span class="w">      </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;description&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;collecting_area&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;obstruction_area&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;transmission&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;emission&quot;</span>
 <span class="w">   </span><span class="p">]</span>
@@ -893,9 +883,8 @@
 </dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.TelescopeConfigModel.collecting_area">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collecting_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.TelescopeConfigModel.collecting_area" title="Link to this definition"></a></dt>
-<dd><p>Full collecting area, including possible mirror hole and spider branches.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collecting_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.TelescopeConfigModel.collecting_area" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -937,9 +926,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.TelescopeConfigModel.obstruction_area">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstruction_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.TelescopeConfigModel.obstruction_area" title="Link to this definition"></a></dt>
-<dd><p>Default obstruction area (only used if not specified for the instrument).</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstruction_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.TelescopeConfigModel.obstruction_area" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -982,21 +970,21 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;gain&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Average gain (conversion factor) in electrons per ADU.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 electron / adu&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Gain&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;ron&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total readout noise in electrons.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 electron&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ron&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;scale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Angular pixel scale along each axis.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[0. 0.] arcsec / pix&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
@@ -1024,7 +1012,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;283.0 K&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Device temperature.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 K&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -1036,7 +1023,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissive area.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -1128,9 +1114,6 @@
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">      </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;gain&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;ron&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;scale&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;transmission&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;emission&quot;</span>
 <span class="w">   </span><span class="p">]</span>
@@ -1156,9 +1139,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.DetectorConfigModel.gain">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">electron</span> <span class="pre">/</span> <span class="pre">adu',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.DetectorConfigModel.gain" title="Link to this definition"></a></dt>
-<dd><p>Average gain (conversion factor) in electrons per ADU.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">electron</span> <span class="pre">/</span> <span class="pre">adu',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.DetectorConfigModel.gain" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -1180,9 +1162,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.DetectorConfigModel.ron">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ron</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">electron',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.DetectorConfigModel.ron" title="Link to this definition"></a></dt>
-<dd><p>Total readout noise in electrons.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ron</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">electron',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.DetectorConfigModel.ron" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -1199,9 +1180,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.DetectorConfigModel.scale">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">]</span> <span class="pre">arcsec</span> <span class="pre">/</span> <span class="pre">pix',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.DetectorConfigModel.scale" title="Link to this definition"></a></dt>
-<dd><p>Angular pixel scale along each axis.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">]</span> <span class="pre">arcsec</span> <span class="pre">/</span> <span class="pre">pix',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.DetectorConfigModel.scale" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -1258,7 +1238,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;283.0 K&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Device temperature.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 K&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -1270,7 +1249,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissive area.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -1429,7 +1407,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;283.0 K&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Device temperature.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 K&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -1441,7 +1418,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissive area.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -1578,14 +1554,14 @@
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;obstruction_area&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Obstruction area for this particular instrument.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Obstruction Area&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;overhead&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total instrument time overhead between exposures.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 s&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;time&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Overhead&quot;</span><span class="p">,</span>
@@ -1618,21 +1594,21 @@
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;gain&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Average gain (conversion factor) in electrons per ADU.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 electron / adu&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Gain&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;ron&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total readout noise in electrons.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 electron&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ron&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;scale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Angular pixel scale along each axis.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[0. 0.] arcsec / pix&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
@@ -1649,9 +1625,6 @@
 <span class="w">         </span><span class="p">},</span>
 <span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;gain&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;ron&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;scale&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;transmission&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;emission&quot;</span>
 <span class="w">         </span><span class="p">],</span>
@@ -1670,7 +1643,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;283.0 K&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Device temperature.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 K&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -1682,7 +1654,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissive area.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -1821,8 +1792,6 @@
 <span class="w">      </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;description&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;obstruction_area&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;overhead&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;site_id&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;telescope_id&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;optics&quot;</span><span class="p">,</span>
@@ -1882,9 +1851,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.InstrumentConfigModel.obstruction_area">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstruction_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.obstruction_area" title="Link to this definition"></a></dt>
-<dd><p>Obstruction area for this particular instrument.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstruction_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.obstruction_area" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -1906,9 +1874,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.InstrumentConfigModel.overhead">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overhead</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">s',</span> <span class="pre">'physType':</span> <span class="pre">'time'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.overhead" title="Link to this definition"></a></dt>
-<dd><p>Total instrument time overhead between exposures.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overhead</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">s',</span> <span class="pre">'physType':</span> <span class="pre">'time'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.overhead" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -1987,21 +1954,21 @@
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;gain&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Average gain (conversion factor) in electrons per ADU.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 electron / adu&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Gain&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;ron&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total readout noise in electrons.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 electron&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ron&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;scale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Angular pixel scale along each axis.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[0. 0.] arcsec / pix&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
@@ -2018,9 +1985,6 @@
 <span class="w">         </span><span class="p">},</span>
 <span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;gain&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;ron&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;scale&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;transmission&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;emission&quot;</span>
 <span class="w">         </span><span class="p">],</span>
@@ -2039,7 +2003,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;283.0 K&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Device temperature.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 K&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -2051,7 +2014,6 @@
 <span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">               </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
-<span class="w">                  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissive area.&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
@@ -2167,14 +2129,14 @@
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;obstruction_area&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Obstruction area for this particular instrument.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Obstruction Area&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;overhead&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total instrument time overhead between exposures.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 s&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;time&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Overhead&quot;</span><span class="p">,</span>
@@ -2203,8 +2165,6 @@
 <span class="w">            </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;description&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;obstruction_area&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;overhead&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;site_id&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;telescope_id&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;optics&quot;</span><span class="p">,</span>
@@ -2261,7 +2221,7 @@
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;altitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Altitude of the observation site.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-1000.0 m&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;length&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Altitude&quot;</span><span class="p">,</span>
@@ -2279,7 +2239,6 @@
 <span class="w">            </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;description&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;altitude&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;transmission&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;emission&quot;</span>
 <span class="w">         </span><span class="p">],</span>
@@ -2311,14 +2270,14 @@
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;collecting_area&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Full collecting area, including possible mirror hole and spider branches.&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Collecting Area&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;obstruction_area&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default obstruction area (only used if not specified for the instrument).&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Obstruction Area&quot;</span><span class="p">,</span>
@@ -2336,8 +2295,6 @@
 <span class="w">            </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;description&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;collecting_area&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;obstruction_area&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;transmission&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;emission&quot;</span>
 <span class="w">         </span><span class="p">],</span>
@@ -2474,9 +2431,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.DetectorModel.gain">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">electron</span> <span class="pre">/</span> <span class="pre">adu',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.DetectorModel.gain" title="Link to this definition"></a></dt>
-<dd><p>Detector conversion factor.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">electron</span> <span class="pre">/</span> <span class="pre">adu',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.DetectorModel.gain" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -2493,9 +2449,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.DetectorModel.ron">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ron</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">electron',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.DetectorModel.ron" title="Link to this definition"></a></dt>
-<dd><p>Read-out noise RMS amplitude.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ron</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">electron',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.DetectorModel.ron" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -2512,9 +2467,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.DetectorModel.scale">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">]</span> <span class="pre">arcsec</span> <span class="pre">/</span> <span class="pre">pix',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.DetectorModel.scale" title="Link to this definition"></a></dt>
-<dd><p>Angular pixel scale along each axis.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scale</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">]</span> <span class="pre">arcsec</span> <span class="pre">/</span> <span class="pre">pix',</span> <span class="pre">'physType':</span> <span class="pre">'unknown'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.DetectorModel.scale" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -2592,16 +2546,30 @@
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;transmissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Transmissions&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Transmissions&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;emissions_ct&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissions Ct&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Emissions Ct&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -2623,7 +2591,7 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.default" title="pydiet.server.models.instrument.InstrumentModel.default"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default</span> <span class="pre">(bool)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.description" title="pydiet.server.models.instrument.InstrumentModel.description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">description</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.detector" title="pydiet.server.models.instrument.InstrumentModel.detector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detector</span> <span class="pre">(pydiet.server.models.instrument.DetectorModel)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.emissions_ct" title="pydiet.server.models.instrument.InstrumentModel.emissions_ct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">emissions_ct</span> <span class="pre">(dict)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.emissions_ct" title="pydiet.server.models.instrument.InstrumentModel.emissions_ct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">emissions_ct</span> <span class="pre">(dict</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.filters" title="pydiet.server.models.instrument.InstrumentModel.filters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filters</span> <span class="pre">(pydiet.server.models.instrument.FiltersModel)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.id" title="pydiet.server.models.instrument.InstrumentModel.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.name" title="pydiet.server.models.instrument.InstrumentModel.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span> <span class="pre">(str)</span></code></a></p></li>
@@ -2632,7 +2600,7 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.overhead" title="pydiet.server.models.instrument.InstrumentModel.overhead"><code class="xref py py-obj docutils literal notranslate"><span class="pre">overhead</span> <span class="pre">(astropy.units.quantity.Quantity)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.site" title="pydiet.server.models.instrument.InstrumentModel.site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">site</span> <span class="pre">(pydiet.server.models.instrument.SiteModel)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.telescope" title="pydiet.server.models.instrument.InstrumentModel.telescope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">telescope</span> <span class="pre">(pydiet.server.models.instrument.TelescopeModel)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.transmissions" title="pydiet.server.models.instrument.InstrumentModel.transmissions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transmissions</span> <span class="pre">(dict)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.transmissions" title="pydiet.server.models.instrument.InstrumentModel.transmissions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transmissions</span> <span class="pre">(dict</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 </ul>
 </dd>
 <dt class="field-odd">Validators<span class="colon">:</span></dt>
@@ -2679,7 +2647,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.InstrumentModel.emissions_ct">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">emissions_ct</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.emissions_ct" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">emissions_ct</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.emissions_ct" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2727,9 +2695,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.InstrumentModel.obstruction_area">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstruction_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.obstruction_area" title="Link to this definition"></a></dt>
-<dd><p>Default obstruction area (only used if not specified for the instrument).</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstruction_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.obstruction_area" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -2763,9 +2730,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.InstrumentModel.overhead">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overhead</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">s',</span> <span class="pre">'physType':</span> <span class="pre">'time'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.overhead" title="Link to this definition"></a></dt>
-<dd><p>Total instrument time overhead between exposures.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overhead</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">s',</span> <span class="pre">'physType':</span> <span class="pre">'time'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.overhead" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -2811,7 +2777,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.InstrumentModel.transmissions">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transmissions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.transmissions" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transmissions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.transmissions" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2933,7 +2899,7 @@
 <span class="w">      </span><span class="nt">&quot;wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100000&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0 micron&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
@@ -2951,7 +2917,7 @@
 <span class="w">      </span><span class="nt">&quot;sbsed&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100000&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 Jy / arcsec2&quot;</span><span class="p">,</span>
@@ -3077,7 +3043,7 @@
 <span class="w">      </span><span class="nt">&quot;wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100000&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0 micron&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
@@ -3095,7 +3061,7 @@
 <span class="w">      </span><span class="nt">&quot;sed&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100000&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 Jy&quot;</span><span class="p">,</span>
@@ -3344,9 +3310,8 @@
 </dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.TelescopeModel.collecting_area">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collecting_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.TelescopeModel.collecting_area" title="Link to this definition"></a></dt>
-<dd><p>Full collecting area, ignoring obstructions.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collecting_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.TelescopeModel.collecting_area" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -3388,9 +3353,8 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.TelescopeModel.obstruction_area">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstruction_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.TelescopeModel.obstruction_area" title="Link to this definition"></a></dt>
-<dd><p>Minimum obstruction area.</p>
-<dl class="field-list simple">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obstruction_area</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'},</span> <span class="pre">validate_default=True)]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.TelescopeModel.obstruction_area" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>strict</strong> = True</p></li>
@@ -3436,7 +3400,14 @@
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;vars&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">            </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">               </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">               </span><span class="p">},</span>
+<span class="w">               </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">               </span><span class="p">}</span>
+<span class="w">            </span><span class="p">]</span>
 <span class="w">         </span><span class="p">},</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Vars&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
@@ -3444,7 +3415,7 @@
 <span class="w">      </span><span class="nt">&quot;wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100000&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0 micron&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
@@ -3462,7 +3433,7 @@
 <span class="w">      </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">               </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100000&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100.0&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
@@ -3510,7 +3481,7 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.name" title="pydiet.server.models.instrument.TransmissionModel.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.response" title="pydiet.server.models.instrument.TransmissionModel.response"><code class="xref py py-obj docutils literal notranslate"><span class="pre">response</span> <span class="pre">(astropy.units.quantity.Quantity</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.spectral" title="pydiet.server.models.instrument.TransmissionModel.spectral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral</span> <span class="pre">(synphot.spectrum.SpectralElement)</span></code></a></p></li>
-<li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.vars" title="pydiet.server.models.instrument.TransmissionModel.vars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vars</span> <span class="pre">(dict[str,</span> <span class="pre">float])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.vars" title="pydiet.server.models.instrument.TransmissionModel.vars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vars</span> <span class="pre">(dict[str,</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">str])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.wave" title="pydiet.server.models.instrument.TransmissionModel.wave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave</span> <span class="pre">(astropy.units.quantity.Quantity</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 </ul>
 </dd>
@@ -3547,7 +3518,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.TransmissionModel.vars">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vars</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.TransmissionModel.vars" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vars</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.TransmissionModel.vars" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">

@@ -79,25 +79,25 @@
 <span class="c1"># Copyright CFHT/CNRS/CEA/UParisSaclay</span>
 <span class="c1"># Licensed under the MIT licence</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">astropy</span><span class="w"> </span><span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>  <span class="c1">#type: ignore[import-untyped]</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">synphot</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">synphot</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1">#type: ignore[import-untyped]</span>
     <span class="n">BlackBody1D</span><span class="p">,</span>
     <span class="n">ConstFlux1D</span><span class="p">,</span>
     <span class="n">Observation</span><span class="p">,</span>
     <span class="n">SourceSpectrum</span><span class="p">,</span>
     <span class="n">SpectralElement</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">synphot.spectrum</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSpectrum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">synphot.spectrum</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSpectrum</span>  <span class="c1">#type: ignore[import-untyped]</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">...</span><span class="w"> </span><span class="kn">import</span> <span class="n">package</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatedQuantity</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">spectral_to_arrays</span><span class="p">(</span><span class="n">spectral</span><span class="p">:</span> <span class="n">BaseSpectrum</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectral_to_arrays</span><span class="p">(</span><span class="n">spectral</span><span class="p">:</span> <span class="n">BaseSpectrum</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">spectral</span><span class="o">.</span><span class="n">waveset</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">spectral</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 
@@ -172,8 +172,8 @@
     <span class="n">site</span><span class="p">:</span> <span class="s1">&#39;SiteModel&#39;</span>
     <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="n">transmissions</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">emissions_ct</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">transmissions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
+    <span class="n">emissions_ct</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
 
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_compute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -189,8 +189,8 @@
             <span class="n">transmission</span> <span class="o">=</span> <span class="n">transmissions</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
             <span class="n">upstream_transmission</span> <span class="o">*=</span> <span class="n">transmission</span>
             <span class="n">upstream_emission</span> <span class="o">=</span> <span class="n">upstream_emission</span> <span class="o">*</span> <span class="n">transmission</span> <span class="o">+</span> <span class="n">emission</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transmissions</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransmissionModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">emissions_ct</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">ct</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transmissions</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransmissionModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emissions_ct</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">ct</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
         <span class="n">filter_transmissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">transmissions</span>
         <span class="n">filter_emissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">emissions</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filter_transmissions</span><span class="p">:</span>
@@ -363,7 +363,7 @@
     <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="nb">vars</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="nb">vars</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span>
     <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
         <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
         <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
