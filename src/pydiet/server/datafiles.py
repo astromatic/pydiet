@@ -259,35 +259,50 @@ def get_telescopes(data_config: DataConfigModel) -> dict[str, TelescopeModel]:
     return telescopes
 
 
+def get_transmission(
+        file: str,
+        id: str,
+        name: str="",
+        description: str="",
+        vars: dict[str, float | str]={}
+    ) -> TransmissionModel:
+    data = get_data_file(file)
+    # Instantiate the model
+    wave = u.Quantity(data['WAVELENGTH'])
+    response = u.Quantity(data['THROUGHPUT'])
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message=".*negative flux or throughput.*",
+            category=AstropyUserWarning,
+        )
+        transmission = TransmissionModel(
+            id = id,
+            name = name,
+            description = description,
+            vars = vars,
+            # Apply tapering to filters to avoid possible spurious spectral leaks
+            spectral = SpectralElement.from_spectrum1d(
+                Spectrum(spectral_axis=wave, flux=response),
+                keep_neg=False
+            ).taper()
+        )
+    return transmission
+
+
 def get_transmissions(
         parent_dir: str,
         transmission_config: TransmissionConfigModel) -> dict[str, TransmissionModel]:
     transmissions : dict[str, TransmissionModel] = {}
     for file_config in transmission_config.files:
-        data = get_data_file(
-            join(parent_dir, transmission_config.path, file_config.file)
-        )
-        # Instantiate the model
-        wave = u.Quantity(data['WAVELENGTH'])
-        response = u.Quantity(data['THROUGHPUT'])
         key = file_config.id if file_config.id != '' else str(len(transmissions))
-        with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "ignore",
-                message=".*negative flux or throughput.*",
-                category=AstropyUserWarning,
-            )
-            transmissions[key] = TransmissionModel(
-                id = file_config.id,
-                name = file_config.name,
-                description = file_config.description,
-                vars = file_config.vars,
-                # Apply tapering to filters to avoid possible spurious spectral leaks
-                spectral = SpectralElement.from_spectrum1d(
-                    Spectrum(spectral_axis=wave, flux=response),
-                    keep_neg=False
-                ).taper()
-            )
+        transmissions[key] = get_transmission(
+            file=join(parent_dir, transmission_config.path, file_config.file),
+            id=file_config.id,
+            name=file_config.name,
+            description=file_config.description,
+            vars=file_config.vars
+        )
     return transmissions
 
 

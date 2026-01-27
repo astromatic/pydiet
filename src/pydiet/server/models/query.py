@@ -29,6 +29,7 @@ from .types import (
 class ETCQueryModel(BaseModel):
 
     instrument: InstrumentID = Field(
+        default=default_instrument,
         description="Instrument ID"
     )
 
@@ -72,6 +73,7 @@ class ETCQueryModel(BaseModel):
     )
 
     filter: FilterID = Field(
+        default=default_filter,
         description="Instrument filter"
     )
 
@@ -94,8 +96,6 @@ class ETCQueryModel(BaseModel):
         description="Sky surface brightness"
     )
 
-    sky_unit: PhotSysID
-
     sersic_radius: float = Field(
         default=1.,
         gt=0.,
@@ -108,6 +108,11 @@ class ETCQueryModel(BaseModel):
         ge=0.3,
         le=10.,
         description="Sersic index"
+    )
+
+    sky_unit: PhotSysID = Field(
+        default='abmag',
+        description="Sky background photometric system"
     )
 
     snr: float = Field(

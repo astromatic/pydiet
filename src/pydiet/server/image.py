@@ -130,7 +130,7 @@ class Image(object):
         self.mask_r2 = r2[0, raster_size[1]//2]
         self.mask = r2 <= self.mask_r2
 
-        self.pixel_area = (pixel[0] * pixel[1]) / oversamp**2
+        self.pixel_area = (pixel[0] * pixel[1]) / oversamp**2 * u.pix**2
 
         if source == 'extended':
             self.image = self.extended()
@@ -145,6 +145,7 @@ class Image(object):
             / self.pixel_area
 
         # Create PSF raster
+        print(r2, alpha2)
         moffat = np.power(1. + r2 / alpha2, -psf_beta) 
 
         # Truncate inside a disk
