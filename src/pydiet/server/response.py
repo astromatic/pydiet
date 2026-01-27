@@ -4,7 +4,6 @@ Computation module
 # Copyright CFHT
 # Licensed under the MIT licence
 
-from typing import Optional
 from math import pi, sqrt
 
 from astropy import units as u  #type: ignore[import-untyped]
@@ -49,16 +48,11 @@ def spectrum_from_airmass(
     return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac
 
 
-def get_response(
-        q: ETCQueryModel,
-        ui: bool=False,
-        custom_transmission: Optional[TransmissionModel]=None
-    ) -> ETCResponseModel:
+def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
     instrument = instruments[q.instrument]
     telescope = instrument.telescope
     detector = instrument.detector
-    transmission = instrument.transmissions[q.filter] \
-        if custom_transmission is None else custom_transmission
+    transmission = instrument.transmissions[q.filter]
 
     # Multiply Total instrument transmission with atmospheric transmission
     transmission_spec = transmission.spectral * spectrum_from_airmass(
