@@ -117,7 +117,7 @@ class ETCQueryModel(BaseModel):
     )
 
     source: SourceID = Field(
-        default='pointsource',
+        default='point_source',
         description="Source type"
     )
 

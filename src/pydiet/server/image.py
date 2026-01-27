@@ -19,16 +19,80 @@ from .models.types import PhotometryID, SourceID
 
 
 class Image(object):
+    """
+    Raster image generation class for computing exposure times and SNRs
+
+    Examples
+    --------
+    >>> from astropy import units as u
+
+    >>> img = Image(
+    ...     source='point_source',
+    ...     psf_fwhm=0.8 * u.arcsec,
+    ...     psf_beta=3.2,
+    ...     pixel=(0.186 * u.arcsec, 0.186 * u.arcsec),
+    ...     flux=42.,
+    ...     bkg=10.,
+    ...     ron=4.,
+    ...     gain=1.65,
+    ...     photometry='model_fitting'
+    ... )
+
+   >>> # Compute SNR from exposure time
+   >>> print(f"{img.snr(etime=10.):.1f}")
+   4.6
+
+   >>> # Compute Exposure time from SNR
+   >>> print(f"{img.etime(snr=10.):.1f}")
+   43.0
+
+
+    Parameters
+    ----------
+    source: Literal['point_source', 'galaxy', 'extended'], optional
+        Source type.
+    psf_fwhm: ~astropy.units.Quantity['angle'], optional
+        Full Width at Half Maximum of the Point Spread Function.
+    psf_beta: float, optional
+        Moffat beta parameter of the Point Spread Function.
+    sersic_radius: ~astropy.units.Quantity['angle'], optional
+        Half-light radius for Sersic galaxy profiles.
+    sersic_index: float, optional
+        Sersic index for galaxy profiles.
+    pixel: ~astropy.units.Quantity['angle'], optional
+        Pixel scale on each axis.
+    image_size: Tuple[int, int], optional
+        Image size in pixels on each axis.
+    flux: float, optional
+        Source flux in photons per second.
+    bkg: float, optional
+        Total background flux in photons per second per square arcsecond.
+    ron: float, optional
+        Detector read out noise standard deviation in electrons.
+    gain: float, optional
+        Detector conversion factor in e-/ADU.
+    full_well: float, optional
+        Detector full well in electrons.
+    range: int, optional
+        Digital range, in analog-to-digital converter steps.
+    bias: float, optional
+        Detector bias in ADUs.
+    photometry: Literal['model_fitting', 'fixed_aperture', 'optimal_aperture', 'large_aperture']
+        Photometric measurement type.
+    aperture: float, optional
+        Aperture diameter in pixels for fixed aperture photometry.
+    oversamp: int, optional
+        Number of oversampling sub pixels on each axis.
+    """
     def __init__(
             self,
-            source: SourceID='pointsource',
+            source: SourceID='point_source',
             psf_fwhm: u.Quantity['angle']=1.*u.arcsec, #type: ignore[name-defined]
             psf_beta: float=3.2,
             sersic_radius: u.Quantity['angle']=1.*u.arcsec, #type: ignore[name-defined]
             sersic_index: float=1.,
-            pixel: Tuple[u.Quantity['solid angle'],
-                u.Quantity['solid angle']]=(0.2*u.arcsec,0.2*u.arcsec),
-            image_size: Tuple[int, int] = (64, 64),
+            pixel: u.Quantity['angle']=(0.2, 0.2)*u.arcsec, #type: ignore[name-defined]
+            image_size: Tuple[int, int]=(64, 64),
             flux: float=1.,
             bkg: float=0.,
             ron: float=0.,
@@ -66,7 +130,7 @@ class Image(object):
         self.mask_r2 = r2[0, raster_size[1]//2]
         self.mask = r2 <= self.mask_r2
 
-        self.pixel_area = (pixel[0] * pixel[1]) / oversamp**2 * u.pix**2
+        self.pixel_area = (pixel[0] * pixel[1]) / oversamp**2
 
         if source == 'extended':
             self.image = self.extended()
@@ -113,8 +177,8 @@ class Image(object):
             self.aperture = r2 < r2max
 
 
-    def delta_snr2(self, t: float, snr: float) -> float:
-        return self.snr(t=t)**2 - snr**2
+    def delta_snr2(self, etime: float, snr: float) -> float:
+        return self.snr(etime=etime)**2 - snr**2
 
 
     def etime(self, snr: float) -> float:
@@ -220,23 +284,25 @@ class Image(object):
         return sersic / np.sum(sersic)
 
 
-    def snr(self, t: float=1.) -> float:
+    def snr(self, etime: float=1.) -> float:
         # First treat special case of extended source
         if self.source == 'extended':
             # Compute pixel area in arcsec2
             invarea = 1. / self.pixel_area.to(u.arcsec**2).value
-            return self.flux * t / np.sqrt(
-                (self.var_bkg * invarea + self.var_flux) * t \
+            return self.flux * etime / np.sqrt(
+                (self.var_bkg * invarea + self.var_flux) * etime \
                 + self.var_ron * invarea
             )
         # Compute the "noise variance image"
         img2 = self.image**2
-        var_tot = self.var_ron + (self.var_bkg + self.var_flux * self.image) * t
+        var_tot = self.var_ron + (
+            self.var_bkg + self.var_flux * self.image
+        ) * etime
         if self.photometry == 'optimal_aperture':
             # (Re-)compute optimal aperture
             res = minimize_scalar(
                 fun = lambda r2: - self.snr_aper(
-                    self.flux * t,
+                    self.flux * etime,
                     self.image,
                     var_tot,
                     self.r2 < r2,
@@ -248,13 +314,13 @@ class Image(object):
             return -res.fun
         elif self.photometry == 'model_fitting':
             # Return model-fitting SNR
-            return self.flux * t * np.sqrt(
+            return self.flux * etime * np.sqrt(
                 np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
             )
         else:
             # Return SNR for a predefined aperture
             return self.snr_aper(
-                self.flux * t,
+                self.flux * etime,
                 self.image,
                 var_tot,
                 self.aperture

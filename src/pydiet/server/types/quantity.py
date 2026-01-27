@@ -482,10 +482,8 @@ def AnnotatedQuantity(
             lt=lt
         ),
         Field(
-            default=None if default is None else default,
-            validate_default=True,
             json_schema_extra=json_extra
-        )        
+        )  
     ]
 
 

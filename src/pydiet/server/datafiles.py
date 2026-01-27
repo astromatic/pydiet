@@ -13,10 +13,12 @@ if sys.version_info >= (3, 11):
     import tomllib
 else:
     import tomli as tomllib
+import warnings
 
 from typing import Any, Optional
 from astropy.table import QTable #type: ignore[import-untyped]
 from astropy import units as u #type: ignore[import-untyped]
+from astropy.utils.exceptions import AstropyUserWarning
 from pydantic import BaseModel, Field
 from specutils import Spectrum #type: ignore[import-untyped]
 from synphot import ( #type: ignore[import-untyped]
@@ -118,20 +120,26 @@ def get_emissions(
         )
         # Instantiate the model
         key = file_config.id if file_config.id != '' else str(len(emissions))
-        emissions[key] = SBSEDModel(
-            id = key,
-            name = file_config.name,
-            description = file_config.description,
-            vars = file_config.vars,
-            # We drop the surface part as Spectrum does cannot deal with SBs.
-            spectral = SourceSpectrum.from_spectrum1d(
-                Spectrum(
-                    spectral_axis = wave,
-                    flux = sed * u.arcsec**2
-                ),
-                keep_neg=False
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message=".*negative flux or throughput.*",
+                category=AstropyUserWarning,
             )
-        )
+            emissions[key] = SBSEDModel(
+                id = key,
+                name = file_config.name,
+                description = file_config.description,
+                vars = file_config.vars,
+                # We drop the surface part as Spectrum does cannot deal with SBs.
+                spectral = SourceSpectrum.from_spectrum1d(
+                    Spectrum(
+                        spectral_axis = wave,
+                        flux = sed * u.arcsec**2
+                    ),
+                    keep_neg=False
+                )
+            )
     # No emission files: we use a blackbody with emissivity from transmission
     if len(emission_config.files) == 0 and transmissions is not None:
         temperatures = emission_config.temperatures
@@ -263,17 +271,23 @@ def get_transmissions(
         wave = u.Quantity(data['WAVELENGTH'])
         response = u.Quantity(data['THROUGHPUT'])
         key = file_config.id if file_config.id != '' else str(len(transmissions))
-        transmissions[key] = TransmissionModel(
-            id = file_config.id,
-            name = file_config.name,
-            description = file_config.description,
-            vars = file_config.vars,
-            # Apply tapering to filters to avoid possible spurious spectral leaks
-            spectral = SpectralElement.from_spectrum1d(
-                Spectrum(spectral_axis=wave, flux=response),
-                keep_neg=False
-            ).taper()
-        )
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message=".*negative flux or throughput.*",
+                category=AstropyUserWarning,
+            )
+            transmissions[key] = TransmissionModel(
+                id = file_config.id,
+                name = file_config.name,
+                description = file_config.description,
+                vars = file_config.vars,
+                # Apply tapering to filters to avoid possible spurious spectral leaks
+                spectral = SpectralElement.from_spectrum1d(
+                    Spectrum(spectral_axis=wave, flux=response),
+                    keep_neg=False
+                ).taper()
+            )
     return transmissions
 
 

@@ -7,8 +7,7 @@ Custom types for PyDIET data models
 from enum import Enum
 from typing import Literal
 
-from ..types import AnnotatedStr
-from .default import default_instrument, filters, instruments
+from .default import filters, instruments
 
 ComputeID = Literal['etime', 'snr']
 
@@ -30,7 +29,7 @@ PhotometryID = Literal['model_fitting', 'fixed_aperture', 'optimal_aperture', 'l
 
 PhotSysID = Literal['abmag', 'vegamag', 'fmegajy', 'fmujy', 'photons']
 
-SourceID = Literal['pointsource', 'galaxy', 'extended']
+SourceID = Literal['point_source', 'galaxy', 'extended']
 
 StackingID = Literal['average', 'median']
 

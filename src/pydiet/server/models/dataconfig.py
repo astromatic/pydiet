@@ -29,19 +29,17 @@ class EmissionConfigModel(BaseModel):
     '''
     path: str = ""
     temperatures: list[AnnotatedQuantity(    #type: ignore[valid-type]
-        default = 283 * u.K,
         unit = "K",
         gt = 0. * u.K,
         decimals = 2,
         description  = "Device temperature."
-    )] = []
+    )] = [283 * u.K]
     areas: list[AnnotatedQuantity(    #type: ignore[valid-type]
-        default = "0 m2",
         unit = "m2",
         ge = 0. * u.m**2,
         decimals = 3,
         description = "Emissive area."
-    )] = []
+    )] = [0. * u.m**2]
     files: list[FileConfigModel] = []
 
 
@@ -159,7 +157,6 @@ class InstrumentConfigModel(BaseModel):
     description: str
     path: str
     obstruction_area:  AnnotatedQuantity(    #type: ignore[valid-type]
-        default = None,
         unit = "m2",
         gt = 0. * u.m**2,
         decimals = 3,
