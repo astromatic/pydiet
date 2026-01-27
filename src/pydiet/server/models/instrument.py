@@ -4,25 +4,25 @@ Data models
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
-from typing import Annotated, Dict
+from typing import Annotated, Dict, Optional, Tuple
 
 from astropy import units as u  #type: ignore[import-untyped]
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, model_validator
-from synphot import (
+from synphot import (  #type: ignore[import-untyped]
     BlackBody1D,
     ConstFlux1D,
     Observation,
     SourceSpectrum,
     SpectralElement
 )
-from synphot.spectrum import BaseSpectrum
+from synphot.spectrum import BaseSpectrum  #type: ignore[import-untyped]
 
 from ... import package
 from ..types import AnnotatedQuantity
 
 
-def spectral_to_arrays(spectral: BaseSpectrum) -> (np.ndarray,np.ndarray):
+def spectral_to_arrays(spectral: BaseSpectrum) -> Tuple[np.ndarray, np.ndarray]:
     w = spectral.waveset
     x = spectral(w)
 
@@ -92,8 +92,8 @@ class InstrumentModel(BaseModel):
     site: 'SiteModel'
     default: bool = False
 
-    transmissions: dict = Field(default=None)
-    emissions_ct: dict = Field(default=None)
+    transmissions: Optional[dict] = Field(default=None)  #type: ignore[annotation-unchecked]
+    emissions_ct: Optional[dict] = Field(default=None)  #type: ignore[annotation-unchecked]
 
     @model_validator(mode="after")
     def _compute(self):
@@ -109,8 +109,8 @@ class InstrumentModel(BaseModel):
             transmission = transmissions[t].spectral
             upstream_transmission *= transmission
             upstream_emission = upstream_emission * transmission + emission
-        self.transmissions : dict[str, TransmissionModel] = {}
-        self.emissions_ct : dict[str, u.Quantity[u.ct/u.s]] = {}
+        self.transmissions : dict[str, TransmissionModel] = {}  #type: ignore[annotation-unchecked]
+        self.emissions_ct : dict[str, u.Quantity[u.ct/u.s]] = {}  #type: ignore[annotation-unchecked]
         filter_transmissions = self.filters.transmissions
         filter_emissions = self.filters.emissions
         for f in filter_transmissions:
@@ -262,7 +262,7 @@ class TransmissionModel(BaseModel):
     id: str
     name: str
     description: str
-    vars: dict[str, float]
+    vars: dict[str, float | str]
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",
         ge = 100. * u.nm,

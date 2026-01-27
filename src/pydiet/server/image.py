@@ -4,14 +4,14 @@ Image simulation module
 # Copyright CFHT
 # Licensed under the MIT licence
 
-from typing import Literal
+from typing import Literal, Tuple
 
 from astropy import units as u  #type: ignore[import-untyped]
 from base64 import b64encode
 from io import BytesIO
 from PIL.Image import fromarray
 import numpy as np
-from scipy.optimize import brentq, minimize_scalar
+from scipy.optimize import brentq, minimize_scalar  #type: ignore[import-untyped]
 from synphot import Observation, SpectralElement  #type: ignore[import-untyped]
 
 from .models.types import PhotometryID, SourceID
@@ -21,14 +21,14 @@ from .models.types import PhotometryID, SourceID
 class Image(object):
     def __init__(
             self,
-            source: SourceID='star',
-            psf_fwhm: u.Quantity['angle']=1.*u.arcsec, #type: ignore[name-defined],
+            source: SourceID='pointsource',
+            psf_fwhm: u.Quantity['angle']=1.*u.arcsec, #type: ignore[name-defined]
             psf_beta: float=3.2,
             sersic_radius: u.Quantity['angle']=1.*u.arcsec, #type: ignore[name-defined]
             sersic_index: float=1.,
-            pixel: [u.Quantity['solid angle'],
-                u.Quantity['solid angle']]=[0.2*u.arcsec,0.2*u.arcsec],
-            image_size: [int, int] = [64, 64],
+            pixel: Tuple[u.Quantity['solid angle'],
+                u.Quantity['solid angle']]=(0.2*u.arcsec,0.2*u.arcsec),
+            image_size: Tuple[int, int] = (64, 64),
             flux: float=1.,
             bkg: float=0.,
             ron: float=0.,
@@ -38,7 +38,7 @@ class Image(object):
             bias: float=0.,
             photometry: PhotometryID='model_fitting',
             aperture: float=3.,
-            oversamp: int=1,) -> np.ndarray:
+            oversamp: int=1,) -> None:
 
         self.source = source
         self.pixel = pixel
@@ -203,7 +203,7 @@ class Image(object):
 
     def sersic(
             self,
-            re: u.Quantity['angle']=1.*u.arcsec,
+            re: u.Quantity['angle']=1.*u.arcsec,  #type: ignore[name-defined]
             n: float=1.) -> np.ndarray:
         # Model validity limits
         if n < 0.36:

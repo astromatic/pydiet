@@ -10,9 +10,9 @@ tools/synphot-throughput-tables) that PyDIET understands.
 import argparse
 from datetime import datetime
 
-from astropy.io import ascii, fits #type: ignore
-from astropy.table import Table  #type: ignore
-import astropy.units as u #type: ignore
+from astropy.io import ascii, fits  #type: ignore[import-untyped]
+from astropy.table import Table  #type: ignore[import-untyped]
+import astropy.units as u  #type: ignore[import-untyped]
 import numpy as np
 
 def main() -> int:

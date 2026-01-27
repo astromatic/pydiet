@@ -34,9 +34,10 @@ def spectrum_from_airmass(
     }
     ams = sorted(list(am_spectra.keys()))
     # bracket the requested airmass for interpolation
-    aml = ams[0]
-    amp = ams[-1]
-    for a in ams:
+    aml = float(ams[0])
+    amp = float(ams[-1])
+    for aa in ams:
+        a = float(aa)
         if a >= am:
             amp = a
             break

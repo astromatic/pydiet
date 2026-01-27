@@ -482,8 +482,7 @@ def AnnotatedQuantity(
             lt=lt
         ),
         Field(
-            default_factory=None if default is None else lambda: default, #type: ignore[arg-type]
-            description=description,
+            default=None if default is None else default,
             validate_default=True,
             json_schema_extra=json_extra
         )        

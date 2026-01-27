@@ -19,7 +19,7 @@ from astropy.table import QTable #type: ignore[import-untyped]
 from astropy import units as u #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 from specutils import Spectrum #type: ignore[import-untyped]
-from synphot import (
+from synphot import ( #type: ignore[import-untyped]
     BlackBody1D,
     SourceSpectrum,
     SpectralElement,
@@ -42,7 +42,6 @@ from .models.instrument import (
     InstrumentModel,
     OpticsModel,
     SBSEDModel,
-    SEDModel,
     SiteModel,
     TelescopeModel,
     TransmissionModel
@@ -105,9 +104,9 @@ def get_detector(
 def get_emissions(
         parent_dir: str,
         emission_config: EmissionConfigModel,
-        transmissions: dict[str, TransmissionModel] | None = None,
-        sb = False) -> dict[str, SBSEDModel | SEDModel]:
-    emissions : dict[str, SEDModel | SBSEDModel] = {}
+        transmissions: dict[str, TransmissionModel] | None = None
+        ) -> dict[str, SBSEDModel]:
+    emissions : dict[str, SBSEDModel] = {}
     for file_config in emission_config.files:
         data = get_data_file(
             join(parent_dir, emission_config.path, file_config.file)
@@ -116,7 +115,7 @@ def get_emissions(
         sed = u.Quantity(data['PHOTLAM']).to(
             u.Jy / u.arcsec**2,
             equivalencies=u.spectral_density(wave)
-        ) if sb else u.Quantity(data['PHOTLAM'])
+        )
         # Instantiate the model
         key = file_config.id if file_config.id != '' else str(len(emissions))
         emissions[key] = SBSEDModel(
@@ -129,18 +128,6 @@ def get_emissions(
                 Spectrum(
                     spectral_axis = wave,
                     flux = sed * u.arcsec**2
-                ),
-                keep_neg=False
-            )
-        ) if sb else SEDModel(
-            id = key,
-            name = file_config.name,
-            description = file_config.description,
-            vars = file_config.vars,
-            spectral = SourceSpectrum.from_spectrum1d(
-                Spectrum(
-                    spectral_axis = wave,
-                    flux = sed
                 ),
                 keep_neg=False
             )
@@ -238,7 +225,7 @@ def get_sites(data_config: DataConfigModel) -> dict[str, SiteModel]:
             name = site.name,
             description = site.description,
             sky_transmissions = get_transmissions(path, site.transmission),
-            sky_emissions = get_emissions(path, site.emission, sb=True),
+            sky_emissions = get_emissions(path, site.emission),
             default = site.default
         )
     return sites
@@ -250,12 +237,7 @@ def get_telescopes(data_config: DataConfigModel) -> dict[str, TelescopeModel]:
         path = join(data_config.path, telescope.path)
         # Instantiate the model
         transmissions = get_transmissions(path, telescope.transmission)
-        emissions = get_emissions(
-            path,
-            telescope.emission,
-            transmissions,
-            sb=True
-        )
+        emissions = get_emissions(path, telescope.emission, transmissions)
         telescopes[telescope.id] = TelescopeModel(
             id = telescope.id,
             name = telescope.name,
@@ -295,7 +277,7 @@ def get_transmissions(
     return transmissions
 
 
-def get_webapi_instruments(instruments: dict[InstrumentModel]) -> dict:
+def get_webapi_instruments(instruments: dict[str, InstrumentModel]) -> dict[str, InstrumentModel]:
     winstruments = {}
     for instrument in instruments:
         winstruments[instrument] = instruments[instrument].copy(exclude={

@@ -9,11 +9,11 @@ https://skycalc-ipy.readthedocs.io
 import argparse
 from datetime import datetime
 
-from astropy.io import ascii, fits #type: ignore
-from astropy.table import Table  #type: ignore
-import astropy.units as u #type: ignore
+from astropy.io import ascii, fits  #type: ignore[import-untyped]
+from astropy.table import Table  #type: ignore[import-untyped]
+import astropy.units as u  #type: ignore[import-untyped]
 import numpy as np
-from skycalc_ipy import SkyCalc
+from skycalc_ipy import SkyCalc  #type: ignore[import-untyped]
 
 def main() -> int:
     """
