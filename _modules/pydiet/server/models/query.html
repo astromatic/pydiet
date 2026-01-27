@@ -106,6 +106,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ETCQueryModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
     <span class="n">instrument</span><span class="p">:</span> <span class="n">InstrumentID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">default_instrument</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span>
     <span class="p">)</span>
 
@@ -149,6 +150,7 @@
     <span class="p">)</span>
 
     <span class="nb">filter</span><span class="p">:</span> <span class="n">FilterID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">default_filter</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Instrument filter&quot;</span>
     <span class="p">)</span>
 
@@ -171,8 +173,6 @@
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sky surface brightness&quot;</span>
     <span class="p">)</span>
 
-    <span class="n">sky_unit</span><span class="p">:</span> <span class="n">PhotSysID</span>
-
     <span class="n">sersic_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
         <span class="n">gt</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
@@ -187,6 +187,11 @@
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sersic index&quot;</span>
     <span class="p">)</span>
 
+    <span class="n">sky_unit</span><span class="p">:</span> <span class="n">PhotSysID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;abmag&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sky background photometric system&quot;</span>
+    <span class="p">)</span>
+
     <span class="n">snr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span>
         <span class="n">gt</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
@@ -194,7 +199,7 @@
     <span class="p">)</span>
 
     <span class="n">source</span><span class="p">:</span> <span class="n">SourceID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;pointsource&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;point_source&#39;</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Source type&quot;</span>
     <span class="p">)</span>
 
