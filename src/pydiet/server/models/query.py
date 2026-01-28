@@ -149,7 +149,7 @@ class ETCQueryModel(BaseModel):
         Kind of emulate Enum validation and errors.
         """
         instrument = info.data['instrument']
-        fids = list(instruments[instrument].filters.transmissions)
+        fids = list(instruments[instrument].filters.transmissions) + ['custom']
         if f not in fids:
             expected = f"'{fids[0]}'" + \
                 (

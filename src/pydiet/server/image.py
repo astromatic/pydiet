@@ -145,7 +145,6 @@ class Image(object):
             / self.pixel_area
 
         # Create PSF raster
-        print(r2, alpha2)
         moffat = np.power(1. + r2 / alpha2, -psf_beta) 
 
         # Truncate inside a disk

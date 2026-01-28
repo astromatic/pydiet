@@ -103,6 +103,63 @@ def get_detector(
     )
 
 
+def get_emission(
+        file: str,
+        id: str,
+        name: str="",
+        description: str="",
+        vars: dict[str, float | str]={},
+    ) -> SBSEDModel:
+    data = get_data_file(file)
+    wave = u.Quantity(data['WAVELENGTH'])
+    sed = u.Quantity(data['PHOTLAM']).to(
+        u.Jy / u.arcsec**2,
+        equivalencies=u.spectral_density(wave)
+    )
+    # Instantiate the model
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message=".*negative flux or throughput.*",
+            category=AstropyUserWarning,
+        )
+        emission = SBSEDModel(
+            id = id,
+            name = name,
+            description = description,
+            vars = vars,
+            # We drop the surface part as Spectrum does cannot deal with SBs.
+            spectral = SourceSpectrum.from_spectrum1d(
+                Spectrum(
+                    spectral_axis = wave,
+                    flux = sed * u.arcsec**2
+                ),
+                keep_neg=False
+            )
+        )
+    return emission
+
+
+def get_emission_from_transmission(
+        transmission: TransmissionModel,
+        temperature: u.Quantity['temperature'],
+        area: u.Quantity['area'],
+        id: str) -> SBSEDModel:
+    # Thermal source spectral flux with Blackbody spectrum over 1 arcsec2
+    bb = ThermalSpectralElement(
+        BlackBody1D,
+        temperature=temperature
+    ).thermal_source() * area.to(u.m**2).value
+    emission = SBSEDModel(
+        id = id,
+        name = f"{transmission.name} emission",
+        description = f"Blackbody emission at {temperature.to(u.K).value:.1f} K",
+        # Apply emissivity
+        spectral = bb - bb * transmission.spectral
+    )
+    return emission
+
+
 def get_emissions(
         parent_dir: str,
         emission_config: EmissionConfigModel,
@@ -110,56 +167,27 @@ def get_emissions(
         ) -> dict[str, SBSEDModel]:
     emissions : dict[str, SBSEDModel] = {}
     for file_config in emission_config.files:
-        data = get_data_file(
-            join(parent_dir, emission_config.path, file_config.file)
-        )
-        wave = u.Quantity(data['WAVELENGTH'])
-        sed = u.Quantity(data['PHOTLAM']).to(
-            u.Jy / u.arcsec**2,
-            equivalencies=u.spectral_density(wave)
-        )
-        # Instantiate the model
         key = file_config.id if file_config.id != '' else str(len(emissions))
-        with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "ignore",
-                message=".*negative flux or throughput.*",
-                category=AstropyUserWarning,
-            )
-            emissions[key] = SBSEDModel(
-                id = key,
-                name = file_config.name,
-                description = file_config.description,
-                vars = file_config.vars,
-                # We drop the surface part as Spectrum does cannot deal with SBs.
-                spectral = SourceSpectrum.from_spectrum1d(
-                    Spectrum(
-                        spectral_axis = wave,
-                        flux = sed * u.arcsec**2
-                    ),
-                    keep_neg=False
-                )
-            )
+        emissions[key] = get_emission(
+            file=join(parent_dir, emission_config.path, file_config.file),
+            id=key,
+            name=file_config.name,
+            description = file_config.description,
+            vars = file_config.vars
+        )
     # No emission files: we use a blackbody with emissivity from transmission
     if len(emission_config.files) == 0 and transmissions is not None:
         temperatures = emission_config.temperatures
         areas = emission_config.areas
         for t, key in enumerate(transmissions):
-            transmission = transmissions[key]
             temperature = temperatures[t] if t < len(temperatures) \
                 else temperatures[-1]
             area = areas[t] if t < len(areas) else areas[-1]
-            # Thermal source spectral flux with Blackbody spectrum over 1 arcsec2
-            bb = ThermalSpectralElement(
-                BlackBody1D,
-                temperature=temperature
-            ).thermal_source() * area.to(u.m**2).value
-            emissions[key] = SBSEDModel(
-                id = key,
-                name = f"{transmission.name} emission",
-                description = f"Blackbody emission at {temperature.to(u.K).value:.1f} K",
-                # Apply emissivity
-                spectral = bb - bb * transmission.spectral
+            emissions[key] = get_emission_from_transmission(
+                transmissions[key],
+                temperature=temperature,
+                area=area,
+                id=key
             )
     return emissions
 

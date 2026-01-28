@@ -96,7 +96,7 @@ class InstrumentModel(BaseModel):
     emissions_ct: Optional[dict] = Field(default=None)  #type: ignore[annotation-unchecked]
 
     @model_validator(mode="after")
-    def _compute(self):
+    def _update_transmissions(self):
         # Compute extra parameters during initialization
         # Filter emissions and transmissions
         upstream_transmission = 1.
@@ -155,6 +155,7 @@ class FiltersModel(OpticsModel):
     Pydantic model for a filter set.
     '''
     pass
+
 
 
 class SBSEDModel(BaseModel):

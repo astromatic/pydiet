@@ -21,7 +21,9 @@ from .query import ETCQueryModel
 from .response import ETCResponseModel
 from .instrument import (
     DetectorModel,
+    FiltersModel,
     InstrumentModel,
+    OpticsModel,
     SBSEDModel,
     SEDModel,
     SiteModel,

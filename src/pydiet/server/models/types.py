@@ -13,7 +13,7 @@ ComputeID = Literal['etime', 'snr']
 
 FilterID = Enum(  # type: ignore[misc]
     "FilterID",
-    {tag : tag for tag in filters.keys()},
+    {tag : tag for tag in filters.keys()} | {'custom' : 'custom'},
     type=str
 )
 

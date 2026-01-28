@@ -7,6 +7,7 @@ Example script using the PyDIET library for computing ETC estimates locally
 # Licensed under the MIT licence
 import argparse
 from os import path
+from pprint import pprint
 
 from astropy.io import ascii, fits  #type: ignore[import-untyped]
 import astropy.units as u  #type: ignore[import-untyped]
@@ -16,11 +17,15 @@ from pydiet.server.models import (
     ETCQueryModel,
     FileConfigModel,
     FiltersConfigModel,
+    FiltersModel,
     TransmissionConfigModel
 )
 
 from pydiet.server import data, response
-from pydiet.server.datafiles import get_transmission
+from pydiet.server.datafiles import (
+    get_emission_from_transmission,
+    get_transmission
+)
 
 def main() -> int:
     """
@@ -119,13 +124,28 @@ def main() -> int:
     unit = args['unit']
 
 
-    # Add filter to existing set
-    filter = get_transmission(file=input_name, id='custom')
-    data.instruments[instrument].transmissions['u'] = filter
+    # Add filter transmission
+    transmission = get_transmission(file=input_name, id='custom')
+    # Add filter emission based on transmission (and dummy temperature/area)
+    emission = get_emission_from_transmission(
+        transmission,
+        temperature=273. * u.K,
+        area=0.1 * u.m**2,
+        id='custom'
+    )
+    #data.instruments[instrument].transmissions['custom'] = transmission
+    instrumodel = data.instruments[instrument]
+    # Update Filter list
+    filters = instrumodel.filters
+    instrumodel.filters = FiltersModel(
+        transmissions = filters.transmissions | {'custom' : transmission},
+        emissions = filters.emissions | {'custom' : emission}
+    )
+    instrumodel._update_transmissions()
     result = response.get_response(
         ETCQueryModel(
             instrument=instrument,
-            filter='u',
+            filter='custom',
             airmass=airmass,
             brightness=brightness,
             fwhm=fwhm,
@@ -134,10 +154,10 @@ def main() -> int:
             unit=unit
         )
     )
-    print(result)
+    pprint(result.model_dump())
 
-    if not quiet:
-        print("Done.")
+    #if not quiet:
+    #    print("Done.")
 
     return 0 # success
 
