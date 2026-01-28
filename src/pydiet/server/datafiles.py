@@ -142,8 +142,8 @@ def get_emission(
 
 def get_emission_from_transmission(
         transmission: TransmissionModel,
-        temperature: u.Quantity['temperature'],
-        area: u.Quantity['area'],
+        temperature: u.Quantity['temperature'],  #type: ignore[name-defined]
+        area: u.Quantity['area'],  #type: ignore[name-defined]
         id: str) -> SBSEDModel:
     # Thermal source spectral flux with Blackbody spectrum over 1 arcsec2
     bb = ThermalSpectralElement(
