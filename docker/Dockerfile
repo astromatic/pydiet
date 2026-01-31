@@ -40,10 +40,14 @@ RUN python3 -m venv venv_pydiet && \
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-#RUN /bin/bash docs/make install
-# Insert PyDiet command to here.
-ENTRYPOINT ["sleep", "infinity"]
+# Copy the script and make it executable
+COPY ./docker/docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+# Set the entrypoint to the script
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["sleep", "infinity"]
 # you CMD should look something like this
-# CMD ["/bin/bash", "-c", "source venv_pydiet/bin/activate && python your_app_script.py"]
+# CMD ["/bin/bash", "-c", "python your_app_script.py"]
 
