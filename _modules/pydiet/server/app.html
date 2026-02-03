@@ -85,12 +85,16 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlencode</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Body</span><span class="p">,</span>
     <span class="n">Depends</span><span class="p">,</span>
     <span class="n">FastAPI</span><span class="p">,</span>
+    <span class="n">File</span><span class="p">,</span>
+    <span class="n">Form</span><span class="p">,</span>
     <span class="n">HTTPException</span><span class="p">,</span>
     <span class="n">Path</span><span class="p">,</span>
     <span class="n">Query</span><span class="p">,</span>
     <span class="n">Request</span><span class="p">,</span>
+    <span class="n">UploadFile</span><span class="p">,</span>
     <span class="n">responses</span><span class="p">,</span>
     <span class="n">status</span>
 <span class="p">)</span>
@@ -277,7 +281,7 @@
         <span class="k">return</span> <span class="n">get_response</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-    <span class="c1"># PyDIET UI component endpoint with query string</span>
+    <span class="c1"># PyDIET UI component endpoint with GET query string</span>
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/</span><span class="si">{instrument}</span><span class="s2">/</span><span class="si">{component}</span><span class="s2">/query&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_component_query</span><span class="p">(</span>
             <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
@@ -307,6 +311,44 @@
                 <span class="s2">&quot;root_path&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;root_path&quot;</span><span class="p">),</span>
                 <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
                 <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="n">get_response</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">ui</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+    <span class="c1"># PyDIET UI component endpoint with POST query (for uploading filter curves)</span>
+    <span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/ui/</span><span class="si">{instrument}</span><span class="s2">/</span><span class="si">{component}</span><span class="s2">/query&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_component_query</span><span class="p">(</span>
+            <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
+            <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>     
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span>
+            <span class="p">),</span>
+            <span class="n">component</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Component name&quot;</span><span class="p">,</span>
+                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Name of the UI component&quot;</span>
+            <span class="p">),</span>
+            <span class="n">filter_upload</span><span class="p">:</span> <span class="n">UploadFile</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="kc">None</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Endpoint for UI component with ETC query string.</span>
+<span class="sd">        Use &quot;common&quot; as instrument for components shared by all instruments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        response: byte stream</span>
+<span class="sd">            `HTML response &lt;https://fastapi.tiangolo.com/advanced/custom-response/#htmlresponse&gt;`_</span>
+<span class="sd">            with UI component.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="k">await</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">()</span>
+        <span class="c1"># Remove the filter upload field</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;filter_upload&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">ETCQueryModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">templates</span><span class="o">.</span><span class="n">TemplateResponse</span><span class="p">(</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">request</span><span class="p">,</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">instrument</span><span class="p">,</span> <span class="n">component</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">),</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;root_path&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;root_path&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+                <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="n">get_response</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">filter_upload</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">ui</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
