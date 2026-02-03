@@ -4,8 +4,9 @@ Functions that gather data from files.
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
-from os import scandir
+from os import PathLike, scandir
 from os.path import basename, exists, isabs, join
+from pathlib import Path
 
 # Manage TOML library for Python versions < 3.11
 import sys
@@ -15,7 +16,7 @@ else:
     import tomli as tomllib
 import warnings
 
-from typing import Any, Optional
+from typing import Any, IO, Optional
 from astropy.table import QTable  #type: ignore[import-untyped]
 from astropy import units as u  #type: ignore[import-untyped]
 from astropy.utils.exceptions import AstropyUserWarning  #type: ignore[import-untyped]
@@ -73,7 +74,7 @@ def get_data_config(data_config: Optional[str] = None) -> DataConfigModel:
     return data_config_model
 
 
-def get_data_file(filename: str):
+def get_data_file(filename: IO[bytes] | PathLike | str):
     return QTable.read(filename)
 
 
@@ -288,7 +289,7 @@ def get_telescopes(data_config: DataConfigModel) -> dict[str, TelescopeModel]:
 
 
 def get_transmission(
-        file: str,
+        file: IO | PathLike | str,
         id: str,
         name: str="",
         description: str="",

@@ -83,6 +83,8 @@ class Image(object):
         Aperture diameter in pixels for fixed aperture photometry.
     oversamp: int, optional
         Number of oversampling sub pixels on each axis.
+    max_etime: ~astropy.units.Quantity['time'], optional
+        Maximum possible exposure time in output
     """
     def __init__(
             self,
@@ -102,7 +104,8 @@ class Image(object):
             bias: float=0.,
             photometry: PhotometryID='model_fitting',
             aperture: float=3.,
-            oversamp: int=1,) -> None:
+            oversamp: int=1,
+            max_etime: u.Quantity['time'] = 1e9 * u.s) -> None:
 
         self.source = source
         self.pixel = pixel
@@ -116,6 +119,7 @@ class Image(object):
         self.oversamp = oversamp
         self.photometry = photometry
         self.saturation = min(range - 1. - bias, full_well / gain)
+        self.max_etime = max_etime.to(u.s).value
 
         # Create image coordinate rasters
         raster_size = [image_size[0] * oversamp, image_size[1] * oversamp]
@@ -189,11 +193,11 @@ class Image(object):
             args=(snr),
             xtol=1e-6,
             maxiter=100
-        )
+        ) if self.flux > 0. else self.max_etime
 
 
     def etime_bkg_sat(self) -> float:
-        return self.saturation / self.bkg
+        return self.saturation / self.bkg if self.bkg > 0. else self.max_etime
 
 
     def etime_max(self, snr:float) -> float:
@@ -205,7 +209,8 @@ class Image(object):
 
 
     def etime_source_sat(self) -> float:
-        return self.saturation / self.max()
+        return self.saturation / self.max() if self.flux > 0. and self.bkg > 0. \
+            else self.max_etime
 
 
     def extended(self) -> np.ndarray:
@@ -232,7 +237,7 @@ class Image(object):
             ) / self.gain
         ) / exposures
         # Normalize to a max of 1
-        noisy[noiseless < 0.] = 0.
+        noisy[noisy < 0.] = 0.
         noisy /= nmax
         noisy[noisy > 1.] = 1.
         # Apply sRGB gamma correction and convert to 0...255 unsigned integers
@@ -240,7 +245,7 @@ class Image(object):
             np.where(
                 noisy <= 0.0031308,
                 12.92 * noisy,
-                1.055 * np.power(noisy, 1/2.4) - 0.055
+                1.055 * np.power(noisy, 1./2.4) - 0.055
             ) * 255.
         ).astype(np.uint8)
         

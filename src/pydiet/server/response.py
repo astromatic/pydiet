@@ -5,6 +5,8 @@ Computation module
 # Licensed under the MIT licence
 
 from math import pi, sqrt
+from os import PathLike
+from typing import IO, Optional
 
 from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
@@ -14,12 +16,17 @@ from .image import Image
 from .models import (
     ETCQueryModel,
     ETCResponseModel,
+    FiltersModel,
     SBSEDModel,
     SEDModel,
     TransmissionModel
 )
 from .models.types import SkyID
 from .data import instruments
+from .datafiles import (
+    get_emission_from_transmission,
+    get_transmission
+)
 from .photsys import PhotSys
 
 
@@ -48,8 +55,37 @@ def spectrum_from_airmass(
     return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac
 
 
-def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
-    instrument = instruments[q.instrument]
+def get_response(
+        q: ETCQueryModel,
+        filter: Optional[IO[bytes] | PathLike | str]=None,
+        ui: bool=False) -> ETCResponseModel:
+    if filter is not None:
+        # Read the uploaded filter transmission file
+        transmission = get_transmission(filter, id='upload')
+        # Compute filter emission based on transmission (and dummy temperature/area)
+        emission = get_emission_from_transmission(
+            transmission,
+            temperature=273. * u.K,
+            area=0.1 * u.m**2,
+            id='upload'
+        )
+        # Make a copy of the instrument while adding the uploaded filter
+        filters = instruments[q.instrument].filters
+        instrument = instruments[q.instrument].model_copy(
+            update={
+                'filters': FiltersModel(
+                    transmissions = filters.transmissions | {
+                        'upload' : transmission
+                    },
+                    emissions = filters.emissions | {'upload' : emission}
+                )
+            }
+        )
+        # Update composite transmissions and emission curves
+        instrument._update_transmissions()
+    else:
+        instrument = instruments[q.instrument]
+
     telescope = instrument.telescope
     detector = instrument.detector
     transmission = instrument.transmissions[q.filter]
@@ -64,15 +100,19 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
     area = instrument.telescope.collecting_area - instrument.obstruction_area
 
     # Make virtual observation
+    gain = detector.gain.value
+    tpeak = transmission_spec.tpeak()
     # Actual source
     photsys = PhotSys(q.unit)
-    observation = Observation(photsys.spectrum, transmission_spec)
+    if tpeak > 0.:
+        observation = Observation(photsys.spectrum, transmission_spec)
 
-    # Compute ref source count rate to get effective zero-point
-    gain = detector.gain.value
-    ct_ref = observation.countrate(area=area, binned=False) / gain
-    zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct_ref)
-
+        # Compute ref source count rate to get effective zero-point
+        ct_ref = observation.countrate(area=area, binned=False) / gain
+        zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct_ref)
+    else:
+        ct_ref = 0. * u.ct / u.s
+        zp = -100. * u.mag
     # Compute total number of reference source electrons
     flux = (ct_ref * gain).value * photsys.flux(q.brightness)
 
@@ -95,18 +135,22 @@ def get_response(q: ETCQueryModel, ui: bool=False) -> ETCResponseModel:
         )
     if sky_spectrum is not None:
         # Compute background count rate to get background surface brightness
-        bkg_observation = Observation(
-            sky_spectrum,
-            transmission.spectral,
-            force='extrap'
-        )
-        # TODO: Fix instrumental thermal background and remove the 0.
-        #print(instrument.emissions_ct[q.filter], bkg_observation.countrate(area=area, binned=False))
-        ct_bkgsb = (
-            bkg_observation.countrate(area=area, binned=False) \
-            + 0. * instrument.emissions_ct[q.filter] * u.ct / u.s
-            ) / gain
-        mag_bkgsb = zp + u.Magnitude(ct_bkgsb)
+        if tpeak > 0.:
+            bkg_observation = Observation(
+                sky_spectrum,
+                transmission.spectral,
+                force='extrap'
+            )
+            # TODO: Fix instrumental thermal background and remove the 0.
+            #print(instrument.emissions_ct[q.filter], bkg_observation.countrate(area=area, binned=False))
+            ct_bkgsb = (
+                bkg_observation.countrate(area=area, binned=False) \
+                + 0. * instrument.emissions_ct[q.filter] * u.ct / u.s
+                ) / gain
+            mag_bkgsb = zp + u.Magnitude(ct_bkgsb)
+        else:
+            ct_bkgsb = 0. * u.ct / u.s
+            mag_bkgsb = 100. * u.mag
         if mag_bkgsb.value < -100. :
             mag_bkgsb = u.Quantity('100 mag')
         if mag_bkgsb.value > 100.:

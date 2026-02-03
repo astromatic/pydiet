@@ -20,9 +20,17 @@ export async function fetch_data(url) {
 };
 
 
-export async function fetch_html(selector, url) {
-	return await fetch(url, {credentials: "include"})
-		.then( (response) => {
+export async function fetch_html(selector, url, {method='get', data} = {}) {
+	return await (method=='get' ?
+		fetch(
+			data ? url + '?' + new URLSearchParams(data) : url,
+			{credentials: 'include'}
+		) : fetch(url,
+			{
+				method: 'post',
+				body: data,
+				credentials: "include"})
+	).then( (response) => {
 			// The API call was successful!
 			if (!response.ok) {
 				throw new Error("Unauthorized API endpoint:" + response.url);

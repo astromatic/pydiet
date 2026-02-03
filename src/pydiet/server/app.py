@@ -10,12 +10,16 @@ from typing import Annotated, get_args, Literal, Optional, Tuple
 from urllib.parse import urlencode
 
 from fastapi import (
+    Body,
     Depends,
     FastAPI,
+    File,
+    Form,
     HTTPException,
     Path,
     Query,
     Request,
+    UploadFile,
     responses,
     status
 )
@@ -200,7 +204,7 @@ def create_app() -> FastAPI:
         return get_response(query).model_dump(exclude_none=True)
 
 
-    # PyDIET UI component endpoint with query string
+    # PyDIET UI component endpoint with GET query string
     @app.get("/ui/{instrument}/{component}/query", tags=["UI"], response_class=HTMLResponse)
     async def ui_component_query(
             request: Request,
@@ -230,6 +234,44 @@ def create_app() -> FastAPI:
                 "root_path": request.scope.get("root_path"),
                 "package": package.title,
                 "r": get_response(query, ui=True)
+            }
+        )
+
+    # PyDIET UI component endpoint with POST query (for uploading filter curves)
+    @app.post("/ui/{instrument}/{component}/query", tags=["UI"], response_class=HTMLResponse)
+    async def ui_component_query(
+            request: Request,
+            instrument: str = Path(     
+                title="Instrument ID",
+                description="Instrument ID"
+            ),
+            component: str = Path(
+                title="Component name",
+                description="Name of the UI component"
+            ),
+            filter_upload: UploadFile | None = File(None)):
+        """
+        Endpoint for UI component with ETC query string.
+        Use "common" as instrument for components shared by all instruments.
+
+        Returns
+        -------
+        response: byte stream
+            `HTML response <https://fastapi.tiangolo.com/advanced/custom-response/#htmlresponse>`_
+            with UI component.
+        """
+        form = await request.form()
+        # Remove the filter upload field
+        data = dict(form)
+        data.pop("filter_upload", None)
+        query = ETCQueryModel.model_validate(data)
+        return templates.TemplateResponse(
+            request = request,
+            name = join(instrument, component + ".html"),
+            context = {
+                "root_path": request.scope.get("root_path"),
+                "package": package.title,
+                "r": get_response(query, filter=filter_upload.file, ui=True)
             }
         )
 
