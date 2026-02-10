@@ -125,27 +125,27 @@ def main() -> int:
 
 
     # Add filter transmission
-    transmission = get_transmission(file=input_name, id='custom')
+    transmission = get_transmission(file=input_name, id='upload')
     # Add filter emission based on transmission (and dummy temperature/area)
     emission = get_emission_from_transmission(
         transmission,
         temperature=273. * u.K,
         area=0.1 * u.m**2,
-        id='custom'
+        id='upload'
     )
-    #data.instruments[instrument].transmissions['custom'] = transmission
+    #data.instruments[instrument].transmissions['upload'] = transmission
     instrumodel = data.instruments[instrument]
     # Update Filter list
     filters = instrumodel.filters
     instrumodel.filters = FiltersModel(
-        transmissions = filters.transmissions | {'custom' : transmission},
-        emissions = filters.emissions | {'custom' : emission}
+        transmissions = filters.transmissions | {'upload' : transmission},
+        emissions = filters.emissions | {'upload' : emission}
     )
     instrumodel._update_transmissions()
     result = response.get_response(
         ETCQueryModel(
             instrument=instrument,
-            filter='custom',
+            filter='upload',
             airmass=airmass,
             brightness=brightness,
             fwhm=fwhm,

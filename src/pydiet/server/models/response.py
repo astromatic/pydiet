@@ -19,8 +19,8 @@ class ETCResponseModel(BaseModel):
     compute: ComputeID
     zp: float=Field(
         default=0.,
-        ge=0.,
-        lt=1e30,
+        ge=-100.,
+        le=100.,
         description="Estimate magnitude zero-point"
     )
     etime: float=Field(

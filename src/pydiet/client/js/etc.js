@@ -18,11 +18,13 @@ export async function update_etcform(instrument) {
 		etc_form.addEventListener('submit', async function (e){
 			// Prevent default behavior on submit
 			e.preventDefault();
-			const data = Object.fromEntries(new FormData(this));
+			const data = new FormData(this),
+				datao = Object.fromEntries(data),
+				upload = (datao.filter_upload && datao.filter_upload.size > 0);
 			fetch_html(
 				'#modal-slot',
-				ui_url + '/' + instrument.id + '/etc_results/query?'
-					+ new URLSearchParams(data)
+				ui_url + '/' + instrument.id + '/etc_results/query',
+				upload ? {method: 'post', data: data} : {data: data}
 			);
 		});
 	});
@@ -48,10 +50,15 @@ function update_filters(instrument) {
 				f_default = f;
 			}
 		}
+        option = document.createElement("ion-select-option");
+        option.value = 'upload';
+        option.innerHTML = "upload";
+	    select_filters.appendChild(option);       
 		select_filters.value = f_default;
 		update_filter(instrumentID, f_default);
 		select_filters.addEventListener('ionChange', (event) => {
 			const	filterID = event.detail.value;
+            if (filterID == 'upload') return;
 			update_filter(instrumentID, filterID);
 			fetch_html(
 				'#modal-slot',

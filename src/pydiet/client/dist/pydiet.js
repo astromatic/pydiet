@@ -3365,8 +3365,18 @@
       return false;
     });
   }
-  async function fetch_html(selector, url) {
-    return await fetch(url, { credentials: "include" }).then((response) => {
+  async function fetch_html(selector, url, { method = "get", data } = {}) {
+    return await (method == "get" ? fetch(
+      data ? url + "?" + new URLSearchParams(data) : url,
+      { credentials: "include" }
+    ) : fetch(
+      url,
+      {
+        method: "post",
+        body: data,
+        credentials: "include"
+      }
+    )).then((response) => {
       if (!response.ok) {
         throw new Error("Unauthorized API endpoint:" + response.url);
       }
@@ -6516,8 +6526,8 @@
           return;
         }
         const resolved = {};
-        for (const option of animationOptions) {
-          resolved[option] = cfg[option];
+        for (const option2 of animationOptions) {
+          resolved[option2] = cfg[option2];
         }
         (isArray(cfg.properties) && cfg.properties || [
           key
@@ -18580,10 +18590,11 @@
       update_filters(instrument2);
       etc_form.addEventListener("submit", async function(e) {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(this));
+        const data = new FormData(this), datao = Object.fromEntries(data), upload = datao.filter_upload && datao.filter_upload.size > 0;
         fetch_html(
           "#modal-slot",
-          ui_url + "/" + instrument2.id + "/etc_results/query?" + new URLSearchParams(data)
+          ui_url + "/" + instrument2.id + "/etc_results/query",
+          upload ? { method: "post", data } : { data }
         );
       });
     });
@@ -18596,19 +18607,25 @@
       const instrumentID = instrument2.id, filters = instrument2.transmissions;
       let f_default = get_filterID(instrumentID);
       for (f in filters) {
-        let option = document.createElement("ion-select-option");
-        option.value = f;
+        let option2 = document.createElement("ion-select-option");
+        option2.value = f;
         filter = filters[f];
-        option.innerHTML = filter.name;
-        select_filters.appendChild(option);
+        option2.innerHTML = filter.name;
+        select_filters.appendChild(option2);
         if (!f_default && (filter.default || !f_default)) {
           f_default = f;
         }
       }
+      option = document.createElement("ion-select-option");
+      option.value = "upload";
+      option.innerHTML = "upload";
+      select_filters.appendChild(option);
       select_filters.value = f_default;
       update_filter(instrumentID, f_default);
       select_filters.addEventListener("ionChange", (event) => {
         const filterID = event.detail.value;
+        if (filterID == "upload")
+          return;
         update_filter(instrumentID, filterID);
         fetch_html(
           "#modal-slot",

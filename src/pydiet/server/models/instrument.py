@@ -28,10 +28,11 @@ def spectral_to_arrays(spectral: BaseSpectrum) -> Tuple[np.ndarray, np.ndarray]:
 
     # Trim extra 0 values at beginning and at the end
     idx = np.where(x.value != 0.)[0]
-    start = idx[0] - 1 if idx[0] > 0 else 0
-    end = idx[-1] + 2 if idx[-1] < w.size - 1 else w.size
-    w = w[start:end]
-    x = x[start:end]
+    if len(idx):
+        start = idx[0] - 1 if idx[0] > 0 else 0
+        end = idx[-1] + 2 if idx[-1] < w.size - 1 else w.size
+        w = w[start:end]
+        x = x[start:end]
 
     return w, x
 
@@ -122,8 +123,6 @@ class InstrumentModel(BaseModel):
             transmission *= self.detector.transmissions["0"].spectral
             emission *= self.detector.transmissions["0"].spectral
             wave, response = spectral_to_arrays(transmission)
-            # Compute countrate
-            observation = Observation(emission, transmission)
             self.transmissions[f] = TransmissionModel(
                 id = filter.id,
                 name = filter.name,
@@ -133,8 +132,12 @@ class InstrumentModel(BaseModel):
                 response = response,
                 spectral = transmission
             )
-            self.emissions_ct[f] = observation.countrate(area=1*u.m**2).value
-            
+            # Compute countrate
+            if transmission.tpeak() > 0.:
+                observation = Observation(emission, transmission, force='taper')
+                self.emissions_ct[f] = observation.countrate(area=1*u.m**2).value
+            else:
+                self.emissions_ct[f] = 0.
         return self
 
     model_config = ConfigDict(arbitrary_types_allowed=True)

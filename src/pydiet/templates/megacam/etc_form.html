@@ -115,9 +115,28 @@
       <!----------------------------- filter --------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-select id=select-filters name="filter" label="Filter" label-placement="floating" fill="solid" interface="popover" value="r">
+          <ion-select onfocus="
+              /* Display filter upload menu if filter is 'upload'*/
+              const filt=document.querySelector('.filter-upload'),
+                inp=filt.querySelector('ion-input');
+              if (this.value == 'upload') {
+                filt.classList.remove('ion-hide');
+                inp.required = true;
+              } else {
+                filt.classList.add('ion-hide');
+                inp.required = false;
+                inp.value = '';
+              }
+              " id=select-filters name="filter" label="Filter" label-placement="floating" fill="solid" interface="popover" value="r">
               <ion-select-option value="">Choose filter</ion-select-option>
           </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <!--------------------------- filter file ------------------------------>
+      <ion-col class="filter-upload ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+        <ion-item>
+         <input name="filter_upload" label="Filter upload" label-placement="floating" fill="solid" type="file" accept=".fits,.fit,application/fits"></ion-input>
         </ion-item>
       </ion-col>
 

@@ -22,6 +22,7 @@ dependencies = [
     "platformdirs >= 3.4.0",
     "pydantic >= 2.2",
     "pydantic-settings >= 2.2",
+    "python-multipart",
     "scipy >= 1.15",
     "setuptools",
     "specutils >= 1.18.0",

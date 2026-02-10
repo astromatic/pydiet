@@ -29,7 +29,7 @@ from .types import (
 class ETCQueryModel(BaseModel):
 
     instrument: InstrumentID = Field(
-        default=default_instrument,
+        default=default_instrument.id,
         description="Instrument ID"
     )
 
@@ -149,7 +149,7 @@ class ETCQueryModel(BaseModel):
         Kind of emulate Enum validation and errors.
         """
         instrument = info.data['instrument']
-        fids = list(instruments[instrument].filters.transmissions) + ['custom']
+        fids = list(instruments[instrument].filters.transmissions) + ['upload']
         if f not in fids:
             expected = f"'{fids[0]}'" + \
                 (
