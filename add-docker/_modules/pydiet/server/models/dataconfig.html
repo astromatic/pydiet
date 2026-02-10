@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydiet.server.models.dataconfig &mdash; PyDIET 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_js.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=329c186a" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            PyDIET
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../method.html">Method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">PyDIET</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pydiet.server.models.dataconfig</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydiet.server.models.dataconfig</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Data models</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Copyright CFHT/CNRS/CEA/UParisSaclay</span>
+<span class="c1"># Licensed under the MIT licence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy</span><span class="w"> </span><span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>  <span class="c1">#type: ignore[import-untyped]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">DirectoryPath</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatedQuantity</span>
+
+
+<div class="viewcode-block" id="FileConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.FileConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FileConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for transmission curve configuration.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="nb">vars</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="o">|</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">file</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+
+<div class="viewcode-block" id="EmissionConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.EmissionConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EmissionConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for emission curve set configuration.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">temperatures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;K&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">K</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">description</span>  <span class="o">=</span> <span class="s2">&quot;Device temperature.&quot;</span>
+    <span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">283</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">K</span><span class="p">]</span>
+    <span class="n">areas</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Emissive area.&quot;</span>
+    <span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FileConfigModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+
+
+<div class="viewcode-block" id="TransmissionConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.TransmissionConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TransmissionConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for transmission curve set configuration.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FileConfigModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+
+
+<div class="viewcode-block" id="SiteConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.SiteConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SiteConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for the observing site data configuration model.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">altitude</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1000.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Altitude of the observation site.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">transmission</span><span class="p">:</span> <span class="n">TransmissionConfigModel</span>
+    <span class="n">emission</span><span class="p">:</span> <span class="n">EmissionConfigModel</span></div>
+
+
+
+
+<div class="viewcode-block" id="TelescopeConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.TelescopeConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TelescopeConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for the telescope data configuration model.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">collecting_area</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Full collecting area, including possible mirror hole and spider branches.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">obstruction_area</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Default obstruction area (only used if not specified for the instrument).&quot;</span>
+    <span class="p">)</span>
+    <span class="n">transmission</span><span class="p">:</span> <span class="n">TransmissionConfigModel</span>
+    <span class="n">emission</span><span class="p">:</span> <span class="n">EmissionConfigModel</span></div>
+
+
+
+
+<div class="viewcode-block" id="DetectorConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DetectorConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for the detector data configuration model.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">gain</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;electron/adu&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Average gain (conversion factor) in electrons per ADU.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">ron</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;electron&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Total readout noise in electrons.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;arcsec/pix&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">arcsec</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">pix</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Angular pixel scale along each axis.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">transmission</span><span class="p">:</span> <span class="n">TransmissionConfigModel</span>
+    <span class="n">emission</span><span class="p">:</span> <span class="n">EmissionConfigModel</span></div>
+
+
+
+
+<div class="viewcode-block" id="OpticsConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.OpticsConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpticsConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for the intrument optics data configuration model.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">transmission</span><span class="p">:</span> <span class="n">TransmissionConfigModel</span>
+    <span class="n">emission</span><span class="p">:</span> <span class="n">EmissionConfigModel</span></div>
+
+
+
+
+<div class="viewcode-block" id="FiltersConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.FiltersConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FiltersConfigModel</span><span class="p">(</span><span class="n">OpticsConfigModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for the intrument filters data configuration model.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span></div>
+
+
+
+
+<div class="viewcode-block" id="InstrumentConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.InstrumentConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InstrumentConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for the instrument data configuration model.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">obstruction_area</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Obstruction area for this particular instrument.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">overhead</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Total instrument time overhead between exposures.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">site_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">telescope_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">optics</span><span class="p">:</span> <span class="n">OpticsConfigModel</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="n">FiltersConfigModel</span>
+    <span class="n">detector</span><span class="p">:</span> <span class="n">DetectorConfigModel</span></div>
+
+
+
+
+<div class="viewcode-block" id="DataConfigModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.DataConfigModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for the data configuration</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">path</span><span class="p">:</span> <span class="n">DirectoryPath</span>
+    <span class="n">sites</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;SiteConfigModel&#39;</span><span class="p">]</span>
+    <span class="n">telescopes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;TelescopeConfigModel&#39;</span><span class="p">]</span>
+    <span class="n">instruments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;InstrumentConfigModel&#39;</span><span class="p">]</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 CFHT/CNRS/UParisSaclay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
