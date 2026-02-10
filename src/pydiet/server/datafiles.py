@@ -339,7 +339,9 @@ def get_webapi_instruments(instruments: dict[str, InstrumentModel]) -> dict[str,
     winstruments = {}
     for instrument in instruments:
         winstruments[instrument] = instruments[instrument].copy(exclude={
-            'site': {'sky_emissions', 'sky_transmissions'}
+            'site': {'sky_emissions', 'sky_transmissions'},
+            'transmissions' : True,
+            'emissions_ct' : True
         })
     return winstruments
 

@@ -9,7 +9,10 @@
     <ion-card-header>
       <ion-card-title>ETC estimate</ion-card-title>
     </ion-card-header>
+  </ion-card>
+  <ion-card>
     <ion-card-content>
+
       <ion-grid>
         <ion-row>
           <ion-col>
@@ -134,9 +137,16 @@
         </ion-row>
         <ion-row>
           <ion-col>
+            <canvas id="filter-plot" height="188px"></canvas>
+            <script type="module">
+              plot_filter(
+                {{ r.filter_transmission | tojson }},
+                document.querySelector('canvas#filter-plot')
+              );
+            </script>
           </ion-col>
           <ion-col>
-            <ion-img src="{{ r.cutout }}" alt="source cutout" style="width:128px;height:128px;image-rendering:pixelated">
+            <ion-img src="{{ r.cutout }}" alt="source cutout" style="width:256px;height:256px;image-rendering:pixelated">
             </ion-img>
           </ion-col>
         </ion-row>

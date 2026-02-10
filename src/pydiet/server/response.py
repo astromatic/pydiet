@@ -19,7 +19,8 @@ from .models import (
     FiltersModel,
     SBSEDModel,
     SEDModel,
-    TransmissionModel
+    TransmissionModel,
+    spectral_to_arrays
 )
 from .models.types import SkyID
 from .data import instruments
@@ -61,10 +62,10 @@ def get_response(
         ui: bool=False) -> ETCResponseModel:
     if filter is not None:
         # Read the uploaded filter transmission file
-        transmission = get_transmission(filter, id='upload')
+        filter_transmission = get_transmission(filter, id='upload')
         # Compute filter emission based on transmission (and dummy temperature/area)
         emission = get_emission_from_transmission(
-            transmission,
+            filter_transmission,
             temperature=273. * u.K,
             area=0.1 * u.m**2,
             id='upload'
@@ -75,7 +76,7 @@ def get_response(
             update={
                 'filters': FiltersModel(
                     transmissions = filters.transmissions | {
-                        'upload' : transmission
+                        'upload' : filter_transmission
                     },
                     emissions = filters.emissions | {'upload' : emission}
                 )
@@ -88,24 +89,24 @@ def get_response(
 
     telescope = instrument.telescope
     detector = instrument.detector
-    transmission = instrument.transmissions[q.filter]
+    instrument_transmission = instrument.transmissions[q.filter]
 
     # Multiply Total instrument transmission with atmospheric transmission
-    transmission_spec = transmission.spectral * spectrum_from_airmass(
+    atmosphere_spec = spectrum_from_airmass(
         instrument.site.sky_transmissions,
         am=q.airmass
     ) * q.transparency
-
+    full_spec = instrument_transmission.spectral * atmosphere_spec
     # Compute effective collecting area, compensating for possible obstruction
     area = instrument.telescope.collecting_area - instrument.obstruction_area
 
     # Make virtual observation
     gain = detector.gain.value
-    tpeak = transmission_spec.tpeak()
+    tpeak = full_spec.tpeak()
     # Actual source
     photsys = PhotSys(q.unit)
     if tpeak > 0.:
-        observation = Observation(photsys.spectrum, transmission_spec)
+        observation = Observation(photsys.spectrum, full_spec)
 
         # Compute ref source count rate to get effective zero-point
         ct_ref = observation.countrate(area=area, binned=False) / gain
@@ -138,7 +139,7 @@ def get_response(
         if tpeak > 0.:
             bkg_observation = Observation(
                 sky_spectrum,
-                transmission.spectral,
+                instrument_transmission.spectral,
                 force='extrap'
             )
             # TODO: Fix instrumental thermal background and remove the 0.
@@ -194,10 +195,12 @@ def get_response(
         etime = q.etime
         snr = img.snr(etime)
 
+    if ui:
+        atmosphere_wave, atmosphere_response = spectral_to_arrays(atmosphere_spec)
 
     return ETCResponseModel(
             instrument = instrument.name,
-            filter = transmission.name,
+            filter = instrument_transmission.name,
             compute = q.compute,
             zp = zp.value,
             etime = etime,
@@ -206,7 +209,16 @@ def get_response(
             etime_sourcesat = img.etime_source_sat(),
             snr = snr * sexposures,
             sky_mag = mag_bkgsb.value,
-            cutout = img.gif(etime, exposures=q.exposures) if ui else None
+            cutout = img.gif(etime, exposures=q.exposures) if ui else None,
+            filter_transmission = instrument_transmission.model_dump_json(
+                exclude={'spectral'}
+            ) if ui else None,
+            atmosphere_transmission =  TransmissionModel(
+                id = 'atmosphere',
+                name = "Atmosphere",
+                wave = atmosphere_wave,
+                response = atmosphere_response
+            ).model_dump_json() if ui else None
     )
 
 

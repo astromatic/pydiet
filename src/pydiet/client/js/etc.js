@@ -37,7 +37,7 @@ function update_filters(instrument) {
 			select_filters.lastChild.remove()
 		}
 		const	instrumentID = instrument.id,
-			filters = instrument.transmissions;
+			filters = instrument.filters.transmissions;
 		let f_default = get_filterID(instrumentID);
 		for (f in filters) {
 			let  option = document.createElement("ion-select-option");
@@ -50,26 +50,12 @@ function update_filters(instrument) {
 				f_default = f;
 			}
 		}
-        option = document.createElement("ion-select-option");
-        option.value = 'upload';
-        option.innerHTML = "upload";
+		option = document.createElement("ion-select-option");
+		option.value = 'upload';
+		option.innerHTML = "upload";
 	    select_filters.appendChild(option);       
 		select_filters.value = f_default;
 		update_filter(instrumentID, f_default);
-		select_filters.addEventListener('ionChange', (event) => {
-			const	filterID = event.detail.value;
-            if (filterID == 'upload') return;
-			update_filter(instrumentID, filterID);
-			fetch_html(
-				'#modal-slot',
-				ui_url + '/common/plot_filter'
-			).then( (result) => {
-				plot_filter(
-					filters[filterID],
-					document.getElementById('filter-canvas').getContext('2d')
-				);
-			});
-		});
 	}
 }
 

@@ -8,18 +8,18 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 Chart.register(zoomPlugin);
 
 export function plot_filter(filter, canvas) {
-	const wave = filter.wave.value,
-		response = filter.response.value,
+	const fwave = filter.wave.value,
+		fresponse = filter.response.value,
 		unit = filter.wave.unit,
 		chart = new Chart(
 			canvas,
 			{
 				type: 'line',
 				data: {
-					labels: wave.map((w) => Math.round(w)),
+					labels: fwave.map((w) => Math.round(w)),
 					datasets:	[{
 						label: 'Instrument response',
-						data: response,
+						data: fresponse,
 						fill: true
 					}]
 				},
@@ -46,7 +46,7 @@ export function plot_filter(filter, canvas) {
 					},
 					plugins: {
 						title: {
-							display: true,
+							display: false,
 							text: filter.name + ' filter',
 						},
 						legend: {display: false},
@@ -70,5 +70,5 @@ export function plot_filter(filter, canvas) {
 };
 
 
-
+window.plot_filter = plot_filter;
 
