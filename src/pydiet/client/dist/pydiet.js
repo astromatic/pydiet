@@ -18533,18 +18533,24 @@
 
   // js/plot.js
   auto_default.register(plugin);
-  function plot_filter(filter2, canvas) {
-    const fwave = filter2.wave.value, fresponse = filter2.response.value, unit = filter2.wave.unit, chart = new auto_default(
+  function plot_filter(filter2, atmosphere, canvas) {
+    const fwave = filter2.wave.value, fresponse = filter2.response.value, awave = atmosphere.wave.value, aresponse = atmosphere.response.value, unit = filter2.wave.unit, chart = new auto_default(
       canvas,
       {
         type: "line",
         data: {
-          labels: fwave.map((w) => Math.round(w)),
-          datasets: [{
-            label: "Instrument response",
-            data: fresponse,
-            fill: true
-          }]
+          datasets: [
+            {
+              label: "Atmosphere",
+              data: awave.map((x, i2) => ({ x, y: aresponse[i2] })),
+              fill: true
+            },
+            {
+              label: "Instrument",
+              data: fwave.map((x, i2) => ({ x, y: fresponse[i2] })),
+              fill: true
+            }
+          ]
         },
         options: {
           pointRadius: 0,
@@ -18555,16 +18561,21 @@
           },
           scales: {
             x: {
+              type: "linear",
               title: {
                 display: true,
                 text: "Wavelength [" + unit + "]"
-              }
+              },
+              min: 250,
+              max: 1050
             },
             y: {
               title: {
                 display: true,
-                text: "Transmission [%]"
-              }
+                text: "Transmission"
+              },
+              min: 0,
+              max: 1
             }
           },
           plugins: {

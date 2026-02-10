@@ -196,6 +196,7 @@ def get_response(
         snr = img.snr(etime)
 
     if ui:
+        full_wave, full_response = spectral_to_arrays(full_spec)
         atmosphere_wave, atmosphere_response = spectral_to_arrays(atmosphere_spec)
 
     return ETCResponseModel(
@@ -210,7 +211,12 @@ def get_response(
             snr = snr * sexposures,
             sky_mag = mag_bkgsb.value,
             cutout = img.gif(etime, exposures=q.exposures) if ui else None,
-            filter_transmission = instrument_transmission.model_dump_json(
+            filter_transmission = TransmissionModel(
+                id = instrument_transmission.id,
+                name = instrument_transmission.name,
+                wave = full_wave,
+                response = full_response
+            ).model_dump_json(
                 exclude={'spectral'}
             ) if ui else None,
             atmosphere_transmission =  TransmissionModel(

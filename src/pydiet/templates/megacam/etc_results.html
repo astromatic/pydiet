@@ -12,7 +12,6 @@
   </ion-card>
   <ion-card>
     <ion-card-content>
-
       <ion-grid>
         <ion-row>
           <ion-col>
@@ -137,16 +136,19 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <canvas id="filter-plot" height="188px"></canvas>
+            <canvas id="filter-plot" height="128px"></canvas>
             <script type="module">
               plot_filter(
                 {{ r.filter_transmission | tojson }},
+                {{ r.atmosphere_transmission | tojson }},
                 document.querySelector('canvas#filter-plot')
               );
             </script>
           </ion-col>
+        </ion-row>
+        <ion-row>
           <ion-col>
-            <ion-img src="{{ r.cutout }}" alt="source cutout" style="width:256px;height:256px;image-rendering:pixelated">
+            <ion-img src="{{ r.cutout }}" alt="source cutout" style="width:128px;height:128px;image-rendering:pixelated">
             </ion-img>
           </ion-col>
         </ion-row>
