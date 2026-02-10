@@ -3,7 +3,7 @@ FROM ubuntu:24.04
 # Use bash instead of sh.
 SHELL ["/bin/bash", "-c"]
 
-EXPOSE 8009
+EXPOSE 8010
 
 # non-interactive
 ARG DEBIAN_FRONTEND=noninteractive
