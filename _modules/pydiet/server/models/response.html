@@ -82,64 +82,81 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">astropy</span><span class="w"> </span><span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span> <span class="c1">#type: ignore[import-untyped]</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">Json</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">..types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatedQuantity</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComputeID</span><span class="p">,</span> <span class="n">FilterID</span><span class="p">,</span> <span class="n">InstrumentID</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.instrument</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransmissionModel</span>
 
 
 <div class="viewcode-block" id="ETCResponseModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.response.ETCResponseModel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ETCResponseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
     <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span>
+
     <span class="nb">filter</span><span class="p">:</span> <span class="nb">str</span>
+
     <span class="n">compute</span><span class="p">:</span> <span class="n">ComputeID</span>
+
     <span class="n">zp</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=-</span><span class="mf">100.</span><span class="p">,</span>
         <span class="n">le</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Estimate magnitude zero-point&quot;</span>
     <span class="p">)</span>
+
     <span class="n">etime</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">lt</span><span class="o">=</span><span class="mf">1e30</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Estimated exposure time&quot;</span>
     <span class="p">)</span>
+
     <span class="n">ttime</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">lt</span><span class="o">=</span><span class="mf">1e30</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Estimated total time&quot;</span>
     <span class="p">)</span>
+
     <span class="n">etime_skysat</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">lt</span><span class="o">=</span><span class="mf">1e30</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Estimated exposure time for sky background saturation&quot;</span>
     <span class="p">)</span>
+
     <span class="n">etime_sourcesat</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">lt</span><span class="o">=</span><span class="mf">1e30</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Estimated exposure time for source saturation&quot;</span>
     <span class="p">)</span>
+
     <span class="n">snr</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
         <span class="n">lt</span><span class="o">=</span><span class="mf">1e30</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Estimated source Signal-to-Noise Ratio&quot;</span>
     <span class="p">)</span>
+
     <span class="n">sky_mag</span><span class="p">:</span> <span class="nb">float</span><span class="o">=</span><span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">99.</span><span class="p">,</span>
         <span class="n">ge</span><span class="o">=-</span><span class="mf">100.</span><span class="p">,</span>
         <span class="n">le</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Estimated sky background in mag/arcsec2&quot;</span>
     <span class="p">)</span>
+
     <span class="n">cutout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;GIF animation of the source&quot;</span>
-    <span class="p">)</span></div>
+    <span class="p">)</span>
+
+    <span class="n">filter_transmission</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Json</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">atmosphere_transmission</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Json</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
 
 
 </pre></div>
