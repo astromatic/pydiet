@@ -7,21 +7,29 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 
 Chart.register(zoomPlugin);
 
-export function plot_filter(filter, canvas) {
-	const wave = filter.wave.value,
-		response = filter.response.value,
+export function plot_filter(filter, atmosphere, canvas) {
+	const fwave = filter.wave.value,
+		fresponse = filter.response.value,
+		awave = atmosphere.wave.value,
+		aresponse = atmosphere.response.value,
 		unit = filter.wave.unit,
 		chart = new Chart(
 			canvas,
 			{
 				type: 'line',
 				data: {
-					labels: wave.map((w) => Math.round(w)),
-					datasets:	[{
-						label: 'Instrument response',
-						data: response,
-						fill: true
-					}]
+					datasets:	[
+						{
+							label: 'Atmosphere',
+							data: awave.map((x, i) => ({ x, y: aresponse[i] })),
+							fill: true
+						},
+						{
+							label: 'Instrument',
+							data: fwave.map((x, i) => ({ x, y: fresponse[i] })),
+							fill: true
+						}
+					]
 				},
 				options: {
 					pointRadius: 0,
@@ -32,21 +40,27 @@ export function plot_filter(filter, canvas) {
 					},
 					scales: {
 						x: {
+							type: 'linear',
 							title: {
 								display: true,
 								text: 'Wavelength [' + unit + ']'
-							}
+							},
+							min: 250.,
+							max: 1050.
+
 						},
 						y: {
 							title: {
 								display: true,
-								text: 'Transmission [%]'
-							}
+								text: 'Transmission',
+							},
+							min: 0.,
+							max: 1.
 						}
 					},
 					plugins: {
 						title: {
-							display: true,
+							display: false,
 							text: filter.name + ' filter',
 						},
 						legend: {display: false},
@@ -70,5 +84,5 @@ export function plot_filter(filter, canvas) {
 };
 
 
-
+window.plot_filter = plot_filter;
 

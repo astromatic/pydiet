@@ -3352,6 +3352,19 @@
       parent.innerHTML = "";
     }
     parent.insertAdjacentHTML("beforeend", html);
+    const scripts = parent.querySelectorAll("script");
+    scripts.forEach((oldScript) => {
+      const newScript = document.createElement("script");
+      for (const { name, value } of oldScript.attributes) {
+        newScript.setAttribute(name, value);
+      }
+      if (oldScript.src) {
+        newScript.src = oldScript.src;
+      } else {
+        newScript.textContent = oldScript.textContent;
+      }
+      oldScript.replaceWith(newScript);
+    });
   }
 
   // js/fetch.js
@@ -18520,18 +18533,24 @@
 
   // js/plot.js
   auto_default.register(plugin);
-  function plot_filter(filter2, canvas) {
-    const wave = filter2.wave.value, response = filter2.response.value, unit = filter2.wave.unit, chart = new auto_default(
+  function plot_filter(filter2, atmosphere, canvas) {
+    const fwave = filter2.wave.value, fresponse = filter2.response.value, awave = atmosphere.wave.value, aresponse = atmosphere.response.value, unit = filter2.wave.unit, chart = new auto_default(
       canvas,
       {
         type: "line",
         data: {
-          labels: wave.map((w) => Math.round(w)),
-          datasets: [{
-            label: "Instrument response",
-            data: response,
-            fill: true
-          }]
+          datasets: [
+            {
+              label: "Atmosphere",
+              data: awave.map((x, i2) => ({ x, y: aresponse[i2] })),
+              fill: true
+            },
+            {
+              label: "Instrument",
+              data: fwave.map((x, i2) => ({ x, y: fresponse[i2] })),
+              fill: true
+            }
+          ]
         },
         options: {
           pointRadius: 0,
@@ -18542,21 +18561,26 @@
           },
           scales: {
             x: {
+              type: "linear",
               title: {
                 display: true,
                 text: "Wavelength [" + unit + "]"
-              }
+              },
+              min: 250,
+              max: 1050
             },
             y: {
               title: {
                 display: true,
-                text: "Transmission [%]"
-              }
+                text: "Transmission"
+              },
+              min: 0,
+              max: 1
             }
           },
           plugins: {
             title: {
-              display: true,
+              display: false,
               text: filter2.name + " filter"
             },
             legend: { display: false },
@@ -18579,6 +18603,7 @@
       }
     );
   }
+  window.plot_filter = plot_filter;
 
   // js/etc.js
   async function update_etcform(instrument2) {
@@ -18604,7 +18629,7 @@
       while (select_filters.firstChild) {
         select_filters.lastChild.remove();
       }
-      const instrumentID = instrument2.id, filters = instrument2.transmissions;
+      const instrumentID = instrument2.id, filters = instrument2.filters.transmissions;
       let f_default = get_filterID(instrumentID);
       for (f in filters) {
         let option2 = document.createElement("ion-select-option");
@@ -18622,21 +18647,6 @@
       select_filters.appendChild(option);
       select_filters.value = f_default;
       update_filter(instrumentID, f_default);
-      select_filters.addEventListener("ionChange", (event) => {
-        const filterID = event.detail.value;
-        if (filterID == "upload")
-          return;
-        update_filter(instrumentID, filterID);
-        fetch_html(
-          "#modal-slot",
-          ui_url + "/common/plot_filter"
-        ).then((result) => {
-          plot_filter(
-            filters[filterID],
-            document.getElementById("filter-canvas").getContext("2d")
-          );
-        });
-      });
     }
   }
 

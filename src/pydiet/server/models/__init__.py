@@ -28,6 +28,7 @@ from .instrument import (
     SEDModel,
     SiteModel,
     TelescopeModel,
-    TransmissionModel
+    TransmissionModel,
+    spectral_to_arrays
 )
 

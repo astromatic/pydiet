@@ -165,8 +165,7 @@ class Image(object):
         if self.photometry != 'model_fitting':
             if self.photometry == 'fixed_aperture':
                 # User-provided aperture diameter
-                r2max = aperture**2 * (u.arcsec / u.pix)**2 \
-                    / self.pixel_area
+                r2max = aperture**2 * u.arcsec**2 / self.pixel_area
             elif self.photometry == 'large_aperture':
                 # Aperture enclosing 96% of the flux
                 r2max = brentq(

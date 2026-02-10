@@ -31,19 +31,19 @@ export async function fetch_html(selector, url, {method='get', data} = {}) {
 				body: data,
 				credentials: "include"})
 	).then( (response) => {
-			// The API call was successful!
-			if (!response.ok) {
-				throw new Error("Unauthorized API endpoint:" + response.url);
-			}
-			return response.text();
-		}).then( (html) => {
-			// Remove possible remaining modal
-			// Insert the HTML string into the current element
-			inject_html(selector, html);
-			return true;
-		}).catch( (err) => {
-			// There was an error
-			return false;
-		});
+		// The API call was successful!
+		if (!response.ok) {
+			throw new Error("Unauthorized API endpoint:" + response.url);
+		}
+		return response.text();
+	}).then( (html) => {
+		// Remove possible remaining modal
+		// Insert the HTML string into the current element
+		inject_html(selector, html);
+		return true;
+	}).catch( (err) => {
+		// There was an error
+		return false;
+	});
 };
 

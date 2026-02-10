@@ -265,8 +265,8 @@ class TransmissionModel(BaseModel):
     '''
     id: str
     name: str
-    description: str
-    vars: dict[str, float | str]
+    description: str = ""
+    vars: Optional[dict[str, float | str]] = None
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",
         ge = 100. * u.nm,
@@ -283,7 +283,7 @@ class TransmissionModel(BaseModel):
         max_shape = (100000),
         decimals = 4
     ) | None = None
-    spectral: SpectralElement = Field(exclude=True)
+    spectral: Optional[SpectralElement] = Field(default=None, exclude=True)
     default: bool = False
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
