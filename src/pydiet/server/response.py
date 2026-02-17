@@ -199,7 +199,6 @@ def get_response(
         full_wave, full_response = spectral_to_arrays(full_spec)
         atmosphere_wave, atmosphere_response = spectral_to_arrays(atmosphere_spec)
 
-    print(instrument.wavelength_range)
     return ETCResponseModel(
             instrument = instrument.name,
             filter = instrument_transmission.name,
