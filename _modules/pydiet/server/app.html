@@ -245,6 +245,11 @@
         <span class="p">)</span>
 
 
+    <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_path</span> <span class="o">+</span> <span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Web API&quot;</span><span class="p">])</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">health</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;ok&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_path</span> <span class="o">+</span> <span class="s2">&quot;/instruments&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Web API&quot;</span><span class="p">])</span>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">api_instruments</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
