@@ -4,6 +4,15 @@
 */
 
 /*
+ * Light Colors
+ * -------------------------------------------
+ */
+
+body {
+  --ion-color-secondary-contrast: #000000;
+}
+
+/*
  * Dark Colors
  * -------------------------------------------
  */
@@ -163,6 +172,7 @@ body.dark {
 body.dark ion-toolbar ion-item.md {
   --ion-item-background: #1f1f1f;
 }
+
 /*
 ion-content {
   --offset-top: -64px!important;
