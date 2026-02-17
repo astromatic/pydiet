@@ -4,100 +4,69 @@ Start script (renamed as :program:`pydiet`).
 """
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
-from glob import glob
-from os import makedirs, path, remove
 from sys import exit
+from threading import Thread
 from time import sleep
+import socket
+from urllib.request import urlopen
+from urllib.error import URLError
 import webbrowser
 
-from uvicorn import run, server, supervisors
+from uvicorn import Config, Server
 
-from pydiet import package
 from pydiet.server import config
 
-if package.isonlinux:
-    from resource import getrlimit, setrlimit, RLIMIT_NOFILE
 
-def start_server(
-        app: str="pydiet.server.app:create_app",
-        host: str="localhost",
-        port: int=8009,
-        root_path: str="",
-        workers: int=4,
-        access_log: bool=False,
-        reload: bool=True
-    ):
-    """
-    Start the Uvicorn server in application factory mode.
-    
-    Parameters
-    ----------
-    app: str, optional
-        Name of the ASGI app callable.
-    host: str, optional
-        Host name or IP address.
-    port: int, optional
-        Port.
-    root_path: str | ~pathlib.Path, optional
-        ASGI root_path.
-    workers: int, optional
-        Number of workers.
-    access_log: bool, optional
-        Display access log.
-    reload: bool, optional
-        Enable auto-reload (turns off multiple workers).
-    """
-    run(
-        app,
-        host=host,
-        port=port,
-        root_path=root_path,
-        access_log=access_log,
-        workers=workers,
-        reload=reload,
-        factory=True
-    )
-    return
+def wait_until_port_open(host: str, port: int):
+    while True:
+        try:
+            with socket.create_connection((host, port), timeout=0.5):
+                return
+        except OSError:
+            time.sleep(0.05)
+
 
 def main() -> int:
     """
     Set up configuration and start the PyDIET server.
     """
-    # Local use case
-    if config.settings["browser"]:
-        # Monkey-patch Uvicorn calls to start the browser AFTER the server
-        link =  f"http://{config.settings['host']}:{config.settings['port']}"
-        def startup_with_browser(self, *args, **kwargs) -> None:
-            self.original_startup(*args, **kwargs)
-            self.should_exit.wait(1)
-            webbrowser.open(link)
-
-        async def async_startup_with_browser(self, *args, **kwargs) -> None:
-            await self.original_startup(*args, **kwargs)
-            webbrowser.open(link)
-
-        supervisors.BaseReload.original_startup = supervisors.BaseReload.startup #type: ignore
-        supervisors.BaseReload.startup = startup_with_browser #type: ignore
-        supervisors.Multiprocess.original_startup = supervisors.Multiprocess.init_processes #type: ignore
-        supervisors.Multiprocess.init_processes = startup_with_browser #type: ignore
-
-        server.Server.original_startup = server.Server.startup #type: ignore
-        server.Server.startup = async_startup_with_browser #type: ignore
-   
-    # Force number of workers to be 1 if not on Linux (because of missing libs)
-    if not package.isonlinux \
-        and config.settings["workers"] > 1 and not config.settings["reload"]:
-        config.settings["workers"] = 1
-
-    # Start the server
-    start_server(
-        host=config.settings["host"],
-        port=config.settings["port"],
-        root_path=config.settings["root_path"],
-        access_log=config.settings["access_log"],
-        reload=config.settings["reload"],
-        workers=config.settings["workers"]
+    # Configure the server
+    server = Server(
+        Config(
+            app="pydiet.server.app:create_app",
+            host=config.settings["host"],
+            port=config.settings["port"],
+            root_path=config.settings["root_path"],
+            access_log=config.settings["access_log"],
+            workers=config.settings["workers"],
+            reload=config.settings["reload"],
+            factory=True
+        )
     )
+
+    # Run main server process in a thread to make it non-blocking
+    thread = Thread(target=server.run, daemon=True)
+    thread.start()
+    
+    if config.settings["browser"]:
+        # Start browser only when the server is operational
+        link =  f"http://{config.settings['host']}:{config.settings['port']}"
+        f"{config.settings['root_path'] or ''}"
+        while True:
+            try:
+                # succeeds only when server is actually up
+                urlopen(
+                    f"{link}{config.settings['api_path']}/health",
+                    timeout=2
+                )
+                break
+            except URLError:
+                sleep(0.5)
+        webbrowser.open(link)
+
+    # Back to main thread
+    thread.join()
+
     return 0
 
 if __name__ == "__main__":
