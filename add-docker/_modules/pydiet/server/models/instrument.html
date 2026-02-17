@@ -1,0 +1,436 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydiet.server.models.instrument &mdash; PyDIET 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_js.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=329c186a" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            PyDIET
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../method.html">Method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">PyDIET</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pydiet.server.models.instrument</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydiet.server.models.instrument</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Data models</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Copyright CFHT/CNRS/CEA/UParisSaclay</span>
+<span class="c1"># Licensed under the MIT licence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy</span><span class="w"> </span><span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>  <span class="c1">#type: ignore[import-untyped]</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">synphot</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1">#type: ignore[import-untyped]</span>
+    <span class="n">BlackBody1D</span><span class="p">,</span>
+    <span class="n">ConstFlux1D</span><span class="p">,</span>
+    <span class="n">Observation</span><span class="p">,</span>
+    <span class="n">SourceSpectrum</span><span class="p">,</span>
+    <span class="n">SpectralElement</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">synphot.spectrum</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSpectrum</span>  <span class="c1">#type: ignore[import-untyped]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">...</span><span class="w"> </span><span class="kn">import</span> <span class="n">package</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatedQuantity</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">spectral_to_arrays</span><span class="p">(</span><span class="n">spectral</span><span class="p">:</span> <span class="n">BaseSpectrum</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">spectral</span><span class="o">.</span><span class="n">waveset</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">spectral</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+
+    <span class="c1"># Trim extra 0 values at beginning and at the end</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mf">0.</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">idx</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">w</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">w</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span>
+
+
+
+<div class="viewcode-block" id="DetectorModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.DetectorModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DetectorModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for an instrument detector (e.g., CMOS or CCD).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">gain</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;electron / adu&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Detector conversion factor.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">ron</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;electron&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Read-out noise RMS amplitude.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;arcsec/pix&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">arcsec</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">pix</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Angular pixel scale along each axis.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">transmissions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;TransmissionModel&#39;</span><span class="p">]</span>
+    <span class="n">emissions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;SBSEDModel&#39;</span><span class="p">]</span></div>
+
+
+
+
+<div class="viewcode-block" id="InstrumentModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.InstrumentModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InstrumentModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for a PyDIET instrument.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">wavelength_range</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Instrument minimum and maximum wavelengths.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">obstruction_area</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m2&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Default obstruction area (only used if not specified for the instrument).&quot;</span>
+    <span class="p">)</span>
+    <span class="n">overhead</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Total instrument time overhead between exposures.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="s1">&#39;FiltersModel&#39;</span>
+    <span class="n">optics</span><span class="p">:</span> <span class="s1">&#39;OpticsModel&#39;</span>
+    <span class="n">detector</span><span class="p">:</span> <span class="s1">&#39;DetectorModel&#39;</span>
+    <span class="n">telescope</span><span class="p">:</span> <span class="s1">&#39;TelescopeModel&#39;</span>
+    <span class="n">site</span><span class="p">:</span> <span class="s1">&#39;SiteModel&#39;</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">transmissions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
+    <span class="n">emissions_ct</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_transmissions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Compute extra parameters during initialization</span>
+        <span class="c1"># Filter emissions and transmissions</span>
+        <span class="n">upstream_transmission</span> <span class="o">=</span> <span class="mf">1.</span>
+        <span class="n">upstream_emission</span> <span class="o">=</span> <span class="n">SourceSpectrum</span><span class="p">(</span><span class="n">ConstFlux1D</span><span class="p">,</span> <span class="n">amplitude</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+        <span class="c1"># Pre-filter list of transmissions</span>
+        <span class="n">transmissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">transmissions</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">optics</span><span class="o">.</span><span class="n">transmissions</span>
+        <span class="n">emissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">emissions</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">optics</span><span class="o">.</span><span class="n">emissions</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transmissions</span><span class="p">:</span>
+            <span class="n">emission</span> <span class="o">=</span> <span class="n">emissions</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
+            <span class="n">transmission</span> <span class="o">=</span> <span class="n">transmissions</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
+            <span class="n">upstream_transmission</span> <span class="o">*=</span> <span class="n">transmission</span>
+            <span class="n">upstream_emission</span> <span class="o">=</span> <span class="n">upstream_emission</span> <span class="o">*</span> <span class="n">transmission</span> <span class="o">+</span> <span class="n">emission</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transmissions</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransmissionModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emissions_ct</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">ct</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
+        <span class="n">filter_transmissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">transmissions</span>
+        <span class="n">filter_emissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">emissions</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filter_transmissions</span><span class="p">:</span>
+            <span class="nb">filter</span> <span class="o">=</span> <span class="n">filter_transmissions</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
+            <span class="n">filter_transmission</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">spectral</span>
+            <span class="n">filter_emission</span> <span class="o">=</span> <span class="n">filter_emissions</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
+            <span class="n">transmission</span> <span class="o">=</span> <span class="n">upstream_transmission</span> <span class="o">*</span> <span class="n">filter_transmission</span>
+            <span class="n">emission</span> <span class="o">=</span> <span class="n">upstream_emission</span> <span class="o">*</span> <span class="n">transmission</span> <span class="o">+</span> <span class="n">filter_emission</span>
+            <span class="n">transmission</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">transmissions</span><span class="p">[</span><span class="s2">&quot;0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
+            <span class="n">emission</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">transmissions</span><span class="p">[</span><span class="s2">&quot;0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
+            <span class="n">wave</span><span class="p">,</span> <span class="n">response</span> <span class="o">=</span> <span class="n">spectral_to_arrays</span><span class="p">(</span><span class="n">transmission</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transmissions</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransmissionModel</span><span class="p">(</span>
+                <span class="nb">id</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">description</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                <span class="nb">vars</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">vars</span><span class="p">,</span>
+                <span class="n">wave</span> <span class="o">=</span> <span class="n">wave</span><span class="p">,</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span>
+                <span class="n">spectral</span> <span class="o">=</span> <span class="n">transmission</span>
+            <span class="p">)</span>
+            <span class="c1"># Compute countrate</span>
+            <span class="k">if</span> <span class="n">transmission</span><span class="o">.</span><span class="n">tpeak</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">:</span>
+                <span class="n">observation</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">emission</span><span class="p">,</span> <span class="n">transmission</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="s1">&#39;taper&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">emissions_ct</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">observation</span><span class="o">.</span><span class="n">countrate</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">emissions_ct</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="OpticsModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.OpticsModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OpticsModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for optics.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">transmissions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;TransmissionModel&#39;</span><span class="p">]</span>
+    <span class="n">emissions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;SBSEDModel&#39;</span><span class="p">]</span></div>
+
+
+
+
+<div class="viewcode-block" id="FiltersModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.FiltersModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FiltersModel</span><span class="p">(</span><span class="n">OpticsModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for a filter set.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span></div>
+
+
+
+
+<div class="viewcode-block" id="SBSEDModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.SBSEDModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SBSEDModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for a Surface Brightness Spectral Energy Distribution (SBSED).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">vars</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="o">|</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sbsed</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;Jy / arcsec2&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Jy</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">arcsec</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="p">)</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">spectral</span><span class="p">:</span> <span class="n">SourceSpectrum</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="SEDModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.SEDModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SEDModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for a Spectral Energy Distribution (SED).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">vars</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sed</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;Jy&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Jy</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="p">)</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">spectral</span><span class="p">:</span> <span class="n">SourceSpectrum</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="SiteModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.SiteModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SiteModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for an observing site.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">sky_transmissions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;TransmissionModel&#39;</span><span class="p">]</span>
+    <span class="n">sky_emissions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;SBSEDModel&#39;</span><span class="p">]</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+
+<div class="viewcode-block" id="TelescopeModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.TelescopeModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TelescopeModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for a telescope.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">collecting_area</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m**2&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Full collecting area, ignoring obstructions.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">obstruction_area</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;m**2&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Minimum obstruction area.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">transmissions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;TransmissionModel&#39;</span><span class="p">]</span>
+    <span class="n">emissions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;SBSEDModel&#39;</span><span class="p">]</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+
+<div class="viewcode-block" id="TransmissionModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.TransmissionModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TransmissionModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for a transmission curve (with wavelength).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="nb">vars</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">wave_range</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Instrument minimum and maximum wavelengths.&quot;</span>
+    <span class="p">)</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">wave</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;nm&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="p">)</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">response</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100.</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">100.</span><span class="p">,</span>
+        <span class="n">min_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">spectral</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SpectralElement</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 CFHT/CNRS/UParisSaclay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
