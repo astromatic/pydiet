@@ -82,7 +82,7 @@ class ETCResponseModel(BaseModel):
         default=0.,
         ge=0.,
         lt=1e12,
-        description="Equivalent rectangulat bandwidth of the full filter response in nm"
+        description="Equivalent rectangular bandwidth of the full filter response in nm"
     )
 
     cutout: Optional[str]=Field(

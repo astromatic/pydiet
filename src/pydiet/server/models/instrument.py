@@ -74,6 +74,14 @@ class InstrumentModel(BaseModel):
     id: str
     name: str
     description: str
+    wavelength_range: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "nm",
+        gt = [0., 0.] * u.nm,
+        min_shape = (2),
+        max_shape = (2),
+        decimals = 4,
+        description = "Instrument minimum and maximum wavelengths."
+    )
     obstruction_area:  AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "m2",
         gt = 0. * u.m**2,
@@ -267,6 +275,14 @@ class TransmissionModel(BaseModel):
     name: str
     description: str = ""
     vars: Optional[dict[str, float | str]] = None
+    wave_range: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "nm",
+        gt = [0., 0.] * u.nm,
+        min_shape = (2),
+        max_shape = (2),
+        decimals = 4,
+        description = "Instrument minimum and maximum wavelengths."
+    ) | None = None
     wave: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "nm",
         ge = 100. * u.nm,

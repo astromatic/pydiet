@@ -7,7 +7,7 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 
 Chart.register(zoomPlugin);
 
-export function plot_filter(filter, atmosphere, canvas) {
+export function plot_filter(filter, atmosphere, canvas, wave_min, wave_max) {
 	const fwave = filter.wave.value,
 		fresponse = filter.response.value,
 		awave = atmosphere.wave.value,
@@ -45,8 +45,8 @@ export function plot_filter(filter, atmosphere, canvas) {
 								display: true,
 								text: 'Wavelength [' + unit + ']'
 							},
-							min: 250.,
-							max: 1050.
+							min: filter.wave_range.value[0],
+							max: filter.wave_range.value[1]
 
 						},
 						y: {

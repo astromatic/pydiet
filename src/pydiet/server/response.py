@@ -199,6 +199,7 @@ def get_response(
         full_wave, full_response = spectral_to_arrays(full_spec)
         atmosphere_wave, atmosphere_response = spectral_to_arrays(atmosphere_spec)
 
+    print(instrument.wavelength_range)
     return ETCResponseModel(
             instrument = instrument.name,
             filter = instrument_transmission.name,
@@ -216,6 +217,7 @@ def get_response(
             filter_transmission = TransmissionModel(
                 id = instrument_transmission.id,
                 name = instrument_transmission.name,
+                wave_range = instrument.wavelength_range,
                 wave = full_wave,
                 response = full_response
             ).model_dump_json(
@@ -224,6 +226,7 @@ def get_response(
             atmosphere_transmission =  TransmissionModel(
                 id = 'atmosphere',
                 name = "Atmosphere",
+                wave_range = instrument.wavelength_range,
                 wave = atmosphere_wave,
                 response = atmosphere_response
             ).model_dump_json() if ui else None
