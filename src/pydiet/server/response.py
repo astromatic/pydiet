@@ -204,16 +204,19 @@ def get_response(
             filter = instrument_transmission.name,
             compute = q.compute,
             zp = zp.value,
+            snr = snr * sexposures,
             etime = etime,
-            ttime = q.exposures * (etime + instrument.overhead.to(u.s).value),
             etime_skysat = img.etime_bkg_sat(),
             etime_sourcesat = img.etime_source_sat(),
-            snr = snr * sexposures,
+            ttime = q.exposures * (etime + instrument.overhead.to(u.s).value),
             sky_mag = mag_bkgsb.value,
+            lambda_pivot = full_spec.pivot().to(u.nm).value,
+            bandwidth_rect = full_spec.rectwidth().to(u.nm).value,
             cutout = img.gif(etime, exposures=q.exposures) if ui else None,
             filter_transmission = TransmissionModel(
                 id = instrument_transmission.id,
                 name = instrument_transmission.name,
+                wave_range = instrument.wavelength_range,
                 wave = full_wave,
                 response = full_response
             ).model_dump_json(
@@ -222,6 +225,7 @@ def get_response(
             atmosphere_transmission =  TransmissionModel(
                 id = 'atmosphere',
                 name = "Atmosphere",
+                wave_range = instrument.wavelength_range,
                 wave = atmosphere_wave,
                 response = atmosphere_response
             ).model_dump_json() if ui else None

@@ -29,18 +29,18 @@ class ETCResponseModel(BaseModel):
         description="Estimate magnitude zero-point"
     )
 
+    snr: float=Field(
+        default=10.,
+        ge=0.,
+        lt=1e30,
+        description="Estimated source Signal-to-Noise Ratio"
+    )
+
     etime: float=Field(
         default=1.,
         ge=0.,
         lt=1e30,
         description="Estimated exposure time"
-    )
-
-    ttime: float=Field(
-        default=1.,
-        ge=0.,
-        lt=1e30,
-        description="Estimated total time"
     )
 
     etime_skysat: float=Field(
@@ -57,11 +57,11 @@ class ETCResponseModel(BaseModel):
         description="Estimated exposure time for source saturation"
     )
 
-    snr: float=Field(
-        default=10.,
+    ttime: float=Field(
+        default=1.,
         ge=0.,
         lt=1e30,
-        description="Estimated source Signal-to-Noise Ratio"
+        description="Estimated total time"
     )
 
     sky_mag: float=Field(
@@ -69,6 +69,20 @@ class ETCResponseModel(BaseModel):
         ge=-100.,
         le=100.,
         description="Estimated sky background in mag/arcsec2"
+    )
+
+    lambda_pivot: float=Field(
+        default=0.,
+        ge=0.,
+        lt=1e12,
+        description="Pivot wavelength of the full filter response in nm"
+    )
+
+    bandwidth_rect: float=Field(
+        default=0.,
+        ge=0.,
+        lt=1e12,
+        description="Equivalent rectangular bandwidth of the full filter response in nm"
     )
 
     cutout: Optional[str]=Field(

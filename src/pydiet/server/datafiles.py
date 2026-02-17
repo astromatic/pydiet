@@ -223,6 +223,7 @@ def get_instruments(
             id = instrument.id,
             name = instrument.name,
             description = instrument.description,
+            wavelength_range = instrument.wavelength_range,
             obstruction_area = instrument.obstruction_area,
             overhead = instrument.overhead,
             optics = get_optics(path, instrument.optics),

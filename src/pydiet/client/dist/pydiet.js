@@ -18533,7 +18533,8 @@
 
   // js/plot.js
   auto_default.register(plugin);
-  function plot_filter(filter2, atmosphere, canvas) {
+  function plot_filter(filter2, atmosphere, canvas, wave_min, wave_max) {
+    console.log(filter2.wave_range);
     const fwave = filter2.wave.value, fresponse = filter2.response.value, awave = atmosphere.wave.value, aresponse = atmosphere.response.value, unit = filter2.wave.unit, chart = new auto_default(
       canvas,
       {
@@ -18566,8 +18567,8 @@
                 display: true,
                 text: "Wavelength [" + unit + "]"
               },
-              min: 250,
-              max: 1050
+              min: filter2.wave_range.value[0],
+              max: filter2.wave_range.value[1]
             },
             y: {
               title: {

@@ -156,6 +156,14 @@ class InstrumentConfigModel(BaseModel):
     name: str
     description: str
     path: str
+    wavelength_range: AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "nm",
+        gt = [0., 0.] *u. nm,
+        min_shape = (2),
+        max_shape = (2),
+        decimals = 4,
+        description = "Instrument minimum and maximum wavelengths."
+    )
     obstruction_area:  AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "m2",
         gt = 0. * u.m**2,

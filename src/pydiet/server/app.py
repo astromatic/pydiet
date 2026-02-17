@@ -168,6 +168,11 @@ def create_app() -> FastAPI:
         )
 
 
+    @app.get(api_path + "/health", tags=["Web API"])
+    async def health():
+        return {"ok": True}
+
+
     @app.get(api_path + "/instruments", tags=["Web API"])
     async def api_instruments():
         """

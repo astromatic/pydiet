@@ -20,20 +20,20 @@
               Instrument
             </ion-label>
           </ion-col>
-          <ion-col>
+          <ion-col size="4">
             <ion-label>
               {{ r.instrument }}
             </ion-label>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row style="color: var(--ion-color-secondary-contrast);">
           <ion-col>
-            <ion-icon name="glasses"></ion-icon>
+            <ion-icon name="color-filter"></ion-icon>
             <ion-label>
               Filter
             </ion-label>
           </ion-col>
-          <ion-col>
+          <ion-col size="4">
             <ion-label>
               {{ r.filter }}
             </ion-label>
@@ -41,12 +41,53 @@
         </ion-row>
         <ion-row>
           <ion-col>
+            <ion-icon name="prism"></ion-icon>
+            <ion-label>
+              Pivot wavelength
+            </ion-label>
+          </ion-col>
+          <ion-col size="4">
+            <ion-label>
+              {% set spec = '{:.1f}' if r.lambda_pivot < 10000 else '{:.0f}' %}
+              {{ spec.format(r.lambda_pivot) }} nm
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="pulse"></ion-icon>
+            <ion-label>
+              Equivalent bandwidth
+            </ion-label>
+          </ion-col>
+          <ion-col size="4">
+            <ion-label>
+              {% set spec = '{:.1f}' if r.bandwidth_rect < 10000 else '{:.0f}' %}
+              {{ spec.format(r.bandwidth_rect) }} nm
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row style="color: var(--ion-color-secondary-contrast);">
+          <ion-col>
+            <ion-icon name="cellular"></ion-icon>
+            <ion-label>
+              SNR
+            </ion-label>
+          </ion-col>
+          <ion-col size="4">
+            <ion-label>
+              {{ '{:.5n}'.format(r.snr) }}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row style="color: var(--ion-color-secondary-contrast);">
+          <ion-col>
             <ion-icon name="timer"></ion-icon>
             <ion-label>
               Exposure time
             </ion-label>
           </ion-col>
-          <ion-col>
+          <ion-col size="4">
             <ion-label>
               {% set spec = '{:.3n}' if r.etime < 100 else '{:.0f}' %}
               {{ spec.format(r.etime) }} s
@@ -57,63 +98,10 @@
           <ion-col>
             <ion-icon name="timer"></ion-icon>
             <ion-label>
-              Total time (including overheads)
-            </ion-label>
-          </ion-col>
-          <ion-col>
-            <ion-label>
-              {% set spec = '{:.3n}' if r.ttime < 100 else '{:.0f}' %}
-              {{ spec.format(r.ttime) }} s
-            </ion-label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-icon name="cellular"></ion-icon>
-            <ion-label>
-              SNR
-            </ion-label>
-          </ion-col>
-          <ion-col>
-            <ion-label>
-              {{ '{:.5n}'.format(r.snr) }}
-            </ion-label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-icon name="speedometer"></ion-icon>
-            <ion-label>
-              Instrument zero-point (per second)
-            </ion-label>
-          </ion-col>
-          <ion-col>
-            <ion-label>
-              {{ '{:.2f}'.format(r.zp) }} mag
-            </ion-label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-icon name="bulb"></ion-icon>
-            <ion-label>
-              Sky background
-            </ion-label>
-          </ion-col>
-          <ion-col>
-            <ion-label>
-              {{ '{:.2f}'.format(r.sky_mag) }} mag.arcsec<sup>-2</sup>
-            </ion-label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-icon name="timer"></ion-icon>
-            <ion-label>
               Background saturation time
             </ion-label>
           </ion-col>
-          <ion-col>
+          <ion-col size="4">
             <ion-label>
               {% set spec = '{:.3n}' if r.etime_skysat < 100 else '{:.0f}' %}
               {{ spec.format(r.etime_skysat) }} s
@@ -127,16 +115,56 @@
               Source saturation time
             </ion-label>
           </ion-col>
-          <ion-col>
+          <ion-col size="4">
             <ion-label>
               {% set spec = '{:.3n}' if r.etime_sourcesat < 100 else '{:.0f}' %}
               {{ spec.format(r.etime_sourcesat) }} s
             </ion-label>
           </ion-col>
         </ion-row>
+        <ion-row style="color: var(--ion-color-secondary-contrast);">
+          <ion-col>
+            <ion-icon name="stopwatch"></ion-icon>
+            <ion-label>
+              Total time (including overheads)
+            </ion-label>
+          </ion-col>
+          <ion-col size="4">
+            <ion-label>
+              {% set spec = '{:.3n}' if r.ttime < 100 else '{:.0f}' %}
+              {{ spec.format(r.ttime) }} s
+            </ion-label>
+          </ion-col>
+        </ion-row>
         <ion-row>
           <ion-col>
-            <canvas id="filter-plot" height="128px"></canvas>
+            <ion-icon name="speedometer"></ion-icon>
+            <ion-label>
+              Instrument zero-point (per second)
+            </ion-label>
+          </ion-col>
+          <ion-col size="4">
+            <ion-label>
+              {{ '{:.2f}'.format(r.zp) }} mag
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-icon name="bulb"></ion-icon>
+            <ion-label>
+              Sky background
+            </ion-label>
+          </ion-col>
+          <ion-col size="4">
+            <ion-label>
+              {{ '{:.2f}'.format(r.sky_mag) }} mag.arcsec<sup>-2</sup>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-between" height="180px">
+          <ion-col style="width:66%;">
+            <canvas id="filter-plot" height="180px" style="width:100%;"></canvas>
             <script type="module">
               plot_filter(
                 {{ r.filter_transmission | tojson }},
@@ -145,9 +173,7 @@
               );
             </script>
           </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
+          <ion-col size="4">
             <ion-img src="{{ r.cutout }}" alt="source cutout" style="width:128px;height:128px;image-rendering:pixelated">
             </ion-img>
           </ion-col>
