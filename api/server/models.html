@@ -327,7 +327,7 @@
 </dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.EmissionConfigModel.areas">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">areas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f9443e82fe0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'minimum':</span> <span class="pre">'0.0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">m2&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.areas" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">areas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f0386935ab0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'minimum':</span> <span class="pre">'0.0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">m2&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.areas" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
@@ -342,7 +342,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.EmissionConfigModel.temperatures">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temperatures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f94442629e0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'exclusiveMinimum':</span> <span class="pre">'0.0</span> <span class="pre">K',</span> <span class="pre">'physType':</span> <span class="pre">'temperature'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">283.</span> <span class="pre">K&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temperatures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f038671e290&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'exclusiveMinimum':</span> <span class="pre">'0.0</span> <span class="pre">K',</span> <span class="pre">'physType':</span> <span class="pre">'temperature'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">283.</span> <span class="pre">K&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1529,6 +1529,14 @@
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Path&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;wavelength_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[0. 0.] nm&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;length&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wavelength Range&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;obstruction_area&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
@@ -1762,6 +1770,7 @@
 <span class="w">      </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;description&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;wavelength_range&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;obstruction_area&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;overhead&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="s2">&quot;site_id&quot;</span><span class="p">,</span>
@@ -1788,6 +1797,7 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.path" title="pydiet.server.models.dataconfig.InstrumentConfigModel.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.site_id" title="pydiet.server.models.dataconfig.InstrumentConfigModel.site_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">site_id</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.telescope_id" title="pydiet.server.models.dataconfig.InstrumentConfigModel.telescope_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">telescope_id</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.wavelength_range" title="pydiet.server.models.dataconfig.InstrumentConfigModel.wavelength_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wavelength_range</span> <span class="pre">(astropy.units.quantity.Quantity)</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -1876,6 +1886,24 @@
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.InstrumentConfigModel.telescope_id">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">telescope_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.telescope_id" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.dataconfig.InstrumentConfigModel.wavelength_range">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wavelength_range</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">]</span> <span class="pre">nm',</span> <span class="pre">'physType':</span> <span class="pre">'length'})]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.InstrumentConfigModel.wavelength_range" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>strict</strong> = True</p></li>
+<li><p><strong>unit</strong> = nm</p></li>
+<li><p><strong>description</strong> =</p></li>
+<li><p><strong>decimals</strong> = 4</p></li>
+<li><p><strong>min_shape</strong> = 2</p></li>
+<li><p><strong>max_shape</strong> = 2</p></li>
+<li><p><strong>gt</strong> = [0. 0.] nm</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -2096,6 +2124,14 @@
 <span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Path&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;wavelength_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[0. 0.] nm&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;length&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wavelength Range&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
 <span class="w">            </span><span class="nt">&quot;obstruction_area&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0 m2&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;area&quot;</span><span class="p">,</span>
@@ -2131,6 +2167,7 @@
 <span class="w">            </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;description&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;path&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;wavelength_range&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;obstruction_area&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;overhead&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="s2">&quot;site_id&quot;</span><span class="p">,</span>
@@ -2480,6 +2517,10 @@
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Description&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;wavelength_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wavelength Range&quot;</span>
+<span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;obstruction_area&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Obstruction Area&quot;</span>
@@ -2569,6 +2610,7 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.site" title="pydiet.server.models.instrument.InstrumentModel.site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">site</span> <span class="pre">(pydiet.server.models.instrument.SiteModel)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.telescope" title="pydiet.server.models.instrument.InstrumentModel.telescope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">telescope</span> <span class="pre">(pydiet.server.models.instrument.TelescopeModel)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.transmissions" title="pydiet.server.models.instrument.InstrumentModel.transmissions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transmissions</span> <span class="pre">(dict</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.instrument.InstrumentModel.wavelength_range" title="pydiet.server.models.instrument.InstrumentModel.wavelength_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wavelength_range</span> <span class="pre">(astropy.units.quantity.Quantity)</span></code></a></p></li>
 </ul>
 </dd>
 <dt class="field-odd">Validators<span class="colon">:</span></dt>
@@ -2749,6 +2791,29 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_update_transmissions</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.instrument.InstrumentModel.wavelength_range">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wavelength_range</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">]</span> <span class="pre">nm',</span> <span class="pre">'physType':</span> <span class="pre">'length'})]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.InstrumentModel.wavelength_range" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>strict</strong> = True</p></li>
+<li><p><strong>unit</strong> = nm</p></li>
+<li><p><strong>description</strong> =</p></li>
+<li><p><strong>decimals</strong> = 4</p></li>
+<li><p><strong>min_shape</strong> = 2</p></li>
+<li><p><strong>max_shape</strong> = 2</p></li>
+<li><p><strong>gt</strong> = [0. 0.] nm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Validated by<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
 <li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_update_transmissions</span></code></p></li>
 </ul>
 </dd>
@@ -3385,6 +3450,22 @@
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Vars&quot;</span>
 <span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;wave_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[0. 0.] nm&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;maxShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;minShape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;physType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;length&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Wave Range&quot;</span>
+<span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
@@ -3452,6 +3533,7 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.spectral" title="pydiet.server.models.instrument.TransmissionModel.spectral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral</span> <span class="pre">(synphot.spectrum.SpectralElement</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.vars" title="pydiet.server.models.instrument.TransmissionModel.vars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vars</span> <span class="pre">(dict[str,</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">str]</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.wave" title="pydiet.server.models.instrument.TransmissionModel.wave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave</span> <span class="pre">(astropy.units.quantity.Quantity</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel.wave_range" title="pydiet.server.models.instrument.TransmissionModel.wave_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave_range</span> <span class="pre">(astropy.units.quantity.Quantity</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -3493,6 +3575,11 @@
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.TransmissionModel.wave">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">0</span> <span class="pre">nm',</span> <span class="pre">'physType':</span> <span class="pre">'length'})]</span> <span class="pre">|</span> <span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.TransmissionModel.wave" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.instrument.TransmissionModel.wave_range">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave_range</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">]</span> <span class="pre">nm',</span> <span class="pre">'physType':</span> <span class="pre">'length'})]</span> <span class="pre">|</span> <span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.TransmissionModel.wave_range" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -3568,6 +3655,7 @@
 <span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;u&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;vars&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">            </span><span class="nt">&quot;wave_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;wave&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
@@ -3844,7 +3932,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.filter">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.FilterID" title="pydiet.server.models.types.FilterID"><span class="pre">FilterID</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">TransmissionModel(id='u',</span> <span class="pre">name='u',</span> <span class="pre">description='',</span> <span class="pre">vars={},</span> <span class="pre">wave=None,</span> <span class="pre">response=None,</span> <span class="pre">spectral=&lt;synphot.spectrum.SpectralElement</span> <span class="pre">object&gt;,</span> <span class="pre">default=False)</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.filter" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.FilterID" title="pydiet.server.models.types.FilterID"><span class="pre">FilterID</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">TransmissionModel(id='u',</span> <span class="pre">name='u',</span> <span class="pre">description='',</span> <span class="pre">vars={},</span> <span class="pre">wave_range=None,</span> <span class="pre">wave=None,</span> <span class="pre">response=None,</span> <span class="pre">spectral=&lt;synphot.spectrum.SpectralElement</span> <span class="pre">object&gt;,</span> <span class="pre">default=False)</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.filter" title="Link to this definition"></a></dt>
 <dd><p>Instrument filter</p>
 <dl class="field-list simple">
 <dt class="field-odd">Validated by<span class="colon">:</span></dt>
@@ -4020,20 +4108,20 @@
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Zp&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;snr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Estimated source Signal-to-Noise Ratio&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;exclusiveMaximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1e+30</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Snr&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;etime&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Estimated exposure time&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;exclusiveMaximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1e+30</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Etime&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;ttime&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Estimated total time&quot;</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;exclusiveMaximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1e+30</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ttime&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;etime_skysat&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -4052,12 +4140,12 @@
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Etime Sourcesat&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;snr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Estimated source Signal-to-Noise Ratio&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;ttime&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Estimated total time&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;exclusiveMaximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1e+30</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
-<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Snr&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ttime&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;sky_mag&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -4066,6 +4154,22 @@
 <span class="w">         </span><span class="nt">&quot;maximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">-100.0</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sky Mag&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;lambda_pivot&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pivot wavelength of the full filter response in nm&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;exclusiveMaximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1000000000000.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lambda Pivot&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;bandwidth_rect&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Equivalent rectangular bandwidth of the full filter response in nm&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;exclusiveMaximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1000000000000.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;minimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bandwidth Rect&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;cutout&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -4122,6 +4226,7 @@
 <dt class="field-odd">Fields<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.atmosphere_transmission" title="pydiet.server.models.response.ETCResponseModel.atmosphere_transmission"><code class="xref py py-obj docutils literal notranslate"><span class="pre">atmosphere_transmission</span> <span class="pre">(pydantic.types.Json</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.bandwidth_rect" title="pydiet.server.models.response.ETCResponseModel.bandwidth_rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bandwidth_rect</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.compute" title="pydiet.server.models.response.ETCResponseModel.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span> <span class="pre">(Literal['etime',</span> <span class="pre">'snr'])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.cutout" title="pydiet.server.models.response.ETCResponseModel.cutout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cutout</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime" title="pydiet.server.models.response.ETCResponseModel.etime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime</span> <span class="pre">(float)</span></code></a></p></li>
@@ -4130,6 +4235,7 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.filter" title="pydiet.server.models.response.ETCResponseModel.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.filter_transmission" title="pydiet.server.models.response.ETCResponseModel.filter_transmission"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_transmission</span> <span class="pre">(pydantic.types.Json</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.instrument" title="pydiet.server.models.response.ETCResponseModel.instrument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instrument</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.lambda_pivot" title="pydiet.server.models.response.ETCResponseModel.lambda_pivot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lambda_pivot</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.sky_mag" title="pydiet.server.models.response.ETCResponseModel.sky_mag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sky_mag</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.snr" title="pydiet.server.models.response.ETCResponseModel.snr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">snr</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.ttime" title="pydiet.server.models.response.ETCResponseModel.ttime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ttime</span> <span class="pre">(float)</span></code></a></p></li>
@@ -4141,6 +4247,20 @@
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.atmosphere_transmission">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atmosphere_transmission</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Json</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.atmosphere_transmission" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.bandwidth_rect">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bandwidth_rect</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.bandwidth_rect" title="Link to this definition"></a></dt>
+<dd><p>Equivalent rectangular bandwidth of the full filter response in nm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>lt</strong> = 1000000000000.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.compute">
@@ -4209,6 +4329,20 @@
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.instrument">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instrument</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.instrument" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.lambda_pivot">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lambda_pivot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.lambda_pivot" title="Link to this definition"></a></dt>
+<dd><p>Pivot wavelength of the full filter response in nm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>lt</strong> = 1000000000000.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.sky_mag">
