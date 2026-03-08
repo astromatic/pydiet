@@ -19,11 +19,11 @@ import warnings
 from typing import Any, IO, Optional
 from astropy.table import QTable  #type: ignore[import-untyped]
 from astropy import units as u  #type: ignore[import-untyped]
+from astropy.modeling.models import Const1D  #type: ignore[import-untyped]
 from astropy.utils.exceptions import AstropyUserWarning  #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 from specutils import Spectrum  #type: ignore[import-untyped]
 from synphot import (  #type: ignore[import-untyped]
-    BlackBody1D,
     SourceSpectrum,
     SpectralElement,
     ThermalSpectralElement
@@ -144,6 +144,26 @@ def get_emission(
 def get_emission_from_transmission(
         transmission: TransmissionModel,
         temperature: u.Quantity['temperature'],  #type: ignore[name-defined]
+        id: str) -> SBSEDModel:
+    flat = SpectralElement(Const1D, amplitude=1.)
+    emission = SBSEDModel(
+        id = id,
+        name = f"{transmission.name} emission",
+        description = f"Blackbody emission at {temperature.to(u.K).value:.1f} K",
+        # Thermal source spectral flux with Blackbody spectrum over 1 arcsec2
+        spectral = ThermalSpectralElement(
+            flat + (-1.) * transmission.spectral, # Apply emissivity
+            temperature=temperature,
+            beam_fill_factor=1.0
+        ).thermal_source()
+    )
+    return emission
+
+
+"""
+def get_emission_from_transmission(
+        transmission: TransmissionModel,
+        temperature: u.Quantity['temperature'],  #type: ignore[name-defined]
         area: u.Quantity['area'],  #type: ignore[name-defined]
         id: str) -> SBSEDModel:
     # Thermal source spectral flux with Blackbody spectrum over 1 arcsec2
@@ -159,6 +179,7 @@ def get_emission_from_transmission(
         spectral = bb - bb * transmission.spectral
     )
     return emission
+"""
 
 
 def get_emissions(
@@ -179,15 +200,12 @@ def get_emissions(
     # No emission files: we use a blackbody with emissivity from transmission
     if len(emission_config.files) == 0 and transmissions is not None:
         temperatures = emission_config.temperatures
-        areas = emission_config.areas
         for t, key in enumerate(transmissions):
             temperature = temperatures[t] if t < len(temperatures) \
                 else temperatures[-1]
-            area = areas[t] if t < len(areas) else areas[-1]
             emissions[key] = get_emission_from_transmission(
                 transmissions[key],
                 temperature=temperature,
-                area=area,
                 id=key
             )
     return emissions

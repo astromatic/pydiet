@@ -66,7 +66,7 @@ class Image(object):
     flux: float, optional
         Source flux in photons per second.
     bkg: float, optional
-        Total background flux in photons per second per square arcsecond.
+        Total background flux in photons per second per pixel.
     ron: float, optional
         Detector read out noise standard deviation in electrons.
     gain: float, optional

@@ -113,7 +113,6 @@ files = [ {file = "CFHT_M1_transmission.fits"} ]
 [telescopes.emission]
 # Emission curves for the CFHT 3.6m telescope
 temperatures = ["273 K"]
-areas = ["10.134 m2"]
 
 
 ########################## Table array of instruments #########################
@@ -141,7 +140,6 @@ files = [ {file = "MegaPrime_transmission.fits"} ]
 [instruments.optics.emission]
 # Emission as a function of wavelength for all MegaPrime optical components
 temperatures = ["273 K"] # Typical temperature of the corrector optics
-areas = ["0.515 m2"] # Area of the front corrector lens
 [instruments.filters]
 path = "filters"
 [instruments.filters.transmission]
@@ -162,7 +160,6 @@ files = [
 [instruments.filters.emission]
 # Emission as a function of wavelength for all MegaPrime optical components
 temperatures = ["273 K"] # Typical temperature of the corrector optics
-areas = ["0.16 m2"] # Area of the filters (just a reasonable guess)
 [instruments.detector]
 # Average MegaCam E2V CCD characteristics
 path = "detector"
@@ -201,8 +198,7 @@ path = "transmission"
 files = [ {file = "WIRCam_transmission.fits"} ]
 [instruments.optics.emission]
 # Emission as a function of wavelength for all WIRCam optical components
-temperatures = ["80 K"]
-areas = ["491 cm2"] # 250mm diameter (educated guess)?
+temperatures = ["273 K"]
 [instruments.filters]
 path = "filters"
 [instruments.filters.transmission]
@@ -223,7 +219,6 @@ files = [
 ]
 [instruments.filters.emission]
 temperatures = ["80 K"]
-areas = ["95.0 cm2"] # 110mm diameter
 [instruments.detector]
 # Average WIRCam Hawaii-2RG CMOS characteristics
 gain = "3.8 electron/adu"

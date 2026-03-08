@@ -107,15 +107,22 @@ class InstrumentModel(BaseModel):
     @model_validator(mode="after")
     def _update_transmissions(self):
         # Compute extra parameters during initialization
+        area = self.telescope.collecting_area - self.obstruction_area
         # Filter emissions and transmissions
         upstream_transmission = 1.
         upstream_emission = SourceSpectrum(ConstFlux1D, amplitude=0.)
         # Pre-filter list of transmissions
-        transmissions = self.telescope.transmissions | self.optics.transmissions
-        emissions = self.telescope.emissions | self.optics.emissions
-        for t in transmissions:
-            emission = emissions[t].spectral
-            transmission = transmissions[t].spectral
+        transmissions = [
+            *self.telescope.transmissions.values(),
+            *self.optics.transmissions.values()
+        ]
+        emissions = [
+            *self.telescope.emissions.values(),
+            *self.optics.emissions.values()
+        ]
+        for i, v in enumerate(transmissions):
+            emission = emissions[i].spectral
+            transmission = transmissions[i].spectral
             upstream_transmission *= transmission
             upstream_emission = upstream_emission * transmission + emission
         self.transmissions : dict[str, TransmissionModel] = {}  #type: ignore[annotation-unchecked]
@@ -143,7 +150,7 @@ class InstrumentModel(BaseModel):
             # Compute countrate
             if transmission.tpeak() > 0.:
                 observation = Observation(emission, transmission, force='taper')
-                self.emissions_ct[f] = observation.countrate(area=1*u.m**2).value
+                self.emissions_ct[f] = observation.countrate(area=area).value
             else:
                 self.emissions_ct[f] = 0.
         return self

@@ -142,11 +142,10 @@ def get_response(
                 instrument_transmission.spectral,
                 force='extrap'
             )
-            # TODO: Fix instrumental thermal background and remove the 0.
-            #print(instrument.emissions_ct[q.filter], bkg_observation.countrate(area=area, binned=False))
+            # Add instrumental thermal background
             ct_bkgsb = (
                 bkg_observation.countrate(area=area, binned=False) \
-                + 0. * instrument.emissions_ct[q.filter] * u.ct / u.s
+                + instrument.emissions_ct[q.filter] * u.ct / u.s
                 ) / gain
             mag_bkgsb = zp + u.Magnitude(ct_bkgsb)
         else:
