@@ -105,7 +105,7 @@ class Image(object):
             photometry: PhotometryID='model_fitting',
             aperture: float=3.,
             oversamp: int=1,
-            max_etime: u.Quantity['time'] = 1e9 * u.s) -> None:
+            max_etime: u.Quantity['time'] = 1e9 * u.s) -> None:  #type: ignore[name-defined]
 
         self.source = source
         self.pixel = pixel

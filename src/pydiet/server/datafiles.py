@@ -146,6 +146,7 @@ def get_emission_from_transmission(
         temperature: u.Quantity['temperature'],  #type: ignore[name-defined]
         id: str) -> SBSEDModel:
     flat = SpectralElement(Const1D, amplitude=1.)
+    assert transmission.spectral != None    # Make mypy happy
     emission = SBSEDModel(
         id = id,
         name = f"{transmission.name} emission",

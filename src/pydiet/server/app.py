@@ -140,7 +140,7 @@ def create_app() -> FastAPI:
 
 
     @app.exception_handler(ETCValidationError)
-    async def validation_exception_handler(request: Request, exc: ETCValidationError):
+    async def handle_validation_exception(request: Request, exc: ETCValidationError):
         """
         Propagate value errors from custom validators.
 
@@ -169,12 +169,12 @@ def create_app() -> FastAPI:
 
 
     @app.get(api_path + "/health", tags=["Web API"])
-    async def health():
+    async def get_health():
         return {"ok": True}
 
 
     @app.get(api_path + "/instruments", tags=["Web API"])
-    async def api_instruments():
+    async def get_api_instruments():
         """
         Endpoint for instrument list.
 
@@ -190,7 +190,7 @@ def create_app() -> FastAPI:
 
 
     @app.get(api_path + "/{instrument}", tags=["Web API"])
-    async def api_query(
+    async def get_api_query(
             request: Request,
             instrument: str = Path(     
                 title="Instrument ID",
@@ -211,7 +211,7 @@ def create_app() -> FastAPI:
 
     # PyDIET UI component endpoint with GET query string
     @app.get("/ui/{instrument}/{component}/query", tags=["UI"], response_class=HTMLResponse)
-    async def ui_component_query(
+    async def get_ui_component_query(
             request: Request,
             instrument: str = Path(     
                 title="Instrument ID",
@@ -244,7 +244,7 @@ def create_app() -> FastAPI:
 
     # PyDIET UI component endpoint with POST query (for uploading filter curves)
     @app.post("/ui/{instrument}/{component}/query", tags=["UI"], response_class=HTMLResponse)
-    async def ui_component_query(
+    async def post_ui_component_query(
             request: Request,
             instrument: str = Path(     
                 title="Instrument ID",
@@ -276,14 +276,18 @@ def create_app() -> FastAPI:
             context = {
                 "root_path": request.scope.get("root_path"),
                 "package": package.title,
-                "r": get_response(query, filter=filter_upload.file, ui=True)
+                "r": get_response(
+                    query,
+                    filter=None if filter_upload is None else filter_upload.file,
+                    ui=True
+                )
             }
         )
 
 
     # PyDIET UI component endpoint without a query string
     @app.get("/ui/{instrument}/{component}", tags=["UI"], response_class=HTMLResponse)
-    async def ui_component(
+    async def get_ui_component(
             request: Request,
             instrument: str = Path(     
                 title="Instrument ID",
@@ -315,7 +319,7 @@ def create_app() -> FastAPI:
 
     # Default PyDIET client endpoint
     @app.get("/", tags=["UI"], response_class=HTMLResponse)
-    async def ui(request: Request):
+    async def get_ui(request: Request):
         """
         Main web user interface.
         """

@@ -37,8 +37,9 @@ def spectrum_from_airmass(
         am: float = 1.) -> SpectralElement:
     # Build a dictionary of emission or transmission spectra
     am_spectra = {
-        models[m].vars['am'] : models[m].spectral for m in models \
-        if sky is None or models[m].vars['sky']==sky
+        model.vars['am'] : model.spectral  #type: ignore[index]
+        for model in models.values()
+        if sky is None or model.vars['sky'] == sky  #type: ignore[index]
     }
     ams = sorted(list(am_spectra.keys()))
     # bracket the requested airmass for interpolation
@@ -53,7 +54,7 @@ def spectrum_from_airmass(
             aml = a
     # Linear interpolation
     fac = (am - aml) / (amp - aml) if am < amp else 1.
-    return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac
+    return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac  #type: ignore[operator]
 
 
 def get_response(
@@ -67,7 +68,6 @@ def get_response(
         emission = get_emission_from_transmission(
             filter_transmission,
             temperature=273. * u.K,
-            area=0.1 * u.m**2,
             id='upload'
         )
         # Make a copy of the instrument while adding the uploaded filter

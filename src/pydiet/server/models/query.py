@@ -67,7 +67,7 @@ class ETCQueryModel(BaseModel):
 
     exposures: int = Field(
         default=1,
-        ge=0.,
+        ge=1,
         le=1000000,
         description="Number of exposures"
     )
@@ -107,7 +107,7 @@ class ETCQueryModel(BaseModel):
         default=1.,
         ge=0.3,
         le=10.,
-        description="Sersic index"
+        description="Sérsic index"
     )
 
     sky_unit: PhotSysID = Field(
