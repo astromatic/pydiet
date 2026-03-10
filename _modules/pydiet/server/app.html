@@ -217,7 +217,7 @@
 
 
     <span class="nd">@app</span><span class="o">.</span><span class="n">exception_handler</span><span class="p">(</span><span class="n">ETCValidationError</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">validation_exception_handler</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span> <span class="n">ETCValidationError</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_validation_exception</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span> <span class="n">ETCValidationError</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Propagate value errors from custom validators.</span>
 
@@ -246,12 +246,12 @@
 
 
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_path</span> <span class="o">+</span> <span class="s2">&quot;/health&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Web API&quot;</span><span class="p">])</span>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">health</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_health</span><span class="p">():</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;ok&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
 
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_path</span> <span class="o">+</span> <span class="s2">&quot;/instruments&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Web API&quot;</span><span class="p">])</span>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">api_instruments</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_api_instruments</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Endpoint for instrument list.</span>
 
@@ -267,7 +267,7 @@
 
 
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_path</span> <span class="o">+</span> <span class="s2">&quot;/</span><span class="si">{instrument}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Web API&quot;</span><span class="p">])</span>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">api_query</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_api_query</span><span class="p">(</span>
             <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
             <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>     
                 <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span><span class="p">,</span>
@@ -288,7 +288,7 @@
 
     <span class="c1"># PyDIET UI component endpoint with GET query string</span>
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/</span><span class="si">{instrument}</span><span class="s2">/</span><span class="si">{component}</span><span class="s2">/query&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_component_query</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_ui_component_query</span><span class="p">(</span>
             <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
             <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>     
                 <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span><span class="p">,</span>
@@ -321,7 +321,7 @@
 
     <span class="c1"># PyDIET UI component endpoint with POST query (for uploading filter curves)</span>
     <span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/ui/</span><span class="si">{instrument}</span><span class="s2">/</span><span class="si">{component}</span><span class="s2">/query&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_component_query</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">post_ui_component_query</span><span class="p">(</span>
             <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
             <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>     
                 <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span><span class="p">,</span>
@@ -353,14 +353,18 @@
             <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;root_path&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">scope</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;root_path&quot;</span><span class="p">),</span>
                 <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
-                <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="n">get_response</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">filter_upload</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">ui</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="n">get_response</span><span class="p">(</span>
+                    <span class="n">query</span><span class="p">,</span>
+                    <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">filter_upload</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">filter_upload</span><span class="o">.</span><span class="n">file</span><span class="p">,</span>
+                    <span class="n">ui</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
 
     <span class="c1"># PyDIET UI component endpoint without a query string</span>
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/ui/</span><span class="si">{instrument}</span><span class="s2">/</span><span class="si">{component}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui_component</span><span class="p">(</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_ui_component</span><span class="p">(</span>
             <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span>
             <span class="n">instrument</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>     
                 <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span><span class="p">,</span>
@@ -392,7 +396,7 @@
 
     <span class="c1"># Default PyDIET client endpoint</span>
     <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;UI&quot;</span><span class="p">],</span> <span class="n">response_class</span><span class="o">=</span><span class="n">HTMLResponse</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">ui</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_ui</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Main web user interface.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
