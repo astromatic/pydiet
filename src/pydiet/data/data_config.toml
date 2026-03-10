@@ -221,7 +221,7 @@ files = [
 temperatures = ["80 K"]
 [instruments.detector]
 # Average WIRCam Hawaii-2RG CMOS characteristics
-gain = "3.8 electron/adu"
+gain = "3.7 electron/adu"
 ron = "30. electron"
 scale = "[0.306, 0.306] arcsec/pix"
 path = "detector"
