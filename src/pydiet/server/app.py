@@ -189,6 +189,7 @@ def create_app() -> FastAPI:
         )
 
 
+    # PyDIET web API endpoint with GET query string
     @app.get(api_path + "/{instrument}", tags=["Web API"])
     async def get_api_query(
             request: Request,
@@ -198,7 +199,7 @@ def create_app() -> FastAPI:
             ),
             query: ETCQueryModel = Depends()):
         """
-        Endpoint for exposure type calculator JSON output.
+        GET Endpoint for exposure type calculator JSON output.
 
         Returns
         -------
@@ -207,6 +208,36 @@ def create_app() -> FastAPI:
             containing the computed ETC data.
         """
         return get_response(query).model_dump(exclude_none=True)
+
+
+    # PyDIET web API endpoint with POST query (for uploading filter curves)
+    @app.post(api_path + "/{instrument}", tags=["Web API"])
+    async def post_api_query(
+            request: Request,
+            instrument: str = Path(     
+                title="Instrument ID",
+                description="Instrument ID"
+            ),
+            filter_upload: UploadFile | None = File(None)):
+        """
+        POST Endpoint for exposure type calculator JSON output, with optional
+        filter curve upload.
+
+        Returns
+        -------
+        response: byte stream
+            `JSON response <https://fastapi.tiangolo.com/advanced/custom-response/#jsonresponse>`_
+            containing the computed ETC data.
+        """
+        form = await request.form()
+        # Remove the filter upload field
+        data = dict(form)
+        data.pop("filter_upload", None)
+        query = ETCQueryModel.model_validate(data)
+        return get_response(
+                    query,
+                    filter=None if filter_upload is None else filter_upload.file
+        ).model_dump(exclude_none=True)
 
 
     # PyDIET UI component endpoint with GET query string
