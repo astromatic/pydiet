@@ -6,8 +6,9 @@ import {get_theme, update_theme, themes, theme_icons} from "./theme";
 
 // Manage theme changes
 export function setup_theme_settings() {
-	if ((theme_segment = document.querySelector("#theme-segment"))) {
-		for (t in themes) {
+	const theme_segment = document.querySelector("#theme-segment");
+	if ((theme_segment)) {
+		for (var t in themes) {
 			let	button = document.createElement("ion-segment-button"),
 				icon = document.createElement("ion-icon"),
 				label = document.createElement("ion-label");
@@ -18,7 +19,7 @@ export function setup_theme_settings() {
 			button.appendChild(icon);
 			theme_segment.appendChild(button);
 		}
-		theme_segment.value = theme = get_theme();
+		const theme = theme_segment.value = get_theme();
 		update_theme(theme);
 		theme_segment.addEventListener('ionChange', (event) => {
 			update_theme(event.detail.value);

@@ -36,7 +36,8 @@
 	},
 	"main": "dist/visiomatic.js",
 	"scripts": {
-		"build": "esbuild js/main.js --bundle --outfile=dist/pydiet.js --watch",
+		"build": "esbuild js/main.js --bundle --minify --outfile=dist/pydiet.js --watch",
+		"build-pretty": "esbuild js/main.js --bundle --outfile=dist/pydiet.js --watch",
 		"docs": "jsdoc -c jsdoc.json js",
 		"lint": "eslint js",
 		"test": "npm run unit"

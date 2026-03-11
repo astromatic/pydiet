@@ -3,6 +3,15 @@
  * Licensed under MIT
 */
 
+ion-app:not(:defined),
+ion-page:not(:defined),
+ion-content:not(:defined),
+ion-header:not(:defined),
+ion-toolbar:not(:defined),
+ion-title:not(:defined) {
+  visibility: hidden;
+}
+
 /*
  * Light Colors
  * -------------------------------------------
