@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta id="root_path" content="{{ root_path }}">
     <link rel="icon" type="image/svg+xml" href="{{ root_path }}/client/images/logo.svg">
-    <title>CFHT's Direct Exposure Time Calculator (DIET)</title>
+    <title>{{ package.summary }}</title>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
@@ -24,7 +24,10 @@
           <ion-menu-button slot="start"><ion-icon name="options"></ion-icon></ion-menu-button>
           <ion-title size="large">
             <ion-item lines="none">
-               <h3>DIET</h3>
+               <h3 style="width:100%; display:flex; justify-content:space-between; align-items: baseline;">
+                 <span>DIET</span>
+                 <span style="font-size: 0.75rem; color: var(--ion-color-medium);">v{{ package.version }}</span>
+               </h3>
             </ion-item>
           </ion-title>
           <div id=user-slot slot="end"></div>
@@ -56,7 +59,7 @@
           </ion-item>
           <ion-fab horizontal="center" vertical="center">
             <ion-fab-button href="https://cfht.hawaii.edu" color="light" size="small">
-              <ion-icon src="{{ root_path }}/client/images/cfht-logo.svg"></ion-icon>
+              <ion-icon src="{{ root_path }}/client/images/logo.svg"></ion-icon>
             </ion-fab-button>
           </ion-fab>
           <ion-item lines="none" slot="end">

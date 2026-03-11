@@ -268,7 +268,7 @@ def create_app() -> FastAPI:
             name = join(instrument, component + ".html"),
             context = {
                 "root_path": request.scope.get("root_path"),
-                "package": package.title,
+                "package": package,
                 "r": get_response(query, ui=True)
             }
         )
@@ -306,7 +306,7 @@ def create_app() -> FastAPI:
             name = join(instrument, component + ".html"),
             context = {
                 "root_path": request.scope.get("root_path"),
-                "package": package.title,
+                "package": package,
                 "r": get_response(
                     query,
                     filter=None if filter_upload is None else filter_upload.file,
@@ -338,12 +338,13 @@ def create_app() -> FastAPI:
             `HTML response <https://fastapi.tiangolo.com/advanced/custom-response/#htmlresponse>`_
             with UI component.
         """
+        print(package.description)
         return templates.TemplateResponse(
             request = request,
             name = join(instrument, component + ".html"),
             context = {
                 "root_path": request.scope.get("root_path"),
-                "package": package.title
+                "package": package
             }
         )
 
@@ -360,7 +361,7 @@ def create_app() -> FastAPI:
             context = {
                 "root_path": request.scope.get("root_path"),
                 "doc_url": userdoc_url,
-                "package": package.title
+                "package": package
             }
         )
 
