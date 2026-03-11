@@ -155,7 +155,9 @@ files = [
     {id = 'oiii', name = "OIII", file = "OIII.MP9501.fits"},
     {id = 'oiiioff', name = "OIII off", file = "OIIIOFF.MP9502.fits"},
     {id = 'ha', name = "Ha", file = "Ha.MP9603.fits"},
-    {id = 'haoff', name = "Ha off", file = "HaOFF.MP9604.fits"}
+    {id = 'haoff', name = "Ha off", file = "HaOFF.MP9604.fits"},
+    {id = 'm4112', name = "M4112", file = "M4112.MP9403.fits"},
+    {id = 'm4376', name = "M4376", file = "M4376.MP9404.fits"}
 ]
 [instruments.filters.emission]
 # Emission as a function of wavelength for all MegaPrime optical components
