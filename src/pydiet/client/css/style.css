@@ -3,6 +3,11 @@
  * Licensed under MIT
 */
 
+/*
+ * Prevent flashing for large latencies
+ * ------------------------------------
+ */
+
 ion-app:not(:defined),
 ion-page:not(:defined),
 ion-content:not(:defined),
@@ -191,4 +196,26 @@ ion-picker-column {
 }
 */
 
+/*
+ * Legal stuff
+ * -----------
+ */
+
+.privacy-policy,.terms-of-service {
+  margin: 1em;
+  text-align: justify;
+  font-size: 0.8rem;
+}
+
+.privacy-policy h2,.terms-of-service h2 {
+  font-size: 1.2rem;
+}
+
+.privacy-policy h3,.terms-of-service h3 {
+  font-size: 1.0rem;
+}
+
+.privacy-policy h4,.terms-of-service h4 {
+  font-size: 0.9rem;
+}
 
