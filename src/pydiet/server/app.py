@@ -35,6 +35,7 @@ from pydantic_core import InitErrorDetails, PydanticCustomError
 
 from .. import package
 from .config import config_filename, settings
+from .locale import LocaleMiddleware, locate_domain, supported_locales
 from .response import get_response
 
 from .models import (
@@ -55,6 +56,8 @@ def create_app() -> FastAPI:
     banner_template = settings["banner_template"]
     base_template = settings["base_template"]
     template_dir = abspath(settings["template_dir"])
+    translation_dir = settings["translation_dir"]
+    default_locale = settings["locale"]
     client_dir = abspath(settings["client_dir"])
     data_dir = abspath(settings["data_dir"])
     extra_dir = abspath(settings["extra_dir"])
@@ -72,6 +75,12 @@ def create_app() -> FastAPI:
         logger.warning(
             f"Configuration file not found: {config_filename}!"
         )
+
+    # Instantiate templates
+    templates = Jinja2Templates(
+        env=create_jinja_env(template_dir),
+        context_processors=[i18n_context],
+    )
 
     app = FastAPI(
         title=package.title,
@@ -105,6 +114,12 @@ def create_app() -> FastAPI:
     )
     """
 
+    app.add_middleware(LocaleMiddleware,
+        supported_locales=supported_locales,
+        default_locale=default_locale,
+        domain=locate_domain
+    )
+
     # Provide a direct endpoint for static files (such as js and css)
     app.mount(
         "/client",
@@ -133,10 +148,24 @@ def create_app() -> FastAPI:
         logger.warning("De-activating documentation URL in built-in web client.")
         userdoc_url = ""
 
-    # Instantiate templates
-    templates = Jinja2Templates(
-        directory=join(package.src_dir, template_dir)
-    )
+
+    @app.get("/set-language/{lang}")
+    async def set_language(lang: str, request: Request):
+        lang = normalize_locale(lang) or DEFAULT_LOCALE
+        if lang not in SUPPORTED_LOCALES:
+            lang = DEFAULT_LOCALE
+
+        response = templates.TemplateResponse(
+            request,
+            "home.html",
+            {
+                "user": {"name": "Ada"},
+                "count": 2,
+                "price": 12345.67,
+            },
+        )
+        response.set_cookie("lang", lang, httponly=False, samesite="lax")
+        return response
 
 
     @app.exception_handler(ETCValidationError)

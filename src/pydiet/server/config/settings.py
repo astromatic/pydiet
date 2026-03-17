@@ -17,6 +17,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from ... import package
 from ..types import AnnotatedQuantity
 from .fields import SField
+from .locale import supported_locales, LocaleID
 
 # Enable imperial units such as inches
 u.imperial.enable()
@@ -105,9 +106,17 @@ class ServerSettings(BaseSettings):
         default=".",
         description="Extra data root directory"
         )
+    locale: LocaleID = Field(
+        default=supported_locales[0],
+        description="Default web interface language"
+        )
     template_dir: str = SField(
         default=path.join(package.src_dir, "templates"),
         description="Directory containing templates"
+        )
+    translation_dir: str = SField(
+        default=path.join(package.src_dir, "translations"),
+        description="Directory containing translations"
         )
     userdoc_url: str = SField(
         default = doc_path.default + "/index.html", #type: ignore
