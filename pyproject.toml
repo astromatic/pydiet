@@ -64,7 +64,7 @@ Documentation = "https://ebertin.github.io/pydiet"
 
 [tool.pdm.build]
 excludes = [
-    "src/pydiet/client/node_modules",
+    "src/pydiet/web_client/node_modules",
     "src/pydiet/doc/doctrees"
 ]
 
@@ -80,7 +80,7 @@ exclude = ["docs", "tests"]
 
 [tool.pytest.ini_options]
 norecursedirs = [
-    "src/pydiet/client"
+    "src/pydiet/web_client"
 ]
 addopts = "--doctest-modules --doctest-continue-on-failure"
 doctest_optionflags = "NORMALIZE_WHITESPACE IGNORE_EXCEPTION_DETAIL ELLIPSIS"
