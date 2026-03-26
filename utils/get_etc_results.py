@@ -136,13 +136,13 @@ def main() -> int:
     instruments = query_url(url, "instruments")
     if instruments is None:
         return 1
-    filters = instruments[instrument]["filters"]
+    filters = instruments[instrument]["filters"]["transmissions"]
     for f in filters:
         r = query_url(
             url,
-            f"{instrument}?compute=etime&source=pointsource&snr={snr}&"
-            f"filter={f}&brightness={brightness}&unit={unit}&photometry=psf&"
-            f"sky={sky}&airmass={airmass}&transparency=1.0&seeing={fwhm}"
+            f"{instrument}?compute=etime&snr={snr}&"
+            f"filter={f}&brightness={brightness}&unit={unit}&"
+            f"sky={sky}&airmass={airmass}&seeing={fwhm}"
         )
         if r is None:
             return 1
