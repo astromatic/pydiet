@@ -46,7 +46,6 @@ from .models import (
 from .data import winstruments
 
 
-
 def create_app() -> FastAPI:
     """
     Create FASTAPI application
