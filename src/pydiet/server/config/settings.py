@@ -82,7 +82,7 @@ class ServerSettings(BaseSettings):
         description="Start browser when launching the server"
         )
     client_dir: str = SField(
-        default=path.join(package.src_dir, "client"),
+        default=path.join(package.src_dir, "web_client"),
         description="Directory containing the web client code, style and media"
         )
     data_config: str = SField(

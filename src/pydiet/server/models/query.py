@@ -87,7 +87,11 @@ class ETCQueryModel(BaseModel):
         ge=0.1,
         le=100.
     )
-    sky: SkyID
+
+    sky: SkyID = Field(
+        default='dark',
+        description="Sky setting"
+    )
 
     sky_brightness: float = Field(
         default=22.,

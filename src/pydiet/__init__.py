@@ -7,3 +7,6 @@ PyDIET
 # Copyright CFHT/CNRS
 # Licensed under the MIT license
 
+from .api_client.client import Client
+from .server.models import ETCQueryModel, ETCResponseModel
+
