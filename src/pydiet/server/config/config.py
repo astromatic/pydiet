@@ -6,7 +6,7 @@ Configure application.
 
 from argparse import ArgumentParser, SUPPRESS
 from configparser import ConfigParser
-from os import makedirs, path
+from os import environ, makedirs, path
 from pathlib import Path
 from pprint import pprint
 from sys import exit, modules
@@ -38,10 +38,9 @@ class Config(object):
         self.image_filename = None
         self.config_filename = config_file
 
-        # Skip argument parsing if Sphinx is involved
-        if 'sphinx' in modules or 'pytest' in modules:
+        # Skip argument parsing if Sphinx or pytest are involved
+        if "PYTEST_CURRENT_TEST" in environ or environ.get("IN_SPHINX_BUILD") == "1":
             args = False
-        # Parse command line
         if args:
             args_dict = self.parse_args()
             if args_dict['version']:
