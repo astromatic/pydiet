@@ -143,7 +143,7 @@
       <!--------------------------- brightness ------------------------------->
       <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-          <ion-input class="brightness" name="brightness" label="Flux [mag]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.01" value="20.0"></ion-input>
+          <ion-input class="brightness" name="brightness" label="AB magnitude" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.01" value="20.0"></ion-input>
         </ion-item>
       </ion-col>
 
@@ -154,12 +154,12 @@
               /* Change brightness label depending on unit */
               const bright=document.querySelector('.brightness');
               if (this.value=='abmag' || this.value=='vegamag') {
-                bright.label = bright.label.replace('μJy', 'mag');
+                bright.label = this.value=='vegamag' ? 'Vega magnitude' : 'AB magnitude';
                 bright.min = '-40.0';
                 bright.max = '40.0';
                 bright.step = '0.01';
               } else if (this.value=='fmujy') {
-                bright.label = bright.label.replace('mag', 'μJy');
+                bright.label = 'Flux [μJy]';
                 bright.min = '0.0';
                 bright.max = '1000.0';
                 bright.step = 'any';
@@ -220,7 +220,7 @@
       <!--------------------------- sky_brightness --------------------------->
       <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
         <ion-item>
-         <ion-input class="sky-brightness" name="sky_brightness" label="Sky value [mag.arcsec&#8315;&sup2;]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.1" value="22.0"></ion-input>
+         <ion-input class="sky-brightness" name="sky_brightness" label="Sky value [AB mag.arcsec&#8315;&sup2;]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.1" value="22.0"></ion-input>
         </ion-item>
       </ion-col>
 
@@ -231,7 +231,7 @@
               /* Change sky brightness label and limits depending on sky unit */
               const sky=document.querySelector('.sky-brightness');
               if (this.value=='abmag' || this.value=='vegamag') {
-                sky.label = 'Sky value [mag.arcsec&#8315;&sup2;]';
+                sky.label = this.value=='vegamag' ? 'Sky value [Vega mag.arcsec&#8315;&sup2;]' : 'Sky value [AB mag.arcsec&#8315;&sup2;]';
                 sky.min = '-40.0';
                 sky.max = '40.0';
                 sky.step = '0.1';
