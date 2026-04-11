@@ -2,7 +2,7 @@
 	"name": "PyDIET",
 	"version": "0.1.0",
 	"description": "CFHT's Direct Imaging Exposure Time calculator",
-	"homepage": "https://github.com/ebertin/pydiet",
+	"homepage": "https://github.com/astromatic/pydiet",
 	"author": "Emmanuel Bertin (CEA/CFHT/CNRS/UParisSaclay)",
 	"contributors": [
 		"Emmanuel Bertin <bertin@cfht.hawaii.edu> (https://github.com/ebertin)"
@@ -17,10 +17,10 @@
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/ebertin/pydiet.git"
+		"url": "git+https://github.com/astromatic/pydiet.git"
 	},
 	"bugs": {
-		"url": "https://github.com/ebertin/pydiet/issues"
+		"url": "https://github.com/astromatic/pydiet/issues"
 	},
 	"dependencies": {
 		"@ionic/core": "^8.0",
