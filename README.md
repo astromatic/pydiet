@@ -6,6 +6,10 @@
 
 PyDIET is [CFHT](https://www.cfht.hawaii.edu)'s new Direct Imaging Exposure Time calculator.
 
+<p>
+  <img src="https://github.com/astromatic/pydiet/blob/main/docs/src/figures/pydiet.jpg" alt="Screenshot" width="640"/>
+</p>
+
 ## Important
 PyDIET is still in testing phase.
 The authors reserve the right to modify, update, or discontinue any aspect of the package at any time without notice.
