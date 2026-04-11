@@ -35,7 +35,7 @@ jobs:
           pip install --upgrade pip
           pip install .[doc]
           npm install -g jsdoc
-          cd src/pydiet/client
+          cd src/pydiet/webclient
           npm install tidy-jsdoc
 
       - name: Build server doc
@@ -45,7 +45,7 @@ jobs:
 
       - name: Build client doc
         run: |
-          cd src/pydiet/client
+          cd src/pydiet/webclient
           npm run docs
           cp -rfT doc ../../../docs/build/html/api/client
 
