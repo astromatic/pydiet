@@ -47,7 +47,3 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 # Set the entrypoint to the script
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-CMD ["sleep", "infinity"]
-# you CMD should look something like this
-# CMD ["/bin/bash", "-c", "python your_app_script.py"]
-

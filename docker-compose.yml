@@ -1,0 +1,11 @@
+# Runs the Docker 
+services:
+  pydiet-service:
+    image: pydiet:latest
+    container_name: pydiet-container
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "80:8010"    
+    command: ["pydiet", "--host", "0.0.0.0"]
