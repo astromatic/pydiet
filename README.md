@@ -4,7 +4,7 @@
 [![Tests](https://github.com/astromatic/pydiet/actions/workflows/tests.yml/badge.svg)](https://github.com/astromatic/pydiet/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/astromatic/pydiet/graph/badge.svg?token=t3ZeGLnWTD)](https://codecov.io/gh/astromatic/pydiet)
 
-PyDIET is [CFHT](https://www.cfht.hawaii.edu)'s new Direct Imaging Exposure Time calculator.
+PyDIET is [CFHT](https://www.cfht.hawaii.edu)'s new [Direct Imaging Exposure Time calculator](https://pydiet.cfht.hawaii.edu).
 
 <p>
   <img src="https://github.com/astromatic/pydiet/blob/main/docs/src/figures/pydiet.jpg" alt="Screenshot" width="640"/>
