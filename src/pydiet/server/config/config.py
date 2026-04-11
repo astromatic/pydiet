@@ -39,8 +39,11 @@ class Config(object):
         self.config_filename = config_file
 
         # Skip argument parsing if Sphinx or pytest are involved
-        if "PYTEST_CURRENT_TEST" in environ or environ.get("IN_SPHINX_BUILD") == "1":
-            args = False
+        if "PYTEST_CURRENT_TEST" in environ or \
+            "COVERAGE_RUN" in environ or \
+            "COVERAGE_PROCESS_START" in environ or \
+            environ.get("IN_SPHINX_BUILD") == "1":
+              args = False
         if args:
             args_dict = self.parse_args()
             if args_dict['version']:
