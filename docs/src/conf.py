@@ -155,7 +155,7 @@ intersphinx_mapping = {
 }
 
 # -- Options for Sphinx-JS ---------------------------------------------------
-js_source_path = '../../src/pydiet/client/js'
+js_source_path = '../../src/pydiet/web_client/js'
 jsdoc_config_path = './api/client/conf.json'
 
 # -- Options for pybtex ------------------------------------------------------
