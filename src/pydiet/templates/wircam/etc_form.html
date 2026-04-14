@@ -159,15 +159,21 @@
                 bright.max = '40.0';
                 bright.step = '0.01';
               } else if (this.value=='fmujy') {
-                bright.label = 'Flux [μJy]';
+                bright.label = 'Flux density [μJy]';
                 bright.min = '0.0';
                 bright.max = '1000.0';
+                bright.step = 'any';
+              } else if (this.value=='flux') {
+                bright.label = 'Flux [10&#8315;&#185;&#8311;erg.s&#8315;&sup1;.cm&#8315;&sup2;]';
+                bright.min = '0.0';
+                bright.max = '100000.0';
                 bright.step = 'any';
               }
               " name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag</ion-select-option>
               <ion-select-option value="vegamag">Vega mag</sub></ion-select-option>
               <ion-select-option value="fmujy">μJy</ion-select-option>
+              <ion-select-option value="flux">flux</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -240,6 +246,11 @@
                 sky.min = '0.0';
                 sky.max = '1000.0';
                 sky.step = 'any';
+              } else if (this.value=='flux') {
+                sky.label = 'Flux [10&#8315;&#185;&#8311;erg.s&#8315;&sup1;.cm&#8315;&sup2;.arcsec&#8315;&sup2;]';
+                sky.min = '0.0';
+                sky.max = '100000.0';
+                sky.step = 'any';
               } else if (this.value=='photons') {
                 sky.label = 'Sky value [photons.&#8315;&sup1;.px&#8315;&sup1;]'
                 sky.min = '0.0';
@@ -248,8 +259,9 @@
               }
               " name="sky_unit" label="Sky unit" width="200px" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag.arcsec&dash;&sup2</ion-select-option>
-              <ion-select-option value="vegamag">Vega mag.arcsec&dash;&sup2</sub></ion-select-option>
+              <ion-select-option value="vegamag">Vega mag.arcsec&dash;&sup2</ion-select-option>
               <ion-select-option value="fmegajy">MJy.str&dash;&sup1</ion-select-option>
+              <ion-select-option value="flux">flux.arcsec&dash;&sup2</ion-select-option>
               <ion-select-option value="photons">photons.s&dash;&sup1.px&dash;&sup1</ion-select-option>
           </ion-select>
         </ion-item>

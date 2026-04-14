@@ -27,7 +27,7 @@ SkyID = Literal['dark', 'grey', 'bright', 'specify']
 
 PhotometryID = Literal['model_fitting', 'fixed_aperture', 'optimal_aperture', 'large_aperture']
 
-PhotSysID = Literal['abmag', 'vegamag', 'fmegajy', 'fmujy', 'photons']
+PhotSysID = Literal['abmag', 'vegamag', 'fmegajy', 'fmujy', 'flux', 'photons']
 
 SourceID = Literal['point_source', 'galaxy', 'extended']
 

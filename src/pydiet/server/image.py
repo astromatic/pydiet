@@ -31,8 +31,8 @@ class Image(object):
     ...     psf_fwhm=0.8 * u.arcsec,
     ...     psf_beta=3.2,
     ...     pixel=(0.186 * u.arcsec, 0.186 * u.arcsec),
-    ...     flux=42.,
-    ...     bkg=10.,
+    ...     rate=42.,
+    ...     bkg_rate=10.,
     ...     ron=4.,
     ...     gain=1.65,
     ...     photometry='model_fitting'
@@ -63,10 +63,10 @@ class Image(object):
         Pixel scale on each axis.
     image_size: Tuple[int, int], optional
         Image size in pixels on each axis.
-    flux: float, optional
-        Source flux in photons per second.
-    bkg: float, optional
-        Total background flux in photons per second per pixel.
+    rate: float, optional
+        Number of photons per second.
+    bkg_rate: float, optional
+        Total background photon rate in photons per second per pixel.
     ron: float, optional
         Detector read out noise standard deviation in electrons.
     gain: float, optional
@@ -95,8 +95,8 @@ class Image(object):
             sersic_index: float=1.,
             pixel: u.Quantity['angle']=(0.2, 0.2)*u.arcsec, #type: ignore[name-defined]
             image_size: Tuple[int, int]=(64, 64),
-            flux: float=1.,
-            bkg: float=0.,
+            rate: float=1.,
+            bkg_rate: float=0.,
             ron: float=0.,
             gain: float=1.,
             full_well: float=1e6,
@@ -109,11 +109,11 @@ class Image(object):
 
         self.source = source
         self.pixel = pixel
-        self.flux = flux
-        self.bkg = bkg
+        self.rate = rate
+        self.bkg_rate = bkg_rate
         self.ron = ron
-        self.var_flux = flux
-        self.var_bkg = bkg
+        self.var_rate = rate
+        self.var_bkg_rate = bkg_rate
         self.var_ron = ron*ron
         self.gain = gain
         self.oversamp = oversamp
@@ -192,11 +192,11 @@ class Image(object):
             args=(snr),
             xtol=1e-6,
             maxiter=100
-        ) if self.flux > 0. else self.max_etime
+        ) if self.rate > 0. else self.max_etime
 
 
     def etime_bkg_sat(self) -> float:
-        return self.saturation / self.bkg if self.bkg > 0. else self.max_etime
+        return self.saturation / self.bkg_rate if self.bkg_rate > 0. else self.max_etime
 
 
     def etime_max(self, snr:float) -> float:
@@ -208,7 +208,7 @@ class Image(object):
 
 
     def etime_source_sat(self) -> float:
-        return self.saturation / self.max() if self.flux > 0. and self.bkg > 0. \
+        return self.saturation / self.max() if self.rate > 0. and self.bkg_rate > 0. \
             else self.max_etime
 
 
@@ -220,11 +220,12 @@ class Image(object):
         # Initialize random generator
         rng = np.random.default_rng()
         # Use the PSF as a template image and generate a noiseless image
-        noiseless = (self.flux * np.array([self.image] * frames) + self.bkg) * etime
+        noiseless = (self.rate * np.array([self.image] * frames) + self.bkg_rate) * etime
         # Generate Poisson + Gaussian noise realizations
         # We add a 3 sigma offset above the background to prevent negative values
-        sigmas = 3.*(self.ron*self.ron + self.bkg*etime)**0.5 / np.sqrt(exposures)
-        offset = sigmas - self.bkg * etime
+        sigmas = 3.*(self.ron*self.ron + self.bkg_rate * etime)**0.5 \
+          / np.sqrt(exposures)
+        offset = sigmas - self.bkg_rate * etime
         nmax = (noiseless.max() + offset + sigmas)  / self.gain
         noisy = np.round(
             exposures * (
@@ -266,7 +267,7 @@ class Image(object):
 
 
     def max(self) -> float:
-        return self.flux * self.image.max() + self.bkg
+        return self.rate * self.image.max() + self.bkg_rate
 
 
     def sersic(
@@ -293,20 +294,20 @@ class Image(object):
         if self.source == 'extended':
             # Compute pixel area in arcsec2
             invarea = 1. / self.pixel_area.to(u.arcsec**2).value
-            return self.flux * etime / np.sqrt(
-                (self.var_bkg * invarea + self.var_flux) * etime \
+            return self.rate * etime / np.sqrt(
+                (self.var_bkg_rate * invarea + self.var_rate) * etime \
                 + self.var_ron * invarea
             )
         # Compute the "noise variance image"
         img2 = self.image**2
         var_tot = self.var_ron + (
-            self.var_bkg + self.var_flux * self.image
+            self.var_bkg_rate + self.var_rate * self.image
         ) * etime
         if self.photometry == 'optimal_aperture':
             # (Re-)compute optimal aperture
             res = minimize_scalar(
                 fun = lambda r2: - self.snr_aper(
-                    self.flux * etime,
+                    self.rate* etime,
                     self.image,
                     var_tot,
                     self.r2 < r2,
@@ -318,13 +319,13 @@ class Image(object):
             return -res.fun
         elif self.photometry == 'model_fitting':
             # Return model-fitting SNR
-            return self.flux * etime * np.sqrt(
+            return self.rate * etime * np.sqrt(
                 np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
             )
         else:
             # Return SNR for a predefined aperture
             return self.snr_aper(
-                self.flux * etime,
+                self.rate * etime,
                 self.image,
                 var_tot,
                 self.aperture
@@ -332,10 +333,10 @@ class Image(object):
 
     def snr_aper(
             self,
-            flux: float,
+            photons: float,
             obj: np.ndarray,
             var: np.ndarray,
             aper: np.ndarray) -> float:
-        return flux * np.sum(obj * aper) / np.sqrt(np.sum(var * aper))
+        return photons * np.sum(obj * aper) / np.sqrt(np.sum(var * aper))
 
 
