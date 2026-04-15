@@ -114,9 +114,6 @@ def get_response(
             observation = Observation(photsys.spectrum, full_spec)
             # Compute ref source count rate to get effective zero-point
             ct_ref = observation.countrate(area=area, binned=False) / gain
-         zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct_ref)
-     else:
-         ct_ref = 0. * u.ct / u.s
         zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct_ref)
     else:
         ct_ref = 0. * u.ct / u.s
