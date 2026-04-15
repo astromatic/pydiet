@@ -59,10 +59,10 @@ class PhotSys(object):
 
     def _rate_from_flux(self, flux: float) -> float:
         if self.dwavelength < self.eps:
-          self.dwavelength = self.eps
+            self.dwavelength = self.eps
         # 10**(0.4*48.6) / 3e17 (in nm/s) = 91.808
         return 91.808 * self.wavelength ** 2 / self.dwavelength \
-          * (flux if flux >= self.eps else self.eps) * 1e-15
+            * (flux if flux >= self.eps else self.eps) * 1e-15
 
     def _rate_from_photons(self, photons: float) -> float:
         return photons if photons >= self.eps else self.eps
