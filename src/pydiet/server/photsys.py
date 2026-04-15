@@ -37,8 +37,10 @@ class PhotSys(object):
         elif id == 'flux':
             self.spectrum = ab_spectrum
             self.photon_rate = self._rate_from_flux  #type: ignore[assignment]
-            assert wavelength is not None  # Make mypy happy
-            assert dwavelength is not None  # Make mypy happy
+            if wavelength is None:
+                raise ValueError("wavelength is required when id == 'flux'")
+            if dwavelength is None:
+                raise ValueError("dwavelength is required when id == 'flux'")
             self.wavelength = wavelength.to_value(u.nm)
             self.dwavelength = dwavelength.to_value(u.nm)
         else:
