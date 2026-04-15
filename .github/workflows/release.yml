@@ -11,13 +11,10 @@ jobs:
 # Build and publish #
 #####################
   build:
-    name: Build Python ${{ matrix.python-version }} wheel
+    name: Build distribution
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    strategy:
-      matrix:
-        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
 
     steps:
       - name: Checkout
@@ -26,25 +23,20 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.12'
 
       - name: Install build dependencies
         run: |
           pip install --upgrade pip
           pip install build
 
-      - name: Build wheel (and sdist for 3.12 only)
-        run: |
-          if [ "${{ matrix.python-version }}" = "3.12" ]; then
-            python -m build
-          else
-            python -m build --wheel
-          fi
+      - name: Build wheel and sdist
+        run: python -m build
 
       - name: Upload distribution artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist-${{ matrix.python-version }}
+          name: dist
           path: dist/
 
   publish:
@@ -58,12 +50,11 @@ jobs:
       id-token: write
 
     steps:
-      - name: Download all distribution artifacts
+      - name: Download distribution artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: dist-*
+          name: dist
           path: dist/
-          merge-multiple: true
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
