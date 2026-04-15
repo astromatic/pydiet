@@ -1,0 +1,178 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python server &mdash; PyDIET 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx_js.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=329c186a" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Web API" href="app.html" />
+    <link rel="prev" title="API reference" href="../../api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyDIET
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../method.html">Method</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Python server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="app.html">Web API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="config.html">Config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="settings.html">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../client/index.html">JS client</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyDIET</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../api.html">API reference</a></li>
+      <li class="breadcrumb-item active">Python server</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api/server/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-server">
+<h1>Python server<a class="headerlink" href="#python-server" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app.html">Web API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="app.html#pydiet.server.app.create_app"><code class="docutils literal notranslate"><span class="pre">create_app()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.FileConfigModel"><code class="docutils literal notranslate"><span class="pre">FileConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.EmissionConfigModel"><code class="docutils literal notranslate"><span class="pre">EmissionConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.TransmissionConfigModel"><code class="docutils literal notranslate"><span class="pre">TransmissionConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.SiteConfigModel"><code class="docutils literal notranslate"><span class="pre">SiteConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.TelescopeConfigModel"><code class="docutils literal notranslate"><span class="pre">TelescopeConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.DetectorConfigModel"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.OpticsConfigModel"><code class="docutils literal notranslate"><span class="pre">OpticsConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.FiltersConfigModel"><code class="docutils literal notranslate"><span class="pre">FiltersConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.InstrumentConfigModel"><code class="docutils literal notranslate"><span class="pre">InstrumentConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.dataconfig.DataConfigModel"><code class="docutils literal notranslate"><span class="pre">DataConfigModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.exceptions.ETCValidationError"><code class="docutils literal notranslate"><span class="pre">ETCValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.instrument.DetectorModel"><code class="docutils literal notranslate"><span class="pre">DetectorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.instrument.InstrumentModel"><code class="docutils literal notranslate"><span class="pre">InstrumentModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.instrument.OpticsModel"><code class="docutils literal notranslate"><span class="pre">OpticsModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.instrument.FiltersModel"><code class="docutils literal notranslate"><span class="pre">FiltersModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.instrument.SBSEDModel"><code class="docutils literal notranslate"><span class="pre">SBSEDModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.instrument.SEDModel"><code class="docutils literal notranslate"><span class="pre">SEDModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.instrument.SiteModel"><code class="docutils literal notranslate"><span class="pre">SiteModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.instrument.TelescopeModel"><code class="docutils literal notranslate"><span class="pre">TelescopeModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.instrument.TransmissionModel"><code class="docutils literal notranslate"><span class="pre">TransmissionModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.query.ETCQueryModel"><code class="docutils literal notranslate"><span class="pre">ETCQueryModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.response.ETCResponseModel"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.types.FilterID"><code class="docutils literal notranslate"><span class="pre">FilterID</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html#pydiet.server.models.types.InstrumentID"><code class="docutils literal notranslate"><span class="pre">InstrumentID</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="types.html#pydiet.server.types.quantity.QuantityAnnotation"><code class="docutils literal notranslate"><span class="pre">QuantityAnnotation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#pydiet.server.types.quantity.AnnotatedQuantity"><code class="docutils literal notranslate"><span class="pre">AnnotatedQuantity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#pydiet.server.types.quantity.str_to_quantity_array"><code class="docutils literal notranslate"><span class="pre">str_to_quantity_array()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#pydiet.server.types.string.StrAnnotation"><code class="docutils literal notranslate"><span class="pre">StrAnnotation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#pydiet.server.types.string.AnnotatedStr"><code class="docutils literal notranslate"><span class="pre">AnnotatedStr()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="config.html#pydiet.server.config.override"><code class="docutils literal notranslate"><span class="pre">override()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html#pydiet.server.config.fields.SField"><code class="docutils literal notranslate"><span class="pre">SField()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#pydiet.server.config.settings.HostSettings"><code class="docutils literal notranslate"><span class="pre">HostSettings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#pydiet.server.config.settings.ServerSettings"><code class="docutils literal notranslate"><span class="pre">ServerSettings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#pydiet.server.config.settings.EngineSettings"><code class="docutils literal notranslate"><span class="pre">EngineSettings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#pydiet.server.config.settings.MiscSettings"><code class="docutils literal notranslate"><span class="pre">MiscSettings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html#pydiet.server.config.settings.AppSettings"><code class="docutils literal notranslate"><span class="pre">AppSettings</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../api.html" class="btn btn-neutral float-left" title="API reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="app.html" class="btn btn-neutral float-right" title="Web API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025 CFHT/CNRS/UParisSaclay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
