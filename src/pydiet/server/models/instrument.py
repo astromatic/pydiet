@@ -4,7 +4,7 @@ Data models
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
-from typing import Annotated, Dict, Optional, Tuple
+from typing import Annotated, Optional, Tuple
 
 from astropy import units as u  #type: ignore[import-untyped]
 import numpy as np
@@ -62,8 +62,8 @@ class DetectorModel(BaseModel):
         decimals = 4,
         description = "Angular pixel scale along each axis."
     )
-    transmissions: Dict[str, 'TransmissionModel']
-    emissions: Dict[str, 'SBSEDModel']
+    transmissions: dict[str, 'TransmissionModel']
+    emissions: dict[str, 'SBSEDModel']
 
 
 
@@ -243,8 +243,8 @@ class SiteModel(BaseModel):
     id: str
     name: str
     description: str
-    sky_transmissions: Dict[str, 'TransmissionModel']
-    sky_emissions: Dict[str, 'SBSEDModel']
+    sky_transmissions: dict[str, 'TransmissionModel']
+    sky_emissions: dict[str, 'SBSEDModel']
     default: bool = False
 
 
@@ -268,8 +268,8 @@ class TelescopeModel(BaseModel):
         decimals = 4,
         description = "Minimum obstruction area."
     )
-    transmissions: Dict[str, 'TransmissionModel']
-    emissions: Dict[str, 'SBSEDModel']
+    transmissions: dict[str, 'TransmissionModel']
+    emissions: dict[str, 'SBSEDModel']
     default: bool = False
 
 

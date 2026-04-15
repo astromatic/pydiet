@@ -103,31 +103,35 @@ def get_response(
     # Make virtual observation
     gain = detector.gain.value
     tpeak = full_spec.tpeak()
+    lambda_pivot = full_spec.pivot()
+    dlambda_rect = full_spec.rectwidth()
     # Actual source
-    photsys = PhotSys(q.unit)
+    photsys = PhotSys(q.unit, lambda_pivot, dlambda_rect)
     if tpeak > 0.:
-        observation = Observation(photsys.spectrum, full_spec)
-
-        # Compute ref source count rate to get effective zero-point
-        ct_ref = observation.countrate(area=area, binned=False) / gain
+        if photsys.spectrum is None:
+            ct_ref = photsys.photon_rate(q.brightness) / gain * u.ct / u.s
+        else:
+            observation = Observation(photsys.spectrum, full_spec)
+            # Compute ref source count rate to get effective zero-point
+            ct_ref = observation.countrate(area=area, binned=False) / gain
         zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct_ref)
     else:
         ct_ref = 0. * u.ct / u.s
         zp = -100. * u.mag
-    # Compute total number of reference source electrons
-    flux = (ct_ref * gain).value * photsys.flux(q.brightness)
+    # Compute total number of reference source electrons (photons per second)
+    photon_rate = (ct_ref * gain).value * photsys.photon_rate(q.brightness)
 
     # Sky background
     # Atmospheric emission
     if q.sky == 'specify':
-        sky_photsys = PhotSys(q.sky_unit)
+        sky_photsys = PhotSys(q.sky_unit, lambda_pivot, dlambda_rect)
         sky_spectrum = sky_photsys.spectrum
-        sky_flux = sky_photsys.flux(q.sky_brightness)
+        sky_photon_rate = sky_photsys.photon_rate(q.sky_brightness)
         if sky_spectrum is not None:
             # If in Jy per str, convert to arcsec2
             if q.sky_unit == 'fmegajy':
-                sky_flux *= 2.350e-11
-            sky_spectrum *= sky_flux
+                sky_photon_rate *= 2.350e-11
+            sky_spectrum *= sky_photon_rate
     else:
         sky_spectrum = spectrum_from_airmass(
             instrument.site.sky_emissions,
@@ -158,13 +162,13 @@ def get_response(
 
         # Compute number of background electrons per pixel per second
         # We explicitely assume that counts are per arcsec2
-        bkg = (ct_bkgsb * gain * (
+        bkg_rate = (ct_bkgsb * gain * (
             detector.scale[0].to(u.arcsec / u.pix)
             * detector.scale[1].to(u.arcsec / u.pix)
         )).value
     else:
         # Counts directly provided by user
-        bkg = sky_flux
+        bkg_rate = sky_photon_rate
 
     # Instantiate image model
     img = Image(
@@ -174,10 +178,10 @@ def get_response(
         sersic_radius=q.sersic_radius,
         sersic_index=q.sersic_index,
         pixel=detector.scale,
-        flux=flux,
-        bkg=bkg,
+        rate=photon_rate,
+        bkg_rate=bkg_rate,
         # Use RON 'counts' instead of electrons for compatibility with synphot
-        ron=detector.ron.to('electron').value,
+        ron=detector.ron.to_value('electron'),
         gain=gain,
         photometry=q.photometry,
         aperture=q.aperture
@@ -207,10 +211,10 @@ def get_response(
             etime = etime,
             etime_skysat = img.etime_bkg_sat(),
             etime_sourcesat = img.etime_source_sat(),
-            ttime = q.exposures * (etime + instrument.overhead.to(u.s).value),
+            ttime = q.exposures * (etime + instrument.overhead.to_value(u.s)),
             sky_mag = mag_bkgsb.value,
-            lambda_pivot = full_spec.pivot().to(u.nm).value,
-            bandwidth_rect = full_spec.rectwidth().to(u.nm).value,
+            lambda_pivot = lambda_pivot.to_value(u.nm),
+            bandwidth_rect = dlambda_rect.to_value(u.nm),
             cutout = img.gif(etime, exposures=q.exposures) if ui else None,
             filter_transmission = TransmissionModel(
                 id = instrument_transmission.id,

@@ -136,6 +136,7 @@ latex_elements = {
 add_module_names = False
 autodoc_member_order = 'bysource'
 #autodoc_mock_imports = ['', '']
+autodoc_pydantic_model_show_json = False
 
 # -- Napoleon options---------------------------------------------------------
 # Set return type to "inline".

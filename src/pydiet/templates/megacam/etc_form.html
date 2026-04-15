@@ -12,7 +12,7 @@
   <ion-grid>
     <ion-row class="ion-align-items-center">
       <!----------------------------- compute -------------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-select onfocus="
               /* Change use of SNR input to exposure time if SNR is output */
@@ -32,7 +32,7 @@
       </ion-col>
 
       <!----------------------- Number of exposures -------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-input oninput="
               /* Change use of SNR input to exposure time if SNR is output */
@@ -47,7 +47,7 @@
       </ion-col>
 
       <!----------------------------- Stacking ------------------------------->
-      <ion-col class="stacking ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col class="stacking ion-hide" size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-select name="stacking" label="Stacking" label-placement="floating" fill="solid" interface="popover" value="median">
             <ion-select-option value="average">average</ion-select-option>
@@ -57,14 +57,14 @@
       </ion-col>
 
       <!--------------------------- snr or etime ----------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-input class="snr" name="snr" label="Signal-to-Noise ratio" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" step="0.1"  value="10.0"></ion-input>
         </ion-item>
       </ion-col>
 
       <!----------------------------- source --------------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-select onfocus="
               /* Display galaxy-related inputs if the source type is 'galaxy' */
@@ -77,13 +77,19 @@
                 gal.forEach(el => el.classList.add('ion-hide'));
               if (this.value == 'extended') {
                 phot.classList.add('ion-hide');
-                if (!bright.label.includes('arcsec'))
-                  bright.label = bright.label.replace(']', '.arcsec&#8315;&sup2;]');
+                const slot = bright.querySelector(`[slot='label']`);
+                var label = slot.innerHTML;
+                if (!label.includes('arcsec'))
+                  slot.innerHTML = label.includes(']') ?
+                    label.replace(']', '.arcsec<sup>-2</sup>]')
+                    : label + '.arcsec<sup>-2</sup>';
               } else {
                 phot.classList.remove('ion-hide');
-                bright.label = bright.label.replace('.arcsec&#8315;&sup2;]', ']');
+                const slot = bright.querySelector(`[slot='label']`);
+                var label = slot.innerHTML;
+                slot.innerHTML = label.replace('.arcsec<sup>-2</sup>', '');
               }
-              " name="source" label="Source type" label-placement="floating" fill="solid" interface="popover" value="point_source">
+              " class="source" name="source" label="Source type" label-placement="floating" fill="solid" interface="popover" value="point_source">
             <ion-select-option value="point_source">point source</ion-select-option>
             <ion-select-option value="galaxy">galaxy</ion-select-option>
             <ion-select-option value="extended">extended</ion-select-option>
@@ -92,28 +98,28 @@
       </ion-col>
 
       <!-------------------------- sersic_radius ----------------------------->
-      <ion-col class="galaxy ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col class="galaxy ion-hide" size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-input name="sersic_radius" label="Sérsic Rₑ [ &quot; ]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" max="10.0" step="0.1" value="1.0"></ion-input>
         </ion-item>
       </ion-col>
 
       <!-------------------------- sersic_index ------------------------------>
-      <ion-col class="galaxy ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col class="galaxy ion-hide" size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
          <ion-input name="sersic_index" label="Sérsic index" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.4" max="10.0" step="0.1" value="1.0"></ion-input>
         </ion-item>
       </ion-col>
 
       <!----------------------------- seeing --------------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-input name="seeing" label="Seeing  [ &quot; ]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.1" max="20.0" step="0.01" value="0.7"></ion-input>
         </ion-item>
       </ion-col>
 
       <!----------------------------- filter --------------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-select onfocus="
               /* Display filter upload menu if filter is 'upload'*/
@@ -134,46 +140,64 @@
       </ion-col>
 
       <!--------------------------- filter file ------------------------------>
-      <ion-col class="filter-upload ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col class="filter-upload ion-hide" size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
          <input name="filter_upload" label="Filter upload" label-placement="floating" fill="solid" type="file" accept=".fits,.fit,application/fits"></ion-input>
         </ion-item>
       </ion-col>
 
       <!--------------------------- brightness ------------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
-          <ion-input class="brightness" name="brightness" label="AB magnitude" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.01" value="20.0"></ion-input>
+          <ion-input class="brightness" name="brightness" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.01" value="20.0">
+            <div slot="label">Source AB magnitude</div>
+          </ion-input>
         </ion-item>
       </ion-col>
 
       <!------------------------------ unit ---------------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
            <ion-select onfocus="
               /* Change brightness label depending on unit */
-              const bright=document.querySelector('.brightness');
+              const bright=document.querySelector('.brightness'),
+                slot=bright.querySelector(`[slot='label']`),
+                extended=document.querySelector('.source').value == 'extended';
               if (this.value=='abmag' || this.value=='vegamag') {
-                bright.label = this.value=='vegamag' ? 'Vega magnitude' : 'AB magnitude';
+                slot.innerHTML = this.value=='vegamag' ?
+                  'Source Vega magnitude'
+                  : 'Source AB magnitude';
+                if (extended && !slot.innerHTML.includes('arcsec'))
+                  slot.innerHTML += '.arcsec<sup>-2</sup>';
                 bright.min = '-40.0';
                 bright.max = '40.0';
                 bright.step = '0.01';
               } else if (this.value=='fmujy') {
-                bright.label = 'Flux [μJy]';
+                slot.innerHTML = extended ?
+                  'Source flux density [μJy.arcsec<sup>-2</sup>]'
+                  : 'Source flux density [μJy]';
                 bright.min = '0.0';
                 bright.max = '1000.0';
                 bright.step = 'any';
+              } else if (this.value=='flux') {
+                slot.innerHTML = extended ?
+                  'Source flux [10<sup>-15</sup> erg.s<sup>-1</sup>.cm<sup>-2</sup>.arcsec<sup>-2</sup>]'
+                  : 'Source flux [10<sup>-15</sup> erg.s<sup>-1</sup>.cm<sup>-2</sup>]';
+                bright.min = '0.0';
+                bright.max = '100000.0';
+                bright.step = 'any';
               }
-              " name="unit" label="Unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
+              " name="unit" label="Source unit" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag</ion-select-option>
-              <ion-select-option value="vegamag">Vega mag</sub></ion-select-option>
+              <ion-select-option value="vegamag">Vega mag</ion-select-option>
               <ion-select-option value="fmujy">μJy</ion-select-option>
+              <ion-select-option value="flux">flux</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
 
       <!--------------------------- photometry ------------------------------->
-      <ion-col class="photometry" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col class="photometry" size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-select onfocus="
               /* Display extra aperture inputs if photometry type is 'aperture' */
@@ -192,14 +216,14 @@
       </ion-col>
 
       <!---------------------------- aperture --------------------------->
-      <ion-col class="photometry-aperture ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col class="photometry-aperture ion-hide" size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
          <ion-input class="aperture" name="aperture" label="Aperture diameter  [ &quot; ]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.1" max="15.0" step="0.1" value="3.0"></ion-input>
         </ion-item>
       </ion-col>
 
       <!------------------------------ sky ----------------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-select onfocus="
               /* Display extra sky inputs if the sky type is 'specify' */
@@ -218,52 +242,62 @@
       </ion-col>
 
       <!--------------------------- sky_brightness --------------------------->
-      <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
-         <ion-input class="sky-brightness" name="sky_brightness" label="Sky value [AB mag.arcsec&#8315;&sup2;]" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.1" value="22.0"></ion-input>
+         <ion-input class="sky-brightness" name="sky_brightness" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.1" value="22.0">
+            <div slot="label">Sky value AB mag.arcsec<sup>-2</sup></div>
+         </ion-input>
         </ion-item>
       </ion-col>
 
       <!---------------------------- sky_unit ------------------------------->
-      <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-select onfocus="
               /* Change sky brightness label and limits depending on sky unit */
               const sky=document.querySelector('.sky-brightness');
               if (this.value=='abmag' || this.value=='vegamag') {
-                sky.label = this.value=='vegamag' ? 'Sky value [Vega mag.arcsec&#8315;&sup2;]' : 'Sky value [AB mag.arcsec&#8315;&sup2;]';
+                sky.querySelector(`[slot='label']`).innerHTML = this.value=='vegamag' ?
+                  'Sky value [Vega mag.arcsec<sup>-2</sup>]'
+                  : 'Sky value [AB mag.arcsec<sup>-2</sup>]';
                 sky.min = '-40.0';
                 sky.max = '40.0';
                 sky.step = '0.1';
               } else if (this.value=='fmegajy') {
-                sky.label = 'Sky value [MJy.str&dash;&sup1]'
+                sky.querySelector(`[slot='label']`).innerHTML = 'Sky value [MJy.str<sup>-1</sup>]'
                 sky.min = '0.0';
                 sky.max = '1000.0';
                 sky.step = 'any';
+              } else if (this.value=='flux') {
+                sky.querySelector(`[slot='label']`).innerHTML = 'Sky value [10<sup>-15</sup> erg.s<sup>-1</sup>.cm<sup>-2</sup>.arcsec<sup>-2</sup>]';
+                sky.min = '0.0';
+                sky.max = '100000.0';
+                sky.step = 'any';
               } else if (this.value=='photons') {
-                sky.label = 'Sky value [photons.&#8315;&sup1;.px&#8315;&sup1;]'
+                sky.querySelector(`[slot='label']`).innerHTML = 'Sky value [photons.s<sup>-1</sup>.px<sup>-1</sup>]'
                 sky.min = '0.0';
                 sky.max = '1000.0';
                 sky.step = 'any';
               }
               " name="sky_unit" label="Sky unit" width="200px" label-placement="floating" fill="solid" interface="popover" value="abmag">
               <ion-select-option value="abmag">AB mag.arcsec&dash;&sup2</ion-select-option>
-              <ion-select-option value="vegamag">Vega mag.arcsec&dash;&sup2</sub></ion-select-option>
+              <ion-select-option value="vegamag">Vega mag.arcsec&dash;&sup2</ion-select-option>
               <ion-select-option value="fmegajy">MJy.str&dash;&sup1</ion-select-option>
+              <ion-select-option value="flux">flux.arcsec&dash;&sup2</ion-select-option>
               <ion-select-option value="photons">photons.s&dash;&sup1.px&dash;&sup1</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
 
       <!---------------------------- airmass --------------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-input name="airmass" label="Airmass" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="1.0" step="0.01" value="1.2"></ion-input>
         </ion-item>
       </ion-col>
 
       <!--------------------------- transparency ----------------------------->
-      <ion-col size-xl="2" size-lg="3" size-md="3" size-sm="4" size-xs="12">
+      <ion-col size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
           <ion-input name="transparency" label="Transparency" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="0.0" max="1.0" step="0.01" value="1.0"></ion-input>
         </ion-item>
