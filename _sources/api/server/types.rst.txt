@@ -5,7 +5,7 @@ Types
    :members:
    :show-inheritance:
 
-.. automodule:: pydiet.server.models.string
+.. automodule:: pydiet.server.types.string
    :members:
    :show-inheritance:
 
