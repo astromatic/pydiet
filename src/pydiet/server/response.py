@@ -109,7 +109,7 @@ def get_response(
     photsys = PhotSys(q.unit, lambda_pivot, dlambda_rect)
     if tpeak > 0.:
         if photsys.spectrum is None:
-            ct_ref = photsys.photon_rate() / gain * u.ct / u.s
+            ct_ref = photsys.photon_rate(q.brightness) / gain * u.ct / u.s
         else:
             observation = Observation(photsys.spectrum, full_spec)
             # Compute ref source count rate to get effective zero-point
