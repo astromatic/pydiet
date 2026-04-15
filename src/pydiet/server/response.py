@@ -104,9 +104,9 @@ def get_response(
     gain = detector.gain.value
     tpeak = full_spec.tpeak()
     lambda_pivot = full_spec.pivot()
-    dlambda_equiv = full_spec.equivwidth()
+    dlambda_rect = full_spec.rectwidth()
     # Actual source
-    photsys = PhotSys(q.unit, lambda_pivot, dlambda_equiv)
+    photsys = PhotSys(q.unit, lambda_pivot, dlambda_rect)
     if tpeak > 0.:
         observation = Observation(photsys.spectrum, full_spec)
 
@@ -122,7 +122,7 @@ def get_response(
     # Sky background
     # Atmospheric emission
     if q.sky == 'specify':
-        sky_photsys = PhotSys(q.sky_unit, lambda_pivot, dlambda_equiv)
+        sky_photsys = PhotSys(q.sky_unit, lambda_pivot, dlambda_rect)
         sky_spectrum = sky_photsys.spectrum
         sky_photon_rate = sky_photsys.photon_rate(q.sky_brightness)
         if sky_spectrum is not None:
@@ -212,7 +212,7 @@ def get_response(
             ttime = q.exposures * (etime + instrument.overhead.to_value(u.s)),
             sky_mag = mag_bkgsb.value,
             lambda_pivot = lambda_pivot.to_value(u.nm),
-            bandwidth_rect = dlambda_equiv.to_value(u.nm),
+            bandwidth_rect = dlambda_rect.to_value(u.nm),
             cutout = img.gif(etime, exposures=q.exposures) if ui else None,
             filter_transmission = TransmissionModel(
                 id = instrument_transmission.id,
