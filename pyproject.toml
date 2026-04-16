@@ -4,7 +4,7 @@ build-backend = "pdm.backend"
 
 [project]
 name = "PyDIET"
-version = "0.9.3"
+version = "0.9.3dev"
 description = "CFHT's Direct Imaging Exposure Time calculator (DIET)"
 authors = [
     {name = "Emmanuel Bertin", email = "bertin@cfht.hawaii.edu"},
@@ -18,7 +18,7 @@ dependencies = [
     "fastapi >= 0.74",
     "httpx >=0.28,<0.29",
     "jinja2 >= 3.1.2",
-    "numpy < 2.0",
+    "numpy >= 1.22",
     "pillow >= 11.0",
     "platformdirs >= 3.4.0",
     "pydantic >= 2.2",
