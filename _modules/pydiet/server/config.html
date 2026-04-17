@@ -88,7 +88,6 @@
 <span class="c1"># Initialize global dictionary</span>
 <span class="c1"># Set up settings by instantiating a configuration object</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">AppSettings</span><span class="p">())</span>
-<span class="n">config_filename</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">settings</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">flat_dict</span><span class="p">()</span>
 
 
@@ -124,8 +123,6 @@
     <span class="k">return</span> <span class="n">settings</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">value</span></div>
 
 
-
-<span class="n">config_filename</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">config_filename</span>
 
 </pre></div>
 
