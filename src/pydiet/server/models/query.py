@@ -73,7 +73,7 @@ class ETCQueryModel(BaseModel):
     )
 
     filter: FilterID = Field(
-        default=default_filter,
+        default=default_filter.id,
         description="Instrument filter"
     )
 
