@@ -34,7 +34,7 @@ from pydantic import BaseModel, ValidationError
 from pydantic_core import InitErrorDetails, PydanticCustomError
 
 from .. import package
-from .config import config_filename, settings
+from .config import config, settings
 from .response import get_response
 
 from .models import (
@@ -65,11 +65,11 @@ def create_app() -> FastAPI:
     logger = getLogger("uvicorn.error")
 
     # Provide an endpoint for the user's manual (if it exists)
-    if config_filename:
-        logger.info(f"Configuration read from {config_filename}.")
+    if config.config_filename:
+        logger.info(f"Configuration read from {config.config_filename}.")
     else:
         logger.warning(
-            f"Configuration file not found: {config_filename}!"
+            f"Configuration file not found: {config.config_filename}!"
         )
 
     app = FastAPI(

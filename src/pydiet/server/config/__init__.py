@@ -13,7 +13,6 @@ from .settings import AppSettings
 # Initialize global dictionary
 # Set up settings by instantiating a configuration object
 config = Config(AppSettings())
-config_filename = None
 settings = config.flat_dict()
 
 
@@ -46,6 +45,4 @@ def override(key: str, value: Any) -> Any:
     """
     return settings[key] if value is None else value
 
-
-config_filename = config.config_filename
 

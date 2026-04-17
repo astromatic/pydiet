@@ -213,7 +213,7 @@ class Config(object):
                         help=f"{help} (default={default})"
                     )  
         # Generate dictionary of args grouped by section
-        fdict = vars(parser.parse_args())
+        fdict = vars(parser.parse_known_args()[0])
         gdict = {}
         # Command-line specific arguments
         gdict['version'] = fdict['version']

@@ -19,7 +19,7 @@ from pydiet.server import config
 def start_server(
         app: str="pydiet.server.app:create_app",
         host: str="localhost",
-        port: int=8009,
+        port: int=8010,
         root_path: str="",
         workers: int=4,
         access_log: bool=False,
