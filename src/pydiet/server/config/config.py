@@ -1,5 +1,5 @@
 """
-Configure application.
+Manage configuration.
 """
 # Copyright CEA/CFHT/CNRS/UParisSaclay
 # Licensed under the MIT licence
@@ -140,29 +140,29 @@ class Config(object):
         gdict: dict
             Dictionary of all settings, organized in groups.
         """
-        parser = ArgumentParser(
+        self.parser = ArgumentParser(
             description=f"{package.title} v{package.version} : {package.summary}"
         )
         # Add options not relevant to configuration itself
-        parser.add_argument(
+        self.parser.add_argument(
             "-V", "--version",
             default=False,
             help="Return the version of the package and exit", 
             action='store_true'
         )
-        parser.add_argument(
+        self.parser.add_argument(
             "-c", "--config",
             type=str, default=package.config_file,
             help=f"Configuration filename (default={package.config_file})", 
             metavar="FILE"
         )
-        parser.add_argument(
+        self.parser.add_argument(
             "-s", "--save_config",
             default=False,
             help=f"Save a default {package.title} configuration file and exit",
             action='store_true'
         )
-        parser.add_argument(
+        self.parser.add_argument(
             "-S", "--show_config",
             default=False,
             help=f"Print the actual {package.title} configuration settings",
@@ -170,7 +170,7 @@ class Config(object):
         )
 
         for group in self.groups:
-            args_group = parser.add_argument_group(group.title())
+            args_group = self.parser.add_argument_group(group.title())
             groupsettings = getattr(self.settings, group)
             settings = groupsettings.schema()['properties']
             defaults = groupsettings.dict()
@@ -213,7 +213,7 @@ class Config(object):
                         help=f"{help} (default={default})"
                     )  
         # Generate dictionary of args grouped by section
-        fdict = vars(parser.parse_known_args()[0])
+        fdict = vars(self.parser.parse_known_args()[0])
         gdict = {}
         # Command-line specific arguments
         gdict['version'] = fdict['version']

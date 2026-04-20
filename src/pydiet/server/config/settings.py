@@ -159,6 +159,9 @@ class MiscSettings(BaseSettings):
 
 
 class AppSettings(BaseSettings):
+    """
+    Merged application settings.
+    """
     host: BaseSettings = HostSettings()
     server: BaseSettings = ServerSettings()
     engine: BaseSettings = EngineSettings()
