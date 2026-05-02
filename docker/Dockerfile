@@ -19,7 +19,6 @@ RUN apt update && apt upgrade -y
 RUN apt-get install -y software-properties-common build-essential
 
 # Add Python packages and other goodiexs
-RUN add-apt-repository ppa:deadsnakes/ppa -y; 
 RUN apt-get install -y python3-pip python3-dev python3-venv\
     python-is-python3 \
     vim \
