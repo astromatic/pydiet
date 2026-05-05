@@ -16,12 +16,30 @@ from ..server.config import settings
 
 
 class Client:
+    """
+    Class for the Python client API.
+
+    Parameters
+    ----------
+    api_url: str, optional
+        API root URL (defaults to "api_path" setting).
+    """
     def __init__(self, api_url: Optional[str]=None) -> None:
         self.api_url = f"http://{settings['host']}" \
             f":{settings['port']}{settings['api_path']}" if api_url is None \
             else api_url
 
 
+    """
+    Query ETC API using an ETC query model.
+
+    Parameters
+    ----------
+    query: ETCQueryModel
+        Pydantic ETC query model instance.
+    timeout: float, optional
+        Query time out parameter in seconds.
+    """
     def query(
             self,
             query: ETCQueryModel,

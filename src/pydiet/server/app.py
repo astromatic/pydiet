@@ -48,7 +48,12 @@ from .data import winstruments
 
 def create_app() -> FastAPI:
     """
-    Create FASTAPI application
+    Instantiate FASTAPI application based on user settings.
+
+    Returns
+    -------
+    app: FastAPI object
+        FastAPI application.
     """
 
     banner_template = settings["banner_template"]
@@ -169,13 +174,21 @@ def create_app() -> FastAPI:
 
     @app.get(api_path + "/health", tags=["Web API"])
     async def get_health():
+        """
+        GET endpoint for server health check.
+
+        Returns
+        -------
+        response:  byte stream
+            Returns "ok" string if server is alive.
+        """
         return {"ok": True}
 
 
     @app.get(api_path + "/instruments", tags=["Web API"])
     async def get_api_instruments():
         """
-        Endpoint for instrument list.
+        GET endpoint for instrument list.
 
         Returns
         -------
@@ -253,7 +266,7 @@ def create_app() -> FastAPI:
             ),
             query: ETCQueryModel = Depends()):
         """
-        Endpoint for UI component with ETC query string.
+        GET endpoint for UI component with ETC query string.
         Use "common" as instrument for components shared by all instruments.
 
         Returns
@@ -287,7 +300,7 @@ def create_app() -> FastAPI:
             ),
             filter_upload: UploadFile | None = File(None)):
         """
-        Endpoint for UI component with ETC query string.
+        POST endpoint for UI component with ETC query string.
         Use "common" as instrument for components shared by all instruments.
 
         Returns
@@ -330,7 +343,7 @@ def create_app() -> FastAPI:
                 description="Name of the UI component"
             )):
         """
-        Endpoint for UI component without an ETC query string.
+        GET endpoint for UI component without an ETC query string.
         Use "common" as instrument for components shared by all instruments.
 
         Returns
@@ -355,6 +368,12 @@ def create_app() -> FastAPI:
     async def get_ui(request: Request):
         """
         Main web user interface.
+
+        Returns
+        -------
+        response: byte stream
+            `HTML response <https://fastapi.tiangolo.com/advanced/custom-response/#htmlresponse>`_
+            with the web user interface.
         """
         return templates.TemplateResponse(
             request = request,
