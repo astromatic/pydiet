@@ -181,10 +181,38 @@ class Image(object):
 
 
     def delta_snr2(self, etime: float, snr: float) -> float:
+        """
+        Return increment in the SNR-square (callback used for root finding).
+
+        Parameters
+        ----------
+        etime: float
+            Exposure time in seconds.
+        snr: float
+            Reference Signal-to-Noise Ratio.
+
+        Returns
+        -------
+        delta_snr2: float
+            Difference between the SNR**2 computed from etime and snr**2.
+        """
         return self.snr(etime=etime)**2 - snr**2
 
 
     def etime(self, snr: float) -> float:
+        """
+        Compute exposure time for a given SNR using root finding.
+
+        Parameters
+        ----------
+        snr: float
+            Signal-to-Noise Ratio.
+
+        Returns
+        -------
+        etime: float
+            Exposure time in seconds.
+        """
         return brentq(
             f=self.delta_snr2,
             a=0.,
@@ -196,11 +224,32 @@ class Image(object):
 
 
     def etime_bkg_sat(self) -> float:
+        """
+        Compute the exposure time needed for the background to saturate the detector.
+
+        Returns
+        -------
+        etime: float
+            Exposure time in seconds.
+        """
         return self.saturation / self.bkg_rate if self.bkg_rate > 0. else self.max_etime
 
 
     def etime_max(self, snr:float) -> float:
-        # Find exposure time range for root finding
+        """
+        Quickly find maximum exposure time for root finding.
+
+        Parameters
+        ----------
+        snr: float
+            Signal-to-Noise Ratio.
+
+        Returns
+        -------
+        etime: float
+            Maximum exposure time in seconds.
+        """
+        # 
         t_high = 1.
         while (tsnr:=self.snr(t_high)) < snr and tsnr < 1.e12:
             t_high *= 2.
@@ -208,15 +257,50 @@ class Image(object):
 
 
     def etime_source_sat(self) -> float:
+        """
+        Compute the exposure time needed for the source to saturate the detector.
+
+        Returns
+        -------
+        etime: float
+            Exposure time in seconds.
+        """
+        return self.saturation / self.bkg_rate if self.bkg_rate > 0. else self.max_etime
+
+
         return self.saturation / self.max() if self.rate > 0. and self.bkg_rate > 0. \
             else self.max_etime
 
 
     def extended(self) -> np.ndarray:
+        """
+        Return an image (free of background and noise) of a flat, disk-shaped
+        source with constant value equal to the area of a single pixel in arcsec2.
+
+        Returns
+        -------
+        array: ~numpy.ndarray 
+            Array with the image of an extended source.
+        """
         return self.mask * self.pixel_area.to(u.arcsec**2).value
 
 
     def gif(self, etime: float, exposures: int=1, frames: int=10) -> str:
+        """
+        Return a GIF animated image of the source for a given exposure time.
+
+        Parameters
+        ----------
+        etime: float
+            Exposure time in seconds.
+        exposures: int
+            Number of animation frames.
+
+        Returns
+        -------
+        delta_snr2: str
+            Base64-encoded GIF animated image. 
+        """
         # Initialize random generator
         rng = np.random.default_rng()
         # Use the PSF as a template image and generate a noiseless image
@@ -267,6 +351,14 @@ class Image(object):
 
 
     def max(self) -> float:
+        """
+        Return the maximum expected pixel value of the source image.
+
+        Returns
+        -------
+        max: float 
+            Maximum pixel value
+        """
         return self.rate * self.image.max() + self.bkg_rate
 
 
@@ -274,6 +366,22 @@ class Image(object):
             self,
             re: u.Quantity['angle']=1.*u.arcsec,  #type: ignore[name-defined]
             n: float=1.) -> np.ndarray:
+        """
+        Return an image (free of background and noise) of a circular source
+        with a pure Sérsic radial profile.
+
+        Parameters
+        ----------
+        re: ~astropy.units.Quantity['angle'], optional
+            Effective angular radius.
+        n: float, optional
+            Sérsic index.
+
+        Returns
+        -------
+        array: ~numpy.ndarray 
+            Array with the image of a Sérsic galaxy.
+        """
         # Model validity limits
         if n < 0.36:
             n = 0.36
@@ -290,6 +398,20 @@ class Image(object):
 
 
     def snr(self, etime: float=1.) -> float:
+        """
+        Return the Signal-to-Noise Ratio (SNR) of the source for a given
+        exposure time. The SNR is computed according to photometry settings.
+
+        Parameters
+        ----------
+        etime: float, optional
+            Exposure time in seconds.
+
+        Returns
+        -------
+        snr: float
+            Source Signal-to-Noise ratio
+        """
         # First treat special case of extended source
         if self.source == 'extended':
             # Compute pixel area in arcsec2
@@ -337,6 +459,26 @@ class Image(object):
             obj: np.ndarray,
             var: np.ndarray,
             aper: np.ndarray) -> float:
+        """
+        Return the Signal-to-Noise Ratio (SNR) of a source with a given
+        number of photons and variance map in a given aperture.
+
+        Parameters
+        ----------
+        photons: float
+            Number of sources photons.
+        obj: ~numpy.ndarray
+            Normalized, expected image of the source (without background).
+        var: ~numpy.ndarray
+            Variance map of the source image.
+        aper: ~numpy.ndarray
+            Boolean aperture mask (True inside the aperture).
+
+        Returns
+        -------
+        snr: float
+            Source Signal-to-Noise ratio
+        """
         return photons * np.sum(obj * aper) / np.sqrt(np.sum(var * aper))
 
 
