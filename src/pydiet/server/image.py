@@ -149,7 +149,7 @@ class Image(object):
         alpha2 = u.Quantity(psf_fwhm)**2 / (4. * (2.**(1./psf_beta) - 1.)) \
             / self.pixel_area
         # Create PSF raster
-        moffat = np.power(1. + r2 / alpha2, -psf_beta) 
+        moffat = np.power(1. + r2 / np.float32(alpha2), -psf_beta) 
 
         # Truncate inside a disk
         moffat *= self.mask
@@ -282,7 +282,7 @@ class Image(object):
         array: ~numpy.ndarray 
             Array with the image of an extended source.
         """
-        return self.mask * self.pixel_area.to(u.arcsec**2).value
+        return self.mask * np.float32(self.pixel_area.to(u.arcsec**2).value)
 
 
     def gif(self, etime: float, exposures: int=1, frames: int=10) -> str:
@@ -390,7 +390,9 @@ class Image(object):
             + 1.1409e-4 * n**(-3) - 7.151e-5 * n**(-4)
         inv2n = 0.5 / n
         invre2 = (self.pixel_area / re**2).value
-        sersic = np.exp(-bn * (np.power(self.r2 * invre2, inv2n) - 1.))
+        sersic = np.exp(
+            -np.float32(bn) * (np.power(self.r2 * np.float32(invre2), inv2n) - 1.)
+        )
         sersic = np.fft.irfft2(
             np.fft.rfft2(sersic) * np.fft.rfft2(np.fft.fftshift(self.psf))
         ) * self.mask
@@ -422,9 +424,9 @@ class Image(object):
             )
         # Compute the "noise variance image"
         img2 = self.image**2
-        var_tot = self.var_ron + (
-            self.var_bkg_rate + self.var_rate * self.image
-        ) * etime
+        var_tot = np.float32(self.var_ron) + (
+            np.float32(self.var_bkg_rate) + np.float32(self.var_rate) * self.image
+        ) * np.float32(etime)
         if self.photometry == 'optimal_aperture':
             # (Re-)compute optimal aperture
             res = minimize_scalar(
