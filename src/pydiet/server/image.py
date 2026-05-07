@@ -25,12 +25,13 @@ class Image(object):
     Examples
     --------
     >>> from astropy import units as u
+    >>> from .image import Image
 
     >>> img = Image(
     ...     source='point_source',
     ...     psf_fwhm=0.8 * u.arcsec,
     ...     psf_beta=3.2,
-    ...     pixel=(0.186 * u.arcsec, 0.186 * u.arcsec),
+    ...     pixel_scale=(0.186, 0.186) * u.arcsec/u.pix,
     ...     rate=42.,
     ...     bkg_rate=10.,
     ...     ron=4.,
@@ -38,13 +39,13 @@ class Image(object):
     ...     photometry='model_fitting'
     ... )
 
-   >>> # Compute SNR from exposure time
-   >>> print(f"{img.snr(etime=10.):.1f}")
-   4.6
+    >>> # Compute SNR from exposure time
+    >>> print(f"{img.snr(etime=10.):.1f}")
+    4.6
 
-   >>> # Compute Exposure time from SNR
-   >>> print(f"{img.etime(snr=10.):.1f}")
-   43.0
+    >>> # Compute Exposure time from SNR
+    >>> print(f"{img.etime(snr=10.):.1f}")
+    43.0
 
 
     Parameters
@@ -93,7 +94,7 @@ class Image(object):
             psf_beta: float=3.2,
             sersic_radius: u.Quantity['angle']=1.*u.arcsec, #type: ignore[name-defined]
             sersic_index: float=1.,
-            pixel: u.Quantity['angle']=(0.2, 0.2)*u.arcsec, #type: ignore[name-defined]
+            pixel_scale: u.Quantity['angle']=(0.2, 0.2)*u.arcsec/u.pix, #type: ignore[name-defined]
             image_size: Tuple[int, int]=(64, 64),
             rate: float=1.,
             bkg_rate: float=0.,
@@ -108,7 +109,7 @@ class Image(object):
             max_etime: u.Quantity['time'] = 1e9 * u.s) -> None:  #type: ignore[name-defined]
 
         self.source = source
-        self.pixel = pixel
+        self.pixel_scale = pixel_scale
         self.rate = rate
         self.bkg_rate = bkg_rate
         self.ron = ron
@@ -134,7 +135,7 @@ class Image(object):
         self.mask_r2 = r2[0, raster_size[1]//2]
         self.mask = r2 <= self.mask_r2
 
-        self.pixel_area = (pixel[0] * pixel[1]) / oversamp**2 * u.pix**2
+        self.pixel_area = (pixel_scale[0] * pixel_scale[1]) / oversamp**2 * u.pix**2
 
         if source == 'extended':
             self.image = self.extended()
@@ -147,7 +148,6 @@ class Image(object):
         # Compute the square of the alpha parameter from the FWHM
         alpha2 = u.Quantity(psf_fwhm)**2 / (4. * (2.**(1./psf_beta) - 1.)) \
             / self.pixel_area
-
         # Create PSF raster
         moffat = np.power(1. + r2 / alpha2, -psf_beta) 
 

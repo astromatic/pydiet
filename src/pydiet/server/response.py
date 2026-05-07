@@ -177,7 +177,7 @@ def get_response(
         psf_beta=3.2,
         sersic_radius=q.sersic_radius,
         sersic_index=q.sersic_index,
-        pixel=detector.scale,
+        pixel_scale=detector.scale,
         rate=photon_rate,
         bkg_rate=bkg_rate,
         # Use RON 'counts' instead of electrons for compatibility with synphot
