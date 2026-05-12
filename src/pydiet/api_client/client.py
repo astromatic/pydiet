@@ -45,7 +45,6 @@ class Client:
             query: ETCQueryModel,
             timeout: float=10.) -> ETCResponseModel:
         headers: dict[str, str] = {"Accept": "application/json"}
-        print(f"{self.api_url}/{query.instrument}")
         try:
             with httpx.Client(timeout=timeout, headers=headers) as client:
                 response = client.get(
