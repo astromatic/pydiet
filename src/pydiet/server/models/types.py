@@ -4,30 +4,33 @@ Custom types for PyDIET data models
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
-from enum import Enum
+from enum import StrEnum
 from typing import Literal
 
-from .default import filters, instruments
+from .default import filters, instruments, mirrors
 
 ComputeID = Literal['etime', 'snr']
 
-FilterID = Enum(  # type: ignore[misc]
+FilterID = StrEnum(  # type: ignore[misc]
     "FilterID",
-    {tag : tag for tag in filters.keys()} | {'upload' : 'upload'},
-    type=str
+    {tag : tag for tag in filters.keys()} | {'upload' : 'upload'}
 )
 
-InstrumentID = Enum(  # type: ignore[misc]
+InstrumentID = StrEnum(  # type: ignore[misc]
     "InstrumentID",
-    {tag : tag for tag in instruments.keys()},
-    type=str
+    {tag : tag for tag in instruments.keys()}
 )
 
-SkyID = Literal['dark', 'grey', 'bright', 'specify']
+MirrorID = StrEnum(  # type: ignore[misc]
+    "MirrorID",
+    {tag : tag for tag in mirrors.keys()}
+)
 
 PhotometryID = Literal['model_fitting', 'fixed_aperture', 'optimal_aperture', 'large_aperture']
 
 PhotSysID = Literal['abmag', 'vegamag', 'fmegajy', 'fmujy', 'flux', 'photons']
+
+SkyID = Literal['dark', 'grey', 'bright', 'specify']
 
 SourceID = Literal['point_source', 'galaxy', 'extended']
 

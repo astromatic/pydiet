@@ -20,8 +20,13 @@ instruments = get_instruments(data_config)
 default_instrument = get_default(instruments)
 winstruments = get_webapi_instruments(instruments)
 
+# Filter sets for all instruments
 filters = {k:v for key,val in instruments.items() for k,v in val.filters.transmissions.items()}
 default_filter = get_default(default_instrument.filters.transmissions)
+
+# Mirror conditions for all instruments
+mirrors = {k:v for key,val in instruments.items() for k,v in val.telescope.transmissions.items()}
+default_mirror = get_default(default_instrument.telescope.transmissions)
 
 # Load reference spectra
 ab_spectrum = SourceSpectrum(ConstFlux1D, amplitude = 0.*u.ABmag)

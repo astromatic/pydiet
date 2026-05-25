@@ -13,12 +13,20 @@ from pydantic import (
     field_validator
 )
 
-from .default import default_filter, default_instrument, filters, instruments
+from .default import (
+    default_filter,
+    default_instrument,
+    default_mirror,
+    filters,
+    instruments,
+    mirrors
+)
 from .exceptions import ETCValidationError
 from .types import (
     ComputeID,
     FilterID,
     InstrumentID,
+    MirrorID,
     PhotometryID,
     PhotSysID,
     SkyID,
@@ -75,6 +83,11 @@ class ETCQueryModel(BaseModel):
     filter: FilterID = Field(
         default=default_filter.id,
         description="Instrument filter"
+    )
+
+    mirror: MirrorID = Field(
+        default=default_mirror.id,
+        description="Mirror condition"
     )
 
     photometry: PhotometryID = Field(
