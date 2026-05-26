@@ -169,7 +169,7 @@ def get_emission(
         name: str="",
         description: str="",
         vars: dict[str, float | str]={},
-    ) -> SBSEDModel:
+        default: bool=False) -> SBSEDModel:
     """
     Return emission model.
 
@@ -183,8 +183,10 @@ def get_emission(
         Emission name.
     description: str, optional
         Emission description string.
-    vars: dict
+    vars: dict, optional
         Emission dependency parameters
+    default: bool, optional
+        True if default model.
 
     Returns
     -------
@@ -216,7 +218,8 @@ def get_emission(
                     flux = sed * u.arcsec**2
                 ),
                 keep_neg=False
-            )
+            ),
+            default=default
         )
     return emission
 
@@ -253,7 +256,8 @@ def get_emission_from_transmission(
             flat + (-1.) * transmission.spectral, # Apply emissivity
             temperature=temperature,
             beam_fill_factor=1.0
-        ).thermal_source()
+        ).thermal_source(),
+        default=transmission.default
     )
     return emission
 
@@ -288,7 +292,8 @@ def get_emissions(
             id=key,
             name=file_config.name,
             description = file_config.description,
-            vars = file_config.vars
+            vars = file_config.vars,
+            default=file_config.default
         )
     # No emission files: we use a blackbody with emissivity from transmission
     if len(emission_config.files) == 0 and transmissions is not None:
@@ -474,7 +479,8 @@ def get_transmission(
         id: str,
         name: str="",
         description: str="",
-        vars: dict[str, float | str]={}
+        vars: dict[str, float | str]={},
+        default: bool=False
     ) -> TransmissionModel:
     """
     Return transmission model.
@@ -489,8 +495,10 @@ def get_transmission(
         Transmission name.
     description: str, optional
         Transmission description string.
-    vars: dict
+    vars: dict, optional
         Transmission dependency parameters
+    default: bool, optional
+        True if default model.
 
     Returns
     -------
@@ -516,7 +524,8 @@ def get_transmission(
             spectral = SpectralElement.from_spectrum1d(
                 Spectrum(spectral_axis=wave, flux=response),
                 keep_neg=False
-            ).taper()
+            ).taper(),
+            default=default
         )
     return transmission
 
@@ -547,7 +556,8 @@ def get_transmissions(
             id=file_config.id,
             name=file_config.name,
             description=file_config.description,
-            vars=file_config.vars
+            vars=file_config.vars,
+            default=file_config.default
         )
     return transmissions
 

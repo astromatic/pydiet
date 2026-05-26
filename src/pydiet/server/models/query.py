@@ -7,18 +7,25 @@ Query models
 from typing import Literal
 from pydantic import (
     BaseModel,
+    ConfigDict,
     Field,
     PydanticUserError,
     ValidationInfo,
     field_validator
 )
 
-from .default import default_filter, default_instrument, filters, instruments
+from .default import (
+    default_filter,
+    default_instrument,
+    default_mirror,
+    instruments
+)
 from .exceptions import ETCValidationError
 from .types import (
     ComputeID,
     FilterID,
     InstrumentID,
+    MirrorID,
     PhotometryID,
     PhotSysID,
     SkyID,
@@ -29,7 +36,7 @@ from .types import (
 class ETCQueryModel(BaseModel):
 
     instrument: InstrumentID = Field(
-        default=default_instrument.id,
+        default=InstrumentID(default_instrument.id),
         description="Instrument ID"
     )
 
@@ -73,8 +80,13 @@ class ETCQueryModel(BaseModel):
     )
 
     filter: FilterID = Field(
-        default=default_filter.id,
+        default=FilterID(default_filter.id),
         description="Instrument filter"
+    )
+
+    mirror: MirrorID = Field(
+        default=MirrorID(default_mirror.id),
+        description="Mirror condition"
     )
 
     photometry: PhotometryID = Field(
@@ -157,7 +169,7 @@ class ETCQueryModel(BaseModel):
         if f not in fids:
             expected = f"'{fids[0]}'" + \
                 (
-                    "".join(f", '{fid}'" for fid in fids[:-1]) \
+                    "".join(f", '{fid}'" for fid in fids[1:-1]) \
                     if len(fids) > 2 else ""
                 ) + (
                     f" or '{fids[-1]}'" if len(fids) > 1 else ""
@@ -169,4 +181,29 @@ class ETCQueryModel(BaseModel):
                 "expected": expected
             })
         return f
+
+    @field_validator('mirror')
+    def validate_mirror(cls, m: str, info: ValidationInfo) -> str:
+        """
+        Kind of emulate Enum validation and errors.
+        """
+        instrument = info.data['instrument']
+        mids = list(instruments[instrument].telescope.transmissions)
+        if m not in mids:
+            expected = f"'{mids[0]}'" + \
+                (
+                    "".join(f", '{mid}'" for mid in mids[1:-1]) \
+                    if len(mids) > 2 else ""
+                ) + (
+                    f" or '{mids[-1]}'" if len(mids) > 1 else ""
+                )
+            raise ETCValidationError({
+                "type": "enum",
+                "loc": ("query", "mirror"),
+                "input": str(m),
+                "expected": expected
+            })
+        return m
+
+    model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True)
 

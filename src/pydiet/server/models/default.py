@@ -5,5 +5,11 @@ Default entries for models
 # Licensed under the MIT licence
 
 # We actually gather default entities from the data module
-from ..data import default_filter, default_instrument, filters, instruments
-
+from ..data import (
+    default_filter,
+    default_instrument,
+    default_mirror,
+    filters,
+    instruments,
+    mirrors
+)

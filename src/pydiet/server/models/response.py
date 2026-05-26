@@ -7,7 +7,7 @@ Response models
 from typing import Optional
 
 from astropy import units as u #type: ignore[import-untyped]
-from pydantic import BaseModel, Field, Json
+from pydantic import BaseModel, ConfigDict, Field, Json
 
 from ..types import AnnotatedQuantity
 from .types import ComputeID, FilterID, InstrumentID
@@ -94,4 +94,5 @@ class ETCResponseModel(BaseModel):
 
     atmosphere_transmission: Optional[Json] = None
 
+    model_config = ConfigDict(use_enum_values=True)
 

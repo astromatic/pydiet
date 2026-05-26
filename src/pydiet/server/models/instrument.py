@@ -109,50 +109,55 @@ class InstrumentModel(BaseModel):
         # Compute extra parameters during initialization
         area = self.telescope.collecting_area - self.obstruction_area
         # Filter emissions and transmissions
-        upstream_transmission = 1.
-        upstream_emission = SourceSpectrum(ConstFlux1D, amplitude=0.)
-        # Pre-filter list of transmissions
-        transmissions = [
-            *self.telescope.transmissions.values(),
-            *self.optics.transmissions.values()
-        ]
-        emissions = [
-            *self.telescope.emissions.values(),
-            *self.optics.emissions.values()
-        ]
-        for i, v in enumerate(transmissions):
-            emission = emissions[i].spectral
-            transmission = transmissions[i].spectral
-            upstream_transmission *= transmission
-            upstream_emission = upstream_emission * transmission + emission
         self.transmissions : dict[str, TransmissionModel] = {}  #type: ignore[annotation-unchecked]
         self.emissions_ct : dict[str, u.Quantity[u.ct/u.s]] = {}  #type: ignore[annotation-unchecked]
-        filter_transmissions = self.filters.transmissions
-        filter_emissions = self.filters.emissions
-        for f in filter_transmissions:
-            filter = filter_transmissions[f]
-            filter_transmission = filter.spectral
-            filter_emission = filter_emissions[f].spectral
-            transmission = upstream_transmission * filter_transmission
-            emission = upstream_emission * transmission + filter_emission
-            transmission *= self.detector.transmissions["0"].spectral
-            emission *= self.detector.transmissions["0"].spectral
-            wave, response = spectral_to_arrays(transmission)
-            self.transmissions[f] = TransmissionModel(
-                id = filter.id,
-                name = filter.name,
-                description = filter.description,
-                vars = filter.vars,
-                wave = wave,
-                response = response,
-                spectral = transmission
-            )
-            # Compute countrate
-            if transmission.tpeak() > 0.:
-                observation = Observation(emission, transmission, force='taper')
-                self.emissions_ct[f] = observation.countrate(area=area).value
-            else:
-                self.emissions_ct[f] = 0.
+        for mirror_status in self.telescope.transmissions:
+            upstream_transmission = 1.
+            mirror_transmission = self.telescope.transmissions[mirror_status]
+            mirror_emission = self.telescope.emissions[mirror_status]
+            # Pre-filter list of transmissions
+            transmissions = [
+                mirror_transmission,
+                *self.optics.transmissions.values()
+            ]
+            upstream_emission = SourceSpectrum(ConstFlux1D, amplitude=0.)
+            emissions = [
+                mirror_emission,
+                *self.optics.emissions.values()
+            ]
+            for i, v in enumerate(transmissions):
+                emission = emissions[i].spectral
+                transmission = transmissions[i].spectral
+                upstream_transmission *= transmission
+                upstream_emission = upstream_emission * transmission + emission
+            for f in self.filters.transmissions:
+                filter = self.filters.transmissions[f]
+                filter_transmission = filter.spectral
+                filter_emission = self.filters.emissions[f].spectral
+                transmission = upstream_transmission * filter_transmission
+                emission = upstream_emission * transmission + filter_emission
+                transmission *= self.detector.transmissions["0"].spectral
+                emission *= self.detector.transmissions["0"].spectral
+                wave, response = spectral_to_arrays(transmission)
+                # Configuration ID includes mirror status ID and filter ID
+                config_id = f"{mirror_transmission.id}+{filter.id}" \
+                    if mirror_transmission.id != "" \
+                    else filter.id
+                self.transmissions[config_id] = TransmissionModel(
+                    id = config_id,
+                    name = filter.name,
+                    description = filter.description,
+                    vars = filter.vars,
+                    wave = wave,
+                    response = response,
+                    spectral = transmission
+                )
+                # Compute countrate
+                if transmission.tpeak() > 0.:
+                    observation = Observation(emission, transmission, force='taper')
+                    self.emissions_ct[config_id] = observation.countrate(area=area).value
+                else:
+                    self.emissions_ct[config_id] = 0.
         return self
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
