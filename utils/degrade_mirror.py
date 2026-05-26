@@ -44,7 +44,7 @@ def degrade_mirror(
 
     Returns
     -------
-    R: ~nump.ndarray
+    R: ~numpy.ndarray
         Relative reflectance caused by mirror coating degradation
     """
     alpha = np.exp(- A * t)
