@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#!/usr/bin/python3
 """
 Script for simulating the degration of mirror reflectance with time, following
 the model and fitted parameters of Okita et al. 2019 (PASJ 71, 32):
