@@ -129,10 +129,10 @@ def main() -> int:
         cos2theta_i=args['cos2theta_i']
     )
     mirror.meta['FILTER'] = f"{mirror.meta['FILTER']} {args['time']} " \
-        f"{'year' if args['time']<2. else 'years'} after re-coating"
+        f"{'year' if args['time'] == 1. else 'years'} after re-coating"
 
     if not quiet:
-        print(mirror.info)
+        mirror.info()
     fits.table_to_hdu(
         mirror,
         character_as_bytes=True
