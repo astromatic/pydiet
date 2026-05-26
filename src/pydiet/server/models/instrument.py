@@ -140,9 +140,8 @@ class InstrumentModel(BaseModel):
                 emission *= self.detector.transmissions["0"].spectral
                 wave, response = spectral_to_arrays(transmission)
                 # Configuration ID includes mirror status ID and filter ID
-                config_id = f"{mirror_transmission.id}+{filter.id}" \
-                    if mirror_transmission.id != "" \
-                    else filter.id
+                config_id = f"{MirrorID(q.mirror).value}+{FilterID(q.filter).value}" \
+                    if q.filter != "" else q.filter
                 self.transmissions[config_id] = TransmissionModel(
                     id = config_id,
                     name = filter.name,

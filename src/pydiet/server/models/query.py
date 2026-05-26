@@ -18,9 +18,7 @@ from .default import (
     default_filter,
     default_instrument,
     default_mirror,
-    filters,
-    instruments,
-    mirrors
+    instruments
 )
 from .exceptions import ETCValidationError
 from .types import (
@@ -171,7 +169,7 @@ class ETCQueryModel(BaseModel):
         if f not in fids:
             expected = f"'{fids[0]}'" + \
                 (
-                    "".join(f", '{fid}'" for fid in fids[:-1]) \
+                    "".join(f", '{fid}'" for fid in fids[1:-1]) \
                     if len(fids) > 2 else ""
                 ) + (
                     f" or '{fids[-1]}'" if len(fids) > 1 else ""
@@ -194,7 +192,7 @@ class ETCQueryModel(BaseModel):
         if m not in mids:
             expected = f"'{mids[0]}'" + \
                 (
-                    "".join(f", '{mid}'" for mid in mids[:-1]) \
+                    "".join(f", '{mid}'" for mid in mids[1:-1]) \
                     if len(mids) > 2 else ""
                 ) + (
                     f" or '{mids[-1]}'" if len(mids) > 1 else ""

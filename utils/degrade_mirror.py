@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 """
-Script for simulating the degration of mirror reflectance with time, following
-the model and fitted parameters of Okita et al. 2019 (PASJ 71, 32):
+Script for simulating the degradation of mirror reflectance with time,
+following the model and fitted parameters of Okita et al. 2019 (PASJ 71, 32):
 https://ui.adsabs.harvard.edu/abs/2019PASJ...71...32O
 """
 # Author: Emmanuel Bertin DAp/CEA/AIM/OSUPS
@@ -23,8 +23,8 @@ def degrade_mirror(
         cos2theta_i: float = 0.9974) -> np.ndarray:
     """
     Compute the relative mirror reflectance with wavelength caused by
-    the degration of the mirror coating with time, following the model and
-    fitted parameters of Okita et al. 2019 (PASJ 71, 32):
+    the degradation of the mirror coating with time, following the model
+    and fitted parameters of Okita et al. 2019 (PASJ 71, 32):
     https://ui.adsabs.harvard.edu/abs/2019PASJ...71...32O
 
     Parameters
