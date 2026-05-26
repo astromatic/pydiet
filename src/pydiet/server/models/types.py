@@ -4,10 +4,15 @@ Custom types for PyDIET data models
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
-from enum import StrEnum
+from enum import Enum
 from typing import Literal
 
 from .default import filters, instruments, mirrors
+
+class StrEnum(str, Enum):
+    def __str__(self) -> str:
+        return self.value
+
 
 ComputeID = Literal['etime', 'snr']
 

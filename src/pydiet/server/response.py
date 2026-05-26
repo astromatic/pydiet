@@ -22,7 +22,7 @@ from .models import (
     TransmissionModel,
     spectral_to_arrays
 )
-from .models.types import SkyID
+from .models.types import FilterID, MirrorID, SkyID
 from .data import instruments
 from .datafiles import (
     get_emission_from_transmission,
@@ -89,7 +89,7 @@ def get_response(
 
     telescope = instrument.telescope
     detector = instrument.detector
-    config_id = f"{q.mirror}+{q.filter}" if q.filter != "" else q.filter
+    config_id = f"{MirrorID(q.mirror).value}+{FilterID(q.filter).value}" if q.filter != "" else q.filter
     instrument_transmission = instrument.transmissions[config_id]
 
     # Multiply Total instrument transmission with atmospheric transmission
