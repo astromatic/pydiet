@@ -9,26 +9,25 @@ from typing import Literal
 
 from .default import filters, instruments, mirrors
 
-class StrEnum(str, Enum):
-    def __str__(self) -> str:
-        return self.value
-
 
 ComputeID = Literal['etime', 'snr']
 
-FilterID = StrEnum(  # type: ignore[misc]
+FilterID = Enum(  # type: ignore[misc]
     "FilterID",
-    {tag : tag for tag in filters.keys()} | {'upload' : 'upload'}
+    {tag : tag for tag in filters.keys()} | {'upload' : 'upload'},
+    type=str
 )
 
-InstrumentID = StrEnum(  # type: ignore[misc]
+InstrumentID = Enum(  # type: ignore[misc]
     "InstrumentID",
-    {tag : tag for tag in instruments.keys()}
+    {tag : tag for tag in instruments.keys()},
+    type=str
 )
 
-MirrorID = StrEnum(  # type: ignore[misc]
+MirrorID = Enum(  # type: ignore[misc]
     "MirrorID",
-    {tag : tag for tag in mirrors.keys()}
+    {tag : tag for tag in mirrors.keys()},
+    type=str
 )
 
 PhotometryID = Literal['model_fitting', 'fixed_aperture', 'optimal_aperture', 'large_aperture']

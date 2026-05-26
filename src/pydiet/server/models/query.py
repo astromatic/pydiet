@@ -184,28 +184,28 @@ class ETCQueryModel(BaseModel):
             })
         return f
 
-     @field_validator('mirror')
-     def validate_mirror(cls, m: str, info: ValidationInfo) -> str:
-         """
-         Kind of emulate Enum validation and errors.
-         """
-         instrument = info.data['instrument']
-         mids = list(instruments[instrument].telescope.transmissions)
-         if m not in mids:
-             expected = f"'{mids[0]}'" + \
-                 (
-                     "".join(f", '{mid}'" for mid in mids[:-1]) \
-                     if len(mids) > 2 else ""
-                 ) + (
-                     f" or '{mids[-1]}'" if len(mids) > 1 else ""
-                 )
-             raise ETCValidationError({
-                 "type": "enum",
-                 "loc": ("query", "mirror"),
-                 "input": str(m),
-                 "expected": expected
-             })
-         return m
+    @field_validator('mirror')
+    def validate_mirror(cls, m: str, info: ValidationInfo) -> str:
+        """
+        Kind of emulate Enum validation and errors.
+        """
+        instrument = info.data['instrument']
+        mids = list(instruments[instrument].telescope.transmissions)
+        if m not in mids:
+            expected = f"'{mids[0]}'" + \
+                (
+                    "".join(f", '{mid}'" for mid in mids[:-1]) \
+                    if len(mids) > 2 else ""
+                ) + (
+                    f" or '{mids[-1]}'" if len(mids) > 1 else ""
+                )
+            raise ETCValidationError({
+                "type": "enum",
+                "loc": ("query", "mirror"),
+                "input": str(m),
+                "expected": expected
+            })
+        return m
 
     model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True)
 
