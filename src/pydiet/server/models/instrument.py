@@ -110,16 +110,18 @@ class InstrumentModel(BaseModel):
         area = self.telescope.collecting_area - self.obstruction_area
         # Filter emissions and transmissions
         upstream_transmission = 1.
-        upstream_emission = SourceSpectrum(ConstFlux1D, amplitude=0.)
+        upstream_emission0 = SourceSpectrum(ConstFlux1D, amplitude=0.)
         self.transmissions : dict[str, TransmissionModel] = {}  #type: ignore[annotation-unchecked]
         self.emissions_ct : dict[str, u.Quantity[u.ct/u.s]] = {}  #type: ignore[annotation-unchecked]
         for mirror_status in self.telescope.transmissions:
+            upstream_transmission = 1.
             mirror_transmission = self.telescope.transmissions[mirror_status]
             # Pre-filter list of transmissions
             transmissions = [
                 mirror_transmission,
                 *self.optics.transmissions.values()
             ]
+            upstream_emission = upstream_emission0
             emissions = [
                 *self.telescope.emissions.values(),
                 *self.optics.emissions.values()

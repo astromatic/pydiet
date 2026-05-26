@@ -110,9 +110,9 @@ obstruction_area = "0.974 m2" # 0.951m diameter hole and 4x5cm spider branches
 # Transmission curves for the CFHT 3.6m telescope
 path = "transmission"
 files = [
-    {id = 'pristine', file = "CFHT_M1_transmission.fits"},
-    {id = 'average', file = "CFHT_M1_transmission.fits", default=true},
-    {id = 'degraded', file = "CFHT_M1_transmission.fits"}
+    {id = 'pristine', file = "CFHT_M1_transmission+0yr.fits"},
+    {id = 'average', file = "CFHT_M1_transmission+1.5yr.fits", default=true},
+    {id = 'degraded', file = "CFHT_M1_transmission+3yr.fits"}
 ]
 [telescopes.emission]
 # Emission curves for the CFHT 3.6m telescope
