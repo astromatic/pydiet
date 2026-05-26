@@ -15,12 +15,12 @@ from astropy.table import QTable
 import numpy as np
 
 def degrade_mirror(
-        wave: u.nm,
-        t: u.yr = 1. * u.yr,
-        A: u.yr**(-1) = 0.023 / u.yr,
-        sigma_0: u.AA = 10. * u.AA,
-        S: u.AA / u.yr = 40. * u.AA / u.yr,
-        cos2theta_i: float = 0.9974) -> np.ndarray:
+        wave: u.Quantity,
+        t: u.Quantity = 1. * u.yr,
+        A: u.Quantity = 0.023 / u.yr,
+        sigma_0: u.Quantity = 10. * u.AA,
+        S: u.Quantity = 40. * u.AA / u.yr,
+        cos2theta_i: float = 0.9974) -> u.Quantity:
     """
     Compute the relative mirror reflectance with wavelength caused by
     the degradation of the mirror coating with time, following the model and
@@ -44,7 +44,7 @@ def degrade_mirror(
 
     Returns
     -------
-    R: ~numpy.ndarray
+    R: ~astropy.units.Quantity
         Relative reflectance caused by mirror coating degradation
     """
     alpha = np.exp(- A * t)
