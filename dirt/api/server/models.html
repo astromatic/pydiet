@@ -72,6 +72,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.SiteModel"><code class="docutils literal notranslate"><span class="pre">SiteModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.TelescopeModel"><code class="docutils literal notranslate"><span class="pre">TelescopeModel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.instrument.TransmissionModel"><code class="docutils literal notranslate"><span class="pre">TransmissionModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel"><code class="docutils literal notranslate"><span class="pre">ETCQueryModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.types.StrEnum"><code class="docutils literal notranslate"><span class="pre">StrEnum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.types.FilterID"><code class="docutils literal notranslate"><span class="pre">FilterID</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.types.InstrumentID"><code class="docutils literal notranslate"><span class="pre">InstrumentID</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pydiet.server.models.types.MirrorID"><code class="docutils literal notranslate"><span class="pre">MirrorID</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="types.html">Types</a></li>
@@ -179,7 +185,7 @@
 </dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.EmissionConfigModel.areas">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">areas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fadad8d2080&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'minimum':</span> <span class="pre">'0.0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">m2&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.areas" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">areas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7faee14d1cf0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'minimum':</span> <span class="pre">'0.0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">m2&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.areas" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
@@ -194,7 +200,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.EmissionConfigModel.temperatures">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temperatures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fadbbc02c20&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'exclusiveMinimum':</span> <span class="pre">'0.0</span> <span class="pre">K',</span> <span class="pre">'physType':</span> <span class="pre">'temperature'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">283.</span> <span class="pre">K&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temperatures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7faeecba59c0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'exclusiveMinimum':</span> <span class="pre">'0.0</span> <span class="pre">K',</span> <span class="pre">'physType':</span> <span class="pre">'temperature'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">283.</span> <span class="pre">K&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1398,6 +1404,494 @@
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wave_range</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">]</span> <span class="pre">nm',</span> <span class="pre">'physType':</span> <span class="pre">'length'})]</span> <span class="pre">|</span> <span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.instrument.TransmissionModel.wave_range" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+<p id="module-pydiet.server.models.query">Query models</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ETCQueryModel</span></span><a class="reference internal" href="../../_modules/pydiet/server/models/query.html#ETCQueryModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arbitrary_types_allowed</strong>: <em>bool = True</em></p></li>
+<li><p><strong>use_enum_values</strong>: <em>bool = True</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Fields<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.airmass" title="pydiet.server.models.query.ETCQueryModel.airmass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">airmass</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.aperture" title="pydiet.server.models.query.ETCQueryModel.aperture"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aperture</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.brightness" title="pydiet.server.models.query.ETCQueryModel.brightness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">brightness</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.compute" title="pydiet.server.models.query.ETCQueryModel.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span> <span class="pre">(Literal['etime',</span> <span class="pre">'snr'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.etime" title="pydiet.server.models.query.ETCQueryModel.etime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.exposures" title="pydiet.server.models.query.ETCQueryModel.exposures"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exposures</span> <span class="pre">(int)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.filter" title="pydiet.server.models.query.ETCQueryModel.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span> <span class="pre">(pydiet.server.models.types.FilterID)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.instrument" title="pydiet.server.models.query.ETCQueryModel.instrument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instrument</span> <span class="pre">(pydiet.server.models.types.InstrumentID)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.mirror" title="pydiet.server.models.query.ETCQueryModel.mirror"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mirror</span> <span class="pre">(pydiet.server.models.types.MirrorID)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.photometry" title="pydiet.server.models.query.ETCQueryModel.photometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">photometry</span> <span class="pre">(Literal['model_fitting',</span> <span class="pre">'fixed_aperture',</span> <span class="pre">'optimal_aperture',</span> <span class="pre">'large_aperture'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.seeing" title="pydiet.server.models.query.ETCQueryModel.seeing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seeing</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sersic_index" title="pydiet.server.models.query.ETCQueryModel.sersic_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sersic_index</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sersic_radius" title="pydiet.server.models.query.ETCQueryModel.sersic_radius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sersic_radius</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sky" title="pydiet.server.models.query.ETCQueryModel.sky"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sky</span> <span class="pre">(Literal['dark',</span> <span class="pre">'grey',</span> <span class="pre">'bright',</span> <span class="pre">'specify'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sky_brightness" title="pydiet.server.models.query.ETCQueryModel.sky_brightness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sky_brightness</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.sky_unit" title="pydiet.server.models.query.ETCQueryModel.sky_unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sky_unit</span> <span class="pre">(Literal['abmag',</span> <span class="pre">'vegamag',</span> <span class="pre">'fmegajy',</span> <span class="pre">'fmujy',</span> <span class="pre">'flux',</span> <span class="pre">'photons'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.snr" title="pydiet.server.models.query.ETCQueryModel.snr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">snr</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.source" title="pydiet.server.models.query.ETCQueryModel.source"><code class="xref py py-obj docutils literal notranslate"><span class="pre">source</span> <span class="pre">(Literal['point_source',</span> <span class="pre">'galaxy',</span> <span class="pre">'extended'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.stacking" title="pydiet.server.models.query.ETCQueryModel.stacking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stacking</span> <span class="pre">(Literal['average',</span> <span class="pre">'median'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.transparency" title="pydiet.server.models.query.ETCQueryModel.transparency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transparency</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.unit" title="pydiet.server.models.query.ETCQueryModel.unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unit</span> <span class="pre">(Literal['abmag',</span> <span class="pre">'vegamag',</span> <span class="pre">'fmegajy',</span> <span class="pre">'fmujy',</span> <span class="pre">'flux',</span> <span class="pre">'photons'])</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-odd">Validators<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.validate_filter" title="pydiet.server.models.query.ETCQueryModel.validate_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_filter</span></code></a> » <a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.filter" title="pydiet.server.models.query.ETCQueryModel.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.airmass">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">airmass</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.2</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.airmass" title="Link to this definition"></a></dt>
+<dd><p>Observation airmass</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 1.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.aperture">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aperture</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.aperture" title="Link to this definition"></a></dt>
+<dd><p>Photometric aperture diameter [&quot;]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0.0</p></li>
+<li><p><strong>le</strong> = 15.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.brightness">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">brightness</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.brightness" title="Link to this definition"></a></dt>
+<dd><p>Source brightness</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = -100.0</p></li>
+<li><p><strong>le</strong> = 1000.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.compute">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'etime'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'snr'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'etime'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.compute" title="Link to this definition"></a></dt>
+<dd><p>Computation type</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.etime">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">etime</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.etime" title="Link to this definition"></a></dt>
+<dd><p>Exposure time [s]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>le</strong> = 1e+30</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.exposures">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exposures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.exposures" title="Link to this definition"></a></dt>
+<dd><p>Number of exposures</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 1</p></li>
+<li><p><strong>le</strong> = 1000000</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.filter">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.FilterID" title="pydiet.server.models.types.FilterID"><span class="pre">FilterID</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">FilterID.r</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.filter" title="Link to this definition"></a></dt>
+<dd><p>Instrument filter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.validate_filter" title="pydiet.server.models.query.ETCQueryModel.validate_filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_filter</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.instrument">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instrument</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.InstrumentID" title="pydiet.server.models.types.InstrumentID"><span class="pre">InstrumentID</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">InstrumentID.megacam</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.instrument" title="Link to this definition"></a></dt>
+<dd><p>Instrument ID</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.mirror">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mirror</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pydiet.server.models.types.MirrorID" title="pydiet.server.models.types.MirrorID"><span class="pre">MirrorID</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">MirrorID.average</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.mirror" title="Link to this definition"></a></dt>
+<dd><p>Mirror condition</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.photometry">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">photometry</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'model_fitting'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fixed_aperture'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'optimal_aperture'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'large_aperture'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'model_fitting'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.photometry" title="Link to this definition"></a></dt>
+<dd><p>Photometry type</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.seeing">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seeing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.7</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.seeing" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.1</p></li>
+<li><p><strong>le</strong> = 100.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.sersic_index">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sersic_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.sersic_index" title="Link to this definition"></a></dt>
+<dd><p>Sérsic index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.3</p></li>
+<li><p><strong>le</strong> = 10.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.sersic_radius">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sersic_radius</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.sersic_radius" title="Link to this definition"></a></dt>
+<dd><p>Sérsic effective radius [&quot;]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0.0</p></li>
+<li><p><strong>le</strong> = 10.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.sky">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sky</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'dark'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'grey'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'bright'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'specify'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'dark'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.sky" title="Link to this definition"></a></dt>
+<dd><p>Sky setting</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.sky_brightness">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sky_brightness</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">22.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.sky_brightness" title="Link to this definition"></a></dt>
+<dd><p>Sky surface brightness</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = -100.0</p></li>
+<li><p><strong>le</strong> = 1000.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.sky_unit">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sky_unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'abmag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vegamag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fmegajy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fmujy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'flux'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'photons'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'abmag'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.sky_unit" title="Link to this definition"></a></dt>
+<dd><p>Sky background photometric system</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.snr">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">snr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.snr" title="Link to this definition"></a></dt>
+<dd><p>Required source Signal-to-Noise Ratio</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.source">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'point_source'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'galaxy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'extended'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'point_source'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.source" title="Link to this definition"></a></dt>
+<dd><p>Source type</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.stacking">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stacking</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'average'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'median'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'median'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.stacking" title="Link to this definition"></a></dt>
+<dd><p>Stacking method</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.transparency">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transparency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.transparency" title="Link to this definition"></a></dt>
+<dd><p>Sky transparency</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gt</strong> = 0.0</p></li>
+<li><p><strong>le</strong> = 1.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.unit">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'abmag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vegamag'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fmegajy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fmujy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'flux'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'photons'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'abmag'</span></em><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.unit" title="Link to this definition"></a></dt>
+<dd><p>Photometric system</p>
+</dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="pydiet.server.models.query.ETCQueryModel.validate_filter">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate_filter</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><a class="reference internal" href="#pydiet.server.models.query.ETCQueryModel.filter" title="pydiet.server.models.query.ETCQueryModel.filter"><em class="xref py py-obj"><span class="pre">filter</span></em></a><a class="reference internal" href="../../_modules/pydiet/server/models/query.html#ETCQueryModel.validate_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.models.query.ETCQueryModel.validate_filter" title="Link to this definition"></a></dt>
+<dd><p>Kind of emulate Enum validation and errors.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-pydiet.server.models.response">Response models</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ETCResponseModel</span></span><a class="reference internal" href="../../_modules/pydiet/server/models/response.html#ETCResponseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>use_enum_values</strong>: <em>bool = True</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Fields<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.atmosphere_transmission" title="pydiet.server.models.response.ETCResponseModel.atmosphere_transmission"><code class="xref py py-obj docutils literal notranslate"><span class="pre">atmosphere_transmission</span> <span class="pre">(pydantic.types.Json</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.bandwidth_rect" title="pydiet.server.models.response.ETCResponseModel.bandwidth_rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bandwidth_rect</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.compute" title="pydiet.server.models.response.ETCResponseModel.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span> <span class="pre">(Literal['etime',</span> <span class="pre">'snr'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.cutout" title="pydiet.server.models.response.ETCResponseModel.cutout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cutout</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime" title="pydiet.server.models.response.ETCResponseModel.etime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime_skysat" title="pydiet.server.models.response.ETCResponseModel.etime_skysat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime_skysat</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.etime_sourcesat" title="pydiet.server.models.response.ETCResponseModel.etime_sourcesat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etime_sourcesat</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.filter" title="pydiet.server.models.response.ETCResponseModel.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.filter_transmission" title="pydiet.server.models.response.ETCResponseModel.filter_transmission"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_transmission</span> <span class="pre">(pydantic.types.Json</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.instrument" title="pydiet.server.models.response.ETCResponseModel.instrument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instrument</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.lambda_pivot" title="pydiet.server.models.response.ETCResponseModel.lambda_pivot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lambda_pivot</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.sky_mag" title="pydiet.server.models.response.ETCResponseModel.sky_mag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sky_mag</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.snr" title="pydiet.server.models.response.ETCResponseModel.snr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">snr</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.ttime" title="pydiet.server.models.response.ETCResponseModel.ttime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ttime</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.zp" title="pydiet.server.models.response.ETCResponseModel.zp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zp</span> <span class="pre">(float)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.atmosphere_transmission">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">atmosphere_transmission</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Json</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.atmosphere_transmission" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.bandwidth_rect">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bandwidth_rect</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.bandwidth_rect" title="Link to this definition"></a></dt>
+<dd><p>Equivalent rectangular bandwidth of the full filter response in nm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>lt</strong> = 1000000000000.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.compute">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'etime'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'snr'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.compute" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.cutout">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cutout</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.cutout" title="Link to this definition"></a></dt>
+<dd><p>GIF animation of the source</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.etime">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">etime</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.etime" title="Link to this definition"></a></dt>
+<dd><p>Estimated exposure time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>lt</strong> = 1e+30</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.etime_skysat">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">etime_skysat</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.etime_skysat" title="Link to this definition"></a></dt>
+<dd><p>Estimated exposure time for sky background saturation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>lt</strong> = 1e+30</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.etime_sourcesat">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">etime_sourcesat</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.etime_sourcesat" title="Link to this definition"></a></dt>
+<dd><p>Estimated exposure time for source saturation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>lt</strong> = 1e+30</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.filter">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.filter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.filter_transmission">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filter_transmission</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Json</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.filter_transmission" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.instrument">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">instrument</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.instrument" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.lambda_pivot">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lambda_pivot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.lambda_pivot" title="Link to this definition"></a></dt>
+<dd><p>Pivot wavelength of the full filter response in nm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>lt</strong> = 1000000000000.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.sky_mag">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sky_mag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">99.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.sky_mag" title="Link to this definition"></a></dt>
+<dd><p>Estimated sky background in mag/arcsec2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = -100.0</p></li>
+<li><p><strong>le</strong> = 100.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.snr">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">snr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.snr" title="Link to this definition"></a></dt>
+<dd><p>Estimated source Signal-to-Noise Ratio</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>lt</strong> = 1e+30</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.ttime">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ttime</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.ttime" title="Link to this definition"></a></dt>
+<dd><p>Estimated total time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>lt</strong> = 1e+30</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.zp">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.zp" title="Link to this definition"></a></dt>
+<dd><p>Estimate magnitude zero-point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = -100.0</p></li>
+<li><p><strong>le</strong> = 100.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-pydiet.server.models.types">Custom types for PyDIET data models</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydiet.server.models.types.StrEnum">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">StrEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pydiet/server/models/types.html#StrEnum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydiet.server.models.types.StrEnum" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydiet.server.models.types.FilterID">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FilterID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydiet.server.models.types.FilterID" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydiet.server.models.types.StrEnum" title="pydiet.server.models.types.StrEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydiet.server.models.types.InstrumentID">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InstrumentID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydiet.server.models.types.InstrumentID" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydiet.server.models.types.StrEnum" title="pydiet.server.models.types.StrEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydiet.server.models.types.MirrorID">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MirrorID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydiet.server.models.types.MirrorID" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydiet.server.models.types.StrEnum" title="pydiet.server.models.types.StrEnum"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>An enumeration.</p>
 </dd></dl>
 
 </section>
