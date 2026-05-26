@@ -7,6 +7,7 @@ Query models
 from typing import Literal
 from pydantic import (
     BaseModel,
+    ConfigDict,
     Field,
     PydanticUserError,
     ValidationInfo,
@@ -37,7 +38,7 @@ from .types import (
 class ETCQueryModel(BaseModel):
 
     instrument: InstrumentID = Field(
-        default=default_instrument.id,
+        default=InstrumentID(default_instrument.id),
         description="Instrument ID"
     )
 
@@ -81,12 +82,12 @@ class ETCQueryModel(BaseModel):
     )
 
     filter: FilterID = Field(
-        default=default_filter.id,
+        default=FilterID(default_filter.id),
         description="Instrument filter"
     )
 
     mirror: MirrorID = Field(
-        default=default_mirror.id,
+        default=MirrorID(default_mirror.id),
         description="Mirror condition"
     )
 
@@ -182,4 +183,6 @@ class ETCQueryModel(BaseModel):
                 "expected": expected
             })
         return f
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
