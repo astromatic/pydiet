@@ -23,7 +23,7 @@ def degrade_mirror(
         cos2theta_i: float = 0.9974) -> np.ndarray:
     """
     Compute the relative mirror reflectance with wavelength caused by
-    the degration of the mirror coating with time, following the model and
+    the degradation of the mirror coating with time, following the model and
     fitted parameters of Okita et al. 2019 (PASJ 71, 32):
     https://ui.adsabs.harvard.edu/abs/2019PASJ...71...32O
 
