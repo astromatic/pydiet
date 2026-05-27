@@ -1,5 +1,5 @@
 /* Custom CSS for the PyDIET webapp
- * Copyright CEA/CFHT/CNRS/UParisSaclay
+ * Copyright 2025-2026 CEA/CFHT/CNRS/UParisSaclay
  * Licensed under MIT
 */
 
@@ -218,4 +218,30 @@ ion-picker-column {
 .privacy-policy h4,.terms-of-service h4 {
   font-size: 0.9rem;
 }
+
+/*
+ * Health monitoring
+ * -----------------
+ */
+ 
+.health {
+  display: inline-block;
+  margin-left: 1em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: gray;
+  box-shadow: 1px 1px 2px inset rgba(0, 0, 0, 0.2);
+}
+
+/* Health monitor greenish if OK */
+.health.ok {
+  background: #00c000;
+}
+
+/* Health monitor redish if not OK */
+.health.fail {
+  background: #c00000;
+}
+
 
