@@ -113,7 +113,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ETCQueryModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 
     <span class="n">instrument</span><span class="p">:</span> <span class="n">InstrumentID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">InstrumentID</span><span class="p">(</span><span class="n">default_instrument</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">InstrumentID</span><span class="p">(</span><span class="n">default_instrument</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Instrument ID&quot;</span>
     <span class="p">)</span>
 
@@ -157,12 +157,12 @@
     <span class="p">)</span>
 
     <span class="nb">filter</span><span class="p">:</span> <span class="n">FilterID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">FilterID</span><span class="p">(</span><span class="n">default_filter</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">FilterID</span><span class="p">(</span><span class="n">default_filter</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Instrument filter&quot;</span>
     <span class="p">)</span>
 
     <span class="n">mirror</span><span class="p">:</span> <span class="n">MirrorID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">MirrorID</span><span class="p">(</span><span class="n">default_mirror</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">MirrorID</span><span class="p">(</span><span class="n">default_mirror</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Mirror condition&quot;</span>
     <span class="p">)</span>
 
