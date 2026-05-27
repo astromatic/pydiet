@@ -1,7 +1,24 @@
+{#
+# Jinja2 template for the PyDIET ETC privacy modal window.
+#
+# Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
+# Licensed under the MIT licence
+#}
+<ion-modal id="privacy-modal" trigger="privacy" backdrop-dismiss=true>
   <ion-content class="ion-padding">
-    <ion-text color="medium">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Privacy Policy</ion-card-title>
+          <ion-button shape="round" fill="clear" aria-label="Close"
+            onclick="document.getElementById('privacy-modal').dismiss()"
+            style="position: absolute; top: 0.33em; right: 6px;">
+            <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+          </ion-button>
+      </ion-card-header>
+    </ion-card>
+    <ion-card>
+      <ion-text color="medium">
         <section class="privacy-policy">
-          <h1>Privacy Policy</h1>
           <p><em>Last updated: March 17, 2026</em></p>
 
           <p>
@@ -127,6 +144,7 @@
             <a href="mailto:info@cfht.hawaii.edu">info@cfht.hawaii.edu</a>
           </p>
         </section>
-    </ion-text>
+      </ion-text>
+    </ion-card>
   </ion-content>
 

@@ -1,5 +1,5 @@
 {#
-# Base Jinja2 template for PyDIET client.
+# Base Jinja2 template for the PyDIET web client.
 #
 # Copyright CFHT/CNRS/OSUPS/CEA/UParisSaclay
 # Licensed under the MIT licence
@@ -67,12 +67,8 @@
           </ion-item>
         </ion-toolbar>
       </ion-footer>
-      <ion-modal trigger="terms">
-        {% include "common/terms.html" %}
-      </ion-modal>
-      <ion-modal trigger="privacy">
-        {% include "common/privacy.html" %}
-      </ion-modal>
+      {% include "common/terms.html" %}
+      {% include "common/privacy.html" %}
     </ion-app>
     <script src="{{ root_path }}/client/dist/pydiet.js"></script>
   </body>
