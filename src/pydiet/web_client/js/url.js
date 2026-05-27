@@ -1,6 +1,6 @@
 // Root URLs for APIs 
 // Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
-// Licensed under GPL v3
+// Licensed under MIT
 
 const root_path = document.querySelector('#root_path').content;
 

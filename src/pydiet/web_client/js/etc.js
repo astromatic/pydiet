@@ -1,6 +1,6 @@
 // Manage web interface settings
 // Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
-// Licensed under GPL v3
+// Licensed under MIT
 
 import {inject_node} from "./dom";
 import {fetch_data, fetch_html} from "./fetch";

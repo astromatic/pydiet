@@ -1,6 +1,6 @@
 // DOM manipulation routines
 // Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
-// Licensed under GPL v3
+// Licensed under MIT
 
 // Inject HTML in the selected node.
 export function inject_html(selector, html) {

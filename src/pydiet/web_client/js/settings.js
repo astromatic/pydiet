@@ -1,6 +1,6 @@
 // Manage web interface settings
 // Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
-// Licensed under GPL v3
+// Licensed under MIT
 import {get_instrumentID, update_instrument} from "./instrument";
 import {get_theme, update_theme, themes, theme_icons} from "./theme";
 
