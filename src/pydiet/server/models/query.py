@@ -36,7 +36,7 @@ from .types import (
 class ETCQueryModel(BaseModel):
 
     instrument: InstrumentID = Field(
-        default=InstrumentID(default_instrument.id),
+        default=InstrumentID(default_instrument.id).value,
         description="Instrument ID"
     )
 
@@ -80,12 +80,12 @@ class ETCQueryModel(BaseModel):
     )
 
     filter: FilterID = Field(
-        default=FilterID(default_filter.id),
+        default=FilterID(default_filter.id).value,
         description="Instrument filter"
     )
 
     mirror: MirrorID = Field(
-        default=MirrorID(default_mirror.id),
+        default=MirrorID(default_mirror.id).value,
         description="Mirror condition"
     )
 
