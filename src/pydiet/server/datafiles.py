@@ -1,5 +1,5 @@
 """
-Functions that gather data from files.
+Backend functions that gather data from files.
 """
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
@@ -580,8 +580,7 @@ def get_webapi_instruments(instruments: dict[str, InstrumentModel]) -> dict[str,
     for instrument in instruments:
         winstruments[instrument] = instruments[instrument].copy(exclude={
             'site': {'sky_emissions', 'sky_transmissions'},
-            'transmissions' : True,
-            'emissions_ct' : True
+            'cache': True
         })
     return winstruments
 

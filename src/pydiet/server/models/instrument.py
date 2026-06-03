@@ -19,7 +19,12 @@ from synphot import (  #type: ignore[import-untyped]
 from synphot.spectrum import BaseSpectrum  #type: ignore[import-untyped]
 
 from ... import package
-from ..types import AnnotatedQuantity
+from ..photsys import PhotSys
+from ..types.quantity import AnnotatedQuantity
+
+
+# Setup AB photometric system
+abphotsys = PhotSys('abmag')
 
 
 def spectral_to_arrays(spectral: BaseSpectrum) -> Tuple[np.ndarray, np.ndarray]:
@@ -36,6 +41,19 @@ def spectral_to_arrays(spectral: BaseSpectrum) -> Tuple[np.ndarray, np.ndarray]:
 
     return w, x
 
+
+class CacheModel(BaseModel):
+    '''
+    Pydantic model for cached data.
+    '''
+    tpeaks: dict[str, float]
+    zp_abmags: dict[str, AnnotatedQuantity(    #type: ignore[valid-type]
+        unit = "s / ct",
+        decimals = 4,
+        description = "Instrumental AB magnitude zero-point"
+    )]
+    transmissions: dict[str, 'TransmissionModel']
+    emissions_ct: dict[str, float]
 
 
 class DetectorModel(BaseModel):
@@ -101,33 +119,37 @@ class InstrumentModel(BaseModel):
     site: 'SiteModel'
     default: bool = False
 
-    transmissions: Optional[dict] = Field(default=None)  #type: ignore[annotation-unchecked]
-    emissions_ct: Optional[dict] = Field(default=None)  #type: ignore[annotation-unchecked]
+    cache: Optional['CacheModel'] = Field(default=None)
 
     @model_validator(mode="after")
-    def _update_transmissions(self):
+    def _update_cache(self):
         # Compute extra parameters during initialization
         area = self.telescope.collecting_area - self.obstruction_area
+
+        # Transmission peaks (essentially to check that some flux goes through)
+        tpeaks: dict[str, float] = {}
+        # Instrumental magnitude zero-points in the AB system
+        zp_abmags: dict[str, float] = {}
         # Filter emissions and transmissions
-        self.transmissions : dict[str, TransmissionModel] = {}  #type: ignore[annotation-unchecked]
-        self.emissions_ct : dict[str, u.Quantity[u.ct/u.s]] = {}  #type: ignore[annotation-unchecked]
+        transmissions : dict[str, TransmissionModel] = {}  #type: ignore[annotation-unchecked]
+        emissions_ct : dict[str, u.Quantity[u.ct/u.s]] = {}  #type: ignore[annotation-unchecked]
         for mirror_status in self.telescope.transmissions:
             upstream_transmission = 1.
             mirror_transmission = self.telescope.transmissions[mirror_status]
             mirror_emission = self.telescope.emissions[mirror_status]
             # Pre-filter list of transmissions
-            transmissions = [
+            transmission_list = [
                 mirror_transmission,
                 *self.optics.transmissions.values()
             ]
             upstream_emission = SourceSpectrum(ConstFlux1D, amplitude=0.)
-            emissions = [
+            emission_list = [
                 mirror_emission,
                 *self.optics.emissions.values()
             ]
-            for i, v in enumerate(transmissions):
-                emission = emissions[i].spectral
-                transmission = transmissions[i].spectral
+            for i, v in enumerate(transmission_list):
+                emission = emission_list[i].spectral
+                transmission = transmission_list[i].spectral
                 upstream_transmission *= transmission
                 upstream_emission = upstream_emission * transmission + emission
             for f in self.filters.transmissions:
@@ -143,7 +165,16 @@ class InstrumentModel(BaseModel):
                 config_id = f"{mirror_transmission.id}+{filter.id}" \
                     if mirror_transmission.id != "" \
                     else filter.id
-                self.transmissions[config_id] = TransmissionModel(
+                 # Compute instrumental magnitude zero-point
+                tpeaks[config_id] = transmission.tpeak()
+                zp_abmags[config_id] = u.Magnitude(
+                    self.detector.gain.value / \
+                    Observation(
+                        abphotsys.spectrum,
+                        transmission
+                    ).countrate(area=area, binned=False)
+                ) if tpeaks[config_id] > 0. else -100. * u.mag
+                transmissions[config_id] = TransmissionModel(
                     id = config_id,
                     name = filter.name,
                     description = filter.description,
@@ -152,12 +183,18 @@ class InstrumentModel(BaseModel):
                     response = response,
                     spectral = transmission
                 )
-                # Compute countrate
-                if transmission.tpeak() > 0.:
-                    observation = Observation(emission, transmission, force='taper')
-                    self.emissions_ct[config_id] = observation.countrate(area=area).value
-                else:
-                    self.emissions_ct[config_id] = 0.
+                # Compute emission countrate
+                emissions_ct[config_id] = Observation(
+                    emission,
+                    transmission,
+                    force='taper'
+                ).countrate(area=area).value if tpeaks[config_id] > 0. else 0.
+            self.cache = CacheModel(
+                tpeaks=tpeaks,
+                zp_abmags=zp_abmags,
+                transmissions=transmissions,
+                emissions_ct=emissions_ct
+            )
         return self
 
     model_config = ConfigDict(arbitrary_types_allowed=True)

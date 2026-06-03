@@ -4,13 +4,20 @@ Photometric system conversion module
 # Copyright CFHT
 # Licensed under the MIT licence
 
-from typing import Optional
+from __future__ import annotations
+
+from typing import Optional, TYPE_CHECKING
 
 from astropy import units as u  #type: ignore[import-untyped]
+from synphot import ConstFlux1D, SourceSpectrum #type: ignore[import-untyped]
 
-from .models.types import PhotSysID
+if TYPE_CHECKING:
+    from .models.types import PhotSysID
 
-from .data import ab_spectrum, vega_spectrum
+# Load reference spectra
+ab_spectrum = SourceSpectrum(ConstFlux1D, amplitude = 0.*u.ABmag)
+st_spectrum = SourceSpectrum(ConstFlux1D, amplitude = 0.*u.STmag)
+vega_spectrum = SourceSpectrum.from_vega()
 
 
 class PhotSys(object):

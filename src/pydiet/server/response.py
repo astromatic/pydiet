@@ -83,90 +83,107 @@ def get_response(
             }
         )
         # Update composite transmissions and emission curves
-        instrument._update_transmissions()
+        instrument._update_cache()
     else:
         instrument = instruments[q.instrument]
 
     telescope = instrument.telescope
     detector = instrument.detector
-    config_id = f"{MirrorID(q.mirror).value}+{FilterID(q.filter).value}" if q.filter != "" else q.filter
-    instrument_transmission = instrument.transmissions[config_id]
+    config_id = f"{MirrorID(q.mirror).value}+{FilterID(q.filter).value}" \
+        if q.filter != "" else q.filter
+    cache = instrument.cache
+    instrument_transmission = cache.transmissions[config_id]
 
-    # Multiply Total instrument transmission with atmospheric transmission
+	# Pure atmospheric transmission at observing site at a given airmass
     atmosphere_spec = spectrum_from_airmass(
         instrument.site.sky_transmissions,
         am=q.airmass
     ) * q.transparency
-    full_spec = instrument_transmission.spectral * atmosphere_spec
+	# Pure instrumental transmission (no atmosphere here)
+    instru_spec = instrument_transmission.spectral
+    # Compute full transmission by multiplying instrument by atmosphere
+    full_spec = instru_spec * atmosphere_spec
     # Compute effective collecting area, compensating for possible obstruction
     area = instrument.telescope.collecting_area - instrument.obstruction_area
 
     # Make virtual observation
     gain = detector.gain.value
-    tpeak = full_spec.tpeak()
     lambda_pivot = full_spec.pivot()
     dlambda_rect = full_spec.rectwidth()
-    # Actual source
-    photsys = PhotSys(q.unit, lambda_pivot, dlambda_rect)
-    if tpeak > 0.:
-        if photsys.spectrum is None:
-            ct_ref = photsys.photon_rate(q.brightness) / gain * u.ct / u.s
-        else:
-            observation = Observation(photsys.spectrum, full_spec)
-            # Compute ref source count rate to get effective zero-point
-            ct_ref = observation.countrate(area=area, binned=False) / gain
-        zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct_ref)
-    else:
-        ct_ref = 0. * u.ct / u.s
-        zp = -100. * u.mag
-    # Compute total number of reference source electrons (photons per second)
-    photon_rate = (ct_ref * gain).value * photsys.photon_rate(q.brightness)
+    t_peak = full_spec.tpeak()
 
-    # Sky background
-    # Atmospheric emission
+    # Actual source
+    # Get photometric system
+    photsys = PhotSys(q.unit, lambda_pivot, dlambda_rect)
+    if full_spec.tpeak() > 0.:
+		# Instrument/filter response is non-zero over the domain
+        if photsys.spectrum is None:
+        	# We're dealing with photons per second -> No conversion needed
+            source_rate = photsys.photon_rate(q.brightness).to_value(u.ct / u.s)
+            zp = 0. * u.mag
+        else:
+        	# A reference spectrum is involved
+            # Compute the number of source photons per second
+            ct_ref = Observation(
+                photsys.spectrum,
+                full_spec
+            ).countrate(area=area, binned=False)
+            source_rate = ct_ref.to_value(u.ct / u.s) \
+                * photsys.photon_rate(q.brightness)
+     		# Compute "full" zero-point including atmosphere and stuff
+            zp = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(ct_ref / gain)
+    else:
+		# Mismatched instrument/filter responses: 0 transmission over the domain
+        source_rate = 0.
+        zp = -100. * u.mag
+
+    # Compute pure instrumental zero-point in the AB system
+
+    # Background
     if q.sky == 'specify':
+    	# Sky surface brightness is provided by user
         sky_photsys = PhotSys(q.sky_unit, lambda_pivot, dlambda_rect)
         sky_spectrum = sky_photsys.spectrum
         sky_photon_rate = sky_photsys.photon_rate(q.sky_brightness)
         if sky_spectrum is not None:
-            # If in Jy per str, convert to arcsec2
+			# A reference spectrum is involved
             if q.sky_unit == 'fmegajy':
+	            # If in Jy per str, convert to arcsec2
                 sky_photon_rate *= 2.350e-11
             sky_spectrum *= sky_photon_rate
     else:
+    	# Sky spectrum is taken from tabulated data at a given airmass
         sky_spectrum = spectrum_from_airmass(
             instrument.site.sky_emissions,
             sky=q.sky,
             am=q.airmass
         )
     if sky_spectrum is not None:
-        # Compute background count rate to get background surface brightness
-        if tpeak > 0.:
-            bkg_observation = Observation(
+        # We have a sky spectrum: compute background count rate
+        # through instrument transmission
+        if cache.tpeaks[config_id] > 0.:
+    		# Instrument/filter response is non-zero over the domain
+            bkg_rate_arcsec2 = Observation(
                 sky_spectrum,
-                instrument_transmission.spectral,
+                instru_spec,
                 force='extrap'
-            )
-            # Add instrumental thermal background
-            ct_bkgsb = (
-                bkg_observation.countrate(area=area, binned=False) \
-                + instrument.emissions_ct[config_id] * u.ct / u.s
-                ) / gain
-            mag_bkgsb = zp + u.Magnitude(ct_bkgsb)
+            ).countrate(
+                area=area,
+                binned=False
+            ).to_value(u.ct / u.s) \
+		    # Add instrumental thermal background component
+            + cache.emissions_ct[config_id]
+            bkg_rate = bkg_rate_arcsec2 \
+                * detector.scale[0].to_value(u.arcsec / u.pix) \
+                * detector.scale[1].to_value(u.arcsec / u.pix)
+            mag_bkgsb = u.Magnitude(cache.zp_abmags[config_id]) + u.Magnitude(
+                bkg_rate_arcsec2 * u.ct / u.s / gain)
         else:
-            ct_bkgsb = 0. * u.ct / u.s
+            bkg_rate = 0.
             mag_bkgsb = 100. * u.mag
-        if mag_bkgsb.value < -100. :
-            mag_bkgsb = u.Quantity('100 mag')
-        if mag_bkgsb.value > 100.:
-            mag_bkgsb = u.Quantity('100 mag')
 
         # Compute number of background electrons per pixel per second
         # We explicitely assume that counts are per arcsec2
-        bkg_rate = (ct_bkgsb * gain * (
-            detector.scale[0].to(u.arcsec / u.pix)
-            * detector.scale[1].to(u.arcsec / u.pix)
-        )).value
     else:
         # Counts directly provided by user
         bkg_rate = sky_photon_rate
@@ -179,7 +196,7 @@ def get_response(
         sersic_radius=q.sersic_radius,
         sersic_index=q.sersic_index,
         pixel_scale=detector.scale,
-        rate=photon_rate,
+        rate=source_rate,
         bkg_rate=bkg_rate,
         # Use RON 'counts' instead of electrons for compatibility with synphot
         ron=detector.ron.to_value('electron'),
@@ -213,7 +230,8 @@ def get_response(
             etime_skysat = img.etime_bkg_sat(),
             etime_sourcesat = img.etime_source_sat(),
             ttime = q.exposures * (etime + instrument.overhead.to_value(u.s)),
-            sky_mag = mag_bkgsb.value,
+            bkg_mag = mag_bkgsb.value,
+            bkg_rate = bkg_rate,
             lambda_pivot = lambda_pivot.to_value(u.nm),
             bandwidth_rect = dlambda_rect.to_value(u.nm),
             cutout = img.gif(etime, exposures=q.exposures) if ui else None,

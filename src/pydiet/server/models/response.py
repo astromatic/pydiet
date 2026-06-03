@@ -64,11 +64,18 @@ class ETCResponseModel(BaseModel):
         description="Estimated total time"
     )
 
-    sky_mag: float=Field(
+    bkg_mag: float=Field(
         default=99.,
         ge=-100.,
         le=100.,
         description="Estimated sky background in mag/arcsec2"
+    )
+
+    bkg_rate: float=Field(
+        default=99.,
+        ge=0.,
+        le=1e30,
+        description="Estimated sky background in photons/pixel"
     )
 
     lambda_pivot: float=Field(
