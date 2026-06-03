@@ -122,7 +122,7 @@ class InstrumentModel(BaseModel):
     cache: Optional['CacheModel'] = Field(default=None)
 
     @model_validator(mode="after")
-    def _update_cache(self):
+    def _update_cache(self) -> 'InstrumentModel':
         # Compute extra parameters during initialization
         area = self.telescope.collecting_area - self.obstruction_area
 
@@ -150,12 +150,14 @@ class InstrumentModel(BaseModel):
             for i, v in enumerate(transmission_list):
                 emission = emission_list[i].spectral
                 transmission = transmission_list[i].spectral
+                assert transmission is not None
                 upstream_transmission *= transmission
                 upstream_emission = upstream_emission * transmission + emission
             for f in self.filters.transmissions:
                 filter = self.filters.transmissions[f]
                 filter_transmission = filter.spectral
                 filter_emission = self.filters.emissions[f].spectral
+                assert filter_transmission is not None
                 transmission = upstream_transmission * filter_transmission
                 emission = upstream_emission * transmission + filter_emission
                 transmission *= self.detector.transmissions["0"].spectral

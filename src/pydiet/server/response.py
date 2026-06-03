@@ -119,7 +119,7 @@ def get_response(
 		# Instrument/filter response is non-zero over the domain
         if photsys.spectrum is None:
         	# We're dealing with photons per second -> No conversion needed
-            source_rate = photsys.photon_rate(q.brightness).to_value(u.ct / u.s)
+            source_rate = photsys.photon_rate(q.brightness)
             zp = 0. * u.mag
         else:
         	# A reference spectrum is involved
