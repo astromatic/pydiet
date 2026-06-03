@@ -176,8 +176,6 @@ def get_response(
             bkg_rate = bkg_rate_arcsec2 \
                 * detector.scale[0].to_value(u.arcsec / u.pix) \
                 * detector.scale[1].to_value(u.arcsec / u.pix)
-            mag_bkgsb = u.Magnitude(cache.zp_abmags[config_id]) + u.Magnitude(
-                bkg_rate_arcsec2 * u.ct / u.s / gain)
         else:
             bkg_rate = 0.
             mag_bkgsb = 100. * u.mag
@@ -187,6 +185,10 @@ def get_response(
     else:
         # Counts directly provided by user
         bkg_rate = sky_photon_rate
+    mag_bkgsb = u.Magnitude(cache.zp_abmags[config_id]) + u.Magnitude(
+        bkg_rate_arcsec2 * u.ct / u.s / gain
+    ) if bkg_rate > 0. else 100. * u.mag
+    
 
     # Instantiate image model
     img = Image(

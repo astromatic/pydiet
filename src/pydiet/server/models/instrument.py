@@ -167,15 +167,16 @@ class InstrumentModel(BaseModel):
                 config_id = f"{mirror_transmission.id}+{filter.id}" \
                     if mirror_transmission.id != "" \
                     else filter.id
-                 # Compute instrumental magnitude zero-point
+                # Compute transmission maximum to verify that light goes through
                 tpeaks[config_id] = transmission.tpeak()
+                # Compute instrumental magnitude zero-point as mag(s/ADU)
                 zp_abmags[config_id] = u.Magnitude(
                     self.detector.gain.value / \
                     Observation(
                         abphotsys.spectrum,
                         transmission
                     ).countrate(area=area, binned=False)
-                ) if tpeaks[config_id] > 0. else -100. * u.mag
+                ) if tpeaks[config_id] > 0. else -100. * u.Magnitude(u.s / u.ct)
                 transmissions[config_id] = TransmissionModel(
                     id = config_id,
                     name = filter.name,
