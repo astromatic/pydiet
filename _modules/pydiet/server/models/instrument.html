@@ -94,7 +94,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">synphot.spectrum</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSpectrum</span>  <span class="c1">#type: ignore[import-untyped]</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">...</span><span class="w"> </span><span class="kn">import</span> <span class="n">package</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatedQuantity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..photsys</span><span class="w"> </span><span class="kn">import</span> <span class="n">PhotSys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..types.quantity</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatedQuantity</span>
+
+
+<span class="c1"># Setup AB photometric system</span>
+<span class="n">abphotsys</span> <span class="o">=</span> <span class="n">PhotSys</span><span class="p">(</span><span class="s1">&#39;abmag&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">spectral_to_arrays</span><span class="p">(</span><span class="n">spectral</span><span class="p">:</span> <span class="n">BaseSpectrum</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
@@ -110,6 +115,22 @@
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span>
+
+
+<div class="viewcode-block" id="CacheModel">
+<a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.CacheModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CacheModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pydantic model for cached data.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">tpeaks</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="n">zp_abmags</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;s / ct&quot;</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Instrumental AB magnitude zero-point&quot;</span>
+    <span class="p">)]</span>
+    <span class="n">transmissions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;TransmissionModel&#39;</span><span class="p">]</span>
+    <span class="n">emissions_ct</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span></div>
 
 
 
@@ -181,33 +202,37 @@
     <span class="n">site</span><span class="p">:</span> <span class="s1">&#39;SiteModel&#39;</span>
     <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="n">transmissions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
-    <span class="n">emissions_ct</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
+    <span class="n">cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;CacheModel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_update_transmissions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Compute extra parameters during initialization</span>
         <span class="n">area</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">collecting_area</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstruction_area</span>
+
+        <span class="c1"># Transmission peaks (essentially to check that some flux goes through)</span>
+        <span class="n">tpeaks</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Instrumental magnitude zero-points in the AB system</span>
+        <span class="n">zp_abmags</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># Filter emissions and transmissions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transmissions</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransmissionModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">emissions_ct</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">ct</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
+        <span class="n">transmissions</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransmissionModel</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
+        <span class="n">emissions_ct</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">ct</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1">#type: ignore[annotation-unchecked]</span>
         <span class="k">for</span> <span class="n">mirror_status</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">transmissions</span><span class="p">:</span>
             <span class="n">upstream_transmission</span> <span class="o">=</span> <span class="mf">1.</span>
             <span class="n">mirror_transmission</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">transmissions</span><span class="p">[</span><span class="n">mirror_status</span><span class="p">]</span>
             <span class="n">mirror_emission</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">telescope</span><span class="o">.</span><span class="n">emissions</span><span class="p">[</span><span class="n">mirror_status</span><span class="p">]</span>
             <span class="c1"># Pre-filter list of transmissions</span>
-            <span class="n">transmissions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">transmission_list</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">mirror_transmission</span><span class="p">,</span>
                 <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">optics</span><span class="o">.</span><span class="n">transmissions</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
             <span class="p">]</span>
             <span class="n">upstream_emission</span> <span class="o">=</span> <span class="n">SourceSpectrum</span><span class="p">(</span><span class="n">ConstFlux1D</span><span class="p">,</span> <span class="n">amplitude</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
-            <span class="n">emissions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">emission_list</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">mirror_emission</span><span class="p">,</span>
                 <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">optics</span><span class="o">.</span><span class="n">emissions</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
             <span class="p">]</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">transmissions</span><span class="p">):</span>
-                <span class="n">emission</span> <span class="o">=</span> <span class="n">emissions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
-                <span class="n">transmission</span> <span class="o">=</span> <span class="n">transmissions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">transmission_list</span><span class="p">):</span>
+                <span class="n">emission</span> <span class="o">=</span> <span class="n">emission_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
+                <span class="n">transmission</span> <span class="o">=</span> <span class="n">transmission_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">spectral</span>
                 <span class="n">upstream_transmission</span> <span class="o">*=</span> <span class="n">transmission</span>
                 <span class="n">upstream_emission</span> <span class="o">=</span> <span class="n">upstream_emission</span> <span class="o">*</span> <span class="n">transmission</span> <span class="o">+</span> <span class="n">emission</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">transmissions</span><span class="p">:</span>
@@ -223,7 +248,16 @@
                 <span class="n">config_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mirror_transmission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">+</span><span class="si">{</span><span class="nb">filter</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span> \
                     <span class="k">if</span> <span class="n">mirror_transmission</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> \
                     <span class="k">else</span> <span class="nb">filter</span><span class="o">.</span><span class="n">id</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">transmissions</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransmissionModel</span><span class="p">(</span>
+                 <span class="c1"># Compute instrumental magnitude zero-point</span>
+                <span class="n">tpeaks</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">transmission</span><span class="o">.</span><span class="n">tpeak</span><span class="p">()</span>
+                <span class="n">zp_abmags</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Magnitude</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">detector</span><span class="o">.</span><span class="n">gain</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> \
+                    <span class="n">Observation</span><span class="p">(</span>
+                        <span class="n">abphotsys</span><span class="o">.</span><span class="n">spectrum</span><span class="p">,</span>
+                        <span class="n">transmission</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">countrate</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="n">area</span><span class="p">,</span> <span class="n">binned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="p">)</span> <span class="k">if</span> <span class="n">tpeaks</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span> <span class="k">else</span> <span class="o">-</span><span class="mf">100.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">mag</span>
+                <span class="n">transmissions</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">TransmissionModel</span><span class="p">(</span>
                     <span class="nb">id</span> <span class="o">=</span> <span class="n">config_id</span><span class="p">,</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                     <span class="n">description</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
@@ -232,12 +266,18 @@
                     <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span>
                     <span class="n">spectral</span> <span class="o">=</span> <span class="n">transmission</span>
                 <span class="p">)</span>
-                <span class="c1"># Compute countrate</span>
-                <span class="k">if</span> <span class="n">transmission</span><span class="o">.</span><span class="n">tpeak</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">:</span>
-                    <span class="n">observation</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span><span class="n">emission</span><span class="p">,</span> <span class="n">transmission</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="s1">&#39;taper&#39;</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">emissions_ct</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">observation</span><span class="o">.</span><span class="n">countrate</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="n">area</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">emissions_ct</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+                <span class="c1"># Compute emission countrate</span>
+                <span class="n">emissions_ct</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span>
+                    <span class="n">emission</span><span class="p">,</span>
+                    <span class="n">transmission</span><span class="p">,</span>
+                    <span class="n">force</span><span class="o">=</span><span class="s1">&#39;taper&#39;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">countrate</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="n">area</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">tpeaks</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span> <span class="k">else</span> <span class="mf">0.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">CacheModel</span><span class="p">(</span>
+                <span class="n">tpeaks</span><span class="o">=</span><span class="n">tpeaks</span><span class="p">,</span>
+                <span class="n">zp_abmags</span><span class="o">=</span><span class="n">zp_abmags</span><span class="p">,</span>
+                <span class="n">transmissions</span><span class="o">=</span><span class="n">transmissions</span><span class="p">,</span>
+                <span class="n">emissions_ct</span><span class="o">=</span><span class="n">emissions_ct</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>

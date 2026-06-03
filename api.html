@@ -174,6 +174,13 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/server/models.html#pydiet.server.models.exceptions.ETCValidationError"><code class="docutils literal notranslate"><span class="pre">ETCValidationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.CacheModel"><code class="docutils literal notranslate"><span class="pre">CacheModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.CacheModel.emissions_ct"><code class="docutils literal notranslate"><span class="pre">CacheModel.emissions_ct</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.CacheModel.tpeaks"><code class="docutils literal notranslate"><span class="pre">CacheModel.tpeaks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.CacheModel.transmissions"><code class="docutils literal notranslate"><span class="pre">CacheModel.transmissions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.CacheModel.zp_abmags"><code class="docutils literal notranslate"><span class="pre">CacheModel.zp_abmags</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel"><code class="docutils literal notranslate"><span class="pre">DetectorModel</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.emissions"><code class="docutils literal notranslate"><span class="pre">DetectorModel.emissions</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.gain"><code class="docutils literal notranslate"><span class="pre">DetectorModel.gain</span></code></a></li>
@@ -183,10 +190,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel"><code class="docutils literal notranslate"><span class="pre">InstrumentModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.cache"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.cache</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.default"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.default</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.description"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.description</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.detector"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.detector</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.emissions_ct"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.emissions_ct</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.filters"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.filters</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.id"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.id</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.name"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.name</span></code></a></li>
@@ -195,7 +202,6 @@
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.overhead"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.overhead</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.site"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.site</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.telescope"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.telescope</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.transmissions"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.transmissions</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.wavelength_range"><code class="docutils literal notranslate"><span class="pre">InstrumentModel.wavelength_range</span></code></a></li>
 </ul>
 </li>
@@ -288,6 +294,8 @@
 <li class="toctree-l3"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.atmosphere_transmission"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.atmosphere_transmission</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.bandwidth_rect"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.bandwidth_rect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.bkg_mag"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.bkg_mag</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.bkg_rate"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.bkg_rate</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.compute"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.compute</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.cutout"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.cutout</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.etime"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.etime</span></code></a></li>
@@ -297,7 +305,6 @@
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.filter_transmission"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.filter_transmission</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.instrument"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.instrument</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.lambda_pivot"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.lambda_pivot</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.sky_mag"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.sky_mag</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.snr"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.snr</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.ttime"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.ttime</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.zp"><code class="docutils literal notranslate"><span class="pre">ETCResponseModel.zp</span></code></a></li>
