@@ -166,7 +166,6 @@ def main() -> int:
     skycalc['observatory'] = '3060m'
     skycalc['pwv'] = -1
     skycalc['airmass'] = airmass
-    skycalc['wgrid_mode'] = 'fixed_wavelength_step'
     skycalc['wmin'] = args['min_wavelength']
     skycalc['wmax'] = args['max_wavelength']
     skycalc['wdelta'] = args['wavelength_step']
