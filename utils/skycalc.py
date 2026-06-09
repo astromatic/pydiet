@@ -29,6 +29,8 @@ def main() -> int:
     default_moon_separation = 45.
     default_multiply = 1.
     default_origin = "ESO SkyCalc"
+    default_resolution = 15000.
+    default_solar_flux = 130.
     default_telescope = "CFHT"
 
     parser = argparse.ArgumentParser(
@@ -52,6 +54,12 @@ def main() -> int:
         help="Exclude all contributions except that of the Moon"
     )
     parser.add_argument(
+        '-f', '--solar-flux',
+        type=float,
+        default=default_solar_flux,
+        help=f"Averaged solar radio flux in SFU (default: {default_solar_flux})"
+    )
+    parser.add_argument(
         '-F', '--format',
         type=str,
         default=default_format,
@@ -62,6 +70,11 @@ def main() -> int:
         type=str,
         default=default_instrument,
         help=f"Instrument applicable to the data (default: {default_instrument})"
+    )
+    parser.add_argument(
+        '-l', '--logarithmic-binning',
+        action='store_true',
+        help="Use logarithmic binning with given resolution"
     )
     parser.add_argument(
         '--min-wavelength',
@@ -90,13 +103,13 @@ def main() -> int:
         '--multiply',
         type=float,
         default=default_multiply,
-        help=f"Multiplication factor  (default: {default_multiply})"
+        help=f"Multiplication factor (default: {default_multiply})"
     )
     parser.add_argument(
         '-o', '--origin',
         type=str,
         default=default_origin,
-        help=f"Origin of the data  (default: {default_origin})"
+        help=f"Origin of the data (default: {default_origin})"
     )
     parser.add_argument(
         '-q', '--quiet',
@@ -104,10 +117,16 @@ def main() -> int:
         help="Run quietly"
     )
     parser.add_argument(
+        '-r', '--resolution',
+        type=float,
+        default=default_resolution,
+        help=f"Spectral resolution in logarithmic binning mode (default: {default_resolution})"
+    )
+    parser.add_argument(
         '-s', '--wavelength-step',
         type=float,
         default=default_wavelength_step,
-        help=f"Wavelength step in nm (default: {default_wavelength_step})"
+        help=f"Wavelength step in nm in fixed binning mode (default: {default_wavelength_step})"
     )
     parser.add_argument(
         '-S', '--moon-separation',
@@ -136,6 +155,7 @@ def main() -> int:
     moon= args['moon']
     moon_phase = args['moon_phase'] % 360.
     moon_separation = args['moon_separation']
+    solar_flux = args['solar_flux']
     telescope = args['telescope']
     exclude = args['exclude_all_but_moon']
     multiply = args['multiply']
@@ -150,9 +170,13 @@ def main() -> int:
     skycalc['wmin'] = args['min_wavelength']
     skycalc['wmax'] = args['max_wavelength']
     skycalc['wdelta'] = args['wavelength_step']
-    skycalc['moon_target_sep'] = args['moon_separation']
+    skycalc['moon_target_sep'] = moon_separation
     skycalc['moon_sun_sep'] = moon_phase
+    skycalc['msolflux'] = solar_flux
     skycalc['incl_moon'] = 'Y' if moon else 'N'
+    skycalc['wgrid_mode'] = 'fixed_spectral_resolution' \
+        if args['logarithmic_binning'] else 'fixed_wavelength_step'
+    skycalc['wres'] = args['resolution']
     if exclude:
         skycalc['incl_starlight'] = 'N'
         skycalc['incl_zodiacal'] = 'N'
@@ -171,12 +195,12 @@ def main() -> int:
         "date": datetime.now().isoformat(),
         "filter": "Atmosphere",
         "instrume": instrument,
-        "origin": origin,
-        "telescop": telescope,
         "moonup": moon,
         "moonphas": (moon_phase if moon_phase <= 180. else moon_phase-360.) / 180.,
-        "moonangl": moon_separation
-        
+        "moonangl": moon_separation,
+        "msolflux": solar_flux,
+        "origin": origin,
+        "telescop": telescope
         }
     if not quiet:
         print(output_table.info)
