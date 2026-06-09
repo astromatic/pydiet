@@ -6,7 +6,7 @@ Computation module
 
 from math import pi, sqrt
 from os import PathLike
-from typing import Any, IO, Optional
+from typing import IO, Optional
 
 from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
