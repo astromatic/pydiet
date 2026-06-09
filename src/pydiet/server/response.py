@@ -6,7 +6,7 @@ Computation module
 
 from math import pi, sqrt
 from os import PathLike
-from typing import IO, Optional
+from typing import Any, IO, Optional
 
 from astropy import units as u  #type: ignore[import-untyped]
 from pydantic import BaseModel, Field
@@ -33,15 +33,15 @@ from .photsys import PhotSys
 
 def spectrum_from_airmass(
         models: dict[str, SBSEDModel | SEDModel | TransmissionModel],
-        solar: SolarID|None = None,
-        sky: SkyID|None = None,
-        am: float = 1.) -> SpectralElement:
+        am: float = 1.,
+        extra: Optional[dict[str, str|float]] = None) -> SpectralElement:
     # Build a dictionary of emission or transmission spectra
     am_spectra = {
         model.vars['am'] : model.spectral  #type: ignore[index]
         for model in models.values()
-        if sky is None or (
-            model.vars['sky'] == sky and model.vars['solar'] == solar  #type: ignore[index]
+        if extra is None or all(
+            model.vars[e]==extra[e]  #type: ignore[index]
+            for e in extra
         )
     }
     ams = sorted(list(am_spectra.keys()))
@@ -159,9 +159,8 @@ def get_response(
     	# at a given airmass and solar flux
         sky_spectrum = spectrum_from_airmass(
             instrument.site.sky_emissions,
-            sky=q.sky,
-            solar=q.solar,
-            am=q.airmass
+            am=q.airmass,
+            extra={'sky': q.sky, 'solar': q.solar}
         )
     if sky_spectrum is not None:
         # We have a sky spectrum: compute background count rate
