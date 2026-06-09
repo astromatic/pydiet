@@ -155,8 +155,8 @@ def get_response(
                 sky_photon_rate *= 2.350e-11
             sky_spectrum *= sky_photon_rate
     else:
-    	# Sky spectrum is taken from tabulated data
-    	# at a given airmass and solar flux
+        # Sky spectrum is taken from tabulated data
+        # at a given airmass and solar flux
         sky_spectrum = spectrum_from_airmass(
             instrument.site.sky_emissions,
             am=q.airmass,
