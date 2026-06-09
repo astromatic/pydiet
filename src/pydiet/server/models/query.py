@@ -29,6 +29,7 @@ from .types import (
     PhotometryID,
     PhotSysID,
     SkyID,
+    SolarID,
     SourceID,
     StackingID
 )
@@ -135,6 +136,11 @@ class ETCQueryModel(BaseModel):
         default=10.,
         gt=0.,
         description="Required source Signal-to-Noise Ratio"
+    )
+
+    solar: SolarID = Field(
+        default='average',
+        description="Solar activity level"
     )
 
     source: SourceID = Field(
