@@ -22,7 +22,7 @@ from .models import (
     TransmissionModel,
     spectral_to_arrays
 )
-from .models.types import FilterID, MirrorID, SkyID, SolarID
+from .models.types import FilterID, MirrorID
 from .data import instruments
 from .datafiles import (
     get_emission_from_transmission,
