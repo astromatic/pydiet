@@ -22,7 +22,7 @@ from .models import (
     TransmissionModel,
     spectral_to_arrays
 )
-from .models.types import FilterID, MirrorID, SkyID
+from .models.types import FilterID, MirrorID
 from .data import instruments
 from .datafiles import (
     get_emission_from_transmission,
@@ -33,13 +33,16 @@ from .photsys import PhotSys
 
 def spectrum_from_airmass(
         models: dict[str, SBSEDModel | SEDModel | TransmissionModel],
-        sky: SkyID|None = None,
-        am: float = 1.) -> SpectralElement:
+        am: float = 1.,
+        extra: Optional[dict[str, str|float]] = None) -> SpectralElement:
     # Build a dictionary of emission or transmission spectra
     am_spectra = {
         model.vars['am'] : model.spectral  #type: ignore[index]
         for model in models.values()
-        if sky is None or model.vars['sky'] == sky  #type: ignore[index]
+        if extra is None or all(
+            model.vars[e]==extra[e]  #type: ignore[index]
+            for e in extra
+        )
     }
     ams = sorted(list(am_spectra.keys()))
     # bracket the requested airmass for interpolation
@@ -152,11 +155,12 @@ def get_response(
                 sky_photon_rate *= 2.350e-11
             sky_spectrum *= sky_photon_rate
     else:
-    	# Sky spectrum is taken from tabulated data at a given airmass
+        # Sky spectrum is taken from tabulated data
+        # at a given airmass and solar flux
         sky_spectrum = spectrum_from_airmass(
             instrument.site.sky_emissions,
-            sky=q.sky,
-            am=q.airmass
+            am=q.airmass,
+            extra={'sky': q.sky, 'solar': q.solar}
         )
     if sky_spectrum is not None:
         # We have a sky spectrum: compute background count rate

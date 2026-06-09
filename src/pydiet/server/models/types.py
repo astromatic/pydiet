@@ -36,6 +36,8 @@ PhotSysID = Literal['abmag', 'vegamag', 'fmegajy', 'fmujy', 'flux', 'photons']
 
 SkyID = Literal['dark', 'grey', 'bright', 'specify']
 
+SolarID = Literal['low', 'average', 'high']
+
 SourceID = Literal['point_source', 'galaxy', 'extended']
 
 StackingID = Literal['average', 'median']
