@@ -81,13 +81,13 @@
                 var label = slot.innerHTML;
                 if (!label.includes('arcsec'))
                   slot.innerHTML = label.includes(']') ?
-                    label.replace(']', '.arcsec<sup>-2</sup>]')
-                    : label + '.arcsec<sup>-2</sup>';
+                    label.replace(']', '.arcsec&#8315;&sup2;]')
+                    : label + '.arcsec&#8315;&sup2;';
               } else {
                 phot.classList.remove('ion-hide');
                 const slot = bright.querySelector(`[slot='label']`);
                 var label = slot.innerHTML;
-                slot.innerHTML = label.replace('.arcsec<sup>-2</sup>', '');
+                slot.innerHTML = label.replace('.arcsec&#8315;&sup2;', '');
               }
               " class="source" name="source" label="Source type" label-placement="floating" fill="solid" interface="popover" value="point_source">
             <ion-select-option value="point_source">point source</ion-select-option>
@@ -168,21 +168,21 @@
                   'Source Vega magnitude'
                   : 'Source AB magnitude';
                 if (extended && !slot.innerHTML.includes('arcsec'))
-                  slot.innerHTML += '.arcsec<sup>-2</sup>';
+                  slot.innerHTML += '.arcsec&#8315;&sup2;';
                 bright.min = '-40.0';
                 bright.max = '40.0';
                 bright.step = '0.01';
               } else if (this.value=='fmujy') {
                 slot.innerHTML = extended ?
-                  'Source flux density [μJy.arcsec<sup>-2</sup>]'
+                  'Source flux density [μJy.arcsec&#8315;&sup2;]'
                   : 'Source flux density [μJy]';
                 bright.min = '0.0';
                 bright.max = '1000.0';
                 bright.step = 'any';
               } else if (this.value=='flux') {
                 slot.innerHTML = extended ?
-                  'Source flux [10<sup>-15</sup> erg.s<sup>-1</sup>.cm<sup>-2</sup>.arcsec<sup>-2</sup>]'
-                  : 'Source flux [10<sup>-15</sup> erg.s<sup>-1</sup>.cm<sup>-2</sup>]';
+                  'Source flux [10<sup>-15</sup> erg.s&#8315;&sup1;.cm&#8315;&sup2;.arcsec&#8315;&sup2;]'
+                  : 'Source flux [10<sup>-15</sup> erg.s&#8315;&sup1;.cm&#8315;&sup2;]';
                 bright.min = '0.0';
                 bright.max = '100000.0';
                 bright.step = 'any';
@@ -245,7 +245,7 @@
       <ion-col class="sky-specify ion-hide" size-xl="2" size-lg="3" size-md="4" size-sm="6" size-xs="12">
         <ion-item>
          <ion-input class="sky-brightness" name="sky_brightness" label-placement="floating" fill="solid" type="number" inputmode="decimal" min="-40.0" max="40.0" step="0.1" value="22.0">
-            <div slot="label">Sky value AB mag.arcsec<sup>-2</sup></div>
+            <div slot="label">Sky value AB mag.arcsec&#8315;&sup2;</div>
          </ion-input>
         </ion-item>
       </ion-col>
@@ -258,33 +258,33 @@
               const sky=document.querySelector('.sky-brightness');
               if (this.value=='abmag' || this.value=='vegamag') {
                 sky.querySelector(`[slot='label']`).innerHTML = this.value=='vegamag' ?
-                  'Sky value [Vega mag.arcsec<sup>-2</sup>]'
-                  : 'Sky value [AB mag.arcsec<sup>-2</sup>]';
+                  'Sky value [Vega mag.arcsec&#8315;&sup2;]'
+                  : 'Sky value [AB mag.arcsec&#8315;&sup2;]';
                 sky.min = '-40.0';
                 sky.max = '40.0';
                 sky.step = '0.1';
               } else if (this.value=='fmegajy') {
-                sky.querySelector(`[slot='label']`).innerHTML = 'Sky value [MJy.str<sup>-1</sup>]'
+                sky.querySelector(`[slot='label']`).innerHTML = 'Sky value [MJy.str&#8315;&sup1;]'
                 sky.min = '0.0';
                 sky.max = '1000.0';
                 sky.step = 'any';
               } else if (this.value=='flux') {
-                sky.querySelector(`[slot='label']`).innerHTML = 'Sky value [10<sup>-15</sup> erg.s<sup>-1</sup>.cm<sup>-2</sup>.arcsec<sup>-2</sup>]';
+                sky.querySelector(`[slot='label']`).innerHTML = 'Sky value [10<sup>-15</sup> erg.s&#8315;&sup1;.cm<&#8315;&sup2;.arcsec&#8315;&sup2;]';
                 sky.min = '0.0';
                 sky.max = '100000.0';
                 sky.step = 'any';
               } else if (this.value=='photons') {
-                sky.querySelector(`[slot='label']`).innerHTML = 'Sky value [photons.s<sup>-1</sup>.px<sup>-1</sup>]'
+                sky.querySelector(`[slot='label']`).innerHTML = 'Sky value [e&#8315;.s&#8315;&sup1;.px&#8315;&sup1;]'
                 sky.min = '0.0';
                 sky.max = '1000.0';
                 sky.step = 'any';
               }
               " name="sky_unit" label="Sky unit" width="200px" label-placement="floating" fill="solid" interface="popover" value="abmag">
-              <ion-select-option value="abmag">AB mag.arcsec&dash;&sup2</ion-select-option>
-              <ion-select-option value="vegamag">Vega mag.arcsec&dash;&sup2</ion-select-option>
-              <ion-select-option value="fmegajy">MJy.str&dash;&sup1</ion-select-option>
-              <ion-select-option value="flux">flux.arcsec&dash;&sup2</ion-select-option>
-              <ion-select-option value="photons">photons.s&dash;&sup1.px&dash;&sup1</ion-select-option>
+              <ion-select-option value="abmag">AB mag.arcsec&#8315;&sup2;</ion-select-option>
+              <ion-select-option value="vegamag">Vega mag.arcsec&#8315;&sup2;</ion-select-option>
+              <ion-select-option value="fmegajy">MJy.str&#8315;&sup2;</ion-select-option>
+              <ion-select-option value="flux">flux.arcsec&#8315;&sup2;</ion-select-option>
+              <ion-select-option value="photons">e&#8315;.s&#8315;&sup1;.px&#8315;&sup1;</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
