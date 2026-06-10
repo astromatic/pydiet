@@ -4,8 +4,9 @@ Data models
 # Copyright CFHT/CNRS/CEA/UParisSaclay
 # Licensed under the MIT licence
 
+from typing import Annotated
 from astropy import units as u  #type: ignore[import-untyped]
-from pydantic import BaseModel, DirectoryPath
+from pydantic import BaseModel, DirectoryPath, Field
 
 from ..types import AnnotatedQuantity
 
@@ -34,12 +35,11 @@ class EmissionConfigModel(BaseModel):
         decimals = 2,
         description  = "Device temperature."
     )] = [283 * u.K]
-    areas: list[AnnotatedQuantity(    #type: ignore[valid-type]
-        unit = "m2",
-        ge = 0. * u.m**2,
-        decimals = 3,
-        description = "Emissive area."
-    )] = [0. * u.m**2]
+    blackbody_fractions: list[Annotated[float, Field(
+        ge = 0.,
+        le = 1.,
+        description="Fraction of the pupil that behaves as a pure black body."
+    )]] = Field(default_factory=lambda: [0.])
     files: list[FileConfigModel] = []
 
 

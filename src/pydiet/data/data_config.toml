@@ -202,9 +202,9 @@ files = [
     {id = 'degraded', file = "CFHT_M1_transmission+3yr.fits"}
 ]
 [telescopes.emission]
-# Emission curves for the CFHT 3.6m telescope
+# Emission curve and temperature of the CFHT 3.6m telescope mirror
 temperatures = ["273 K"]
-
+blackbody_fractions = [0.0]
 
 ########################## Table array of instruments #########################
 
@@ -217,7 +217,7 @@ name = "MegaCam"
 description = "The MegaPrime/MegaCam instrument"
 path = "instruments/megacam"
 wavelength_range = "[250., 1050.] nm"
-obstruction_area = "2.112 m2" # Forged by subtracting 
+obstruction_area = "2.112 m2" # Forged by subtracting 8.022 m2 from 10.134 m2
 overhead = "40 s"
 site_id = 'mko'
 telescope_id = 'cfht'
@@ -229,7 +229,7 @@ path = "optics"
 path = "transmission"
 files = [ {file = "MegaPrime_transmission.fits"} ]
 [instruments.optics.emission]
-# Emission as a function of wavelength for all MegaPrime optical components
+# Emission curve and temperature of MegaPrime optical components
 temperatures = ["273 K"] # Typical temperature of the corrector optics
 [instruments.filters]
 path = "filters"
@@ -251,8 +251,8 @@ files = [
     {id = 'm4376', name = "M4376", file = "M4376.MP9404.fits"}
 ]
 [instruments.filters.emission]
-# Emission as a function of wavelength for all MegaPrime optical components
-temperatures = ["273 K"] # Typical temperature of the corrector optics
+# Emission curve and temperature of MegaPrime filters
+temperatures = ["273 K"] # Typical filter temperature
 [instruments.detector]
 # Average MegaCam E2V CCD characteristics
 path = "detector"
@@ -267,6 +267,7 @@ path = "qe"
 # Average MegaCam CCD quantum efficiency as a function of wavelength
 files = [ {file = "MegaCam_QE.average.fits"} ]
 [instruments.detector.emission]
+# Emission curve and temperature of MegaCam detectors
 temperatures = ["153 K"]
 
 
@@ -278,7 +279,7 @@ name = "WIRCam"
 description = "The WIRCam instrument"
 path = "instruments/wircam"
 wavelength_range = "[900., 2600.] nm"
-obstruction_area = "1.734 m2" # Forged by subtracting 8.4m2 from 10.134 m2
+obstruction_area = "1.734 m2" # Forged by subtracting 8.40 m2 from 10.134 m2
 overhead = "10. s"
 site_id = 'mko'
 telescope_id = 'cfht'
@@ -290,8 +291,8 @@ path = "optics"
 path = "transmission"
 files = [ {file = "WIRCam_transmission.fits"} ]
 [instruments.optics.emission]
-# Emission as a function of wavelength for all WIRCam optical components
-temperatures = ["273 K"]
+# Emission curve and temperature for WIRCam optical components
+temperatures = ["273 K"]    # (Overestimated for part of the optical path)
 [instruments.filters]
 path = "filters"
 [instruments.filters.transmission]
@@ -311,6 +312,7 @@ files = [
     {id = 'w', name = "W", file = "W.WC8105.fits"}
 ]
 [instruments.filters.emission]
+# Emission curve and temperature of WIRCam filters
 temperatures = ["80 K"]
 [instruments.detector]
 # Average WIRCam Hawaii-2RG CMOS characteristics
@@ -328,6 +330,7 @@ path = "qe"
 # https://info.cfht.hawaii.edu/display/~bertin/WIRCam+quantum+efficiency+curve
 files = [ {file = "WIRCam_QE.average.fits"} ]
 [instruments.detector.emission]
+# Emission curve and temperature of WIRCam detectors
 temperatures = ["80 K"]
 
 

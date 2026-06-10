@@ -227,6 +227,7 @@ def get_emission(
 def get_emission_from_transmission(
         transmission: TransmissionModel,
         temperature: u.Quantity['temperature'],  #type: ignore[name-defined]
+        blackbody_fraction: float,
         id: str) -> SBSEDModel:
     """
     Return emission model based on a transmission model.
@@ -253,9 +254,10 @@ def get_emission_from_transmission(
         description = f"Blackbody emission at {temperature.to(u.K).value:.1f} K",
         # Thermal source spectral flux with Blackbody spectrum over 1 arcsec2
         spectral = ThermalSpectralElement(
-            flat + (-1.) * transmission.spectral, # Apply emissivity
+            # Add contribution from pure bb fraction and emissivity law
+            flat + (blackbody_fraction - 1.) * transmission.spectral,
             temperature=temperature,
-            beam_fill_factor=1.0
+            beam_fill_factor=1.
         ).thermal_source(),
         default=transmission.default
     )
@@ -298,12 +300,14 @@ def get_emissions(
     # No emission files: we use a blackbody with emissivity from transmission
     if len(emission_config.files) == 0 and transmissions is not None:
         temperatures = emission_config.temperatures
+        bb_fractions = emission_config.blackbody_fractions
         for t, key in enumerate(transmissions):
-            temperature = temperatures[t] if t < len(temperatures) \
-                else temperatures[-1]
             emissions[key] = get_emission_from_transmission(
                 transmissions[key],
-                temperature=temperature,
+                temperature=temperatures[t] if t < len(temperatures) \
+                    else temperatures[-1],  # Use last temperature if missing
+                blackbody_fraction=bb_fractions[t] if t < len(bb_fractions) \
+                    else bb_fractions[-1],  # Use last bb_fraction if missing
                 id=key
             )
     return emissions

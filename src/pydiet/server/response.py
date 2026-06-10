@@ -176,8 +176,8 @@ def get_response(
             extra={'sky': q.sky, 'solar': q.solar}
         )
     if sky_spectrum is not None:
-        # We have a sky spectrum: compute background count rate
-        # through instrument transmission
+        # We have a sky spectrum: compute sky background count rate through
+        # instrument transmission and add instrumental thermal component
         if cache.tpeaks[config_id] > 0.:
     		# Instrument/filter response is non-zero over the domain
             bkg_rate_arcsec2 = Observation(
@@ -187,9 +187,7 @@ def get_response(
             ).countrate(
                 area=area,
                 binned=False
-            ).to_value(u.ct / u.s) \
-		    # Add instrumental thermal background component
-            + cache.emissions_ct[config_id]
+            ).to_value(u.ct / u.s) + cache.emissions_ct[config_id]
             bkg_rate = bkg_rate_arcsec2 \
                 * detector.scale[0].to_value(u.arcsec / u.pix) \
                 * detector.scale[1].to_value(u.arcsec / u.pix)
