@@ -176,7 +176,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Fields<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#pydiet.server.models.dataconfig.EmissionConfigModel.areas" title="pydiet.server.models.dataconfig.EmissionConfigModel.areas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">areas</span> <span class="pre">(list[astropy.units.quantity.Quantity])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.dataconfig.EmissionConfigModel.blackbody_fractions" title="pydiet.server.models.dataconfig.EmissionConfigModel.blackbody_fractions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blackbody_fractions</span> <span class="pre">(list[float])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.dataconfig.EmissionConfigModel.files" title="pydiet.server.models.dataconfig.EmissionConfigModel.files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">files</span> <span class="pre">(list[pydiet.server.models.dataconfig.FileConfigModel])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.dataconfig.EmissionConfigModel.path" title="pydiet.server.models.dataconfig.EmissionConfigModel.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures" title="pydiet.server.models.dataconfig.EmissionConfigModel.temperatures"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temperatures</span> <span class="pre">(list[astropy.units.quantity.Quantity])</span></code></a></p></li>
@@ -184,8 +184,8 @@
 </dd>
 </dl>
 <dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="pydiet.server.models.dataconfig.EmissionConfigModel.areas">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">areas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fe189ba9840&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'minimum':</span> <span class="pre">'0.0</span> <span class="pre">m2',</span> <span class="pre">'physType':</span> <span class="pre">'area'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">m2&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.areas" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="pydiet.server.models.dataconfig.EmissionConfigModel.blackbody_fractions">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">blackbody_fractions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">annotation</span></span><span class="o"><span class="pre">=</span></span><span class="pre">NoneType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="k"><span class="pre">True</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="s"><span class="pre">'Fraction</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">pupil</span> <span class="pre">that</span> <span class="pre">behaves</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">pure</span> <span class="pre">black</span> <span class="pre">body.'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Ge</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">ge</span></span><span class="o"><span class="pre">=</span></span><span class="pre">0.0</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Le</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">le</span></span><span class="o"><span class="pre">=</span></span><span class="pre">1.0</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Optional]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.blackbody_fractions" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
@@ -200,7 +200,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.dataconfig.EmissionConfigModel.temperatures">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temperatures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fe1957a1510&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'exclusiveMinimum':</span> <span class="pre">'0.0</span> <span class="pre">K',</span> <span class="pre">'physType':</span> <span class="pre">'temperature'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">283.</span> <span class="pre">K&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temperatures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fb111760ee0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'exclusiveMinimum':</span> <span class="pre">'0.0</span> <span class="pre">K',</span> <span class="pre">'physType':</span> <span class="pre">'temperature'})]]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">283.</span> <span class="pre">K&gt;]</span></em><a class="headerlink" href="#pydiet.server.models.dataconfig.EmissionConfigModel.temperatures" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -742,7 +742,7 @@
 
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.instrument.CacheModel.zp_abmags">
-<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zp_abmags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict[str,</span> <span class="pre">~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fe176ebd1e0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'physType':</span> <span class="pre">'unknown'})]]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.CacheModel.zp_abmags" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zp_abmags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict[str,</span> <span class="pre">~astropy.units.quantity.Annotated[~astropy.units.quantity.Quantity,</span> <span class="pre">&lt;pydiet.server.types.quantity.QuantityAnnotation</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fb0f068dde0&gt;,</span> <span class="pre">FieldInfo(annotation=NoneType,</span> <span class="pre">required=True,</span> <span class="pre">json_schema_extra={'physType':</span> <span class="pre">'unknown'})]]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#pydiet.server.models.instrument.CacheModel.zp_abmags" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1747,8 +1747,11 @@
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.instrument" title="pydiet.server.models.response.ETCResponseModel.instrument"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instrument</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.lambda_pivot" title="pydiet.server.models.response.ETCResponseModel.lambda_pivot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lambda_pivot</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.snr" title="pydiet.server.models.response.ETCResponseModel.snr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">snr</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.trans_peak" title="pydiet.server.models.response.ETCResponseModel.trans_peak"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trans_peak</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.trans_peak_instru" title="pydiet.server.models.response.ETCResponseModel.trans_peak_instru"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trans_peak_instru</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.ttime" title="pydiet.server.models.response.ETCResponseModel.ttime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ttime</span> <span class="pre">(float)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.zp" title="pydiet.server.models.response.ETCResponseModel.zp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zp</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pydiet.server.models.response.ETCResponseModel.zp_instru" title="pydiet.server.models.response.ETCResponseModel.zp_instru"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zp_instru</span> <span class="pre">(float)</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -1760,7 +1763,7 @@
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.bandwidth_rect">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bandwidth_rect</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.bandwidth_rect" title="Link to this definition"></a></dt>
-<dd><p>Equivalent rectangular bandwidth of the full filter response in nm</p>
+<dd><p>Equivalent rectangular bandwidth of the full transmission curve in nm</p>
 <dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1774,7 +1777,7 @@
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.bkg_mag">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bkg_mag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">99.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.bkg_mag" title="Link to this definition"></a></dt>
-<dd><p>Estimated sky background in mag/arcsec2</p>
+<dd><p>Estimated sky background in magAB/arcsec2</p>
 <dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1870,7 +1873,7 @@
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.lambda_pivot">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lambda_pivot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.lambda_pivot" title="Link to this definition"></a></dt>
-<dd><p>Pivot wavelength of the full filter response in nm</p>
+<dd><p>Pivot wavelength of the full transmission curve in nm</p>
 <dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1896,6 +1899,34 @@
 </dd></dl>
 
 <dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.trans_peak">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trans_peak</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.trans_peak" title="Link to this definition"></a></dt>
+<dd><p>Peak amplitude of the total transmission curve</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>le</strong> = 1.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.trans_peak_instru">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trans_peak_instru</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.trans_peak_instru" title="Link to this definition"></a></dt>
+<dd><p>Peak amplitude of the instrumental transmission curve</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = 0.0</p></li>
+<li><p><strong>le</strong> = 1.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.ttime">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ttime</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.ttime" title="Link to this definition"></a></dt>
 <dd><p>Estimated total time</p>
@@ -1912,7 +1943,21 @@
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.zp">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.zp" title="Link to this definition"></a></dt>
-<dd><p>Estimate magnitude zero-point</p>
+<dd><p>Estimated total photometric zero-point per second in magAB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ge</strong> = -100.0</p></li>
+<li><p><strong>le</strong> = 100.0</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="pydiet.server.models.response.ETCResponseModel.zp_instru">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zp_instru</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pydiet.server.models.response.ETCResponseModel.zp_instru" title="Link to this definition"></a></dt>
+<dd><p>Estimated instrumental photometric zero-point per second in magAB</p>
 <dl class="field-list simple">
 <dt class="field-odd">Constraints<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
