@@ -71,6 +71,7 @@ def get_response(
         emission = get_emission_from_transmission(
             filter_transmission,
             temperature=273. * u.K,
+            blackbody_fraction = 0.,
             id='upload'
         )
         # Make a copy of the instrument while adding the uploaded filter
