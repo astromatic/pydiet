@@ -28,7 +28,7 @@ from .datafiles import (
     get_emission_from_transmission,
     get_transmission
 )
-from .photsys import PhotSys
+from .photsys import ab_spectrum, PhotSys
 
 
 def spectrum_from_airmass(
@@ -139,6 +139,19 @@ def get_response(
 		# Mismatched instrument/filter responses: 0 transmission over the domain
         source_rate = 0.
         zp = -100. * u.mag
+    # Get full AB mag zero-point
+    match photsys.id:
+        # If the source phot system is AB mag spectrum, recycle zero-point
+        case 'abmag' | 'fmegajy' |  'fmujy' | 'flux':
+            zp_ab = zp
+        # Otherwise recompute from AB ref spectrum
+        case _:
+            zp_ab = u.Magnitude(1. * u.ct / u.s) - u.Magnitude(
+                Observation(ab_spectrum, full_spec).countrate(
+                    area=area,
+                    binned=False
+                ) / gain
+            )
 
     # Compute pure instrumental zero-point in the AB system
 
@@ -182,14 +195,13 @@ def get_response(
                 * detector.scale[1].to_value(u.arcsec / u.pix)
         else:
             bkg_rate = 0.
-            mag_bkgsb = 100. * u.mag
 
         # Compute number of background electrons per pixel per second
         # We explicitely assume that counts are per arcsec2
     else:
         # Counts directly provided by user
         bkg_rate = sky_photon_rate
-    mag_bkgsb = u.Magnitude(cache.zp_abmags[config_id]) + u.Magnitude(
+    mag_bkg_ab = u.Magnitude(cache.zp_abmags[config_id]) + u.Magnitude(
         bkg_rate_arcsec2 * u.ct / u.s / gain
     ) if bkg_rate > 0. else 100. * u.mag
     
@@ -230,13 +242,13 @@ def get_response(
             instrument = instrument.name,
             filter = instrument_transmission.name,
             compute = q.compute,
-            zp = zp.value,
+            zp = zp_ab.value,
             snr = snr * sexposures,
             etime = etime,
             etime_skysat = img.etime_bkg_sat(),
             etime_sourcesat = img.etime_source_sat(),
             ttime = q.exposures * (etime + instrument.overhead.to_value(u.s)),
-            bkg_mag = mag_bkgsb.value,
+            bkg_mag = mag_bkg_ab.value,
             bkg_rate = bkg_rate,
             lambda_pivot = lambda_pivot.to_value(u.nm),
             bandwidth_rect = dlambda_rect.to_value(u.nm),
