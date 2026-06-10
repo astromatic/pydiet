@@ -155,8 +155,6 @@ def get_response(
                 ) / gain
             )
 
-    # Compute pure instrumental zero-point in the AB system
-
     # Background
     if q.sky == 'specify':
     	# Sky surface brightness is provided by user
@@ -177,6 +175,9 @@ def get_response(
             am=q.airmass,
             extra={'sky': q.sky, 'solar': q.solar}
         )
+    # Pixel area in arcsec2
+    pixarcsec2 = detector.scale[0].to_value(u.arcsec / u.pix) \
+               * detector.scale[1].to_value(u.arcsec / u.pix)
     if sky_spectrum is not None:
         # We have a sky spectrum: compute sky background count rate through
         # instrument transmission and add instrumental thermal component
@@ -190,9 +191,7 @@ def get_response(
                 area=area,
                 binned=False
             ).to_value(u.ct / u.s) + cache.emissions_ct[config_id]
-            bkg_rate = bkg_rate_arcsec2 \
-                * detector.scale[0].to_value(u.arcsec / u.pix) \
-                * detector.scale[1].to_value(u.arcsec / u.pix)
+            bkg_rate = bkg_rate_arcsec2 * pixarcsec2
         else:
             bkg_rate = 0.
 
@@ -201,6 +200,7 @@ def get_response(
     else:
         # Counts directly provided by user
         bkg_rate = sky_photon_rate
+        bkg_rate_arcsec2 = sky_photon_rate / pixarcsec2
     zp_instru_ab = u.Magnitude(cache.zp_abmags[config_id])
     mag_bkg_ab = zp_instru_ab + u.Magnitude(
         bkg_rate_arcsec2 * u.ct / u.s / gain
