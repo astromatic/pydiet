@@ -26,7 +26,14 @@ class ETCResponseModel(BaseModel):
         default=0.,
         ge=-100.,
         le=100.,
-        description="Estimate magnitude zero-point"
+        description="Estimated total photometric zero-point per second in magAB"
+    )
+
+    zp_instru: float=Field(
+        default=0.,
+        ge=-100.,
+        le=100.,
+        description="Estimated instrumental photometric zero-point per second in magAB"
     )
 
     snr: float=Field(
@@ -68,7 +75,7 @@ class ETCResponseModel(BaseModel):
         default=99.,
         ge=-100.,
         le=100.,
-        description="Estimated sky background in mag/arcsec2"
+        description="Estimated sky background in magAB/arcsec2"
     )
 
     bkg_rate: float=Field(
@@ -82,14 +89,28 @@ class ETCResponseModel(BaseModel):
         default=0.,
         ge=0.,
         lt=1e12,
-        description="Pivot wavelength of the full filter response in nm"
+        description="Pivot wavelength of the full transmission curve in nm"
     )
 
     bandwidth_rect: float=Field(
         default=0.,
         ge=0.,
         lt=1e12,
-        description="Equivalent rectangular bandwidth of the full filter response in nm"
+        description="Equivalent rectangular bandwidth of the full transmission curve in nm"
+    )
+
+    trans_peak: float=Field(
+        default=1.,
+        ge=0.,
+        le=1.,
+        description="Peak amplitude of the total transmission curve"
+    )
+
+    trans_peak_instru: float=Field(
+        default=1.,
+        ge=0.,
+        le=1.,
+        description="Peak amplitude of the instrumental transmission curve"
     )
 
     cutout: Optional[str]=Field(

@@ -115,6 +115,7 @@ def get_response(
     lambda_pivot = full_spec.pivot()
     dlambda_rect = full_spec.rectwidth()
     t_peak = full_spec.tpeak()
+    t_peak_instru = cache.tpeaks[config_id]
 
     # Actual source
     # Get photometric system
@@ -179,7 +180,7 @@ def get_response(
     if sky_spectrum is not None:
         # We have a sky spectrum: compute sky background count rate through
         # instrument transmission and add instrumental thermal component
-        if cache.tpeaks[config_id] > 0.:
+        if t_peak_instru > 0.:
     		# Instrument/filter response is non-zero over the domain
             bkg_rate_arcsec2 = Observation(
                 sky_spectrum,
@@ -200,7 +201,8 @@ def get_response(
     else:
         # Counts directly provided by user
         bkg_rate = sky_photon_rate
-    mag_bkg_ab = u.Magnitude(cache.zp_abmags[config_id]) + u.Magnitude(
+    zp_instru_ab = u.Magnitude(cache.zp_abmags[config_id])
+    mag_bkg_ab = zp_instru_ab + u.Magnitude(
         bkg_rate_arcsec2 * u.ct / u.s / gain
     ) if bkg_rate > 0. else 100. * u.mag
     
@@ -242,6 +244,7 @@ def get_response(
             filter = instrument_transmission.name,
             compute = q.compute,
             zp = zp_ab.value,
+            zp_instru = zp_instru_ab.value,
             snr = snr * sexposures,
             etime = etime,
             etime_skysat = img.etime_bkg_sat(),
@@ -251,6 +254,8 @@ def get_response(
             bkg_rate = bkg_rate,
             lambda_pivot = lambda_pivot.to_value(u.nm),
             bandwidth_rect = dlambda_rect.to_value(u.nm),
+            trans_peak = t_peak,
+            trans_peak_instru = t_peak_instru,
             cutout = img.gif(etime, exposures=q.exposures) if ui else None,
             filter_transmission = TransmissionModel(
                 id = instrument_transmission.id,
