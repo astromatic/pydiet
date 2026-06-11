@@ -30,6 +30,9 @@ jobs:
           pip install --upgrade pip
           pip install build
 
+      - name: Install inline documentation locally
+        run: pip install -e ".[doc]"
+
       - name: Build wheel and sdist
         run: python -m build
 
