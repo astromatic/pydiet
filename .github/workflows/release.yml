@@ -32,7 +32,8 @@ jobs:
 
       - name: Install inline documentation locally
         run: |
-          pip install -e ".[doc]"
+          pip install .[doc]
+          npm install -g jsdoc
           cd docs
           make inline
           cd ..
