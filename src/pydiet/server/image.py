@@ -265,9 +265,6 @@ class Image(object):
         etime: float
             Exposure time in seconds.
         """
-        return self.saturation / self.bkg_rate if self.bkg_rate > 0. else self.max_etime
-
-
         return self.saturation / self.max() if self.rate > 0. and self.bkg_rate > 0. \
             else self.max_etime
 
