@@ -31,7 +31,11 @@ jobs:
           pip install build
 
       - name: Install inline documentation locally
-        run: pip install -e ".[doc]"
+        run: |
+          pip install -e ".[doc]"
+          cd docs
+          make inline
+          cd ..
 
       - name: Build wheel and sdist
         run: python -m build
