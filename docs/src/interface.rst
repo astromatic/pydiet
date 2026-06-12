@@ -1,0 +1,929 @@
+.. File interface.rst
+
+.. include:: global.rst
+
+.. _chap_interface:
+
+==============================
+Using the PyDIET web interface
+==============================
+
+PyDIET provides a web interface for estimating observing quantities for imaging observations.
+The interface can be used either to estimate the exposure time required to reach a target signal-to-noise ratio, or to estimate the signal-to-noise ratio reached for a given exposure time.
+
+The interface is organized as a single calculation form. Each field describes either the observing setup, the source model, the measurement method, the sky background, or the state of the telescope and atmosphere.
+
+.. note::
+
+PyDIET is an exposure time calculator (ETC). Its output is an estimate based on an instrumental and atmospheric model. Although such models have been statistically validated for the Megacam and Wircam instruments, the result should only be used for planning, comparison, and feasibility estimates, not as a guarantee of on-sky performance.
+
+# Overview of the main page
+
+The main page contains:
+
+* a top navigation bar;
+* a settings panel;
+* an instrument-specific ETC form;
+* links to the documentation, web API, source code repository, Terms of Service, and Privacy Policy.
+
+.. figure:: figures/web_interface.png
+:alt: PyDIET web interface
+:align: center
+
+Main PyDIET web interface.
+
+The top-right corner displays the running PyDIET version.
+When comparing results or reporting a calculation, make sure to record this version together with the selected instrument, filter, source model, sky model, and observing parameters.
+To the right of the PyDIET version is a small disk indicating the connection status with the PyDIET server:
+* a green disk means that a stable connection is established with the server, which is ready to respond to ETC queries.
+* a red disk indicates that the server is down, unreachable or excessively busy, and is currently unable to provide a response to ETC queries.
+
+
+# Settings
+
+The **Settings** button opens global interface settings.
+These settings affect the web interface and the default calculation context.
+
+## Theme
+
+The **Theme** setting changes the visual appearance of the interface. Depending on the deployed version, the available choices may include light, dark, or
+automatic/system modes.
+
+This option only changes the display of the page.
+It has no effect on the ETC model or on the calculated results.
+
+## Instrument
+
+The PyDIET web interface can provide access to several instruments through a common page.
+The **Instrument** setting selects the instrument model and interface used by the ETC.
+
+The current CFHT-oriented configuration includes:
+
+* **MegaCam**, an optical wide-field imager;
+* **WIRCam**, a near-infrared imager.
+
+The selected instrument determines which filter list is loaded. It also selects
+instrument-specific detector parameters such as gain, readout noise, full well
+capacity, pixel scale, and quantum efficiency.
+
+# Calculation mode
+
+## Compute
+
+The **Compute** menu selects which quantity PyDIET should solve for.
+
+Available choices are:
+
+* **exposure time**;
+* **SNR**.
+
+When **exposure time** is selected, the user provides a target Signal-to-Noise
+Ratio (SNR). PyDIET estimates the exposure time required to reach it.
+
+When **SNR** is selected, the signal-to-noise input field is replaced by an **Exposure Time [s]** field.
+The user provides the exposure time in seconds, and PyDIET estimates the resulting signal-to-noise ratio for the type of source selected.
+Internally, both modes use the same noise model.
+
+Exposures
+---------
+
+The **Exposures** field gives the number of exposures in the observing sequence.
+
+The default is one exposure. When the number of exposures is greater than one, an additional **Stacking** menu appears.
+
+The number of exposures affects the total integration time and the number of readouts.
+Increasing the number of exposures increases the accumulated source signal and sky signal, but also increases the cumulative contribution of readout noise.
+
+For a fixed total exposure time, splitting the observation into many short exposures is therefore not equivalent to taking fewer long exposures, especially in low-background or narrow-band regimes where read noise matters.
+
+## Stacking
+
+The **Stacking** menu is shown only when **Exposures** is greater than one.
+
+Available choices are:
+
+* **average**;
+* **median**.
+
+The default is **median**.
+
+With **average** stacking, PyDIET assumes that independent exposures are combined using the mean.
+This preserves the usual :math:`\sqrt{N}` improvement in signal-to-noise ratio for :math:`N` equivalent exposures, apart from additional readout-noise terms.
+
+With **median** stacking, PyDIET applies a correction for the lower statistical efficiency of the median compared with the mean.
+For Gaussian noise, a median stack has a larger variance than an average stack.
+Median stacking is more robust against cosmic rays, bad pixels, and outliers, but it is not quite as efficient as averaging when all exposures are
+otherwise clean.
+More efficient artifact rejection algorithms exist that provide intermediate SNRs for a given exposure time, so the average and median ones can be used as bounds for the expected SNR or exposure time.
+
+Source model
+============
+
+Source type
+-----------
+
+The **Source type** menu describes the spatial distribution of the astronomical
+source.
+
+Available choices are:
+
+* **point source**;
+* **galaxy**;
+* **extended**.
+
+Point source
+```
+
+A **point source** is modeled as an unresolved object.
+Its image is controlled mainly by the seeing, the instrumental Point Spread Function (PSF) and sampling by the detector.
+
+Use this option for stars, unresolved transients, quasars, and compact sources
+that are not significantly resolved by the instrument.
+
+
+Galaxy
+
+```
+
+A **galaxy** is modeled as an extended source with a pure Sérsic surface-brightness profile convolved with the full PSF.
+The resulting image is more extended than a point source, so the source light is spread over more pixels.
+For the same total magnitude, this lowers the achievable SNR because more sky background contributes to the measurement.
+When this option is selected, additional Sérsic profile parameters appear:
+
+* **Sérsic Rₑ ["]**;
+* **Sérsic index**.
+
+Use this option for galaxies or resolved sources whose light profile can be
+approximated by a Sérsic model.
+
+For a galaxy, PyDIET likely builds a Sérsic surface-brightness profile and
+convolves it with the seeing PSF. The resulting image is more extended than a
+point source, so the source light is spread over more pixels. For the same
+total magnitude, this usually lowers the achievable SNR compared with a point
+source, because more sky background contributes to the measurement.
+
+Sérsic Rₑ [″]
+"""""""""""""
+
+The **Sérsic Rₑ ["]** field gives the effective radius of the galaxy in
+arcseconds. This is the radius enclosing half of the intrinsic model flux before
+or after seeing convolution, depending on the exact implementation.
+
+Larger values make the source more extended and generally reduce the
+signal-to-noise ratio for a fixed total magnitude.
+
+Sérsic index
+""""""""""""
+
+The **Sérsic index** controls the concentration of the galaxy profile.
+
+A value near 1 corresponds approximately to an exponential disk. Larger values
+represent more centrally concentrated profiles, such as bulge-like or
+elliptical-galaxy profiles.
+
+At fixed total magnitude and effective radius, a larger Sérsic index puts more
+light near the center, which may improve detectability in compact apertures or
+model-fitting measurements, but can also make the result more sensitive to the
+seeing model.
+
+Extended
+```
+
+An **extended** source is treated as a surface-brightness source rather than as
+a finite object with a total magnitude. When this option is selected, the
+photometry menu is hidden and the brightness field changes to a surface
+brightness quantity per square arcsecond.
+
+Use this option for diffuse emission, nebular emission, sky-like surface
+brightness estimates, or extended low-surface-brightness structures where the
+relevant quantity is flux per unit angular area.
+
+Model effect
+^^^^^^^^^^^^
+
+For an extended source, PyDIET likely computes the SNR per angular area or per
+pixel-equivalent resolution element, depending on the implementation. The input
+brightness is interpreted as a surface brightness, not as the total flux of a
+source.
+
+## Seeing
+
+The **Seeing ["]** field gives the delivered image quality in arcseconds.
+
+The default value is 0.7 arcsec.
+
+Model effect
+
+```
+
+Seeing controls the width of the PSF. For point sources and galaxies, worse
+seeing spreads the source flux over more pixels. This increases the amount of
+sky background and detector noise included in the measurement, generally
+reducing SNR for a fixed exposure time.
+
+Seeing has a weaker effect on a uniform extended source, because both source
+and sky are surface-brightness-like quantities. It can still matter if the ETC
+uses a resolution element, aperture, or PSF-convolved model.
+
+Filter
+======
+
+Filter
+------
+
+The **Filter** menu selects the filter transmission curve used in the
+calculation.
+
+The available filters depend on the selected instrument.
+
+For MegaCam, the current configuration includes broad-band filters such as
+``u``, ``g``, ``r``, ``i``, ``z``, ``gri`` and several narrow or medium-band
+filters such as ``CaHK``, ``OIII``, ``Hα``, and related off-band filters.
+
+For WIRCam, the current configuration includes near-infrared filters such as
+``Y``, ``J``, ``H``, ``Ks``, ``H2``, ``Low OH``, ``CH4 on/off``, ``K cont.``,
+``Brγ``, and ``W``.
+
+Model effect
+```
+
+The filter defines the wavelength range over which source flux, sky emission,
+atmospheric transmission, telescope throughput, instrument throughput, detector
+quantum efficiency, and thermal emission are integrated.
+
+Changing the filter can strongly affect:
+
+* the number of detected source electrons;
+* the sky background;
+* the atmospheric extinction;
+* the thermal background, especially in the near infrared;
+* the conversion between AB magnitude, Vega magnitude, flux density, and
+  detected counts.
+
+## Filter upload
+
+If the filter menu includes an **upload** option, selecting it opens a file
+input for a custom filter transmission curve.
+
+The uploaded file should be a FITS file containing a transmission curve in the
+format expected by the PyDIET backend.
+
+Model effect
+
+```
+
+A custom filter replaces the predefined filter transmission curve for the
+current calculation. The rest of the model remains tied to the selected
+instrument, telescope, detector, sky model, and observing conditions.
+
+This is useful for testing new filters, provisional filters, or user-defined
+bandpasses without modifying the server-side instrument configuration.
+
+Source brightness
+=================
+
+Brightness
+----------
+
+The **Source brightness** field gives the source flux normalization.
+
+Its label changes depending on the selected source type and source unit.
+
+For point sources and galaxies, the value describes the total source brightness.
+For extended sources, it describes a surface brightness per square arcsecond.
+
+Source unit
+-----------
+
+The **Source unit** menu selects how the source brightness is interpreted.
+
+Available choices are:
+
+* **AB mag**;
+* **Vega mag**;
+* **μJy**;
+* **flux**.
+
+AB mag
+~~~~~~
+
+The source brightness is interpreted as an AB magnitude.
+
+For point sources and galaxies, this is the total AB magnitude of the source.
+For extended sources, it becomes an AB surface brightness in
+mag arcsec\ :sup:`-2`.
+
+Model effect
+^^^^^^^^^^^^
+
+PyDIET converts the AB magnitude into a spectral flux density normalization and
+integrates it through the selected total throughput curve.
+
+Vega mag
+~~~~~~~~
+
+The source brightness is interpreted as a Vega-based magnitude.
+
+For point sources and galaxies, this is the total Vega magnitude. For extended
+sources, it becomes a Vega surface brightness in mag arcsec\ :sup:`-2`.
+
+Model effect
+^^^^^^^^^^^^
+
+PyDIET likely converts the Vega magnitude to a physical flux using a Vega
+reference spectrum and the selected bandpass. The AB-Vega offset therefore
+depends on the filter.
+
+μJy
+~~~
+
+The source brightness is interpreted as a flux density in microjanskys.
+
+For extended sources, this becomes μJy arcsec\ :sup:`-2`.
+
+Model effect
+^^^^^^^^^^^^
+
+PyDIET converts the input flux density to a photon rate through the selected
+bandpass. This option is useful when the source flux is already known in
+physical units rather than as a magnitude.
+
+flux
+~~~~
+
+The source brightness is interpreted as an integrated physical flux. In the
+current interface label, the unit is displayed as
+
+``10^-15 erg s^-1 cm^-2``
+
+or, for extended sources,
+
+``10^-15 erg s^-1 cm^-2 arcsec^-2``.
+
+Model effect
+^^^^^^^^^^^^
+
+This option is useful for emission-line or narrow-band calculations. PyDIET
+likely treats the value as an integrated flux over the selected bandpass or as
+a band-normalized flux according to the backend convention. For broad-band
+continuum work, AB magnitude or μJy is usually less ambiguous.
+
+Photometry model
+================
+
+Photometry type
+---------------
+
+The **Photometry type** menu selects how the source flux is measured.
+
+Available choices are:
+
+* **model-fitting**;
+* **optimal aperture**;
+* **96% flux aperture**;
+* **fixed aperture**.
+
+This menu is shown for point sources and galaxies. It is hidden for extended
+sources.
+
+Model-fitting
+```
+
+The **model-fitting** option estimates the source flux by fitting the source
+model to the image.
+
+Model effect
+^^^^^^^^^^^^
+
+For a point source, the fitted model is likely the PSF. For a galaxy, it is
+likely the seeing-convolved Sérsic model. In the idealized Gaussian-noise limit,
+model fitting can provide an efficient flux estimator because pixels are
+weighted according to the expected source profile and noise variance.
+
+This option should usually give the best formal SNR when the source model is
+accurate.
+
+Optimal aperture
+
+```
+
+The **optimal aperture** option lets PyDIET choose an aperture that maximizes
+the expected SNR for the selected source, seeing, sky background, and detector
+noise.
+
+Model effect
+^^^^^^^^^^^^
+
+For a point source, the optimal aperture is usually a compromise: a larger
+aperture includes more source flux but also more sky noise. The optimum is
+therefore smaller than an aperture that captures nearly all the flux.
+
+For galaxies, the optimum depends on the Sérsic radius and index as well as the
+seeing.
+
+96% flux aperture
+```
+
+The **96% flux aperture** option uses an aperture large enough to contain
+approximately 96% of the source flux.
+
+Model effect
+^^^^^^^^^^^^
+
+This option approximates a large-aperture measurement. It includes most of the
+source flux but also includes more background noise than a strictly optimal
+aperture. It is useful when the goal is close to total-flux photometry rather
+than maximum SNR.
+
+Fixed aperture
+
+```
+
+The **fixed aperture** option uses a user-specified aperture diameter. Selecting
+it reveals the **Aperture diameter ["]** field.
+
+Model effect
+^^^^^^^^^^^^
+
+The ETC integrates the source model inside the specified aperture and computes
+the sky and detector noise over the corresponding number of pixels.
+
+A small aperture reduces sky noise but misses more source flux. A large aperture
+captures more source flux but includes more sky background. The best value
+depends on the seeing, source morphology, and science goal.
+
+Aperture diameter
+-----------------
+
+The **Aperture diameter ["]** field is shown only when **fixed aperture** is
+selected.
+
+The value is the aperture diameter in arcseconds.
+
+Sky background
+==============
+
+Sky brightness
+--------------
+
+The **Sky brightness** menu selects the background model.
+
+Available choices are:
+
+* **dark**;
+* **grey**;
+* **bright**;
+* **specify**.
+
+Dark
+~~~~
+
+The **dark** sky option corresponds to a dark-time sky model, with the Moon
+below the horizon or otherwise absent from the sky model.
+
+Model effect
+^^^^^^^^^^^^
+
+PyDIET uses a predefined sky emission spectrum for dark conditions. This
+spectrum contributes background photons in each pixel and therefore affects the
+noise term. In optical bands, the dark-sky model includes airglow and continuum
+components. In the near infrared, it includes strong OH emission and thermal
+terms where relevant.
+
+Grey
+~~~~
+
+The **grey** sky option corresponds to an intermediate lunar-background model.
+
+Model effect
+^^^^^^^^^^^^
+
+PyDIET uses a brighter predefined sky emission spectrum than in dark time. This
+likely includes an added moonlight component. Compared with the dark model,
+the sky count rate increases, reducing the SNR for background-limited
+observations or increasing the exposure time needed to reach a target SNR.
+
+Bright
+~~~~~~
+
+The **bright** sky option corresponds to a high-background lunar sky model.
+
+Model effect
+^^^^^^^^^^^^
+
+PyDIET uses the brightest of the predefined sky models. This option is
+appropriate for observations closer to bright time, or for conservative
+estimates in filters affected by scattered moonlight.
+
+The impact is strongest in blue and optical bands. It may be less dominant in
+near-infrared bands where OH airglow and thermal background already contribute
+strongly, although the exact behavior depends on the model.
+
+Specify
+~~~~~~~
+
+The **specify** option lets the user enter the sky brightness manually. When it
+is selected, two additional fields appear:
+
+* **Sky value**;
+* **Sky unit**.
+
+Model effect
+^^^^^^^^^^^^
+
+Instead of selecting a predefined sky emission spectrum by sky category, PyDIET
+uses the user-provided sky brightness normalization. Depending on the backend
+implementation, this may replace the integrated sky background in the selected
+filter while preserving the spectral shape, or it may directly impose the
+background count rate used in the noise calculation.
+
+This option is useful when the user has a measured sky brightness or wants to
+reproduce a known observing condition.
+
+Sky value
+---------
+
+The **Sky value** field gives the numerical value of the manually specified sky
+brightness. It is shown only when **Sky brightness** is set to **specify**.
+
+The field label changes when the sky unit changes.
+
+Sky unit
+--------
+
+The **Sky unit** menu selects the unit used for the manual sky brightness.
+
+Available choices are:
+
+* **AB mag.arcsec⁻²**;
+* **Vega mag.arcsec⁻²**;
+* **MJy.sr⁻¹**;
+* **flux.arcsec⁻²**;
+* **e⁻.s⁻¹.px⁻¹**.
+
+AB mag.arcsec⁻²
+```
+
+The sky value is interpreted as an AB surface brightness.
+
+Model effect
+^^^^^^^^^^^^
+
+PyDIET converts the AB surface brightness into a photon rate per unit angular
+area, then into electrons per pixel using the pixel scale, throughput, and
+detector quantum efficiency.
+
+Vega mag.arcsec⁻²
+
+```
+
+The sky value is interpreted as a Vega-based surface brightness.
+
+Model effect
+^^^^^^^^^^^^
+
+PyDIET converts the Vega surface brightness through the selected bandpass. The
+AB-Vega offset is filter-dependent.
+
+MJy.sr⁻¹
+~~~~~~~~
+
+The sky value is interpreted as a surface brightness in megajanskys per
+steradian.
+
+Model effect
+^^^^^^^^^^^^
+
+This is a common infrared surface-brightness unit. PyDIET converts it to a
+flux density per angular area and then to detected electrons per pixel through
+the selected filter and throughput model.
+
+flux.arcsec⁻²
+~~~~~~~~~~~~~
+
+The sky value is interpreted as a physical flux per square arcsecond. The
+interface label indicates units of
+
+``10^-15 erg s^-1 cm^-2 arcsec^-2``.
+
+Model effect
+^^^^^^^^^^^^
+
+PyDIET converts the physical sky flux into a photon/electron rate over the
+selected bandpass. This option can be useful for narrow-band backgrounds or for
+matching an external sky model.
+
+e⁻.s⁻¹.px⁻¹
+~~~~~~~~~~~
+
+The sky value is interpreted directly as a detected electron rate per pixel.
+
+Model effect
+^^^^^^^^^^^^
+
+This option bypasses most of the photometric conversion for the sky background.
+The entered value is likely used directly as the sky count rate in the detector
+noise model. It is useful when the user already knows the expected background
+level in detector units.
+
+Atmosphere and observing conditions
+===================================
+
+Airmass
+-------
+
+The **Airmass** field describes the line-of-sight optical path through the
+atmosphere.
+
+The default value is 1.2.
+
+Model effect
+~~~~~~~~~~~~
+
+Airmass affects both atmospheric transmission and sky emission. Larger airmass
+usually reduces source throughput because the source light crosses more
+atmosphere. It can also increase the sky emission and scattered-light
+contribution.
+
+In the current Mauna Kea configuration, atmospheric transmission and sky
+emission are tabulated for discrete airmass values. PyDIET likely selects or
+interpolates between the closest available models.
+
+Solar activity
+--------------
+
+The **Solar activity** menu selects the solar-activity level used in the sky
+emission model.
+
+Available choices are:
+
+* **low**;
+* **average**;
+* **high**.
+
+Low
+~~~
+
+The **low** option corresponds to a low solar radio flux model, approximately
+70 sfu in the current sky-model configuration.
+
+Model effect
+^^^^^^^^^^^^
+
+Low solar activity generally reduces some airglow components, especially in
+the ultraviolet and optical where upper-atmosphere emission can matter. It
+therefore tends to produce a darker natural sky background than the average or
+high solar-activity models.
+
+Average
+~~~~~~~
+
+The **average** option corresponds to an intermediate solar radio flux model,
+approximately 130 sfu in the current configuration.
+
+Model effect
+^^^^^^^^^^^^
+
+This is the default solar-activity assumption and should be used for generic
+planning when no more specific information is available. It represents a
+typical sky-emission state between solar minimum and solar maximum.
+
+High
+~~~~
+
+The **high** option corresponds to a high solar radio flux model, approximately
+200 sfu in the current configuration.
+
+Model effect
+^^^^^^^^^^^^
+
+High solar activity generally increases airglow emission. This can raise the
+sky background, especially in the near ultraviolet, optical, and some
+near-infrared airglow features. The result is usually a lower SNR for a fixed
+exposure time, or a longer exposure time for a fixed target SNR.
+
+Mirror condition
+----------------
+
+The **Mirror condition** menu selects the telescope mirror throughput model.
+
+Available choices are:
+
+* **pristine**;
+* **average**;
+* **degraded**.
+
+Pristine
+~~~~~~~~
+
+The **pristine** option represents a freshly coated or nearly freshly coated
+mirror.
+
+Model effect
+^^^^^^^^^^^^
+
+This option gives the highest mirror reflectivity. It increases the source
+count rate and can also increase the sky count rate, since both source and sky
+photons are reflected by the telescope. In most source-limited or
+read-noise-limited regimes, a pristine mirror improves SNR. In strongly
+background-limited regimes, the gain is more modest because both signal and sky
+background increase.
+
+Average
+~~~~~~~
+
+The **average** option represents a typical mirror state between recoatings.
+
+Model effect
+^^^^^^^^^^^^
+
+This is the default and should be used for ordinary planning. It likely
+corresponds to a representative aged coating rather than an ideal freshly
+coated surface.
+
+Degraded
+~~~~~~~~
+
+The **degraded** option represents an older or less reflective mirror coating.
+
+Model effect
+^^^^^^^^^^^^
+
+This option lowers the telescope throughput. It reduces the detected source
+rate and the detected sky rate. For most observations, the net effect is lower
+SNR or longer required exposure time. The effect is especially important when
+the observation is source-limited or read-noise-limited.
+
+Transparency
+------------
+
+The **Transparency** field is a multiplicative atmospheric transparency factor
+between 0 and 1.
+
+The default value is 1.0.
+
+Model effect
+~~~~~~~~~~~~
+
+Transparency scales the amount of source light transmitted through the
+atmosphere relative to the nominal atmospheric model. A value of 1.0 represents
+nominal clear conditions. A lower value represents additional attenuation from
+clouds, cirrus, aerosols, or non-photometric conditions.
+
+In a simple model, transparency reduces the source flux reaching the detector.
+The treatment of sky background may depend on the implementation. A practical
+interpretation is that lower transparency makes point-source and galaxy
+measurements shallower. If the sky background is not reduced by the same factor,
+the SNR penalty can be significant.
+
+Submitting a calculation
+========================
+
+After selecting the desired parameters, press **Submit**.
+
+PyDIET sends the form values to the backend. If no filter file is uploaded, the
+request can be handled as a normal form submission. If a custom filter is
+uploaded, the request includes the FITS filter file.
+
+The result is displayed in a result panel.
+
+Results
+=======
+
+The result panel reports the requested output quantity, either exposure time or
+SNR, together with supporting quantities.
+
+Depending on the instrument and selected mode, the results may include:
+
+* total exposure time;
+* exposure time per individual exposure;
+* signal-to-noise ratio;
+* source count rate;
+* sky background count rate;
+* detector noise contribution;
+* aperture size or effective number of pixels;
+* saturation or full-well warnings;
+* selected filter information;
+* diagnostic throughput or background information.
+
+.. figure:: figures/results_panel.png
+   :alt: PyDIET result panel
+   :align: center
+
+   Example result panel.
+
+Interpreting results
+====================
+
+A PyDIET result depends on the complete calculation context. For reproducible
+results, record at least:
+
+* PyDIET version;
+* instrument;
+* filter or uploaded filter file;
+* compute mode;
+* number of exposures;
+* stacking mode;
+* source type;
+* source brightness and unit;
+* Sérsic radius and index, for galaxy calculations;
+* seeing;
+* photometry type and aperture, when relevant;
+* sky brightness mode;
+* manual sky value and unit, when relevant;
+* airmass;
+* solar activity;
+* mirror condition;
+* transparency.
+
+Recommended usage patterns
+==========================
+
+Point-source depth
+------------------
+
+For limiting magnitude or point-source depth estimates, use:
+
+* **Source type**: point source;
+* **Photometry type**: model-fitting or optimal aperture;
+* **Sky brightness**: dark, grey, or bright depending on lunar conditions;
+* **Solar activity**: average unless a specific solar-cycle assumption is
+  required;
+* **Mirror condition**: average for normal planning.
+
+Galaxy observations
+-------------------
+
+For galaxy observations, use:
+
+* **Source type**: galaxy;
+* **Sérsic Rₑ** and **Sérsic index** matched to the expected morphology;
+* **Photometry type**: model-fitting for idealized matched measurements, or
+  aperture photometry for more traditional estimates.
+
+A galaxy with the same total magnitude as a point source will usually require
+a longer exposure time to reach the same SNR, because its light is distributed
+over a larger area.
+
+Diffuse emission
+----------------
+
+For diffuse emission, use:
+
+* **Source type**: extended;
+* a surface-brightness unit such as AB mag arcsec\ :sup:`-2`,
+  μJy arcsec\ :sup:`-2`, or physical flux per arcsec\ :sup:`2`;
+* a sky model appropriate for the observing conditions.
+
+The result should be interpreted as a surface-brightness sensitivity rather
+than as the SNR of a finite integrated source.
+
+Narrow-band emission-line observations
+--------------------------------------
+
+For narrow-band filters, the **flux** source unit may be useful if the expected
+line flux is known. Use the corresponding on-band filter, and choose a sky model
+carefully, because narrow-band performance can be strongly affected by airglow
+lines.
+
+If using an off-band filter for continuum subtraction, run separate ETC
+calculations for the on-band and off-band filters.
+
+Testing observing conditions
+----------------------------
+
+To explore sensitivity to observing conditions, repeat the calculation while
+changing one parameter at a time:
+
+* seeing;
+* sky brightness;
+* airmass;
+* solar activity;
+* mirror condition;
+* transparency.
+
+This makes it easier to identify whether the observation is limited mainly by
+seeing, sky background, throughput, read noise, or source brightness.
+
+Caveats
+=======
+
+The ETC result is only as accurate as the adopted model. The following effects
+may not be fully represented, or may be represented only approximately:
+
+* source crowding and contamination by neighboring objects;
+* imperfect flat-fielding;
+* background subtraction systematics;
+* PSF spatial variation;
+* detector persistence, non-linearity, or cosmetic defects;
+* fringing or scattered light;
+* changing sky transparency during the exposure sequence;
+* cosmic rays and masking losses;
+* calibration uncertainties;
+* observer-specific reduction choices.
+
+For critical observing programs, use PyDIET as one input to the planning
+process and compare with measured performance from similar observations when
+available.
+```
+
