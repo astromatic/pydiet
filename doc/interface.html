@@ -228,54 +228,35 @@ source.</p>
 <p>Point source
 <a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a></p>
 <p>A <strong>point source</strong> is modeled as an unresolved object.
-Its image is controlled mainly by the seeing, the instrumental Point Spread Function (PSF) and sampling by the detector.</p>
-<p>Use this option for stars, unresolved transients, quasars, and compact sources
-that are not significantly resolved by the instrument.</p>
-<p>Galaxy</p>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
-<p>A <strong>galaxy</strong> is modeled as an extended source with a pure Sérsic surface-brightness profile convolved with the full PSF.
-The resulting image is more extended than a point source, so the source light is spread over more pixels.
-For the same total magnitude, this lowers the achievable SNR because more sky background contributes to the measurement.
-When this option is selected, additional Sérsic profile parameters appear:</p>
+Its image is controlled mainly by the <a class="reference external" href="https://en.wikipedia.org/wiki/Astronomical_seeing">seeing</a>, the instrumental <a class="reference external" href="https://en.wikipedia.org/wiki/Point_spread_function">Point Spread Function (PSF)</a> and sampling by the detector.</p>
+<p>Use this option for stars, unresolved transients, quasars, and compact sources that are not significantly resolved by the instrument.</p>
+<p>Galaxy
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<p>A <strong>galaxy</strong> is modeled as an extended source with a pure, axisymmetric <a class="reference external" href="https://en.wikipedia.org/wiki/S%C3%A9rsic_profile">Sérsic surface-brightness profile</a> convolved with the full PSF.
+Such a model provides
+The resulting image gives a reasonably accurate description of an elliptical or a (face-on) disk galaxy.
+It is more extended than a point source, so the source light is spread over more pixels.
+For the same total magnitude, this lowers the achievable SNR because more sky background contributes to the measurement.</p>
+<p>When this option is selected, additional Sérsic profile parameters appear:</p>
 <ul class="simple">
 <li><p><strong>Sérsic Rₑ [&quot;]</strong>;</p></li>
 <li><p><strong>Sérsic index</strong>.</p></li>
 </ul>
-<p>Use this option for galaxies or resolved sources whose light profile can be
-approximated by a Sérsic model.</p>
-<p>For a galaxy, PyDIET likely builds a Sérsic surface-brightness profile and
-convolves it with the seeing PSF. The resulting image is more extended than a
-point source, so the source light is spread over more pixels. For the same
-total magnitude, this usually lowers the achievable SNR compared with a point
-source, because more sky background contributes to the measurement.</p>
-<p>The <strong>Sérsic Rₑ [&quot;]</strong> field gives the effective radius of the galaxy in
-arcseconds. This is the radius enclosing half of the intrinsic model flux before
-or after seeing convolution, depending on the exact implementation.</p>
-<p>Larger values make the source more extended and generally reduce the
-signal-to-noise ratio for a fixed total magnitude.</p>
+<p>The <strong>Sérsic Rₑ [&quot;]</strong> field sets the effective angular radius of the galaxy in arcseconds.
+This is the radius enclosing half of the intrinsic model flux before convolution with the PSF.</p>
+<p>Larger values make the source more extended and reduce the signal-to-noise ratio for a fixed total magnitude.</p>
 <p>The <strong>Sérsic index</strong> controls the concentration of the galaxy profile.</p>
-<p>A value near 1 corresponds approximately to an exponential disk. Larger values
-represent more centrally concentrated profiles, such as bulge-like or
-elliptical-galaxy profiles.</p>
-<p>At fixed total magnitude and effective radius, a larger Sérsic index puts more
-light near the center, which may improve detectability in compact apertures or
-model-fitting measurements, but can also make the result more sensitive to the
-seeing model.</p>
+<p>A value near 1 corresponds approximately to an exponential disk.
+Larger values represent more centrally concentrated profiles, such as bulge-like or elliptical galaxy profiles.</p>
+<p>At fixed total magnitude and effective radius, a larger Sérsic index puts more light near the center, which may improve detectability in compact apertures or model-fitting measurements, but can also make the result more sensitive to the seeing model.</p>
 <p>Extended
 <a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a></p>
-<p>An <strong>extended</strong> source is treated as a surface-brightness source rather than as
-a finite object with a total magnitude. When this option is selected, the
-photometry menu is hidden and the brightness field changes to a surface
+<p>An <strong>extended</strong> source is treated as a <a class="reference external" href="https://en.wikipedia.org/wiki/Surface_brightness">surface-brightness</a> source rather than as a finite object with a total magnitude.
+When this option is selected, the photometry menu is hidden and the brightness field changes to a surface
 brightness quantity per square arcsecond.</p>
-<p>Use this option for diffuse emission, nebular emission, sky-like surface
-brightness estimates, or extended low-surface-brightness structures where the
-relevant quantity is flux per unit angular area.</p>
-<p>For an extended source, PyDIET likely computes the SNR per angular area or per
-pixel-equivalent resolution element, depending on the implementation. The input
-brightness is interpreted as a surface brightness, not as the total flux of a
-source.</p>
+<p>Use this option for diffuse emission, nebular emission, sky-like surface brightness estimates, or extended low-surface-brightness structures where the relevant quantity is flux per unit angular area.</p>
 <p>## Seeing</p>
-<p>The <strong>Seeing [&quot;]</strong> field gives the delivered image quality in arcseconds.</p>
+<p>The <strong>Seeing</strong> field gives the delivered image quality in arcseconds.</p>
 <p>The default value is 0.7 arcsec.</p>
 <p>Model effect</p>
 <p><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
@@ -292,8 +273,15 @@ uses a resolution element, aperture, or PSF-convolved model.</p>
 </section>
 <section id="id17">
 <h2>Filter<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
-<p>The <strong>Filter</strong> menu selects the filter transmission curve used in the
-calculation.</p>
+<p>The <strong>Filter</strong> menu selects the filter transmission curve used in the calculation.</p>
+<p>Changing the filter can strongly affect:</p>
+<ul class="simple">
+<li><p>the number of detected source electrons;</p></li>
+<li><p>the sky background;</p></li>
+<li><p>the atmospheric extinction;</p></li>
+<li><p>the thermal background, especially in the near infrared;</p></li>
+<li><p>the conversion between AB magnitude, Vega magnitude, flux density, and photon (electron) counts.</p></li>
+</ul>
 <p>The available filters depend on the selected instrument.</p>
 <p>For MegaCam, the current configuration includes broad-band filters such as
 <code class="docutils literal notranslate"><span class="pre">u</span></code>, <code class="docutils literal notranslate"><span class="pre">g</span></code>, <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">i</span></code>, <code class="docutils literal notranslate"><span class="pre">z</span></code>, <code class="docutils literal notranslate"><span class="pre">gri</span></code> and several narrow or medium-band
@@ -301,40 +289,18 @@ filters such as <code class="docutils literal notranslate"><span class="pre">CaH
 <p>For WIRCam, the current configuration includes near-infrared filters such as
 <code class="docutils literal notranslate"><span class="pre">Y</span></code>, <code class="docutils literal notranslate"><span class="pre">J</span></code>, <code class="docutils literal notranslate"><span class="pre">H</span></code>, <code class="docutils literal notranslate"><span class="pre">Ks</span></code>, <code class="docutils literal notranslate"><span class="pre">H2</span></code>, <code class="docutils literal notranslate"><span class="pre">Low</span> <span class="pre">OH</span></code>, <code class="docutils literal notranslate"><span class="pre">CH4</span> <span class="pre">on/off</span></code>, <code class="docutils literal notranslate"><span class="pre">K</span> <span class="pre">cont.</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Brγ</span></code>, and <code class="docutils literal notranslate"><span class="pre">W</span></code>.</p>
-<p>Model effect
-<a href="#id18"><span class="problematic" id="id19">``</span></a><a href="#id20"><span class="problematic" id="id21">`</span></a></p>
-<p>The filter defines the wavelength range over which source flux, sky emission,
-atmospheric transmission, telescope throughput, instrument throughput, detector
-quantum efficiency, and thermal emission are integrated.</p>
-<p>Changing the filter can strongly affect:</p>
-<ul class="simple">
-<li><p>the number of detected source electrons;</p></li>
-<li><p>the sky background;</p></li>
-<li><p>the atmospheric extinction;</p></li>
-<li><p>the thermal background, especially in the near infrared;</p></li>
-<li><p>the conversion between AB magnitude, Vega magnitude, flux density, and
-detected counts.</p></li>
-</ul>
 <p>## Filter upload</p>
-<p>If the filter menu includes an <strong>upload</strong> option, selecting it opens a file
-input for a custom filter transmission curve.</p>
-<p>The uploaded file should be a FITS file containing a transmission curve in the
-format expected by the PyDIET backend.</p>
-<p>Model effect</p>
-<p><a href="#id22"><span class="problematic" id="id23">``</span></a><a href="#id24"><span class="problematic" id="id25">`</span></a></p>
-<p>A custom filter replaces the predefined filter transmission curve for the
-current calculation. The rest of the model remains tied to the selected
-instrument, telescope, detector, sky model, and observing conditions.</p>
-<p>This is useful for testing new filters, provisional filters, or user-defined
-bandpasses without modifying the server-side instrument configuration.</p>
+<p>If the filter menu includes an <strong>upload</strong> option, selecting it opens a file input for a custom filter transmission curve.</p>
+<p>The uploaded file should be a FITS table file containing the transmission curve.</p>
+<p>This is useful for testing new filters, provisional filters, or user-defined bandpasses without modifying the server-side instrument configuration.</p>
 <section id="source-brightness">
 <h3>Source brightness<a class="headerlink" href="#source-brightness" title="Link to this heading"></a></h3>
 </section>
 </section>
 <section id="brightness">
 <h2>Brightness<a class="headerlink" href="#brightness" title="Link to this heading"></a></h2>
-<p>The <strong>Source brightness</strong> field gives the source flux normalization.</p>
-<p>Its label changes depending on the selected source type and source unit.</p>
+<p>The <strong>Source brightness</strong> field sets the source flux.</p>
+<p>The field label changes depending on the selected source type and source unit.</p>
 <p>For point sources and galaxies, the value describes the total source brightness.
 For extended sources, it describes a surface brightness per square arcsecond.</p>
 </section>
@@ -350,30 +316,22 @@ For extended sources, it describes a surface brightness per square arcsecond.</p
 </ul>
 <p>The source brightness is interpreted as an AB magnitude.</p>
 <p>For point sources and galaxies, this is the total AB magnitude of the source.
-For extended sources, it becomes an AB surface brightness in
-mag arcsec<sup>-2</sup>.</p>
-<p>PyDIET converts the AB magnitude into a spectral flux density normalization and
-integrates it through the selected total throughput curve.</p>
+For extended sources, it becomes an AB surface brightness in mag arcsec<sup>-2</sup>.</p>
+<p>PyDIET converts the AB magnitude into a spectral flux density normalization and integrates it through the selected total throughput curve.</p>
 <p>The source brightness is interpreted as a Vega-based magnitude.</p>
-<p>For point sources and galaxies, this is the total Vega magnitude. For extended
-sources, it becomes a Vega surface brightness in mag arcsec<sup>-2</sup>.</p>
-<p>PyDIET likely converts the Vega magnitude to a physical flux using a Vega
-reference spectrum and the selected bandpass. The AB-Vega offset therefore
-depends on the filter.</p>
+<p>For point sources and galaxies, this is the total Vega magnitude.
+For extended sources, it becomes a Vega surface brightness in mag arcsec<sup>-2</sup>.</p>
+<p>PyDIET likely converts the Vega magnitude to a physical flux using a Vega reference spectrum and the selected bandpass.
+The AB-Vega offset therefore depends on the filter.</p>
 <p>The source brightness is interpreted as a flux density in microjanskys.</p>
 <p>For extended sources, this becomes μJy arcsec<sup>-2</sup>.</p>
-<p>PyDIET converts the input flux density to a photon rate through the selected
-bandpass. This option is useful when the source flux is already known in
-physical units rather than as a magnitude.</p>
-<p>The source brightness is interpreted as an integrated physical flux. In the
-current interface label, the unit is displayed as</p>
-<p><code class="docutils literal notranslate"><span class="pre">10^-15</span> <span class="pre">erg</span> <span class="pre">s^-1</span> <span class="pre">cm^-2</span></code></p>
-<p>or, for extended sources,</p>
-<p><code class="docutils literal notranslate"><span class="pre">10^-15</span> <span class="pre">erg</span> <span class="pre">s^-1</span> <span class="pre">cm^-2</span> <span class="pre">arcsec^-2</span></code>.</p>
-<p>This option is useful for emission-line or narrow-band calculations. PyDIET
-likely treats the value as an integrated flux over the selected bandpass or as
-a band-normalized flux according to the backend convention. For broad-band
-continuum work, AB magnitude or μJy is usually less ambiguous.</p>
+<p>PyDIET converts the input flux density to a photon rate through the selected bandpass.
+This option is useful when the source flux is already known in physical units rather than as a magnitude.</p>
+<p>The source brightness is interpreted as an integrated physical flux.
+The unit is displayed as <code class="docutils literal notranslate"><span class="pre">10^-15</span> <span class="pre">erg</span> <span class="pre">s^-1</span> <span class="pre">cm^-2</span></code> or, for extended sources, <code class="docutils literal notranslate"><span class="pre">10^-15</span> <span class="pre">erg</span> <span class="pre">s^-1</span> <span class="pre">cm^-2</span> <span class="pre">arcsec^-2</span></code>.</p>
+<p>This option is meant for narrow-band calculations.
+PyDIET treats the value as an integrated flux over the selected bandpass.
+For broad-band continuum work, magnitudes or μJy are usually less ambiguous.</p>
 <section id="photometry-model">
 <h3>Photometry model<a class="headerlink" href="#photometry-model" title="Link to this heading"></a></h3>
 </section>
@@ -388,50 +346,38 @@ continuum work, AB magnitude or μJy is usually less ambiguous.</p>
 <li><p><strong>96% flux aperture</strong>;</p></li>
 <li><p><strong>fixed aperture</strong>.</p></li>
 </ul>
-<p>This menu is shown for point sources and galaxies. It is hidden for extended
-sources.</p>
+<p>This menu is shown for point sources and galaxies.
+It is hidden for extended sources.</p>
 <p>Model-fitting
-<a href="#id26"><span class="problematic" id="id27">``</span></a><a href="#id28"><span class="problematic" id="id29">`</span></a></p>
-<p>The <strong>model-fitting</strong> option estimates the source flux by fitting the source
-model to the image.</p>
-<p>For a point source, the fitted model is likely the PSF. For a galaxy, it is
-likely the seeing-convolved Sérsic model. In the idealized Gaussian-noise limit,
-model fitting can provide an efficient flux estimator because pixels are
-weighted according to the expected source profile and noise variance.</p>
-<p>This option should usually give the best formal SNR when the source model is
-accurate.</p>
-<p>Optimal aperture</p>
-<p><a href="#id30"><span class="problematic" id="id31">``</span></a><a href="#id32"><span class="problematic" id="id33">`</span></a></p>
-<p>The <strong>optimal aperture</strong> option lets PyDIET choose an aperture that maximizes
-the expected SNR for the selected source, seeing, sky background, and detector
-noise.</p>
-<p>For a point source, the optimal aperture is usually a compromise: a larger
-aperture includes more source flux but also more sky noise. The optimum is
-therefore smaller than an aperture that captures nearly all the flux.</p>
-<p>For galaxies, the optimum depends on the Sérsic radius and index as well as the
-seeing.</p>
+<a href="#id18"><span class="problematic" id="id19">``</span></a><a href="#id20"><span class="problematic" id="id21">`</span></a></p>
+<p>The <strong>model-fitting</strong> option estimates the source flux by fitting the source model to the image.
+For a point source, the fitted model is the PSF.
+For a galaxy, it is the seeing-convolved Sérsic model.</p>
+<p>In the idealized Gaussian white noise limit, model fitting provides an efficient flux estimator because pixels are weighted according to the expected source profile and noise variance.
+This option usually gives the best formal SNR when the source model is accurate.</p>
+<p>Optimal aperture
+<a href="#id22"><span class="problematic" id="id23">``</span></a><a href="#id24"><span class="problematic" id="id25">`</span></a></p>
+<p>The <strong>optimal aperture</strong> option lets PyDIET choose an aperture that maximizes the expected SNR for the selected source, seeing, sky background, and detector noise.</p>
+<p>For a point source, the optimal aperture is usually a compromise: a larger aperture includes more source flux but also more sky noise.
+The optimum is therefore smaller than an aperture that captures nearly all the flux.</p>
+<p>For galaxies, the optimum depends on the Sérsic radius and index as well as the seeing.</p>
 <p>96% flux aperture
-<a href="#id34"><span class="problematic" id="id35">``</span></a><a href="#id36"><span class="problematic" id="id37">`</span></a></p>
-<p>The <strong>96% flux aperture</strong> option uses an aperture large enough to contain
-approximately 96% of the source flux.</p>
-<p>This option approximates a large-aperture measurement. It includes most of the
-source flux but also includes more background noise than a strictly optimal
-aperture. It is useful when the goal is close to total-flux photometry rather
-than maximum SNR.</p>
-<p>Fixed aperture</p>
-<p><a href="#id38"><span class="problematic" id="id39">``</span></a><a href="#id40"><span class="problematic" id="id41">`</span></a></p>
-<p>The <strong>fixed aperture</strong> option uses a user-specified aperture diameter. Selecting
-it reveals the <strong>Aperture diameter [&quot;]</strong> field.</p>
-<p>The ETC integrates the source model inside the specified aperture and computes
-the sky and detector noise over the corresponding number of pixels.</p>
-<p>A small aperture reduces sky noise but misses more source flux. A large aperture
-captures more source flux but includes more sky background. The best value
-depends on the seeing, source morphology, and science goal.</p>
+<a href="#id26"><span class="problematic" id="id27">``</span></a><a href="#id28"><span class="problematic" id="id29">`</span></a></p>
+<p>The <strong>96% flux aperture</strong> option uses an aperture large enough to contain approximately 96% of the source flux. This option approximates a large-aperture measurement.
+It includes most of the source flux but also generally includes more background noise than a strictly optimal aperture.
+It is useful when the goal is close to total-flux photometry rather than maximum SNR.</p>
+<p>Fixed aperture
+<a href="#id30"><span class="problematic" id="id31">``</span></a><a href="#id32"><span class="problematic" id="id33">`</span></a></p>
+<p>The <strong>fixed aperture</strong> option uses a user-specified aperture diameter.
+Selecting it reveals the <strong>Aperture diameter</strong> field.</p>
+<p>The ETC integrates the source model inside the specified aperture and computes the sky and detector noise over the corresponding number of pixels.</p>
+<p>A small aperture reduces sky noise but misses more source flux.
+A large aperture captures more source flux but includes more sky background.
+The best value depends on the seeing, source morphology, and science goal.</p>
 </section>
 <section id="aperture-diameter">
 <h2>Aperture diameter<a class="headerlink" href="#aperture-diameter" title="Link to this heading"></a></h2>
-<p>The <strong>Aperture diameter [&quot;]</strong> field is shown only when <strong>fixed aperture</strong> is
-selected.</p>
+<p>The <strong>Aperture diameter</strong> field is shown only when <strong>fixed aperture</strong> is selected.</p>
 <p>The value is the aperture diameter in arcseconds.</p>
 <section id="sky-background">
 <h3>Sky background<a class="headerlink" href="#sky-background" title="Link to this heading"></a></h3>
@@ -447,25 +393,20 @@ selected.</p>
 <li><p><strong>bright</strong>;</p></li>
 <li><p><strong>specify</strong>.</p></li>
 </ul>
-<p>The <strong>dark</strong> sky option corresponds to a dark-time sky model, with the Moon
-below the horizon or otherwise absent from the sky model.</p>
-<p>PyDIET uses a predefined sky emission spectrum for dark conditions. This
-spectrum contributes background photons in each pixel and therefore affects the
-noise term. In optical bands, the dark-sky model includes airglow and continuum
-components. In the near infrared, it includes strong OH emission and thermal
-terms where relevant.</p>
+<p>The <strong>dark</strong> sky option corresponds to a dark-time sky model, with the Moon set at nadir.</p>
+<p>PyDIET uses a predefined sky emission spectrum for dark conditions.
+This spectrum contributes background photons in each pixel and therefore affects the noise term.
+In optical bands, the dark-sky emission model is dominated by the airglow and continuum components.
+In the near infrared, it features strong OH emission and thermal terms.</p>
 <p>The <strong>grey</strong> sky option corresponds to an intermediate lunar-background model.</p>
-<p>PyDIET uses a brighter predefined sky emission spectrum than in dark time. This
-likely includes an added moonlight component. Compared with the dark model,
-the sky count rate increases, reducing the SNR for background-limited
+<p>PyDIET uses a brighter predefined sky emission spectrum than in dark time.
+This includes an added moonlight component.
+Compared with the dark model, the sky count rate increases, reducing the SNR for background-limited
 observations or increasing the exposure time needed to reach a target SNR.</p>
 <p>The <strong>bright</strong> sky option corresponds to a high-background lunar sky model.</p>
-<p>PyDIET uses the brightest of the predefined sky models. This option is
-appropriate for observations closer to bright time, or for conservative
-estimates in filters affected by scattered moonlight.</p>
-<p>The impact is strongest in blue and optical bands. It may be less dominant in
-near-infrared bands where OH airglow and thermal background already contribute
-strongly, although the exact behavior depends on the model.</p>
+<p>PyDIET uses the brightest of the predefined sky models. This option is appropriate for observations closer to bright time, or for conservative estimates in filters affected by scattered moonlight.</p>
+<p>The impact is strongest in blue and optical bands.
+It is much less dominant in near-infrared bands where OH airglow and thermal background already contribute strongly, although the exact behavior depends on the model.</p>
 <p>The <strong>specify</strong> option lets the user enter the sky brightness manually. When it
 is selected, two additional fields appear:</p>
 <ul class="simple">
@@ -498,13 +439,13 @@ brightness. It is shown only when <strong>Sky brightness</strong> is set to <str
 <li><p><strong>e⁻.s⁻¹.px⁻¹</strong>.</p></li>
 </ul>
 <p>AB mag.arcsec⁻²
-<a href="#id42"><span class="problematic" id="id43">``</span></a><a href="#id44"><span class="problematic" id="id45">`</span></a></p>
+<a href="#id34"><span class="problematic" id="id35">``</span></a><a href="#id36"><span class="problematic" id="id37">`</span></a></p>
 <p>The sky value is interpreted as an AB surface brightness.</p>
 <p>PyDIET converts the AB surface brightness into a photon rate per unit angular
 area, then into electrons per pixel using the pixel scale, throughput, and
 detector quantum efficiency.</p>
 <p>Vega mag.arcsec⁻²</p>
-<p><a href="#id46"><span class="problematic" id="id47">``</span></a><a href="#id48"><span class="problematic" id="id49">`</span></a></p>
+<p><a href="#id38"><span class="problematic" id="id39">``</span></a><a href="#id40"><span class="problematic" id="id41">`</span></a></p>
 <p>The sky value is interpreted as a Vega-based surface brightness.</p>
 <p>PyDIET converts the Vega surface brightness through the selected bandpass. The
 AB-Vega offset is filter-dependent.</p>
@@ -635,10 +576,10 @@ SNR, together with supporting quantities.</p>
 <li><p>selected filter information;</p></li>
 <li><p>diagnostic throughput or background information.</p></li>
 </ul>
-<figure class="align-center" id="id54">
+<figure class="align-center" id="id46">
 <img alt="PyDIET result panel" src="figures/results_panel.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Example result panel.</span><a class="headerlink" href="#id54" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Example result panel.</span><a class="headerlink" href="#id46" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
@@ -749,7 +690,7 @@ may not be fully represented, or may be represented only approximately:</p>
 <p>For critical observing programs, use PyDIET as one input to the planning
 process and compare with measured performance from similar observations when
 available.
-<a href="#id50"><span class="problematic" id="id51">``</span></a><a href="#id52"><span class="problematic" id="id53">`</span></a></p>
+<a href="#id42"><span class="problematic" id="id43">``</span></a><a href="#id44"><span class="problematic" id="id45">`</span></a></p>
 </section>
 </section>
 </section>
