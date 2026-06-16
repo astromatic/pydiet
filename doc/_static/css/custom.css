@@ -130,3 +130,8 @@ td div.line-block {
 .admonition-answers .admonition-title {
 	background-color: #C83C2E;
 }
+
+/* Align properly inline icons */
+.inline-icon {
+  vertical-align: 0.0em;
+}
