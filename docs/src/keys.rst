@@ -4,6 +4,11 @@
 .. |API| replace:: :abbr:`API (Application Programming Interface)`
 .. _API: https://en.wikipedia.org/wiki/Application_programming_interface
 
+.. |CFHT| image:: figures/cfht.svg
+    :height: 1em
+    :class: inline-icon
+    :alt: CFHT
+
 .. |MLE| replace:: :abbr:`MLE (Maximum Likelihood Estimation)`
 .. _MLE: https://en.wikipedia.org/wiki/Maximum_likelihood_estimation
 
@@ -15,4 +20,5 @@
 
 .. |SNR| replace:: :abbr:`SNR (Signal-to-Noise Ratio)`
 .. _SNR: https://en.wikipedia.org/wiki/Signal-to-noise_ratio
+
 
