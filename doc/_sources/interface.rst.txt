@@ -277,10 +277,7 @@ The source brightness is interpreted as a Vega-based magnitude.
 For point sources and galaxies, this is the total Vega magnitude.
 For extended sources, it becomes a Vega surface brightness in mag arcsec\ :sup:`-2`.
 
-Model effect
-^^^^^^^^^^^^
-
-PyDIET likely converts the Vega magnitude to a physical flux using a Vega reference spectrum and the selected bandpass.
+PyDIET converts the Vega magnitude to a physical flux using a Vega reference spectrum and the selected bandpass.
 The AB-Vega offset therefore depends on the filter.
 
 μJy
@@ -354,9 +351,6 @@ Fixed aperture
 The **fixed aperture** option uses a user-specified aperture diameter.
 Selecting it reveals the **Aperture diameter** field.
 
-Model effect
-^^^^^^^^^^^^
-
 The ETC integrates the source model inside the specified aperture and computes the sky and detector noise over the corresponding number of pixels.
 
 A small aperture reduces sky noise but misses more source flux.
@@ -398,51 +392,38 @@ In the near infrared, it features strong OH emission and thermal terms.
 Grey
 ~~~~
 
-The **grey** sky option corresponds to an intermediate lunar-background model.
+The **grey** sky option corresponds to an intermediate lunar-background model, with a 30% Moon component (66.4 deg phase) at 45 deg elevation and 45 deg distance from the direction the telescopes is pointing to.
 
-PyDIET uses a brighter predefined sky emission spectrum than in dark time.
-This includes an added moonlight component.
 Compared with the dark model, the sky count rate increases, reducing the SNR for background-limited
 observations or increasing the exposure time needed to reach a target SNR.
 
 Bright
 ~~~~~~
 
-The **bright** sky option corresponds to a high-background lunar sky model.
-
-PyDIET uses the brightest of the predefined sky models. This option is appropriate for observations closer to bright time, or for conservative estimates in filters affected by scattered moonlight.
+The **bright** sky option corresponds to a high-background lunar sky model, with a 60% Moon component (101.5 deg phase) at 45 deg elevation and 45 deg distance from the pointed direction.
 
 The impact is strongest in blue and optical bands.
-It is much less dominant in near-infrared bands where OH airglow and thermal background already contribute strongly, although the exact behavior depends on the model.
+It is much less dominant in near-infrared bands where OH airglow and thermal background already contribute strongly.
 
 Specify
 ~~~~~~~
 
-The **specify** option lets the user enter the sky brightness manually. When it
-is selected, two additional fields appear:
+The **specify** option lets the user enter the sky brightness manually.
+When it is selected, two additional fields appear:
 
 * **Sky value**;
 * **Sky unit**.
 
-Model effect
-^^^^^^^^^^^^
+Instead of selecting a predefined sky emission spectrum by sky category, PyDIET uses the user-provided sky brightness.
 
-Instead of selecting a predefined sky emission spectrum by sky category, PyDIET
-uses the user-provided sky brightness normalization. Depending on the backend
-implementation, this may replace the integrated sky background in the selected
-filter while preserving the spectral shape, or it may directly impose the
-background count rate used in the noise calculation.
-
-This option is useful when the user has a measured sky brightness or wants to
-reproduce a known observing condition.
+This option is helpful when the user has a measured sky brightness or wants to reproduce a known observing condition.
 
 Sky value
 ---------
 
-The **Sky value** field gives the numerical value of the manually specified sky
-brightness. It is shown only when **Sky brightness** is set to **specify**.
-
-The field label changes when the sky unit changes.
+The **Sky value** field sets the numerical value of the manually specified sky
+brightness.
+It is shown only when **Sky brightness** is set to **specify**.
 
 Sky unit
 --------
@@ -462,12 +443,7 @@ AB mag.arcsec⁻²
 
 The sky value is interpreted as an AB surface brightness.
 
-Model effect
-^^^^^^^^^^^^
-
-PyDIET converts the AB surface brightness into a photon rate per unit angular
-area, then into electrons per pixel using the pixel scale, throughput, and
-detector quantum efficiency.
+PyDIET converts the AB surface brightness into a photon rate per unit angular area, then into electrons per pixel using the pixel scale, throughput, and detector quantum efficiency.
 
 Vega mag.arcsec⁻²
 
@@ -475,52 +451,33 @@ Vega mag.arcsec⁻²
 
 The sky value is interpreted as a Vega-based surface brightness.
 
-Model effect
-^^^^^^^^^^^^
-
-PyDIET converts the Vega surface brightness through the selected bandpass. The
-AB-Vega offset is filter-dependent.
+PyDIET converts the Vega surface brightness through the selected bandpass.
+The AB-Vega offset is filter-dependent.
 
 MJy.sr⁻¹
 ~~~~~~~~
 
-The sky value is interpreted as a surface brightness in megajanskys per
-steradian.
+The sky value is interpreted as a surface brightness in megajanskys per steradian.
 
-Model effect
-^^^^^^^^^^^^
-
-This is a common infrared surface-brightness unit. PyDIET converts it to a
-flux density per angular area and then to detected electrons per pixel through
-the selected filter and throughput model.
+This is a common infrared surface-brightness unit. PyDIET converts it to a flux density per angular area and then to detected electrons per pixel through the selected filter and throughput model.
 
 flux.arcsec⁻²
 ~~~~~~~~~~~~~
 
-The sky value is interpreted as a physical flux per square arcsecond. The
-interface label indicates units of
+The sky value is interpreted as a physical flux per square arcsecond, in units of
 
 ``10^-15 erg s^-1 cm^-2 arcsec^-2``.
 
-Model effect
-^^^^^^^^^^^^
-
-PyDIET converts the physical sky flux into a photon/electron rate over the
-selected bandpass. This option can be useful for narrow-band backgrounds or for
-matching an external sky model.
+PyDIET converts the physical sky flux into a photon/electron rate over the selected bandpass.
+This option is primarily meant to quantify backgrounds through narrow-band filters, or for matching an external sky model.
 
 e⁻.s⁻¹.px⁻¹
 ~~~~~~~~~~~
 
 The sky value is interpreted directly as a detected electron rate per pixel.
 
-Model effect
-^^^^^^^^^^^^
-
 This option bypasses most of the photometric conversion for the sky background.
-The entered value is likely used directly as the sky count rate in the detector
-noise model. It is useful when the user already knows the expected background
-level in detector units.
+The entered value is used directly as the background count rate in the detector noise model, and contrary to other settings, no instrumental thermal component is added.
 
 Atmosphere and observing conditions
 ===================================
@@ -530,26 +487,18 @@ Airmass
 
 The **Airmass** field describes the line-of-sight optical path through the
 atmosphere.
-
 The default value is 1.2.
 
-Model effect
-~~~~~~~~~~~~
+Airmass affects both atmospheric transmission and sky emission.
+Larger airmass usually reduces source throughput because the source light crosses more atmosphere.
+It can also increase the sky emission and the contribution from scattered-light.
 
-Airmass affects both atmospheric transmission and sky emission. Larger airmass
-usually reduces source throughput because the source light crosses more
-atmosphere. It can also increase the sky emission and scattered-light
-contribution.
-
-In the current Mauna Kea configuration, atmospheric transmission and sky
-emission are tabulated for discrete airmass values. PyDIET likely selects or
-interpolates between the closest available models.
+In PyDIET, atmospheric transmission and sky emission are tabulated for discrete airmass values, and interpolated between the closest available models.
 
 Solar activity
 --------------
 
-The **Solar activity** menu selects the solar-activity level used in the sky
-emission model.
+The **Solar activity** menu selects the solar-activity level used in the sky emission model.
 
 Available choices are:
 
@@ -560,35 +509,23 @@ Available choices are:
 Low
 ~~~
 
-The **low** option corresponds to a low solar radio flux model, approximately
-70 sfu in the current sky-model configuration.
+The **low** option corresponds to a low solar radio flux model, 70 SFU with the provided Mauna Kea sky-model configuration.
 
-Model effect
-^^^^^^^^^^^^
-
-Low solar activity generally reduces some airglow components, especially in
-the ultraviolet and optical where upper-atmosphere emission can matter. It
-therefore tends to produce a darker natural sky background than the average or
-high solar-activity models.
+Low solar activity generally reduces some airglow components, especially in the ultraviolet and optical where upper-atmosphere emission can matter.
+It therefore produces a darker natural sky background than the average or high solar-activity models.
 
 Average
 ~~~~~~~
 
-The **average** option corresponds to an intermediate solar radio flux model,
-approximately 130 sfu in the current configuration.
+The **average** option corresponds to an intermediate solar radio flux model, 130 SFU with the provided Mauna Kea configuration.
 
-Model effect
-^^^^^^^^^^^^
-
-This is the default solar-activity assumption and should be used for generic
-planning when no more specific information is available. It represents a
-typical sky-emission state between solar minimum and solar maximum.
+This is the default solar-activity assumption and should be used for generic planning when no more specific information, such as the observing year, is available.
+It represents a typical sky-emission state averaged over the whole solar cycle.
 
 High
 ~~~~
 
-The **high** option corresponds to a high solar radio flux model, approximately
-200 sfu in the current configuration.
+The **high** option corresponds to a high solar radio flux model, 200 SFU in the current configuration.
 
 Model effect
 ^^^^^^^^^^^^
