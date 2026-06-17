@@ -28,16 +28,19 @@ pip install .
 ```
 
 ### Docker
-To build a Dockerfile for installing pyDiet:
+To build a Dockerfile for installing pyDiet, use the docker compose
 ```
-docker build -t pydiet:latest -f docker/Dockerfile .
+docker compose build
 ```
 Run, get a shell, and python venv
 ```
-docker run -tid --name pydiet pydiet
-docker exec -ti pydiet "/bin/bash"
-source venv_pydiet/bin/activate
+docker compose up -d
+docker exec -ti pydiet-container "/bin/bash"
+source venv_pydiet/bin/activate 
 ```
+
+**Note** The pydiet command is execute in the **docker-entrypoint.sh** when starting the container. Reivew that file for the vmv command.  Change the docker comppose file to modify the pydiet startup command.
+
 ## Executing (locally)
 
 ```

@@ -35,7 +35,6 @@ RUN python3 -m venv venv_pydiet && \
     source venv_pydiet/bin/activate && \
     pip install .
     
-
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
