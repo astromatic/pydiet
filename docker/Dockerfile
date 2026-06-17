@@ -33,8 +33,8 @@ COPY . /opt/pydiet/
 # Create Pythyon virtual environment and run install via pip.
 RUN python3 -m venv venv_pydiet && \
     source venv_pydiet/bin/activate && \
-    pip install . && \
-    pip install pydiet[doc]
+    pip install .
+    
 
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
