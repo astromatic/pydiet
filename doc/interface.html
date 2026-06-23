@@ -216,10 +216,10 @@ source.</p>
 <p>Available choices are:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">point</span> <span class="pre">source</span></code>: the source is modeled as an unresolved object.
-Its image is controlled mainly by the <a class="reference external" href="https://en.wikipedia.org/wiki/Astronomical_seeing">seeing</a>, the instrumental <a class="reference external" href="https://en.wikipedia.org/wiki/Point_spread_function">Point Spread Function (PSF)</a> and sampling by the detector.</p>
+Its image is controlled mainly by the <a class="reference external" href="https://en.wikipedia.org/wiki/Astronomical_seeing">seeing</a>, the instrumental Point Spread Function (<a class="reference external" href="https://en.wikipedia.org/wiki/Point_spread_function"><abbr title="Point Spread Function">PSF</abbr></a>), and sampling by the detector.</p>
 <p>Use this option for stars, unresolved transients, quasars, and compact sources that are not significantly resolved by the instrument.</p>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">galaxy</span></code>: the source is modeled as an extended source with a pure, axisymmetric <a class="reference external" href="https://en.wikipedia.org/wiki/S%C3%A9rsic_profile">Sérsic surface-brightness profile</a> convolved with the full PSF.
+<li><p><code class="docutils literal notranslate"><span class="pre">galaxy</span></code>: the source is modeled as an extended source with a pure, axisymmetric <a class="reference external" href="https://en.wikipedia.org/wiki/S%C3%A9rsic_profile">Sérsic surface-brightness profile</a> convolved with the full <abbr title="Point Spread Function">PSF</abbr>.
 The resulting image gives a reasonably accurate description of an elliptical or (face-on) disk galaxy.
 It is more extended than a point source, so the source light is spread over more pixels.
 For the same total magnitude, this lowers the achievable SNR because more sky background contributes to the measurement.</p></li>
@@ -233,7 +233,7 @@ When this option is selected, the photometry menu is hidden and the brightness f
 <section id="sersic-re">
 <h3>Sérsic Rₑ<a class="headerlink" href="#sersic-re" title="Link to this heading"></a></h3>
 <p>The <strong>Sérsic Rₑ</strong> field sets the effective angular radius of the galaxy in arcseconds.
-This is the radius enclosing half of the intrinsic model flux before convolution with the PSF.</p>
+This is the radius enclosing half of the intrinsic model flux before convolution with the <abbr title="Point Spread Function">PSF</abbr>.</p>
 <p>Larger values make the source more extended and reduce the signal-to-noise ratio for a fixed total magnitude.</p>
 </section>
 <section id="sersic-index">
@@ -247,13 +247,13 @@ Larger values represent more centrally concentrated profiles, such as bulge-like
 <h3>Seeing<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p>The <strong>Seeing</strong> field sets the delivered image quality in arcseconds in the <a class="reference internal" href="#chap-filter"><span class="std std-ref">selected filter</span></a>.</p>
 <p>The default value is 0.7 arcsec.</p>
-<p>Seeing controls the width of the PSF. For point sources and galaxies, worse
+<p>Seeing controls the width of the <abbr title="Point Spread Function">PSF</abbr>. For point sources and galaxies, worse
 seeing spreads the source flux over more pixels. This increases the amount of
 sky background and detector noise included in the measurement, generally
 reducing SNR for a fixed exposure time.</p>
 <p>Seeing has a weaker effect on a uniform extended source, because both source
 and sky are surface-brightness-like quantities. It can still matter if the ETC
-uses a resolution element, aperture, or PSF-convolved model.</p>
+uses a resolution element, aperture, or <abbr title="Point Spread Function">PSF</abbr>-convolved model.</p>
 </section>
 <section id="filter">
 <span id="chap-filter"></span><h3>Filter<a class="headerlink" href="#filter" title="Link to this heading"></a></h3>
@@ -322,7 +322,7 @@ It is hidden for extended sources.</p>
 <p>Available choices are:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">model-fitting</span></code>: PyDIET estimates the source flux by fitting the source model to the image.</p>
-<p>For a point source, the fitted model is the PSF.
+<p>For a point source, the fitted model is the <abbr title="Point Spread Function">PSF</abbr>.
 For a galaxy, it is the seeing-convolved Sérsic model.</p>
 <p>In the idealized Gaussian white noise limit, model fitting provides an efficient flux estimator because pixels are weighted according to the expected source profile and noise variance.
 It usually gives the best formal SNR when the source model is accurate.</p>
@@ -472,18 +472,25 @@ A lower value represents additional attenuation from clouds, cirrus, aerosols, o
 <section id="results">
 <h2>Results<a class="headerlink" href="#results" title="Link to this heading"></a></h2>
 <p>The result panel reports the requested output quantity, exposure time and SNR, together with supporting quantities:</p>
-<ul class="simple">
-<li><p><strong>Instrument name</strong></p></li>
-<li><p><strong>Filter name</strong></p></li>
-<li><p><strong>Pivot wavelength</strong></p></li>
-<li><p><strong>Rectangular bandwith</strong></p></li>
-<li><p><strong>Signal-to-noise ratio</strong></p></li>
-<li><p><strong>Exposure time</strong></p></li>
-<li><p><strong>Background saturation time</strong></p></li>
-<li><p><strong>Source saturation time</strong></p></li>
-<li><p><strong>Total time including overheads</strong></p></li>
-<li><p><strong>Photometric magnitude zero-point</strong> &quot;per second&quot;</p></li>
-<li><p><strong>Background surface brightness</strong> (in mag..arcsec<sup>-2</sup>)</p></li>
+<ul>
+<li><p><strong>Instrument name</strong>: the instrument that was selected in the settings panel.</p></li>
+<li><p><strong>Filter name</strong>: the filter selected for that instrument.</p></li>
+<li><p><strong>Pivot wavelength</strong>: a measure of the effective wavelength of the combined instrument+atmospheric response <span class="math notranslate nohighlight">\(T(\lambda)\)</span>.
+It is defined as the wavelength that makes the broadband conversion between <span class="math notranslate nohighlight">\(f_\nu\)</span> and <span class="math notranslate nohighlight">\(f_\lambda\)</span> exact for this bandpass:</p>
+<div class="math notranslate nohighlight">
+\[\lambda_{\rm piv} = \sqrt{\frac{\int T(\lambda)\lambda d\lambda}{\int T(\lambda)\lambda^{–1}d\lambda}}.\]</div>
+</li>
+<li><p><strong>Rectangular bandwith</strong>: the width of an ideal top-hat filter that would transmit the same total amount of light as the combined instrument+atmospheric response <span class="math notranslate nohighlight">\(T(\lambda)\)</span>, and have identical peak transmission:</p>
+<div class="math notranslate nohighlight">
+\[\Delta\lambda_{\rm rect} = \frac{\int T{\lambda} d\lambda}{T_{\rm max}}.\]</div>
+</li>
+<li><p><strong>Signal-to-noise ratio</strong>: the ratio between the expected signal from the (stacked) photometric source measurement and its standard deviation.</p></li>
+<li><p><strong>Exposure time</strong>: the expected individual exposure time(s) required for the (stacked) photometric source measurement to match the provided Signal-to-Noise Ratio.</p></li>
+<li><p><strong>Background saturation time</strong>: the expected exposure time required to saturate the combined sky+instrumental background.</p></li>
+<li><p><strong>Source saturation time</strong>: the expected exposure time required to saturate the source peak signal.</p></li>
+<li><p><strong>Total time (including overheads)</strong>: the sum of exposure times and instrumental overheads for the whole observation sequence.</p></li>
+<li><p><strong>Full photometric magnitude zero-point</strong> &quot;per second&quot;: estimated AB magnitude zero-point of the combined instrument+atmosphere system for a one second exposure.</p></li>
+<li><p><strong>Background surface brightness</strong> (in mag..arcsec<sup>-2</sup>): estimated surface brightness (in AB magnitudes per square arsecond) of the combined sky+instrumental background.</p></li>
 </ul>
 <figure class="align-center" id="id3">
 <img alt="PyDIET result panel" src="_images/results_panel.png" />
@@ -500,7 +507,7 @@ The current model ignores the following effects:</p>
 <li><p>source crowding and contamination by neighboring objects</p></li>
 <li><p>imperfect flat-fielding</p></li>
 <li><p>background subtraction systematics</p></li>
-<li><p>PSF variations over the field of view</p></li>
+<li><p><abbr title="Point Spread Function">PSF</abbr> variations over the field of view</p></li>
 <li><p>detector persistence and non-linearity</p></li>
 <li><p>fringing or scattered light</p></li>
 <li><p>changing sky transparency during the exposure sequence</p></li>
