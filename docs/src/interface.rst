@@ -477,17 +477,28 @@ Results
 
 The result panel reports the requested output quantity, exposure time and SNR, together with supporting quantities:
 
-* **Instrument name**
-* **Filter name**
-* **Pivot wavelength**
-* **Rectangular bandwith**
-* **Signal-to-noise ratio**
-* **Exposure time**
-* **Background saturation time**
-* **Source saturation time**
-* **Total time including overheads**
-* **Photometric magnitude zero-point** "per second"
-* **Background surface brightness** (in mag..arcsec\ :sup:`-2`)
+* **Instrument name**: the instrument that was selected in the settings panel.
+* **Filter name**: the filter selected for that instrument.
+* **Pivot wavelength**: a measure of the effective wavelength of the combined instrument+atmospheric response :math:`T(\lambda)`.
+  It is defined as the wavelength that makes the broadband conversion between :math:`f_\nu` and :math:`f_\lambda` exact for this bandpass:
+
+  .. math::
+
+    \lambda_{\rm piv} = \sqrt{\frac{\int T(\lambda)\lambda d\lambda}{\int T(\lambda)\lambda^{–1}d\lambda}}.
+
+* **Rectangular bandwith**: the width of an ideal top-hat filter that would transmit the same total amount of light as the combined instrument+atmospheric response :math:`T(\lambda)`, and have identical peak transmission:
+
+  .. math::
+
+    \Delta\lambda_{\rm rect} = \frac{\int T{\lambda} d\lambda}{T_{\rm max}}.
+
+* **Signal-to-noise ratio**: the ratio between the expected signal from the (stacked) photometric source measurement and its standard deviation.
+* **Exposure time**: the expected individual exposure time(s) required for the (stacked) photometric source measurement to match the provided Signal-to-Noise Ratio.
+* **Background saturation time**: the expected exposure time required to saturate the combined sky+instrumental background.
+* **Source saturation time**: the expected exposure time required to saturate the source peak signal.
+* **Total time (including overheads)**: the sum of exposure times and instrumental overheads for the whole observation sequence.
+* **Full photometric magnitude zero-point** "per second": estimated AB magnitude zero-point of the combined instrument+atmosphere system for a one second exposure.
+* **Background surface brightness** (in mag..arcsec\ :sup:`-2`): estimated surface brightness (in AB magnitudes per square arsecond) of the combined sky+instrumental background.
 
 .. figure:: figures/results_panel.png
    :alt: PyDIET result panel
