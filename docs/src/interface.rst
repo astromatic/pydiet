@@ -141,11 +141,11 @@ source.
 Available choices are:
 
 * ``point source``: the source is modeled as an unresolved object.
-  Its image is controlled mainly by the `seeing <https://en.wikipedia.org/wiki/Astronomical_seeing>`_, the instrumental `Point Spread Function (PSF) <https://en.wikipedia.org/wiki/Point_spread_function>`_ and sampling by the detector.
+  Its image is controlled mainly by the `seeing <https://en.wikipedia.org/wiki/Astronomical_seeing>`_, the instrumental Point Spread Function (|PSF|_), and sampling by the detector.
 
   Use this option for stars, unresolved transients, quasars, and compact sources that are not significantly resolved by the instrument.
 
-* ``galaxy``: the source is modeled as an extended source with a pure, axisymmetric `Sérsic surface-brightness profile <https://en.wikipedia.org/wiki/S%C3%A9rsic_profile>`_ convolved with the full PSF.
+* ``galaxy``: the source is modeled as an extended source with a pure, axisymmetric `Sérsic surface-brightness profile <https://en.wikipedia.org/wiki/S%C3%A9rsic_profile>`_ convolved with the full |PSF|.
   The resulting image gives a reasonably accurate description of an elliptical or (face-on) disk galaxy.
   It is more extended than a point source, so the source light is spread over more pixels.
   For the same total magnitude, this lowers the achievable SNR because more sky background contributes to the measurement.
@@ -162,7 +162,7 @@ Sérsic Rₑ
 ---------
 
 The **Sérsic Rₑ** field sets the effective angular radius of the galaxy in arcseconds.
-This is the radius enclosing half of the intrinsic model flux before convolution with the PSF.
+This is the radius enclosing half of the intrinsic model flux before convolution with the |PSF|.
 
 Larger values make the source more extended and reduce the signal-to-noise ratio for a fixed total magnitude.
 
@@ -185,14 +185,14 @@ The **Seeing** field sets the delivered image quality in arcseconds in the :ref:
 
 The default value is 0.7 arcsec.
 
-Seeing controls the width of the PSF. For point sources and galaxies, worse
+Seeing controls the width of the |PSF|. For point sources and galaxies, worse
 seeing spreads the source flux over more pixels. This increases the amount of
 sky background and detector noise included in the measurement, generally
 reducing SNR for a fixed exposure time.
 
 Seeing has a weaker effect on a uniform extended source, because both source
 and sky are surface-brightness-like quantities. It can still matter if the ETC
-uses a resolution element, aperture, or PSF-convolved model.
+uses a resolution element, aperture, or |PSF|-convolved model.
 
 
 .. _chap_filter:
@@ -280,7 +280,7 @@ Available choices are:
 
 * ``model-fitting``: PyDIET estimates the source flux by fitting the source model to the image.
 
-  For a point source, the fitted model is the PSF.
+  For a point source, the fitted model is the |PSF|.
   For a galaxy, it is the seeing-convolved Sérsic model.
 
   In the idealized Gaussian white noise limit, model fitting provides an efficient flux estimator because pixels are weighted according to the expected source profile and noise variance.
@@ -516,7 +516,7 @@ The current model ignores the following effects:
 * source crowding and contamination by neighboring objects
 * imperfect flat-fielding
 * background subtraction systematics
-* PSF variations over the field of view
+* |PSF| variations over the field of view
 * detector persistence and non-linearity
 * fringing or scattered light
 * changing sky transparency during the exposure sequence

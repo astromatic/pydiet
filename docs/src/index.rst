@@ -13,6 +13,7 @@ Welcome to PyDIET's documentation!
    interface
    method
    api
+   references
 
 Indices and tables
 ==================

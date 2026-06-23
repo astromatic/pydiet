@@ -440,9 +440,7 @@ class Image(object):
             return -res.fun
         elif self.photometry == 'model_fitting':
             # Return model-fitting SNR
-            return self.rate * etime * np.sqrt(
-                np.sum(img2 / var_tot + img2 / (2. * var_tot**2))
-            )
+            return self.rate * etime * np.sqrt(np.sum(img2 / var_tot))
         else:
             # Return SNR for a predefined aperture
             return self.snr_aper(

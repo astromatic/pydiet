@@ -9,11 +9,16 @@
     :class: inline-icon
     :alt: CFHT
 
+.. |ETC| replace:: :abbr:`ETC (Exposure Time Calculator)`
+
 .. |MLE| replace:: :abbr:`MLE (Maximum Likelihood Estimation)`
 .. _MLE: https://en.wikipedia.org/wiki/Maximum_likelihood_estimation
 
 .. |Python| replace:: `Python`
 .. _Python: https://python.org
+
+.. |PSF| replace:: :abbr:`PSF (Point Spread Function)`
+.. _PSF: https://en.wikipedia.org/wiki/Point_spread_function
 
 .. |MEF| replace:: :abbr:`MEF (Multi-Extension FITS)`
 .. _MEF: https://hst-docs.stsci.edu/hstdhb/3-hst-file-formats/3-2-fits-file-format
