@@ -374,6 +374,7 @@ def get_instruments(
             wavelength_range = instrument.wavelength_range,
             obstruction_area = instrument.obstruction_area,
             overhead = instrument.overhead,
+            psf_beta = instrument.psf_beta,
             optics = get_optics(path, instrument.optics),
             filters = get_filters(path, instrument.filters),
             detector = get_detector(path, instrument.detector),
