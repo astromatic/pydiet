@@ -197,6 +197,12 @@
         <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
         <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Total instrument time overhead between exposures.&quot;</span>
     <span class="p">)</span>
+    <span class="n">psf_beta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="mf">3.2</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Moffat beta parameter of the instrument PSF model.&quot;</span>
+    <span class="p">)</span>
     <span class="n">filters</span><span class="p">:</span> <span class="s1">&#39;FiltersModel&#39;</span>
     <span class="n">optics</span><span class="p">:</span> <span class="s1">&#39;OpticsModel&#39;</span>
     <span class="n">detector</span><span class="p">:</span> <span class="s1">&#39;DetectorModel&#39;</span>

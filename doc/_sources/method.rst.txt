@@ -10,7 +10,7 @@ Method
 Signal-to-Noise ratio
 ---------------------
 
-The Signal-to-noise ratio, or simply |SNR|_, is defined in PyDIET as the ratio between the source "flux" :math:`F` (actually the number of source photons collected in the detector during the observation) and its expected uncertainty :math:`\sqrt{\var{F}}`:
+The Signal-to-noise ratio, or simply |SNR|_, is defined in |PyDIET| as the ratio between the source "flux" :math:`F` (actually the number of source photons collected in the detector during the observation) and its expected uncertainty :math:`\sqrt{\var{F}}`:
 
 .. math::
   :label: snr
@@ -136,10 +136,10 @@ The Cramér-Rao bound gives
     \sum_i \frac{\phi_i^2}{\sigma_r^2 + \sigma_b^2 t + F\phi_i}
   \right]^{-1}.
 
-Therefore, plugging into :eq:`snr` we obtain the upper bound
+Therefore, plugging into :eq:`snr` we obtain the upper bound at given exposure time :math:`t`:
 
 .. math::
-  :label: snrbound
+  :label: snr_model
 
   \begin{aligned}
     \mathrm{SNR} &\lesssim\, F\, \sqrt{
@@ -149,7 +149,7 @@ Therefore, plugging into :eq:`snr` we obtain the upper bound
   \end{aligned}
 
 :math:`\var{\hat{F}}` approaches the Cramér-Rao bound at sufficiently large |SNR| or in the background-dominated Gaussian regime.
-At very low |SNR|, especially if the flux is constrained to be non-negative or if the source position is fitted simultaneously (see below), the actual uncertainty distribution may be asymmetric or biased, and :eq:`snrbound` should be regarded as an optimistic lower bound rather than as a close estimation.
+At very low |SNR|, especially if the flux is constrained to be non-negative or if the source position is fitted simultaneously (see below), the actual uncertainty distribution may be asymmetric or biased, and :eq:`snr_model` should be regarded as an optimistic lower bound rather than as a close estimation.
 Remember also that it does not take into account systematic uncertainty terms such as imperfect background subtraction, correlated noise, model mismatch, source blending, or flat-field errors.
 
 Free model coordinates
@@ -222,7 +222,7 @@ In that ideal case,
 
    \left(\boldsymbol{\cal I}^{-1}\right)_{FF} = \frac{1}{{\cal I}_{FF}},
 
-and the flux |SNR| bound reduces to :eq:`snrbound`.
+and the flux |SNR| bound reduces to :eq:`snr_model`.
 In real data, departures from symmetry, masking, undersampling, neighboring sources, or spatially varying noise can make the cross-terms non-zero, in which case fitting the position increases the bound on :math:`\var{\hat{F}}`.
 
 
@@ -230,8 +230,144 @@ Aperture photometry
 """""""""""""""""""
 
 Aperture photometry is another way of estimating the source flux.
-It is suboptimal compared to model-fitting, except in the regime where photon noise from the source itself dominates, in which case both perform identically.
-However, it does not require a model and is much less compute-intensive.
-For sources with unknown light profiles, it is generally the safest option.
+It is suboptimal compared to model-fitting.
+However, it is much less compute-intensive and does not require a model.
+This is a useful feature, as the photometry of bright, unsaturated stars, may sometimes be limited by the accuracy of the |PSF| model.
+For sources with unknown light profiles, aperture photometry is generally the safest option.
 
+For an aperture :math:`{\cal A}`, the |SNR| at given exposure :math:`t` is 
+
+.. math::
+  :label: snr_aper
+
+  \mathrm{SNR} = \frac{f.t\sum_{i\in{\cal A}} \,\phi_i}{\sqrt{
+      \sum_{i\in{\cal A}} \sigma_r^2 + \left(\sigma_b^2 + f\phi_i\right)t
+  }}.
+
+
+Exposure time
+-------------
+
+The main purpose of an |ETC| is obviously to provide exposure times.
+|PyDIET| computes the exposure time for a given |SNR| using iterative `root finding <https://en.wikipedia.org/wiki/Root-finding_algorithm>`_ applied to :eq:`snr_model` or :eq:`snr_aper`, more specifically, Brent's method :cite:`Brent1973`.
+
+Source models
+-------------
+
+|PyDIET| currently implements three source models: point sources, galaxies, and flat extended sources.
+The role of the source model is to define the expected spatial distribution of source photons over the detector pixels.
+
+For compact and galaxy-like sources, the source model is represented by a discrete image :math:`\phi_i`, normalized as
+
+.. math::
+  :label: source-model-normalization
+
+  \sum_i \phi_i = 1,
+
+where :math:`i` runs over image pixels (or oversampled sub-pixels, depending on image sampling).
+If the total detected source rate is :math:`f`, in photons per second, the expected source contribution in pixel :math:`i` during an exposure time :math:`t` is therefore
+
+.. math::
+  :label: source-counts-source-model
+
+  f.t \phi_i.
+
+For flat extended sources, the model is instead expressed as a surface brightness: the source rate is then interpreted per unit angular area rather than as the total rate of a finite object.
+
+Point-source model
+""""""""""""""""""
+
+A point source is modeled as an unresolved object observed through the |PSF|.
+|PyDIET| uses a circular `Moffat profile <https://en.wikipedia.org/wiki/Moffat_distribution>`_ :cite:`Moffat1969`,
+
+.. math::
+   :label: moffat-profile
+
+   M(r) = \left(1 + \frac{r^2}{\alpha^2}\right)^{-\beta},
+
+where :math:`r` is the angular distance from the source centre, :math:`\alpha` the Moffat scale radius, and :math:`\beta` the strength of the wings.
+The Moffat scale radius is set by the requested Full Width at Half Maximum (|FWHM|_).
+Since :math:`M(\mathrm{FWHM}/2) = M(0)/2`, one obtains
+
+.. math::
+   :label: moffat-alpha-fwhm
+
+   \alpha^2 = \frac{\mathrm{FWHM}^2}{4\left(2^{1/\beta} - 1\right)}.
+
+|PyDIET| considers the Moffat :math:`\beta` parameter as an instrumental feature; it is set in the instrument section of the data configuration file.
+The default value is :math:`\beta = 3.2`, corresponding to the best-fitting value for MegaCam observations.
+
+The Moffat model is rasterized on the internal image grid, truncated inside the circular simulation domain, and normalized numerically:
+
+.. math::
+   :label: point-source-normalized
+
+   \phi_i = \frac{M(r_i)} {\sum_j M(r_j)},
+
+giving the final rasterized point-source image model.
+
+Galaxy model
+""""""""""""
+
+A galaxy is modeled as a circular `Sérsic profile <https://en.wikipedia.org/wiki/S%C3%A9rsic_profile>`_ :cite:`Sersic1963,Ciotti1999,Graham2005` convolved with the seeing PSF.
+Before convolution, the intrinsic surface-brightness profile is
+
+.. math::
+   :label: sersic-profile
+
+   S(r) = \exp\left\{-b_n\left[\left(\frac{r}{R_\mathrm{e}}\right)^{1/n} - 1\right]\right\},
+
+where :math:`R_\mathrm{e}` is the effective radius and :math:`n` the Sérsic index.
+
+The effective radius :math:`R_\mathrm{e}` is the radius enclosing half of the intrinsic Sérsic-model flux.
+The Sérsic index controls the concentration of the profile.
+Values close to :math:`n=1` correspond to disk-like profiles, whereas larger values produce more centrally concentrated profiles with more extended wings, such as in ellipticals or galaxy bulges.
+For numerical stability reasons, the current implementation enforces limits on the Sérsic index: :math:`0.36 \leq n \leq 10`.
+
+The observed galaxy model is obtained by convolving the intrinsic Sérsic profile with the |PSF| model,
+
+.. math::
+   :label: sersic-convolved
+
+   G(r) = (S * P)(r),
+
+where :math:`*` denotes convolution.
+The convolution is performed on the rasterized model using Fourier transforms.
+
+The final galaxy image model is then truncated inside the circular simulation
+domain and normalized numerically:
+
+.. math::
+   :label: galaxy-normalized
+
+   \phi_i = \frac{G_i} {\sum_j G_j}.
+
+The total source rate :math:`f` is therefore the total detected photon rate of the galaxy.
+
+Flat extended-source model
+""""""""""""""""""""""""""
+
+The extended-source model represents a flat source with constant surface brightness.
+It is not normalized to unit total flux, because the source is not treated as a finite object.
+Instead, the input brightness is interpreted per unit angular area.
+
+Let :math:`a_i` be the angular area of pixel :math:`i`, in arcsec\ :sup:`2`.
+For a flat source with detected surface photon rate :math:`f_\Omega`, in photons s\ :sup:`-1` arcsec\ :sup:`-2`, the expected source contribution in pixel :math:`i` during an exposure time :math:`t` is
+
+.. math::
+  :label: extended-source-counts
+
+  f_\Omega t a_i.
+
+For a regular detector grid, all pixels have the same angular area :math:`a_\mathrm{pix}`.
+The model image is therefore simply rasterized as
+
+.. math::
+  :label: extended-source-image
+
+  \phi_i = a_\mathrm{pix}
+
+inside a large disk, and zero outside it.
+Convolving a constant surface-brightness field by a normalized |PSF| gives the same constant surface brightness.
+Therefore, the seeing parameter has no direct effect on the mathematical model of an extended (flat) source.
 
