@@ -11,8 +11,13 @@
 
 .. |ETC| replace:: :abbr:`ETC (Exposure Time Calculator)`
 
+.. |FWHM| replace:: :abbr:`FWHM (Full Width at Half Maximum)`
+.. _FWHM: https://en.wikipedia.org/wiki/Full_width_at_half_maximum
+
 .. |MLE| replace:: :abbr:`MLE (Maximum Likelihood Estimation)`
 .. _MLE: https://en.wikipedia.org/wiki/Maximum_likelihood_estimation
+
+.. |PyDIET| replace:: `PyDIET`
 
 .. |Python| replace:: `Python`
 .. _Python: https://python.org
