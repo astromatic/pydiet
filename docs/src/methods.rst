@@ -1,11 +1,22 @@
-.. File method.rst
+.. File methods.rst
 
 .. include:: global.rst
 
-.. _chap_method:
+.. _chap_methods:
 
-Method
-======
+Methods
+=======
+
+|PyDIET| is a simulation-based |ETC|, and uses different computational models to reproduce the observations (:numref:`fig_workflow`).
+This section describes the main methods and quantities involved in the process.
+
+.. _fig_workflow:
+
+.. figure:: figures/workflow.*
+   :alt: |PyDIET| workflow
+   :align: center
+
+   Schematic view of the |PyDIET| simulation workflow.
 
 Signal-to-Noise ratio
 ---------------------
@@ -43,18 +54,21 @@ Before background subtraction, the pixel value may be written as
 where
 
 .. math::
+  :label:
 
   N_i \sim \operatorname{Poisson}(B_i + F\phi_i)
 
 is the contribution from photons,
 
 .. math::
+  :label:
 
   R_i \sim \mathcal{N}(0,\sigma_r^2)
 
 the readout noise, and
 
 .. math::
+  :label:
 
   B_i = \sigma_b^2 t
 
@@ -103,6 +117,7 @@ In practice :math:`V_i` may be updated iteratively using the current value of :m
 At the true value of :math:`F`,
 
 .. math::
+  :label:
 
   \esp{I_i - F\phi_i} = 0,
 
@@ -165,33 +180,38 @@ Instead, one must use the inverse of the `Fisher matrix <https://en.wikipedia.or
 where
 
 .. math::
+  :label:
 
    \mu_i = B_i + F\phi_i(x_0,y_0),
 
 and
 
 .. math::
+  :label:
 
    \frac{\partial \mu_i}{\partial F} = \phi_i,
 
 .. math::
+  :label:
 
    \frac{\partial \mu_i}{\partial x_0} = F\frac{\partial \phi_i}{\partial x_0},
 
 .. math::
+  :label:
 
    \frac{\partial \mu_i}{\partial y_0} = F\frac{\partial \phi_i}{\partial y_0}.
 
 The bound on the flux variance is then
 
 .. math::
-   :label: joint_flux_bound
+  :label: joint_flux_bound
 
    \var{\hat{F}} \geq \left(\boldsymbol{\cal I}^{-1}\right)_{FF}.
 
 Equivalently, writing
 
 .. math::
+  :label:
 
    \mathbf{c} = \begin{pmatrix}
      {\cal I}_{Fx} \\
@@ -201,6 +221,7 @@ Equivalently, writing
 and
 
 .. math::
+  :label:
 
    \mathbf{Q} = \begin{pmatrix}
      {\cal I}_{xx} & {\cal I}_{xy} \\
@@ -210,7 +231,7 @@ and
 one obtains
 
 .. math::
-   :label: schur_flux_bound
+  :label: schur_flux_bound
 
    \var{\hat{F}} \geq \frac{1}{{\cal I}_{FF} - \mathbf{c}^{\mathsf T}\mathbf{Q}^{-1}\mathbf{c}}.
 
@@ -219,6 +240,7 @@ For an isolated source with a centrally symmetric model (and a symmetric fitting
 In that ideal case,
 
 .. math::
+  :label:
 
    \left(\boldsymbol{\cal I}^{-1}\right)_{FF} = \frac{1}{{\cal I}_{FF}},
 
@@ -232,17 +254,68 @@ Aperture photometry
 Aperture photometry is another way of estimating the source flux.
 It is suboptimal compared to model-fitting.
 However, it is much less compute-intensive and does not require a model.
-This is a useful feature, as the photometry of bright, unsaturated stars, may sometimes be limited by the accuracy of the |PSF| model.
+This is a useful feature, as the model-fitting accuracy of bright, unsaturated stars, may sometimes be limited by that of the |PSF| model.
 For sources with unknown light profiles, aperture photometry is generally the safest option.
 
-For an aperture :math:`{\cal A}`, the |SNR| at given exposure :math:`t` is 
+For an aperture :math:`{\cal A}`, the |SNR| is 
 
 .. math::
   :label: snr_aper
 
-  \mathrm{SNR} = \frac{f.t\sum_{i\in{\cal A}} \,\phi_i}{\sqrt{
+  \mathrm{SNR}({\cal A}) = \frac{f.t\sum_{i\in{\cal A}} \,\phi_i}{\sqrt{
       \sum_{i\in{\cal A}} \sigma_r^2 + \left(\sigma_b^2 + f\phi_i\right)t
   }}.
+
+
+Optimal aperture
+~~~~~~~~~~~~~~~~
+
+The optimal-aperture option chooses the radius :math:`r=r_\mathrm{opt}` of the circular aperture :math:`{\cal A}(r)` that maximizes the expected aperture signal-to-noise ratio :math:`SNR({\cal A})` in :eq:`snr_aper`:
+
+.. math::
+  :label:
+
+   r_\mathrm{opt} = \underset{r}{\operatorname{arg\,max}}\,\mathrm{SNR}({\cal A}(r)).
+
+The minimization is performed numerically over the allowed range of aperture radii, from zero to the radius of the circular simulation mask.
+
+The optimal aperture depends on the exposure time and noise regime.
+|PyDIET| therefore recomputes the optimal aperture every time the signal-to-noise ratio is evaluated.
+
+For stars, the optimal aperture depends on the seeing, sky background, source brightness, and exposure time.
+For galaxies, the same calculation is applied to the seeing-convolved Sérsic model (see :ref:`sersic`).
+The optimal aperture depends on the Sérsic radius, Sérsic index, seeing, sky background, source brightness, and exposure time.
+
+
+Aperture enclosing 96% of the flux
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The large-aperture option is defined as the circular aperture enclosing 96% of the model source flux.
+
+|PyDIET| computes the enclosed model-flux fraction
+
+.. math::
+  :label:
+
+  f(r^2) = \sum_{r_i \leq r} \phi_i,
+
+where :math:`r_i` is the distance of pixel :math:`i` from the source center on the internal raster grid.
+
+The aperture radius is obtained by solving
+
+.. math::
+  :label: f096
+
+   f(r_{96}^2) = 0.96.
+
+In the |PyDIET| implementation, :math:`f096` is solved numerically with a Brent root finder.
+The search interval extends from the center of the image to the edge of the circular simulation mask.
+
+The 96% aperture is close to a total-flux aperture.
+It captures most of the model flux, but it is not generally the aperture with the highest signal-to-noise ratio, because the outer parts of the aperture may contain more noise than useful source signal.
+In background-dominated conditions, the 96% flux aperture is usually larger than the optimal aperture. 
+The outer wings of the source profile contain little signal but contribute sky noise, so including them lowers the signal-to-noise ratio.
+In source-dominated or very high signal-to-noise regimes, it may become smaller, because the penalty for including more of the source profile is reduced.
 
 
 Exposure time
@@ -270,7 +343,7 @@ If the total detected source rate is :math:`f`, in photons per second, the expec
 .. math::
   :label: source-counts-source-model
 
-  f.t \phi_i.
+  f.t.\phi_i.
 
 For flat extended sources, the model is instead expressed as a surface brightness: the source rate is then interpreted per unit angular area rather than as the total rate of a finite object.
 
@@ -286,7 +359,7 @@ A point source is modeled as an unresolved object observed through the |PSF|.
    M(r) = \left(1 + \frac{r^2}{\alpha^2}\right)^{-\beta},
 
 where :math:`r` is the angular distance from the source centre, :math:`\alpha` the Moffat scale radius, and :math:`\beta` the strength of the wings.
-The Moffat scale radius is set by the requested Full Width at Half Maximum (|FWHM|_).
+The Moffat scale radius is set by the requested |FWHM|.
 Since :math:`M(\mathrm{FWHM}/2) = M(0)/2`, one obtains
 
 .. math::
@@ -306,6 +379,8 @@ The Moffat model is rasterized on the internal image grid, truncated inside the 
 
 giving the final rasterized point-source image model.
 
+.. _sersic:
+
 Galaxy model
 """"""""""""
 
@@ -313,9 +388,9 @@ A galaxy is modeled as a circular `Sérsic profile <https://en.wikipedia.org/wik
 Before convolution, the intrinsic surface-brightness profile is
 
 .. math::
-   :label: sersic-profile
+  :label: sersic-profile
 
-   S(r) = \exp\left\{-b_n\left[\left(\frac{r}{R_\mathrm{e}}\right)^{1/n} - 1\right]\right\},
+  S(r) = \exp\left\{-b_n\left[\left(\frac{r}{R_\mathrm{e}}\right)^{1/n} - 1\right]\right\},
 
 where :math:`R_\mathrm{e}` is the effective radius and :math:`n` the Sérsic index.
 
@@ -327,9 +402,9 @@ For numerical stability reasons, the current implementation enforces limits on t
 The observed galaxy model is obtained by convolving the intrinsic Sérsic profile with the |PSF| model,
 
 .. math::
-   :label: sersic-convolved
+  :label: sersic-convolved
 
-   G(r) = (S * P)(r),
+  G(r) = (S * P)(r),
 
 where :math:`*` denotes convolution.
 The convolution is performed on the rasterized model using Fourier transforms.
@@ -338,9 +413,9 @@ The final galaxy image model is then truncated inside the circular simulation
 domain and normalized numerically:
 
 .. math::
-   :label: galaxy-normalized
+  :label: galaxy-normalized
 
-   \phi_i = \frac{G_i} {\sum_j G_j}.
+  \phi_i = \frac{G_i} {\sum_j G_j}.
 
 The total source rate :math:`f` is therefore the total detected photon rate of the galaxy.
 
@@ -357,7 +432,7 @@ For a flat source with detected surface photon rate :math:`f_\Omega`, in photons
 .. math::
   :label: extended-source-counts
 
-  f_\Omega t a_i.
+  f_\Omega . t . a_i.
 
 For a regular detector grid, all pixels have the same angular area :math:`a_\mathrm{pix}`.
 The model image is therefore simply rasterized as
@@ -370,4 +445,149 @@ The model image is therefore simply rasterized as
 inside a large disk, and zero outside it.
 Convolving a constant surface-brightness field by a normalized |PSF| gives the same constant surface brightness.
 Therefore, the seeing parameter has no direct effect on the mathematical model of an extended (flat) source.
+
+
+Synthetic photometry
+--------------------
+
+|PyDIET| converts source brightnesses and sky surface brightnesses into detected count rates before evaluating the signal-to-noise ratio.
+This conversion is performed by integrating reference spectra or sky spectra through the selected instrumental and atmospheric responses.
+
+
+Transmission
+""""""""""""
+
+Let :math:`T_\mathrm{inst}(\lambda)` be the instrumental response, including the selected mirror state, telescope/instrument optics, filter transmission, and detector response. Let :math:`T_\mathrm{atm}(\lambda; X)` be the atmospheric transmission at airmass :math:`X`, and let :math:`\tau` be the additional transparency factor entered by the user.
+The full source transmission used for source count rates is
+
+.. math::
+  :label:
+
+  T_\mathrm{full}(\lambda) = T_\mathrm{inst}(\lambda) T_\mathrm{atm}(\lambda; X) \tau .
+
+The effective collecting area is
+
+.. math::
+  :label:
+
+  A_\mathrm{eff} = A_\mathrm{tel} - A_\mathrm{obs},
+
+where :math:`A_\mathrm{tel}` is the telescope collecting area and :math:`A_\mathrm{obs}` is the obstructed area, which is often instrument-dependent (especially for prime-focus cameras).
+
+
+Magnitude zero-point
+""""""""""""""""""""
+
+For a given filter and instrument configuration, |PyDIET| computes a photometric zero-point from the count rate of a reference source.
+
+For `AB magnitudes <https://en.wikipedia.org/wiki/AB_magnitude>`_, the reference spectrum is the constant-flux-density :math:`m_\mathrm{AB}=0` spectrum.
+For Vega magnitudes, the reference spectrum is the Vega spectrum.
+In both cases, the reference count rate is computed by integrating the reference spectrum through the relevant transmission curve.
+
+For the full atmospheric response, the reference count rate is
+
+.. math::
+  :label:
+
+   f_0 = \int R_{0,\lambda}(\lambda) T_\mathrm{full}(\lambda) A_\mathrm{eff}{\lambda \over hc}\,d\lambda ,
+
+where :math:`R_{0,\lambda}` is the chosen reference spectrum.
+|PyDIET| uses the  :meth:`~synphot.observation.Observation.countrate` method of the `SynPhot <https://synphot.readthedocs.io>`_ :mod:`~synphot.observation` module to evaluate this integral.
+
+If the detector gain is :math:`g`, in electrons per ADU, the corresponding count rate in ADU per second is
+
+.. math::
+  :label:
+
+   C_0 = {f_0 \over g}.
+
+The magnitude zero-point is then
+
+.. math::
+  :label:
+
+   \mathrm{ZP} = 2.5 \log_{10} C_0 .
+
+Equivalently, a source producing a measured count rate :math:`C`, in ADU per second, has magnitude
+
+.. math::
+  :label:
+
+   m = \mathrm{ZP} - 2.5 \log_{10} C .
+
+
+|PyDIET| reports two related zero-points:
+
+* The full AB zero-point, including atmosphere and transparency.
+  This is the zero-point corresponding to :math:`T_\mathrm{full}`.
+
+* The instrumental AB zero-point (accessible through the web API), computed from :math:`T_\mathrm{inst}` only, without atmospheric transmission.
+  This value is cached for each mirror/filter configuration and is used in particular to express the sky background as an AB surface brightness.
+
+For a source magnitude :math:`m`, the detected source count rate is
+
+.. math::
+  :label:
+
+   f = f_0 10^{-0.4m} .
+
+For flux-density units, |PyDIET| converts the input value to the equivalent multiplicative factor relative to the AB reference spectrum.
+For integrated physical fluxes, the conversion uses the pivot wavelength and equivalent rectangular bandwidth of the full transmission curve.
+
+Sky background
+""""""""""""""
+
+The sky background enters the SNR model as a count rate per detector pixel.
+|PyDIET| supports two cases:
+
+* a predefined sky model selected from tabulated sky spectra;
+* a user-specified sky brightness.
+
+For the predefined sky modes, PyDIET selects a tabulated sky-emission spectrum according to:
+
+* the sky state, for example dark, grey, or bright;
+* the solar-activity level;
+* the observing airmass.
+
+The sky spectrum is interpolated linearly between the available tabulated airmass values.
+The result is a sky surface-brightness spectrum,
+
+.. math::
+  :label:
+
+   I_\mathrm{sky}(\lambda; X, s, q),
+
+where :math:`X` is the airmass, :math:`s` the sky state, and :math:`q` the solar-activity state.
+
+This sky-emission spectrum is already a surface brightness at the observing site.
+It is therefore propagated only through the instrumental response, leaving out the transmission of the atmosphere.
+The sky count rate per square arcsecond is
+
+.. math::
+  :label:
+
+   B_\Omega = \int I_\mathrm{sky}(\lambda) T_\mathrm{inst}(\lambda) A_\mathrm{eff} {\lambda \over hc}\, d\lambda + B_\mathrm{therm} .
+
+The term :math:`B_\mathrm{therm}` is the instrumental thermal-emission contribution for the selected mirror and filter configuration.
+It includes thermal emission terms associated with the telescope, optics, filter, and detector model.
+
+When the sky background is specified manually, |PyDIET| converts the user input into a detector count rate per pixel.
+
+|PyDIET| reports the sky background both as a count rate per pixel (accessible through the web API) and as an AB surface brightness.
+
+If the detector pixel scale is :math:`p_x \times p_y`, in arcseconds per pixel, the value passed to the image model as the background rate per pixel is then
+
+.. math::
+  :label:
+
+   B_\mathrm{pix} = B_\Omega p_x p_y .
+
+The reported AB sky surface brightness is derived from the instrumental AB zero-point:
+
+.. math::
+  :label:
+
+   \mu_\mathrm{sky,AB} = \mathrm{ZP}_\mathrm{inst,AB} - 2.5 \log_{10}\left( {B_\Omega \over g}\right).
+
+The instrumental zero-point is used here because the sky-emission spectrum is already the sky brightness at the observing site; it should not be attenuated by the atmosphere a second time.
 

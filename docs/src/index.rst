@@ -11,7 +11,8 @@ Welcome to PyDIET's documentation!
    :caption: Contents:
 
    interface
-   method
+   methods
+   data
    api
    references
 

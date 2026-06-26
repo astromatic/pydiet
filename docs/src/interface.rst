@@ -4,18 +4,18 @@
 
 .. _chap_interface:
 
-==============================
-Using the PyDIET web interface
-==============================
+=======================
+Using the web interface
+=======================
 
-PyDIET provides a web interface for estimating observing quantities for imaging observations.
+|PyDIET| provides a web interface for estimating observing quantities for imaging observations.
 The interface can be used either to estimate the exposure time required to reach a target signal-to-noise ratio, or to estimate the signal-to-noise ratio reached for a given exposure time.
 
 The interface is organized as a single calculation form.
 Each field describes either the observing setup, the source model, the measurement method, the sky background, or the state of the telescope and atmosphere.
 
 .. note::
-   PyDIET is an Exposure Time Calculator (ETC).
+   |PyDIET| is an Exposure Time Calculator (|ETC|).
    Its output is an estimate based on an instrumental and atmospheric model.
    Although such models have been statistically validated for the Megacam and Wircam instruments, the result should only be used for planning, comparison, and feasibility estimates, not as a guarantee of on-sky performance.
 
@@ -28,18 +28,18 @@ The main page contains:
 
 * a top navigation bar;
 * a settings panel;
-* an instrument-specific ETC form;
+* an instrument-specific |ETC| form;
 * |CFHT| links to Terms of Service, the CFHT front page, and Privacy Policy.
 
 .. figure:: figures/web_interface.*
-   :alt: PyDIET web interface
+   :alt: |PyDIET| web interface
    :align: center
 
-   The main web interface to PyDIET.
+   The main web interface to |PyDIET|.
 
-The top-right corner displays the running PyDIET version.
+The top-right corner displays the running |PyDIET| version.
 When comparing results or reporting a calculation, make sure to record this version together with the selected instrument, filter, source model, sky model, and observing parameters.
-To the right of the PyDIET version is a small disk indicating the connection status with the PyDIET server:
+To the right of the |PyDIET| version is a small disk indicating the connection status with the |PyDIET| server:
 
 * a green disk means that a stable connection is established with the server, which is ready to respond to ETC queries.
 * a red disk indicates that the server is down, unreachable or excessively busy, and is currently unable to provide a response to ETC queries.
@@ -64,7 +64,7 @@ It has no effect on the ETC model or on the calculated results.
 Instrument
 ----------
 
-The PyDIET web interface can provide access to several instruments through a common page.
+The |PyDIET| web interface can provide access to several instruments through a common page.
 The **Instrument** setting selects the instrument model and interface used by the ETC.
 
 |CFHT| The current CFHT-oriented configuration includes:
@@ -88,14 +88,14 @@ Some of the widgets only show up in certain configurations (e.g., galaxy paramet
 Compute
 -------
 
-The **Compute** menu selects which quantity PyDIET should solve for.
+The **Compute** menu selects which quantity |PyDIET| should solve for.
 
 Available choices are:
 
 * ``exposure time``: the user provides a target Signal-to-Noise Ratio (SNR).
-  PyDIET estimates the exposure time required to reach it.
+  |PyDIET| estimates the exposure time required to reach it.
 * ``SNR``: the signal-to-noise input field is replaced by an **Exposure Time [s]** field.
-  The user provides the exposure time in seconds, and PyDIET estimates the resulting signal-to-noise ratio for the type of source selected.
+  The user provides the exposure time in seconds, and |PyDIET| estimates the resulting signal-to-noise ratio for the type of source selected.
 
 Internally, both modes use the same noise model.
 
@@ -120,10 +120,10 @@ The **Stacking** menu is shown only when **Exposures** is greater than one.
 
 Available choices are:
 
-* ``average``: PyDIET assumes that independent exposures are combined using the mean.
+* ``average``: |PyDIET| assumes that independent exposures are combined using the mean.
   This preserves the usual :math:`\sqrt{N}` improvement in signal-to-noise ratio for :math:`N` equivalent exposures, apart from additional readout-noise terms.
 
-* ``median``: PyDIET applies a correction for the lower statistical efficiency of the median compared with the mean.
+* ``median``: |PyDIET| applies a correction for the lower statistical efficiency of the median compared with the mean.
   For Gaussian noise, a median stack has a larger variance than an average stack.
   
 Median stacking is more robust against cosmic rays, bad pixels, and outliers, but it is not quite as efficient as averaging when all exposures are otherwise clean.
@@ -182,17 +182,14 @@ Seeing
 ------
 
 The **Seeing** field sets the delivered image quality in arcseconds in the :ref:`selected filter <chap_filter>`.
-
+It is defined as the angular Full Width at Half-Maximum (|FWHM|_) of the |PSF|, and does not include the pixel footprint.
 The default value is 0.7 arcsec.
 
-Seeing controls the width of the |PSF|. For point sources and galaxies, worse
-seeing spreads the source flux over more pixels. This increases the amount of
-sky background and detector noise included in the measurement, generally
-reducing SNR for a fixed exposure time.
+For point sources and galaxies, worse seeing spreads the source flux over more pixels.
+This increases the amount of sky background and detector noise included in the measurement, generally reducing SNR for a fixed exposure time.
 
-Seeing has a weaker effect on a uniform extended source, because both source
-and sky are surface-brightness-like quantities. It can still matter if the ETC
-uses a resolution element, aperture, or |PSF|-convolved model.
+Seeing has a weaker effect on a uniform extended source, because both source and sky are surface-brightness-like quantities.
+It can still matter if the |ETC| uses a resolution element, aperture, or |PSF|-convolved model.
 
 
 .. _chap_filter:
@@ -248,19 +245,19 @@ Available choices are:
   For point sources and galaxies, this is the total AB magnitude of the source.
   For extended sources, it becomes an AB surface brightness in mag.arcsec\ :sup:`-2`.
 
-  PyDIET converts the AB magnitude into a spectral flux density normalization and integrates it through the selected total throughput curve.
+  |PyDIET| converts the AB magnitude into a spectral flux density normalization and integrates it through the selected total throughput curve.
 
 * ``Vega mag``: the source brightness is interpreted as a Vega-based magnitude.
   For point sources and galaxies, this is the total Vega magnitude.
   For extended sources, it becomes a Vega surface brightness in mag.arcsec\ :sup:`-2`.
 
-  PyDIET converts the Vega magnitude to a physical flux using a Vega reference spectrum and the selected bandpass.
+  |PyDIET| converts the Vega magnitude to a physical flux using a Vega reference spectrum and the selected bandpass.
   The AB-Vega offset therefore depends on the filter.
 
 * ``μJy``: the source brightness is interpreted as a flux density in microjanskys.
   For extended sources, this becomes μJy.arcsec\ :sup:`-2`.
 
-  PyDIET converts the input flux density to a photon rate through the selected bandpass.
+  |PyDIET| converts the input flux density to a photon rate through the selected bandpass.
   This option is useful when the source flux is already known in physical units rather than as a magnitude.
 
 * ``flux``: the source brightness is interpreted as an integrated physical flux, in units of 10\ :sup:`-15`\ erg.s\ :sup:`-1`.cm\ :sup:`-2` or, for extended sources, 10\ :sup:`-15`\ erg.s\ :sup:`-1`.cm\ :sup:`-2`.arcsec\ :sup:`-2`.
@@ -278,7 +275,7 @@ It is hidden for extended sources.
 
 Available choices are:
 
-* ``model-fitting``: PyDIET estimates the source flux by fitting the source model to the image.
+* ``model-fitting``: |PyDIET| estimates the source flux by fitting the source model to the image.
 
   For a point source, the fitted model is the |PSF|.
   For a galaxy, it is the seeing-convolved Sérsic model.
@@ -286,19 +283,19 @@ Available choices are:
   In the idealized Gaussian white noise limit, model fitting provides an efficient flux estimator because pixels are weighted according to the expected source profile and noise variance.
   It usually gives the best formal SNR when the source model is accurate.
 
-* ``Optimal aperture``: PyDIET chooses an aperture that maximizes the expected SNR for the selected source, seeing, sky background, and detector noise.
+* ``Optimal aperture``: |PyDIET| chooses an aperture that maximizes the expected SNR for the selected source, seeing, sky background, and detector noise.
 
   For a point source, the optimal aperture is usually a compromise: a larger aperture includes more source flux but also more sky noise.
   The optimum is therefore smaller than an aperture that captures nearly all the flux.
 
   For galaxies, the optimum depends on the Sérsic radius and index as well as the seeing.
 
-* ``96% flux aperture``: PyDIET uses an aperture large enough to contain approximately 96% of the source flux.
+* ``96% flux aperture``: |PyDIET| uses an aperture large enough to contain approximately 96% of the source flux.
   It includes most of the source flux but also generally includes more background noise than a strictly optimal aperture.
 
   It is useful when the goal is close to total-flux photometry rather than maximum SNR.
 
-* ``fixed aperture``: PyDIET uses a user-specified aperture diameter.
+* ``fixed aperture``: |PyDIET| uses a user-specified aperture diameter.
 
   Selecting this option reveals the :ref:`Aperture diameter <chap_aperture_diameter>` field.
 
@@ -325,7 +322,7 @@ The **Sky brightness** menu selects the background model.
 Available choices are:
 
 * ``dark``: sets a dark-time |CFHT| sky model, with the Moon set at nadir.
-  PyDIET uses a predefined sky emission spectrum for dark conditions.
+  |PyDIET| uses a predefined sky emission spectrum for dark conditions.
   This spectrum contributes background photons in each pixel and therefore affects the noise term.
 
   In optical bands, the dark-sky emission model is dominated by the airglow and continuum components.
@@ -342,7 +339,7 @@ Available choices are:
 * ``specify``: this option lets the user enter the sky brightness manually.
   When it is selected, two additional fields appear: :ref:`Sky value <chap_sky_value>` and :ref:`Sky unit <chap_sky_unit>`.
 
-  Instead of selecting a predefined sky emission spectrum by sky category, PyDIET uses the user-provided sky brightness.
+  Instead of selecting a predefined sky emission spectrum by sky category, |PyDIET| uses the user-provided sky brightness.
   This option is helpful when the user has a measured sky brightness or wants to reproduce a known observing condition.
 
 
@@ -367,21 +364,21 @@ Available choices are:
 
 * ``AB mag.arcsec⁻²``: the sky value is interpreted as an AB surface brightness.
 
-  PyDIET converts the AB surface brightness into a photon rate per unit angular area, then into electrons per pixel using the pixel scale, throughput, and detector quantum efficiency.
+  |PyDIET| converts the AB surface brightness into a photon rate per unit angular area, then into electrons per pixel using the pixel scale, throughput, and detector quantum efficiency.
 
 * ``Vega mag.arcsec⁻²``: the sky value is interpreted as a Vega-based surface brightness.
 
-  PyDIET converts the Vega surface brightness through the selected bandpass.
+  |PyDIET| converts the Vega surface brightness through the selected bandpass.
   The AB-Vega offset is filter-dependent.
 
 * ``MJy.sr⁻¹``: the sky value is interpreted as a surface brightness in megajanskys per steradian.
 
   This is a common infrared surface-brightness unit.
-  PyDIET converts it to a flux density per angular area and then to detected electrons per pixel through the selected filter and throughput model.
+  |PyDIET| converts it to a flux density per angular area and then to detected electrons per pixel through the selected filter and throughput model.
 
 * ``flux.arcsec⁻²``: the sky value is interpreted as a physical flux per square arcsecond, in units of 10\ :sup:`-15`\ erg.s\ :sup:`-1`.cm\ :sup:`-2`.arcsec\ :sup:`-2`.
 
-  PyDIET converts the physical sky flux into a photon/electron rate over the selected bandpass.
+  |PyDIET| converts the physical sky flux into a photon/electron rate over the selected bandpass.
   This option is primarily meant to quantify backgrounds through narrow-band filters, or for matching an external sky model.
 
 * ``e⁻.s⁻¹.px⁻¹``: the sky value is interpreted directly as a detected electron rate per pixel.
@@ -400,7 +397,7 @@ Airmass affects both atmospheric transmission and sky emission.
 Larger airmass usually reduces source throughput because the source light crosses more atmosphere.
 It can also increase the sky emission and the contribution from scattered light.
 
-In PyDIET, atmospheric transmission and sky emission are tabulated for discrete airmass values, and interpolated between the closest available models.
+In |PyDIET|, atmospheric transmission and sky emission are tabulated for discrete airmass values, and interpolated between the closest available models.
 
 
 Solar activity
@@ -470,7 +467,7 @@ Submitting a calculation
 
 After selecting the desired parameters, press **Submit**.
 
-PyDIET sends the form values to the backend, and the result is displayed in a result panel.
+|PyDIET| sends the form values to the backend, and the result is displayed in a result panel.
 
 Results
 =======
@@ -501,7 +498,7 @@ The result panel reports the requested output quantity, exposure time and SNR, t
 * **Background surface brightness** (in mag..arcsec\ :sup:`-2`): estimated surface brightness (in AB magnitudes per square arsecond) of the combined sky+instrumental background.
 
 .. figure:: figures/results_panel.png
-   :alt: PyDIET result panel
+   :alt: |PyDIET| result panel
    :align: center
 
    Example result panel.
@@ -524,6 +521,6 @@ The current model ignores the following effects:
 * calibration uncertainties;
 * observer-specific reduction choices.
 
-For critical observing programs, use PyDIET as one input to the planning process and compare with measured performance from similar observations when available.
+For critical observing programs, use |PyDIET| as one input to the planning process and compare with measured performance from similar observations when available.
 
 
