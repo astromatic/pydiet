@@ -4,7 +4,7 @@
 .. |API| replace:: :abbr:`API (Application Programming Interface)`
 .. _API: https://en.wikipedia.org/wiki/Application_programming_interface
 
-.. |CFHT| image:: figures/cfht.svg
+.. |CFHT| image:: figures/cfht.*
     :height: 1em
     :class: inline-icon
     :alt: CFHT

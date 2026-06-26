@@ -119,9 +119,9 @@ latex_elements = {
 \def\oper#1{\mathbf{#1}}
 \def\dvol#1#2{{\rm d}^{#1}\hspace{-2pt}#2}
 \def\sinc{\mbox{sinc}}
-\def\esp#1{\mathbb{E}\left\[#1\right\]}
-\def\var#1{\mathrm{Var}\left\[#1\right\]}
-\def\cov#1{\mathrm{Cov}\left\[#1,#2\right\]}
+\def\esp#1{\mathbb{E}\left[#1\right]}
+\def\var#1{\mathrm{Var}\left[#1\right]}
+\def\cov#1#2{\mathrm{Cov}\left[#1,#2\right]}
 ''',
     # Latex figure (float) alignment
     #
