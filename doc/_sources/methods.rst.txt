@@ -270,7 +270,7 @@ For an aperture :math:`{\cal A}`, the |SNR| is
 Optimal aperture
 ~~~~~~~~~~~~~~~~
 
-The optimal-aperture option chooses the radius :math:`r=r_\mathrm{opt}` of the circular aperture :math:`{\cal A}(r)` that maximizes the expected aperture signal-to-noise ratio :math:`SNR({\cal A})` in :eq:`snr_aper`:
+The optimal-aperture option chooses the radius :math:`r=r_\mathrm{opt}` of the circular aperture :math:`{\cal A}(r)` that maximizes the expected aperture signal-to-noise ratio :math:`\mathrm{SNR}({\cal A})` in :eq:`snr_aper`:
 
 .. math::
   :label:
