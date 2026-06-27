@@ -98,7 +98,18 @@ mathjax3_config = {
 
 # -- Options for LaTeX output ------------------------------------------------
 
+latex_engine = "xelatex"
+latex_use_xindy = False
 latex_elements = {
+    "fontpkg": r"""\setmainfont{DejaVu Serif}\setsansfont{DejaVu Sans}\setmonofont{DejaVu Sans Mono}""",
+    "fontpkg": r"""
+\usepackage{unicode-math}
+
+\setmainfont{Open Sans}
+\setsansfont{Open Sans}[Scale=MatchLowercase]
+\setmonofont[Scale=MatchUppercase]{Latin Modern Mono}
+\setmathfont[Scale=MatchUppercase, Extension = .otf,BoldFont = XITSMath-Bold]{XITSMath-Regular}
+""",
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
