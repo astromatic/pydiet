@@ -178,7 +178,7 @@ class InstrumentConfigModel(BaseModel):
     )
     psf_beta: float = Field(
         default = 3.2,
-        ge = 0.,
+        gt = 1.,
         le = 10.,
         description="Moffat beta parameter of the instrument PSF model."
     )
