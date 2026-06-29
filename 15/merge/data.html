@@ -1,0 +1,162 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data &mdash; PyDIET 0.9.7 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_js.css" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=006bef15" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2328ca0"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"tex": {"macros": {"trans": ["{#1}^\\intercal", 1], "vec": ["\\boldsymbol{#1}", 1], "oper": ["\\mathbf{#1}", 1], "dvol": ["{\\rm d}^{#1}\\hspace{-2pt}#2", 2], "sinc": ["\\mbox{sinc}"], "esp": ["\\mathbb{E}\\left[#1\\right]", 1], "var": ["\\mathrm{Var}\\left[#1\\right]", 1], "cov": ["\\mathrm{Cov}\\left[#1,#2\\right]", 2]}}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API reference" href="api.html" />
+    <link rel="prev" title="Methods" href="methods.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyDIET
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mirror-ageing">Mirror ageing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyDIET</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/data.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data">
+<span id="chap-data"></span><h1>Data<a class="headerlink" href="#data" title="Link to this heading"></a></h1>
+<p><cite>PyDIET</cite> relies largely on precomputed spectral data to feed its simulation engine.</p>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> This section illustrates their content and explains how they were obtained in the context of the CFHT configuration of the <abbr title="Exposure Time Calculator">ETC</abbr>.</p>
+<section id="mirror-ageing">
+<h2>Mirror ageing<a class="headerlink" href="#mirror-ageing" title="Link to this heading"></a></h2>
+<p>The mirror contribution to the instrumental response is represented by a wavelength-dependent throughput (reflectance) curve <span class="math notranslate nohighlight">\(T_\mathrm{mir}(\lambda)\)</span>.
+<cite>PyDIET</cite> can use several throughput curves for <span class="math notranslate nohighlight">\(T_\mathrm{mir}(\lambda)\)</span>, each representing a different mirror state, from &quot;pristine&quot; (the reference), to, e.g., different levels of surface degradation with time.
+This degradation is not computed inside <cite>PyDIET</cite>, but a stand-alone Python script, <cite>degrade_mirror.py</cite>, is provided that can be &quot;applied&quot; to a pristine mirror reflectance curve to generate degraded reflectance curves once for all.</p>
+<p>The degradation model in <cite>degrade_mirror.py</cite> follows the two-factor description of Okita et al. (2019) <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id7" title="Hirofumi Okita, Saeko S. Hayashi, and Naruhisa Takato, 2019. Reflectivity degradation of the Subaru Telescope primary mirror. \pasj , 71(2):32.">7</a>]</span>, in which the loss of reflectance is described as the product of:</p>
+<ul class="simple">
+<li><p>an achromatic loss term, independent of wavelength;</p></li>
+<li><p>a wavelength-dependent scattering term caused by the growth of surface roughness.</p></li>
+</ul>
+<p>If <span class="math notranslate nohighlight">\(T_\mathrm{mir}^{(0)}(\lambda)\)</span> is the pristine mirror reflectance/throughput, the aged
+mirror throughput after a time <span class="math notranslate nohighlight">\(t\)</span> since re-coating is written</p>
+<div class="math notranslate nohighlight" id="equation-data-0">
+<span class="eqno">(51)<a class="headerlink" href="#equation-data-0" title="Link to this equation"></a></span>\[T_\mathrm{mir}(\lambda, t) =  T_\mathrm{mir}^{(0)}(\lambda) D(\lambda, t),\]</div>
+<p>where <span class="math notranslate nohighlight">\(D(\lambda, t)\)</span> is the relative degradation factor.
+The script uses</p>
+<div class="math notranslate nohighlight" id="equation-data-1">
+<span class="eqno">(52)<a class="headerlink" href="#equation-data-1" title="Link to this equation"></a></span>\[D(\lambda, t) = \alpha(t)\exp\left[-\left&lt;\cos^2\theta_i\right&gt;\left({4\pi\sigma(t) \over \lambda}\right)^2\right],\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight" id="equation-data-2">
+<span class="eqno">(53)<a class="headerlink" href="#equation-data-2" title="Link to this equation"></a></span>\[\alpha(t) = \exp(-At)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight" id="equation-data-3">
+<span class="eqno">(54)<a class="headerlink" href="#equation-data-3" title="Link to this equation"></a></span>\[\sigma(t) = \sigma_0 + S t.\]</div>
+<p>Here <span class="math notranslate nohighlight">\(A\)</span> is the achromatic loss rate, <span class="math notranslate nohighlight">\(\sigma_0\)</span> is the initial RMS surface roughness just after coating, <span class="math notranslate nohighlight">\(S\)</span> is the rate at which the RMS
+roughness increases with time, and <span class="math notranslate nohighlight">\(\theta_i\)</span> is the angle of incidence on the mirror.</p>
+<p>The achromatic factor <span class="math notranslate nohighlight">\(\alpha(t)\)</span> lowers the mirror reflectance by the same multiplicative amount at all wavelengths.
+It represents grey losses such as uniform contamination or coating ageing.</p>
+<p>The exponential scattering term produces a chromatic loss.
+Since it depends on <span class="math notranslate nohighlight">\((\sigma/\lambda)^2\)</span>, the effect is stronger at short wavelengths.
+As the surface roughness grows with time, the blue part of the mirror response therefore degrades faster than the red and near-infrared part.</p>
+<p>The default parameters used by the PyDIET mirror-degradation utility are <span class="math notranslate nohighlight">\(A = 0.023~\mathrm{yr}^{-1}\)</span>, <span class="math notranslate nohighlight">\(\sigma_0 = 10~\mathrm{\AA}\)</span>, <span class="math notranslate nohighlight">\(S = 40~\mathrm{\AA},\mathrm{yr}^{-1}\)</span>, and <span class="math notranslate nohighlight">\(\left&lt;\cos^2\theta_i\right&gt; = 0.9974\)</span>.</p>
+<p>The degraded mirror curve is produced by multiplying the tabulated pristine throughput by <span class="math notranslate nohighlight">\(D(\lambda,t)\)</span>.
+The resulting curve is then used like any other mirror throughput curve in the instrumental response:</p>
+<div class="math notranslate nohighlight">
+\[T_\mathrm{inst}(\lambda) = R(\lambda,t) T_\mathrm{optics}(\lambda) T_\mathrm{filter}(\lambda) T_\mathrm{detector}(\lambda).\]</div>
+<p>Consequently, mirror ageing affects the magnitude zero-point through the reference-source count rate.
+A degraded mirror lowers the detected count rate from both astronomical sources and sky background.
+The zero-point becomes fainter because a source of a given magnitude produces fewer detected counts per second.</p>
+<p>The chromatic part of the degradation also means that the zero-point change is filter-dependent.
+Blue filters are affected more strongly than red or near-infrared filters, because scattering losses scale approximately as <span class="math notranslate nohighlight">\(\lambda^{-2}\)</span> for a given roughness.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="methods.html" class="btn btn-neutral float-left" title="Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 CFHT/CNRS, CEA-AIM, OSUPS/Université Paris-Saclay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
