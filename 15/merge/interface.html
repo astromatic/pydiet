@@ -478,11 +478,11 @@ A lower value represents additional attenuation from clouds, cirrus, aerosols, o
 <li><p><strong>Pivot wavelength</strong>: a measure of the effective wavelength of the combined instrument+atmospheric response <span class="math notranslate nohighlight">\(T(\lambda)\)</span>.
 It is defined as the wavelength that makes the broadband conversion between <span class="math notranslate nohighlight">\(f_\nu\)</span> and <span class="math notranslate nohighlight">\(f_\lambda\)</span> exact for this bandpass:</p>
 <div class="math notranslate nohighlight">
-\[\lambda_{\rm piv} = \sqrt{\frac{\int T(\lambda)\lambda d\lambda}{\int T(\lambda)\lambda^{–1}d\lambda}}.\]</div>
+\[\lambda_{\rm piv} = \sqrt{\frac{\int T(\lambda)\lambda d\lambda}{\int T(\lambda)\lambda^{-1} d\lambda}}.\]</div>
 </li>
-<li><p><strong>Rectangular bandwith</strong>: the width of an ideal top-hat filter that would transmit the same total amount of light as the combined instrument+atmospheric response <span class="math notranslate nohighlight">\(T(\lambda)\)</span>, and have identical peak transmission:</p>
+<li><p><strong>Rectangular bandwidth</strong>: the width of an ideal top-hat filter that would transmit the same total amount of light as the combined instrument+atmospheric response <span class="math notranslate nohighlight">\(T(\lambda)\)</span>, and have identical peak transmission:</p>
 <div class="math notranslate nohighlight">
-\[\Delta\lambda_{\rm rect} = \frac{\int T{\lambda} d\lambda}{T_{\rm max}}.\]</div>
+\[\Delta\lambda_{\rm rect} = \frac{\int T(\lambda)\, d\lambda}{T_{\rm max}}.\]</div>
 </li>
 <li><p><strong>Signal-to-noise ratio</strong>: the ratio between the expected signal from the (stacked) photometric source measurement and its standard deviation.</p></li>
 <li><p><strong>Exposure time</strong>: the expected individual exposure time(s) required for the (stacked) photometric source measurement to match the provided Signal-to-Noise Ratio.</p></li>
