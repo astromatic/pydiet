@@ -487,7 +487,7 @@ The result panel reports the requested output quantity, exposure time and SNR, t
 
   .. math::
 
-    \Delta\lambda_{\rm rect} = \frac{\int T{\lambda} d\lambda}{T_{\rm max}}.
+    \Delta\lambda_{\rm rect} = \frac{\int T(\lambda)\, d\lambda}{T_{\rm max}}.
 
 * **Signal-to-noise ratio**: the ratio between the expected signal from the (stacked) photometric source measurement and its standard deviation.
 * **Exposure time**: the expected individual exposure time(s) required for the (stacked) photometric source measurement to match the provided Signal-to-Noise Ratio.
