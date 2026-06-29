@@ -101,7 +101,6 @@ mathjax3_config = {
 latex_engine = "xelatex"
 latex_use_xindy = False
 latex_elements = {
-    "fontpkg": r"""\setmainfont{DejaVu Serif}\setsansfont{DejaVu Sans}\setmonofont{DejaVu Sans Mono}""",
     "fontpkg": r"""
 \usepackage{unicode-math}
 
