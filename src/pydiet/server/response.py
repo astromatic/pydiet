@@ -206,12 +206,11 @@ def get_response(
         bkg_rate_arcsec2 * u.ct / u.s / gain
     ) if bkg_rate > 0. else 100. * u.mag
     
-
     # Instantiate image model
     img = Image(
         source=q.source,
         psf_fwhm=q.seeing * u.arcsec,
-        psf_beta=3.2,
+        psf_beta=instrument.psf_beta,
         sersic_radius=q.sersic_radius,
         sersic_index=q.sersic_index,
         pixel_scale=detector.scale,

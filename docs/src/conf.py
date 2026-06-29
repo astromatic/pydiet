@@ -22,9 +22,9 @@ import adsarxiv
 # -- Project information -----------------------------------------------------
 
 project = 'PyDIET'
-copyright = '2025 CFHT/CNRS/UParisSaclay'
+copyright = '2026 CFHT/CNRS, CEA-AIM, OSUPS/Université Paris-Saclay'
 author = 'Emmanuel Bertin'
-release = '0.1.0'
+release = '0.9.7'
 
 # -- General configuration ---------------------------------------------------
 
@@ -98,7 +98,17 @@ mathjax3_config = {
 
 # -- Options for LaTeX output ------------------------------------------------
 
+latex_engine = "xelatex"
+latex_use_xindy = False
 latex_elements = {
+    "fontpkg": r"""
+\usepackage{unicode-math}
+
+\setmainfont{Open Sans}
+\setsansfont{Open Sans}[Scale=MatchLowercase]
+\setmonofont[Scale=MatchUppercase]{Latin Modern Mono}
+\setmathfont[Scale=MatchUppercase, Extension = .otf,BoldFont = XITSMath-Bold]{XITSMath-Regular}
+""",
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
@@ -119,9 +129,9 @@ latex_elements = {
 \def\oper#1{\mathbf{#1}}
 \def\dvol#1#2{{\rm d}^{#1}\hspace{-2pt}#2}
 \def\sinc{\mbox{sinc}}
-\def\esp#1{\mathbb{E}\left\[#1\right\]}
-\def\var#1{\mathrm{Var}\left\[#1\right\]}
-\def\cov#1{\mathrm{Cov}\left\[#1,#2\right\]}
+\def\esp#1{\mathbb{E}\left[#1\right]}
+\def\var#1{\mathrm{Var}\left[#1\right]}
+\def\cov#1#2{\mathrm{Cov}\left[#1,#2\right]}
 ''',
     # Latex figure (float) alignment
     #
@@ -152,7 +162,8 @@ intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
     'astropy': ('https://docs.astropy.org/en/stable', None),
     'numpy': ('https://numpy.org/doc/stable', None),
-    'scipy': ('https://docs.scipy.org/doc/scipy', None)
+    'scipy': ('https://docs.scipy.org/doc/scipy', None),
+    'synphot': ('https://synphot.readthedocs.io/en/stable', None)
 }
 
 # -- Options for Sphinx-JS ---------------------------------------------------

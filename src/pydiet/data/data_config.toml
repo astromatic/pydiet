@@ -219,6 +219,7 @@ path = "instruments/megacam"
 wavelength_range = "[250., 1050.] nm"
 obstruction_area = "2.112 m2" # Forged by subtracting 8.022 m2 from 10.134 m2
 overhead = "40 s"
+psf_beta = 3.2
 site_id = 'mko'
 telescope_id = 'cfht'
 [instruments.optics]
@@ -281,6 +282,7 @@ path = "instruments/wircam"
 wavelength_range = "[900., 2600.] nm"
 obstruction_area = "1.734 m2" # Forged by subtracting 8.40 m2 from 10.134 m2
 overhead = "10. s"
+psf_beta = 3.2
 site_id = 'mko'
 telescope_id = 'cfht'
 [instruments.optics]

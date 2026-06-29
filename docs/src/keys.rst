@@ -4,15 +4,31 @@
 .. |API| replace:: :abbr:`API (Application Programming Interface)`
 .. _API: https://en.wikipedia.org/wiki/Application_programming_interface
 
+.. |CFHT| image:: figures/cfht.*
+    :height: 1em
+    :class: inline-icon
+    :alt: CFHT
+
+.. |ETC| replace:: :abbr:`ETC (Exposure Time Calculator)`
+
+.. |FWHM| replace:: :abbr:`FWHM (Full Width at Half Maximum)`
+.. _FWHM: https://en.wikipedia.org/wiki/Full_width_at_half_maximum
+
 .. |MLE| replace:: :abbr:`MLE (Maximum Likelihood Estimation)`
 .. _MLE: https://en.wikipedia.org/wiki/Maximum_likelihood_estimation
 
+.. |PyDIET| replace:: `PyDIET`
+
 .. |Python| replace:: `Python`
 .. _Python: https://python.org
+
+.. |PSF| replace:: :abbr:`PSF (Point Spread Function)`
+.. _PSF: https://en.wikipedia.org/wiki/Point_spread_function
 
 .. |MEF| replace:: :abbr:`MEF (Multi-Extension FITS)`
 .. _MEF: https://hst-docs.stsci.edu/hstdhb/3-hst-file-formats/3-2-fits-file-format
 
 .. |SNR| replace:: :abbr:`SNR (Signal-to-Noise Ratio)`
 .. _SNR: https://en.wikipedia.org/wiki/Signal-to-noise_ratio
+
 

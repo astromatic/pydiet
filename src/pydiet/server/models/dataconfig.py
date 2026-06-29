@@ -176,6 +176,12 @@ class InstrumentConfigModel(BaseModel):
         decimals = 3,
         description = "Total instrument time overhead between exposures."
     )
+    psf_beta: float = Field(
+        default = 3.2,
+        gt = 1.,
+        le = 10.,
+        description="Moffat beta parameter of the instrument PSF model."
+    )
     site_id: str
     telescope_id: str
     optics: OpticsConfigModel

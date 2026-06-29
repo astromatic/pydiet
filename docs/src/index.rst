@@ -10,8 +10,11 @@ Welcome to PyDIET's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   method
+   interface
+   methods
+   data
    api
+   references
 
 Indices and tables
 ==================
