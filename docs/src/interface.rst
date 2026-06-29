@@ -481,9 +481,9 @@ The result panel reports the requested output quantity, exposure time and SNR, t
 
   .. math::
 
-    \lambda_{\rm piv} = \sqrt{\frac{\int T(\lambda)\lambda d\lambda}{\int T(\lambda)\lambda^{–1}d\lambda}}.
+    \lambda_{\rm piv} = \sqrt{\frac{\int T(\lambda)\lambda d\lambda}{\int T(\lambda)\lambda^{-1} d\lambda}}.
 
-* **Rectangular bandwith**: the width of an ideal top-hat filter that would transmit the same total amount of light as the combined instrument+atmospheric response :math:`T(\lambda)`, and have identical peak transmission:
+* **Rectangular bandwidth**: the width of an ideal top-hat filter that would transmit the same total amount of light as the combined instrument+atmospheric response :math:`T(\lambda)`, and have identical peak transmission:
 
   .. math::
 
