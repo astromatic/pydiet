@@ -17,10 +17,12 @@ else:
 import warnings
 
 from typing import Any, IO, Optional
+
 from astropy.table import QTable  #type: ignore[import-untyped]
 from astropy import units as u  #type: ignore[import-untyped]
 from astropy.modeling.models import Const1D  #type: ignore[import-untyped]
 from astropy.utils.exceptions import AstropyUserWarning  #type: ignore[import-untyped]
+import numpy as np
 from pydantic import BaseModel, Field
 from specutils import Spectrum  #type: ignore[import-untyped]
 from synphot import (  #type: ignore[import-untyped]
@@ -194,8 +196,8 @@ def get_emission(
         Pydantic surface brightness spectral energy distribution model.
     """
     data = get_data_file(file)
-    wave = u.Quantity(data['WAVELENGTH'])
-    sed = u.Quantity(data['PHOTLAM']).to(
+    wave = u.Quantity(data['WAVELENGTH'].astype(np.float32))
+    sed = u.Quantity(data['PHOTLAM'].astype(np.float32)).to(
         u.Jy / u.arcsec**2,
         equivalencies=u.spectral_density(wave)
     )
@@ -512,8 +514,8 @@ def get_transmission(
     """
     data = get_data_file(file)
     # Instantiate the model
-    wave = u.Quantity(data['WAVELENGTH'])
-    response = u.Quantity(data['THROUGHPUT'])
+    wave = u.Quantity(data['WAVELENGTH'].astype(np.float32))
+    response = u.Quantity(data['THROUGHPUT'].astype(np.float32))
     with warnings.catch_warnings():
         warnings.filterwarnings(
             "ignore",
