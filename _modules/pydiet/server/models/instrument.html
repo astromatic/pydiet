@@ -5,17 +5,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydiet.server.models.instrument &mdash; PyDIET 0.1.0 documentation</title>
+  <title>pydiet.server.models.instrument &mdash; PyDIET 0.9.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_js.css" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=329c186a" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=006bef15" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../_static/documentation_options.js?v=f2328ca0"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -44,8 +44,11 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../method.html">Method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../interface.html">Using the web interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../methods.html">Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../data.html">Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../references.html">References</a></li>
 </ul>
 
         </div>
@@ -194,6 +197,12 @@
         <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>
         <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
         <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Total instrument time overhead between exposures.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">psf_beta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="mf">3.2</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Moffat beta parameter of the instrument PSF model.&quot;</span>
     <span class="p">)</span>
     <span class="n">filters</span><span class="p">:</span> <span class="s1">&#39;FiltersModel&#39;</span>
     <span class="n">optics</span><span class="p">:</span> <span class="s1">&#39;OpticsModel&#39;</span>
@@ -471,7 +480,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025 CFHT/CNRS/UParisSaclay.</p>
+    <p>&#169; Copyright 2026 CFHT/CNRS, CEA-AIM, OSUPS/Université Paris-Saclay.</p>
   </div>
 
    
