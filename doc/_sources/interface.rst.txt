@@ -495,7 +495,7 @@ The result panel reports the requested output quantity, exposure time and SNR, t
 * **Source saturation time**: the expected exposure time required to saturate the source peak signal.
 * **Total time (including overheads)**: the sum of exposure times and instrumental overheads for the whole observation sequence.
 * **Full photometric magnitude zero-point** "per second": estimated AB magnitude zero-point of the combined instrument+atmosphere system for a one second exposure.
-* **Background surface brightness** (in mag..arcsec\ :sup:`-2`): estimated surface brightness (in AB magnitudes per square arsecond) of the combined sky+instrumental background.
+* **Background surface brightness** (in mag.arcsec\ :sup:`-2`): estimated surface brightness (in AB magnitudes per square arcsecond) of the combined sky+instrumental background.
 
 .. figure:: figures/results_panel.png
    :alt: |PyDIET| result panel
