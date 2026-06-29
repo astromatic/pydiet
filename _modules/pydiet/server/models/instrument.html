@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydiet.server.models.instrument &mdash; PyDIET 0.9.7 documentation</title>
+  <title>pydiet.server.models.instrument &mdash; PyDIET 0.9.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_js.css" />
@@ -15,7 +15,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=f2328ca0"></script>
+      <script src="../../../../_static/documentation_options.js?v=1a282f62"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -274,22 +274,23 @@
                     <span class="n">name</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                     <span class="n">description</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
                     <span class="nb">vars</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">vars</span><span class="p">,</span>
-                    <span class="n">wave</span> <span class="o">=</span> <span class="n">wave</span><span class="p">,</span>
-                    <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">,</span>
-                    <span class="n">spectral</span> <span class="o">=</span> <span class="n">transmission</span>
+                    <span class="n">wave</span> <span class="o">=</span> <span class="n">wave</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                    <span class="n">spectral</span> <span class="o">=</span> <span class="n">SpectralElement</span><span class="o">.</span><span class="n">from_spectrum1d</span><span class="p">(</span><span class="n">transmission</span><span class="o">.</span><span class="n">to_spectrum1d</span><span class="p">())</span>
                 <span class="p">)</span>
                 <span class="c1"># Compute emission countrate</span>
                 <span class="n">emissions_ct</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">Observation</span><span class="p">(</span>
                     <span class="n">emission</span><span class="p">,</span>
                     <span class="n">transmission</span><span class="p">,</span>
                     <span class="n">force</span><span class="o">=</span><span class="s1">&#39;taper&#39;</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">countrate</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="n">area</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">tpeaks</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span> <span class="k">else</span> <span class="mf">0.</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">countrate</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="n">area</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">tpeaks</span><span class="p">[</span><span class="n">config_id</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span> <span class="k">else</span> <span class="mf">0.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">CacheModel</span><span class="p">(</span>
                 <span class="n">tpeaks</span><span class="o">=</span><span class="n">tpeaks</span><span class="p">,</span>
                 <span class="n">zp_abmags</span><span class="o">=</span><span class="n">zp_abmags</span><span class="p">,</span>
                 <span class="n">transmissions</span><span class="o">=</span><span class="n">transmissions</span><span class="p">,</span>
                 <span class="n">emissions_ct</span><span class="o">=</span><span class="n">emissions_ct</span>
             <span class="p">)</span>
+        <span class="k">del</span> <span class="n">transmissions</span><span class="p">,</span> <span class="n">emissions_ct</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
@@ -480,7 +481,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2026 CFHT/CNRS, CEA-AIM, OSUPS/Université Paris-Saclay.</p>
+    <p>&#169; Copyright 2026 CFHT/CNRS, CEA/AIM, OSUPS/Université Paris-Saclay.</p>
   </div>
 
    
