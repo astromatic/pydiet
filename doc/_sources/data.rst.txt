@@ -24,7 +24,7 @@ They were converted to `Synphot-compliant FITS throughput tables <https://www.st
    :alt: Total throughput for MegaCam ugriz filters
    :align: center
 
-   Total throughput (including atmosphere and instrument) as a function of wavelength for the MegaCam ugriz filters at airmass 1.2.
+   Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the MegaCam ugriz filters.
 
 .. _fig_megacam_other_filters:
 
@@ -40,7 +40,7 @@ They were converted to `Synphot-compliant FITS throughput tables <https://www.st
    :alt: Total throughput for WIRCam YJHKs filters
    :align: center
 
-   Total throughput (including atmosphere and instrument) as a function of wavelength for the WIRCam YJHKₛ filters at airmass 1.2.
+   Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the WIRCam YJHKₛ filters.
 
 .. _fig_wircam_other_filters:
 
