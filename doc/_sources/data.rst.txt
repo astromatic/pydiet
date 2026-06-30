@@ -15,7 +15,7 @@ Filter curves
 -------------
 
 |CFHT| The CFHT filter curves in |PyDIET| originate from the `MegaCam <https://www.cfht.hawaii.edu/Instruments/Filters/megaprime.html>`_ and `WIRCam <https://www.cfht.hawaii.edu/Instruments/Filters/wircam.html>`_ instrument filter pages.
-They were converted to `Synphot-compliant FITS throughput tables <https://www.stsci.edu/hst/instrumentation/reference-data-for-calibration-and-tools/synphot-throughput-tables>`_ using the provided `extract_filter.py <https://github.com/astromatic/pydiet/blob/doc/utils/extract_filter.py>`_ Python script.
+They were converted to `Synphot-compliant FITS throughput tables <https://www.stsci.edu/hst/instrumentation/reference-data-for-calibration-and-tools/synphot-throughput-tables>`_ using the provided `extract_filter.py <https://github.com/astromatic/pydiet/blob/main/utils/extract_filter.py>`_ Python script.
 :numref:`fig_megacam_ugriz_filters`, :numref:`fig_megacam_other_filters`, :numref:`fig_wircam_yjhk_filters`, and :numref:`fig_wircam_other_filters` show the total throughput as a function of wavelength for all the supported filters.
 
 .. _fig_megacam_ugriz_filters:
