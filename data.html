@@ -11,7 +11,7 @@
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/sphinx_js.css" />
       <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=006bef15" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=aeb07c19" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -52,7 +52,10 @@
 <li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#mirror-ageing">Mirror ageing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filter-curves">Filter curves</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mirror-ageing">Mirror ageing</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
@@ -87,8 +90,37 @@
 <span id="chap-data"></span><h1>Data<a class="headerlink" href="#data" title="Link to this heading"></a></h1>
 <p><cite>PyDIET</cite> relies largely on precomputed spectral data to feed its simulation engine.</p>
 <p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> This section illustrates their content and explains how they were obtained in the context of the CFHT configuration of the <abbr title="Exposure Time Calculator">ETC</abbr>.</p>
+<section id="filter-curves">
+<h2>Filter curves<a class="headerlink" href="#filter-curves" title="Link to this heading"></a></h2>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> The CFHT filter curves in <cite>PyDIET</cite> originate from the <a class="reference external" href="https://www.cfht.hawaii.edu/Instruments/Filters/megaprime.html">MegaCam</a> and <a class="reference external" href="https://www.cfht.hawaii.edu/Instruments/Filters/wircam.html">WIRCam</a> instrument filter pages.
+They were converted to <a class="reference external" href="https://www.stsci.edu/hst/instrumentation/reference-data-for-calibration-and-tools/synphot-throughput-tables">Synphot-compliant FITS throughput tables</a> using the provided <a class="reference external" href="https://github.com/astromatic/pydiet/blob/main/utils/extract_filter.py">extract_filter.py</a> Python script.
+<a class="reference internal" href="#fig-megacam-ugriz-filters"><span class="std std-numref">Fig. 4</span></a>, <a class="reference internal" href="#fig-megacam-other-filters"><span class="std std-numref">Fig. 5</span></a>, <a class="reference internal" href="#fig-wircam-yjhk-filters"><span class="std std-numref">Fig. 6</span></a>, and <a class="reference internal" href="#fig-wircam-other-filters"><span class="std std-numref">Fig. 7</span></a> show the total throughput as a function of wavelength for all the supported filters.</p>
+<figure class="align-center" id="id2">
+<span id="fig-megacam-ugriz-filters"></span><img alt="Total throughput for MegaCam ugriz filters" src="_images/megacam_filters_ugriz.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the MegaCam ugriz filters.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id3">
+<span id="fig-megacam-other-filters"></span><img alt="Total throughput for other MegaCam filters" src="_images/megacam_filters_other.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Same as <a class="reference internal" href="#fig-megacam-ugriz-filters"><span class="std std-numref">Fig. 4</span></a> for the other MegaCam filters.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id4">
+<span id="fig-wircam-yjhk-filters"></span><img alt="Total throughput for WIRCam YJHKs filters" src="_images/wircam_filters_yjhk.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the WIRCam YJHKₛ filters.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id5">
+<span id="fig-wircam-other-filters"></span><img alt="Total throughput for other WIRCam filters" src="_images/wircam_filters_other.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Same as <a class="reference internal" href="#fig-wircam-yjhk-filters"><span class="std std-numref">Fig. 6</span></a> for the other WIRCam filters.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <section id="mirror-ageing">
-<h2>Mirror ageing<a class="headerlink" href="#mirror-ageing" title="Link to this heading"></a></h2>
+<h3>Mirror ageing<a class="headerlink" href="#mirror-ageing" title="Link to this heading"></a></h3>
 <p>The mirror contribution to the instrumental response is represented by a wavelength-dependent throughput (reflectance) curve <span class="math notranslate nohighlight">\(T_\mathrm{mir}(\lambda)\)</span>.
 <cite>PyDIET</cite> can use several throughput curves for <span class="math notranslate nohighlight">\(T_\mathrm{mir}(\lambda)\)</span>, each representing a different mirror state, from &quot;pristine&quot; (the reference), to, e.g., different levels of surface degradation with time.
 This degradation is not computed inside <cite>PyDIET</cite>, but a stand-alone Python script, <cite>degrade_mirror.py</cite>, is provided that can be &quot;applied&quot; to a pristine mirror reflectance curve to generate degraded reflectance curves once for all.</p>
@@ -128,6 +160,7 @@ A degraded mirror lowers the detected count rate from both astronomical sources 
 The zero-point becomes fainter because a source of a given magnitude produces fewer detected counts per second.</p>
 <p>The chromatic part of the degradation also means that the zero-point change is filter-dependent.
 Blue filters are affected more strongly than red or near-infrared filters, because scattering losses scale approximately as <span class="math notranslate nohighlight">\(\lambda^{-2}\)</span> for a given roughness.</p>
+</section>
 </section>
 </section>
 
