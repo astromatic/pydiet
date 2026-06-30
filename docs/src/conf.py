@@ -22,9 +22,9 @@ import adsarxiv
 # -- Project information -----------------------------------------------------
 
 project = 'PyDIET'
-copyright = '2026 CFHT/CNRS, CEA-AIM, OSUPS/Université Paris-Saclay'
+copyright = '2026 CFHT/CNRS, CEA/AIM, OSUPS/Université Paris-Saclay'
 author = 'Emmanuel Bertin'
-release = '0.9.7'
+release = '0.9.8'
 
 # -- General configuration ---------------------------------------------------
 

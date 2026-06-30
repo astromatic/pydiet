@@ -188,22 +188,23 @@ class InstrumentModel(BaseModel):
                     name = filter.name,
                     description = filter.description,
                     vars = filter.vars,
-                    wave = wave,
-                    response = response,
-                    spectral = transmission
+                    wave = wave.astype(np.float32),
+                    response = response.astype(np.float32),
+                    spectral = SpectralElement.from_spectrum1d(transmission.to_spectrum1d())
                 )
                 # Compute emission countrate
                 emissions_ct[config_id] = Observation(
                     emission,
                     transmission,
                     force='taper'
-                ).countrate(area=area).value if tpeaks[config_id] > 0. else 0.
+                ).countrate(area=area).astype(np.float32).value if tpeaks[config_id] > 0. else 0.
             self.cache = CacheModel(
                 tpeaks=tpeaks,
                 zp_abmags=zp_abmags,
                 transmissions=transmissions,
                 emissions_ct=emissions_ct
             )
+        del transmissions, emissions_ct
         return self
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
