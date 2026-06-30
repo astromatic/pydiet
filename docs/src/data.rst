@@ -11,6 +11,46 @@ Data
 
 |CFHT| This section illustrates their content and explains how they were obtained in the context of the CFHT configuration of the |ETC|.
 
+Filter curves
+-------------
+
+|CFHT| The CFHT filter curves in |PyDIET| originate from the `MegaCam <https://www.cfht.hawaii.edu/Instruments/Filters/megaprime.html>`_ and `WIRCam <https://www.cfht.hawaii.edu/Instruments/Filters/wircam.html>`_ instrument filter pages.
+They were converted to `Synphot-compliant FITS throughput tables <https://www.stsci.edu/hst/instrumentation/reference-data-for-calibration-and-tools/synphot-throughput-tables>`_ using the provided `extract_filter.py <https://github.com/astromatic/pydiet/blob/main/utils/extract_filter.py>`_ Python script.
+:numref:`fig_megacam_ugriz_filters`, :numref:`fig_megacam_other_filters`, :numref:`fig_wircam_yjhk_filters`, and :numref:`fig_wircam_other_filters` show the total throughput as a function of wavelength for all the supported filters.
+
+.. _fig_megacam_ugriz_filters:
+
+.. figure:: figures/megacam_filters_ugriz.*
+   :alt: Total throughput for MegaCam ugriz filters
+   :align: center
+
+   Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the MegaCam ugriz filters.
+
+.. _fig_megacam_other_filters:
+
+.. figure:: figures/megacam_filters_other.*
+   :alt: Total throughput for other MegaCam filters
+   :align: center
+
+   Same as :numref:`fig_megacam_ugriz_filters` for the other MegaCam filters.
+
+.. _fig_wircam_yjhk_filters:
+
+.. figure:: figures/wircam_filters_yjhk.*
+   :alt: Total throughput for WIRCam YJHKs filters
+   :align: center
+
+   Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the WIRCam YJHKₛ filters.
+
+.. _fig_wircam_other_filters:
+
+.. figure:: figures/wircam_filters_other.*
+   :alt: Total throughput for other WIRCam filters
+   :align: center
+
+   Same as :numref:`fig_wircam_yjhk_filters` for the other WIRCam filters.
+
+
 Mirror ageing
 ^^^^^^^^^^^^^
 
