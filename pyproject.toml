@@ -4,7 +4,7 @@ build-backend = "pdm.backend"
 
 [project]
 name = "PyDIET"
-version = "0.9.8"
+version = "0.9.9"
 description = "CFHT's Direct Imaging Exposure Time calculator (PyDIET)"
 authors = [
     {name = "Emmanuel Bertin", email = "bertin@cfht.hawaii.edu"},
