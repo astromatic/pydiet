@@ -52,7 +52,13 @@
 <li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#filter-curves">Filter curves</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#atmosphere">Atmosphere</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transmission">Transmission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#emission">Emission</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#filter-curves">Filter curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#telescope-mirror-s">Telescope mirror(s)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#mirror-ageing">Mirror ageing</a></li>
 </ul>
 </li>
@@ -90,41 +96,75 @@
 <span id="chap-data"></span><h1>Data<a class="headerlink" href="#data" title="Link to this heading"></a></h1>
 <p><cite>PyDIET</cite> relies largely on precomputed spectral data to feed its simulation engine.</p>
 <p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> This section illustrates their content and explains how they were obtained in the context of the CFHT configuration of the <abbr title="Exposure Time Calculator">ETC</abbr>.</p>
+<section id="atmosphere">
+<h2>Atmosphere<a class="headerlink" href="#atmosphere" title="Link to this heading"></a></h2>
+<section id="transmission">
+<h3>Transmission<a class="headerlink" href="#transmission" title="Link to this heading"></a></h3>
+<p>Atmospheric transmission as a function of wavelength is pre-computed for a set of airmasses, using the <a class="reference external" href="https://modtran.spectral.com/">MODTRAN radiative transfer code</a>.</p>
+<p>Transmission curves were generated from 200 to 5000 nm with a 0.5 nm step in wavelength for airmasses between 1 and 5.</p>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> For Mauna Kea Observatories (MKO), we used a tropical atmosphere model at an altitude of 4204 m, with the defaults settings, except for the CO2 concentration which we set at 430ppm.
+The O3 and H20 concentrations appear broadly compatible with the <a class="reference external" href="https://pyextinction.readthedocs.io/en/latest/">findings</a> of <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id3" title="C. Buton, Y. Copin, G. Aldering, P. Antilogus, C. Aragon, S. Bailey, C. Baltay, S. Bongard, A. Canto, F. Cellier-Holzem, M. Childress, N. Chotard, H. K. Fakhouri, E. Gangler, J. Guy, E. Y. Hsiao, M. Kerschhaggl, M. Kowalski, S. Loken, P. Nugent, K. Paech, R. Pain, E. Pécontal, R. Pereira, S. Perlmutter, D. Rabinowitz, M. Rigault, K. Runge, R. Scalzo, G. Smadja, C. Tao, R. C. Thomas, B. A. Weaver, C. Wu, and Nearby SuperNova Factory, 2013. Atmospheric extinction properties above Mauna Kea from the Nearby SuperNova Factory spectro-photometric data set. \aap , 549:A8.">7</a>]</span>.</p>
+<figure class="align-center" id="id4">
+<span id="fig-mko-transmission"></span><img alt="Atmospheric throughput at various airmasses" src="_images/mko_transmission.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Atmospheric transmission as a function of wavelength at the MKO site for different airmasses.
+For clarity only the part blueward of 2800nm is shown here.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="emission">
+<h3>Emission<a class="headerlink" href="#emission" title="Link to this heading"></a></h3>
+<p>Atmospheric emission (including airglow, light diffused from the Moon and stars, zodiacal light, thermal emission and light pollution) also comes pre-computed, using the <a class="reference external" href="https://www.eso.org/observing/etc/skycalc">ESO Sky Model Calculator (SKYCALC)</a> <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id9" title="S. Noll, W. Kausch, M. Barden, A. M. Jones, C. Szyszka, S. Kimeswenger, and J. Vinther, 2012. An atmospheric radiation model for Cerro Paranal. I. The optical spectral range. \aap , 543:A92.">8</a>, <a class="reference internal" href="references.html#id6" title="A. Jones, S. Noll, W. Kausch, C. Szyszka, and S. Kimeswenger, 2013. An advanced scattered moonlight model for Cerro Paranal. \aap , 560:A91.">9</a>]</span>.
+In addition to the different airmasses, emission models are also pre-computed for three levels of illumination by the Moon (dark: no Moon, grey: 66.4° Moon phase at 45° elevation and 45° distance from the line-of-sight, and bright: 101.5° Moon phase at 45° elevation and 45° distance from the line-of-sight), and three levels of solar activity (low: 70 SFU, average: 130 SFU, and high: 200 SFU).</p>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> SKYCALC does not offer a model for the MKO; hence the emission spectra generated for <cite>PyDIET</cite> where generated with the model originally built for the Cerro Armazones site, which is closest to MKO in terms of altitude (3060m) and distance from the poles (albeit in the southern hemisphere).
+Photometric comparisons with CFHT observations <span class="xref std std-ref">&lt;chap_validation&gt;</span> show a good match with the Cerro Armazones model predictions.</p>
+<figure class="align-center" id="id5">
+<span id="fig-mko-emission"></span><img alt="Atmospheric emission for dark, grey, and bright nights" src="_images/mko_emission.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Sky brightness as a function of wavelength at the MKO site for different Moon conditions: dark, grey, and bright (see text), with average solar activity (130 SFU) and airmass 1.2.
+For clarity only the part blueward of 2800nm is shown here.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
 <section id="filter-curves">
 <h2>Filter curves<a class="headerlink" href="#filter-curves" title="Link to this heading"></a></h2>
 <p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> The CFHT filter curves in <cite>PyDIET</cite> originate from the <a class="reference external" href="https://www.cfht.hawaii.edu/Instruments/Filters/megaprime.html">MegaCam</a> and <a class="reference external" href="https://www.cfht.hawaii.edu/Instruments/Filters/wircam.html">WIRCam</a> instrument filter pages.
 They were converted to <a class="reference external" href="https://www.stsci.edu/hst/instrumentation/reference-data-for-calibration-and-tools/synphot-throughput-tables">Synphot-compliant FITS throughput tables</a> using the provided <a class="reference external" href="https://github.com/astromatic/pydiet/blob/main/utils/extract_filter.py">extract_filter.py</a> Python script.
-<a class="reference internal" href="#fig-megacam-ugriz-filters"><span class="std std-numref">Fig. 4</span></a>, <a class="reference internal" href="#fig-megacam-other-filters"><span class="std std-numref">Fig. 5</span></a>, <a class="reference internal" href="#fig-wircam-yjhk-filters"><span class="std std-numref">Fig. 6</span></a>, and <a class="reference internal" href="#fig-wircam-other-filters"><span class="std std-numref">Fig. 7</span></a> show the total throughput as a function of wavelength for all the supported filters.</p>
-<figure class="align-center" id="id2">
+<a class="reference internal" href="#fig-megacam-ugriz-filters"><span class="std std-numref">Fig. 6</span></a>, <a class="reference internal" href="#fig-megacam-other-filters"><span class="std std-numref">Fig. 7</span></a>, <a class="reference internal" href="#fig-wircam-yjhk-filters"><span class="std std-numref">Fig. 8</span></a>, and <a class="reference internal" href="#fig-wircam-other-filters"><span class="std std-numref">Fig. 9</span></a> show the total throughput as a function of wavelength for all the supported filters.</p>
+<figure class="align-center" id="id6">
 <span id="fig-megacam-ugriz-filters"></span><img alt="Total throughput for MegaCam ugriz filters" src="_images/megacam_filters_ugriz.svg" />
 <figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the MegaCam ugriz filters.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the MegaCam ugriz filters.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<figure class="align-center" id="id3">
+<figure class="align-center" id="id7">
 <span id="fig-megacam-other-filters"></span><img alt="Total throughput for other MegaCam filters" src="_images/megacam_filters_other.svg" />
 <figcaption>
-<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Same as <a class="reference internal" href="#fig-megacam-ugriz-filters"><span class="std std-numref">Fig. 4</span></a> for the other MegaCam filters.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Same as <a class="reference internal" href="#fig-megacam-ugriz-filters"><span class="std std-numref">Fig. 6</span></a> for the other MegaCam filters.</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<figure class="align-center" id="id4">
+<figure class="align-center" id="id8">
 <span id="fig-wircam-yjhk-filters"></span><img alt="Total throughput for WIRCam YJHKs filters" src="_images/wircam_filters_yjhk.svg" />
 <figcaption>
-<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the WIRCam YJHKₛ filters.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the WIRCam YJHKₛ filters.</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<figure class="align-center" id="id5">
+<figure class="align-center" id="id9">
 <span id="fig-wircam-other-filters"></span><img alt="Total throughput for other WIRCam filters" src="_images/wircam_filters_other.svg" />
 <figcaption>
-<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Same as <a class="reference internal" href="#fig-wircam-yjhk-filters"><span class="std std-numref">Fig. 6</span></a> for the other WIRCam filters.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Same as <a class="reference internal" href="#fig-wircam-yjhk-filters"><span class="std std-numref">Fig. 8</span></a> for the other WIRCam filters.</span><a class="headerlink" href="#id9" title="Link to this image"></a></p>
 </figcaption>
 </figure>
+</section>
+<section id="telescope-mirror-s">
+<h2>Telescope mirror(s)<a class="headerlink" href="#telescope-mirror-s" title="Link to this heading"></a></h2>
 <section id="mirror-ageing">
 <h3>Mirror ageing<a class="headerlink" href="#mirror-ageing" title="Link to this heading"></a></h3>
 <p>The mirror contribution to the instrumental response is represented by a wavelength-dependent throughput (reflectance) curve <span class="math notranslate nohighlight">\(T_\mathrm{mir}(\lambda)\)</span>.
 <cite>PyDIET</cite> can use several throughput curves for <span class="math notranslate nohighlight">\(T_\mathrm{mir}(\lambda)\)</span>, each representing a different mirror state, from &quot;pristine&quot; (the reference), to, e.g., different levels of surface degradation with time.
 This degradation is not computed inside <cite>PyDIET</cite>, but a stand-alone Python script, <cite>degrade_mirror.py</cite>, is provided that can be &quot;applied&quot; to a pristine mirror reflectance curve to generate degraded reflectance curves once for all.</p>
-<p>The degradation model in <cite>degrade_mirror.py</cite> follows the two-factor description of Okita et al. (2019) <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id7" title="Hirofumi Okita, Saeko S. Hayashi, and Naruhisa Takato, 2019. Reflectivity degradation of the Subaru Telescope primary mirror. \pasj , 71(2):32.">7</a>]</span>, in which the loss of reflectance is described as the product of:</p>
+<p>The degradation model in <cite>degrade_mirror.py</cite> follows the two-factor description of <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id10" title="Hirofumi Okita, Saeko S. Hayashi, and Naruhisa Takato, 2019. Reflectivity degradation of the Subaru Telescope primary mirror. \pasj , 71(2):32.">10</a>]</span>, in which the loss of reflectance is described as the product of:</p>
 <ul class="simple">
 <li><p>an achromatic loss term, independent of wavelength;</p></li>
 <li><p>a wavelength-dependent scattering term caused by the growth of surface roughness.</p></li>
