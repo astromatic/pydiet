@@ -11,6 +11,48 @@ Data
 
 |CFHT| This section illustrates their content and explains how they were obtained in the context of the CFHT configuration of the |ETC|.
 
+Atmosphere
+----------
+
+Transmission
+~~~~~~~~~~~~
+
+Atmospheric transmission as a function of wavelength is pre-computed for a set of airmasses, using the `MODTRAN radiative transfer code <https://modtran.spectral.com/>`_.
+
+Transmission curves were generated from 200 to 5000 nm with a 0.5 nm step in wavelength for airmasses between 1 and 5.
+
+|CFHT| For Mauna Kea Observatories (MKO), we used a tropical atmosphere model at an altitude of 4204 m, with the defaults settings, except for the CO2 concentration which we set at 430ppm.
+The O3 and H20 concentrations appear broadly compatible with the `findings <https://pyextinction.readthedocs.io/en/latest/>`_ of :cite:`Buton2013`.
+
+.. _fig_mko_transmission:
+
+.. figure:: figures/mko_transmission.*
+   :alt: Atmospheric throughput at various airmasses
+   :align: center
+
+   Atmospheric transmission as a function of wavelength at the MKO site for different airmasses.
+   For clarity only the part blueward of 2800nm is shown here.
+
+
+Emission
+~~~~~~~~
+
+Atmospheric emission (including airglow, light diffused from the Moon and stars, zodiacal light, thermal emission and light pollution) also comes pre-computed, using the `ESO Sky Model Calculator (SKYCALC) <https://www.eso.org/observing/etc/skycalc>`_ :cite:`Noll2012,Jones2013`.
+In addition to the different airmasses, emission models are also pre-computed for three levels of illumination by the Moon (dark: no Moon, grey: 66.4° Moon phase at 45° elevation and 45° distance from the line-of-sight, and bright: 101.5° Moon phase at 45° elevation and 45° distance from the line-of-sight), and three levels of solar activity (low: 70 SFU, average: 130 SFU, and high: 200 SFU).
+
+|CFHT| SKYCALC does not offer a model for the MKO; hence the emission spectra generated for |PyDIET| where generated with the model originally built for the Cerro Armazones site, which is closest to MKO in terms of altitude (3060m) and distance from the poles (albeit in the southern hemisphere).
+Photometric comparisons with CFHT observations :ref:`<chap_validation>` show a good match with the Cerro Armazones model predictions.
+
+.. _fig_mko_emission:
+
+.. figure:: figures/mko_emission.*
+   :alt: Atmospheric emission for dark, grey, and bright nights
+   :align: center
+
+   Sky brightness as a function of wavelength at the MKO site for different Moon conditions: dark, grey, and bright (see text), with average solar activity (130 SFU) and airmass 1.2.
+   For clarity only the part blueward of 2800nm is shown here.
+
+
 Filter curves
 -------------
 
@@ -50,15 +92,17 @@ They were converted to `Synphot-compliant FITS throughput tables <https://www.st
 
    Same as :numref:`fig_wircam_yjhk_filters` for the other WIRCam filters.
 
+Telescope mirror(s)
+-------------------
 
 Mirror ageing
-^^^^^^^^^^^^^
+~~~~~~~~~~~~~
 
 The mirror contribution to the instrumental response is represented by a wavelength-dependent throughput (reflectance) curve :math:`T_\mathrm{mir}(\lambda)`.
 |PyDIET| can use several throughput curves for :math:`T_\mathrm{mir}(\lambda)`, each representing a different mirror state, from "pristine" (the reference), to, e.g., different levels of surface degradation with time.
 This degradation is not computed inside |PyDIET|, but a stand-alone Python script, `degrade_mirror.py`, is provided that can be "applied" to a pristine mirror reflectance curve to generate degraded reflectance curves once for all.
 
-The degradation model in `degrade_mirror.py` follows the two-factor description of Okita et al. (2019) :cite:`Okita2019`, in which the loss of reflectance is described as the product of:
+The degradation model in `degrade_mirror.py` follows the two-factor description of :cite:`Okita2019`, in which the loss of reflectance is described as the product of:
 
 * an achromatic loss term, independent of wavelength;
 * a wavelength-dependent scattering term caused by the growth of surface roughness.
