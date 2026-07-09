@@ -482,6 +482,7 @@ def AnnotatedQuantity(
             lt=lt
         ),
         Field(
+            default_factory = lambda: default,
             json_schema_extra=json_extra
         )  
     ]

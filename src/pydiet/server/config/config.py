@@ -67,7 +67,7 @@ class Config(object):
         if args:
             self.update_from_dict(args_dict)
             if args_dict['show_config']:
-                pprint(self.flat_dict())
+                self.show()
  
  
     def grouped_dict(self) -> dict:
@@ -327,4 +327,12 @@ class Config(object):
                 print(other_exception)
                 exit(1)
 
+
+    def show(self) -> None:
+        """
+        Print the current settings
+
+        Returns
+        """
+        pprint(self.flat_dict())
 
