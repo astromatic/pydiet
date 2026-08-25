@@ -42,8 +42,10 @@ def spectrum_from_airmass(
     models: dict[str, SBSEDModel | SEDModel | TransmissionModel]
         Models whose ``vars`` dictionaries contain an ``"am"`` value.
     am: float, optional
-        Requested airmass. Values outside the tabulated range use the nearest
-        endpoint spectrum.
+        Requested airmass. Negative values are treated as 0. Values below the
+        tabulated range are linearly interpolated between a zero spectrum at
+        airmass 0 and the first tabulated spectrum. Values above the range use
+        the last spectrum.
     extra: dict[str, str | float], optional
         Additional ``vars`` entries that models must match.
 
@@ -67,6 +69,15 @@ def spectrum_from_airmass(
         )
     }
     ams = sorted(list(am_spectra.keys()))
+    # Below the sampled range, interpolate from zero at zero airmass to the
+    # first tabulated spectrum.
+    if am < float(ams[0]):
+        return am_spectra[ams[0]] * (max(0., am) / float(ams[0]))
+    if am == float(ams[0]):
+        return am_spectra[ams[0]]
+    # Above the sampled range, retain the last tabulated spectrum.
+    if am >= float(ams[-1]):
+        return am_spectra[ams[-1]]
     # bracket the requested airmass for interpolation
     aml = float(ams[0])
     amp = float(ams[-1])
@@ -314,4 +325,3 @@ def get_response(
                 response = atmosphere_response
             ).model_dump_json() if ui else None
     )
-
