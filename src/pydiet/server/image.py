@@ -86,6 +86,12 @@ class Image(object):
         Number of oversampling sub pixels on each axis.
     max_etime: ~astropy.units.Quantity['time'], optional
         Maximum possible exposure time in output
+
+    Raises
+    ------
+    ValueError
+        If ``photometry`` is not a supported measurement type or if
+        ``psf_beta`` is not greater than 1 for a non-extended source.
     """
     def __init__(
             self,
@@ -118,6 +124,10 @@ class Image(object):
         self.var_ron = ron*ron
         self.gain = gain
         self.oversamp = oversamp
+        if photometry not in (
+                'model_fitting', 'fixed_aperture', 'optimal_aperture',
+                'large_aperture'):
+            raise ValueError(f"unsupported photometry type: {photometry}")
         self.photometry = photometry
         self.saturation = min(range - 1. - bias, full_well / gain)
         self.max_etime = max_etime.to(u.s).value
