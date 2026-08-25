@@ -1,3 +1,16 @@
+## Python test coverage
+
+When asked to improve Python test coverage, use the existing pytest/pytest-cov test suite and conventions.
+
+- Inspect coverage first and add meaningful tests for uncovered behavior, branches, edge cases, and error paths.
+- Prefer public behavior over implementation details; reuse existing fixtures/helpers and parametrization where appropriate.
+- Keep tests deterministic, independent, and reasonably fast. Do not add tests merely to execute lines or branches.
+- Do not change production behavior or weaken assertions just to improve coverage.
+- Include a short comment with each test, explaining briefly what it does.
+- Run pytest with branch coverage after changes and iterate on remaining gaps.
+- Report probable bugs, unreachable code, or code that cannot reasonably be tested rather than forcing artificial coverage.
+
+
 ## Python API documentation
 
 When creating or modifying Python code, keep the public API documentation complete and consistent.

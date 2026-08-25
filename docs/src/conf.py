@@ -24,7 +24,7 @@ import adsarxiv
 project = 'PyDIET'
 copyright = '2026 CFHT/CNRS, CEA/AIM, OSUPS/Université Paris-Saclay'
 author = 'Emmanuel Bertin'
-release = '0.9.8'
+release = '0.9.10'
 
 # -- General configuration ---------------------------------------------------
 
