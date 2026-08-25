@@ -1,6 +1,6 @@
 {
 	"name": "PyDIET",
-	"version": "0.9.9",
+	"version": "0.9.10",
 	"description": "CFHT's Direct Imaging Exposure Time calculator",
 	"homepage": "https://github.com/astromatic/pydiet",
 	"author": "Emmanuel Bertin (CEA/CFHT/CNRS/UParisSaclay)",
@@ -34,7 +34,7 @@
 		"eslint": "^8.23.1",
 		"jsdoc": "^4.0"
 	},
-	"main": "dist/visiomatic.js",
+	"main": "dist/pydiet.js",
 	"scripts": {
 		"build": "esbuild js/main.js --bundle --minify --outfile=dist/pydiet.js --watch",
 		"build-pretty": "esbuild js/main.js --bundle --outfile=dist/pydiet.js --watch",
