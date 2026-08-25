@@ -1,4 +1,6 @@
-// Manage web interface settings
+/**
+ * @file Plot instrument and atmospheric transmission curves.
+ */
 // Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
 
@@ -7,6 +9,38 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 
 Chart.register(zoomPlugin);
 
+/**
+ * Create an interactive transmission chart.
+ *
+ * The initial wavelength limits come from `filter.wave_range`; `wave_min` and
+ * `wave_max` are currently accepted but ignored. Chart.js zooming and panning
+ * are enabled, including shift-drag zoom.
+ *
+ * @param {object} filter - Instrument transmission model.
+ * @param {string} filter.name - Filter display name.
+ * @param {{value: number[], unit: string}} filter.wave - Wavelength samples.
+ * @param {{value: number[]}} filter.response - Transmission samples.
+ * @param {{value: number[]}} filter.wave_range - Initial wavelength limits.
+ * @param {object} atmosphere - Atmospheric transmission model.
+ * @param {{value: number[]}} atmosphere.wave - Wavelength samples.
+ * @param {{value: number[]}} atmosphere.response - Transmission samples.
+ * @param {HTMLCanvasElement|string} canvas - Canvas or canvas ID accepted by Chart.js.
+ * @param {number} [wave_min] - Currently unused requested lower wavelength.
+ * @param {number} [wave_max] - Currently unused requested upper wavelength.
+ * @returns {void}
+ *
+ * @example
+ * plot_filter(
+ *   {
+ *     name: 'g',
+ *     wave: {value: [400, 500], unit: 'nm'},
+ *     response: {value: [0.2, 0.8]},
+ *     wave_range: {value: [400, 500]}
+ *   },
+ *   {wave: {value: [400, 500]}, response: {value: [0.9, 0.95]}},
+ *   'transmission-chart'
+ * );
+ */
 export function plot_filter(filter, atmosphere, canvas, wave_min, wave_max) {
 	const fwave = filter.wave.value,
 		fresponse = filter.response.value,
@@ -85,4 +119,3 @@ export function plot_filter(filter, atmosphere, canvas, wave_min, wave_max) {
 
 
 window.plot_filter = plot_filter;
-

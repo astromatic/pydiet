@@ -1,10 +1,24 @@
-// Fetch HTML components
+/**
+ * @file Fetch JSON data and HTML interface fragments.
+ */
 // Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
 
 import {inject_html} from "./dom";
 
 
+/**
+ * Fetch and decode JSON using the browser's current credentials.
+ *
+ * HTTP, network, and JSON-decoding errors are converted to `false`.
+ *
+ * @param {string|URL} url - Resource URL.
+ * @returns {Promise<*|false>} Decoded JSON value, or `false` on failure.
+ *
+ * @example
+ * const instruments = await fetch_data('/api/instruments');
+ * if (instruments === false) console.error('Request failed');
+ */
 export async function fetch_data(url) {
 	return await fetch(url, {credentials: "include"})
 		.then( (response) => {
@@ -20,6 +34,25 @@ export async function fetch_data(url) {
 };
 
 
+/**
+ * Fetch an HTML fragment and inject it into an element.
+ *
+ * GET data is encoded as query parameters. Any method other than the literal
+ * string `"get"` sends a POST request whose body is `data`. Request and
+ * injection errors are converted to `false`.
+ *
+ * @param {string} selector - CSS selector passed to {@link inject_html}.
+ * @param {string|URL} url - Resource URL.
+ * @param {object} [options={}] - Request options.
+ * @param {string} [options.method='get'] - Request method selector.
+ * @param {*} [options.data] - Query values for GET or request body for POST.
+ * @returns {Promise<boolean>} `true` after successful injection; otherwise `false`.
+ *
+ * @example
+ * await fetch_html('#results', '/ui/demo/results', {
+ *   data: {brightness: 20, snr: 10}
+ * });
+ */
 export async function fetch_html(selector, url, {method='get', data} = {}) {
 	return await (method=='get' ?
 		fetch(
@@ -46,4 +79,3 @@ export async function fetch_html(selector, url, {method='get', data} = {}) {
 		return false;
 	});
 };
-
