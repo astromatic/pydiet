@@ -291,12 +291,14 @@ class Image(object):
         etime: float
             Exposure time in seconds.
         exposures: int
+            Number of exposures represented by each noise realization.
+        frames: int
             Number of animation frames.
 
         Returns
         -------
-        delta_snr2: str
-            Base64-encoded GIF animated image. 
+        gif: str
+            Base64-encoded GIF data URL.
         """
         # Initialize random generator
         rng = np.random.default_rng()
@@ -477,5 +479,3 @@ class Image(object):
             Source Signal-to-Noise ratio
         """
         return photons * np.sum(obj * aper) / np.sqrt(np.sum(var * aper))
-
-

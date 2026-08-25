@@ -61,6 +61,27 @@ def test_QuantityAnnotation():
         )
 
 
+def test_QuantityAnnotation_dict_serialization():
+    """Test JSON-safe dictionary serialization of quantity arrays."""
+    class Measurements(BaseModel):
+        lengths: Annotated[
+            u.Quantity,
+            quantity.QuantityAnnotation(
+                "m", min_shape=(1,), max_shape=(2,), ser_mode="dict"
+            )
+        ]
+
+    measurements = Measurements(lengths="[1.25, 2.5] m")
+    python_value = measurements.model_dump()["lengths"]["value"]
+    assert python_value.tolist() == [1.25, 2.5]
+    assert measurements.model_dump(mode="json") == {
+        "lengths": {"value": [1.25, 2.5], "unit": "m"}
+    }
+    assert measurements.model_dump_json() == (
+        '{"lengths":{"value":[1.25,2.5],"unit":"m"}}'
+    )
+
+
 def test_AnnotatedQuantity():
     """
     Test annotated quantity pseudo Pydantic-field
@@ -88,4 +109,3 @@ def test_AnnotatedQuantity():
         s = Settings(size="3. cm")
     with pytest.raises(Exception):
         s = Settings(size="[3., 4., 5.] cm")
-

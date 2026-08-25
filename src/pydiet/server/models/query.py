@@ -35,6 +35,18 @@ from .types import (
 )
 
 class ETCQueryModel(BaseModel):
+    """Validated inputs for an exposure-time calculator request.
+
+    The available filter and mirror identifiers depend on ``instrument`` and
+    are checked during model validation. Enum-like fields are stored as their
+    string values.
+
+    Examples
+    --------
+    >>> query = ETCQueryModel(brightness=22., snr=5.)
+    >>> (query.compute, query.brightness, query.snr)
+    ('etime', 22.0, 5.0)
+    """
 
     instrument: InstrumentID = Field(
         default=InstrumentID(default_instrument.id).value,
@@ -98,7 +110,8 @@ class ETCQueryModel(BaseModel):
     seeing: float = Field(
         default=0.7,
         ge=0.1,
-        le=100.
+        le=100.,
+        description="Point-spread function FWHM [\"]"
     )
 
     sky: SkyID = Field(
@@ -168,7 +181,25 @@ class ETCQueryModel(BaseModel):
     @field_validator('filter')
     def validate_filter(cls, f: str, info: ValidationInfo) -> str:
         """
-        Kind of emulate Enum validation and errors.
+        Validate a filter identifier against the selected instrument.
+
+        Parameters
+        ----------
+        f: str
+            Filter identifier.
+        info: ~pydantic.ValidationInfo
+            Validation context containing the previously validated instrument.
+
+        Returns
+        -------
+        f: str
+            The unchanged filter identifier.
+
+        Raises
+        ------
+        ETCValidationError
+            If the instrument does not provide the filter and ``f`` is not
+            ``"upload"``.
         """
         instrument = info.data['instrument']
         fids = list(instruments[instrument].filters.transmissions) + ['upload']
@@ -191,7 +222,24 @@ class ETCQueryModel(BaseModel):
     @field_validator('mirror')
     def validate_mirror(cls, m: str, info: ValidationInfo) -> str:
         """
-        Kind of emulate Enum validation and errors.
+        Validate a mirror identifier against the selected instrument.
+
+        Parameters
+        ----------
+        m: str
+            Mirror-condition identifier.
+        info: ~pydantic.ValidationInfo
+            Validation context containing the previously validated instrument.
+
+        Returns
+        -------
+        m: str
+            The unchanged mirror identifier.
+
+        Raises
+        ------
+        ETCValidationError
+            If the selected instrument does not provide the mirror condition.
         """
         instrument = info.data['instrument']
         mids = list(instruments[instrument].telescope.transmissions)
@@ -212,4 +260,3 @@ class ETCQueryModel(BaseModel):
         return m
 
     model_config = ConfigDict(arbitrary_types_allowed=True, use_enum_values=True)
-

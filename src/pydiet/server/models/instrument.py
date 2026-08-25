@@ -28,6 +28,23 @@ abphotsys = PhotSys('abmag')
 
 
 def spectral_to_arrays(spectral: BaseSpectrum) -> Tuple[np.ndarray, np.ndarray]:
+    """Convert a spectrum to wavelength and value arrays.
+
+    One zero-valued sample is retained on either side of the non-zero region
+    when available. An entirely zero-valued spectrum is returned unchanged.
+
+    Parameters
+    ----------
+    spectral: synphot.spectrum.BaseSpectrum
+        Input spectrum with a defined wavelength set.
+
+    Returns
+    -------
+    wave: ~numpy.ndarray
+        Wavelength samples, normally an AstroPy quantity array.
+    values: ~numpy.ndarray
+        Spectrum values at ``wave``, normally an AstroPy quantity array.
+    """
     w = spectral.waveset
     x = spectral(w)
 
@@ -362,5 +379,4 @@ class TransmissionModel(BaseModel):
     default: bool = False
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
-
 

@@ -5,5 +5,12 @@ Exceptions for model validation.
 # Licensed under the MIT licence
 
 class ETCValidationError(Exception):
-    pass
+    """Report an ETC query value that is not valid for the selected instrument.
 
+    Parameters
+    ----------
+    error: dict
+        Error details using Pydantic's ``type``, ``loc``, ``input``, and
+        context conventions.
+    """
+    pass

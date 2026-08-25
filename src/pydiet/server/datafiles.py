@@ -53,7 +53,23 @@ from .models.instrument import (
 )
 
 def add_trans(self, other):
-    """Add ``self`` with ``other``."""
+    """Add two Synphot spectral elements.
+
+    This function is installed as ``SpectralElement.__add__`` when the module
+    is imported. Metadata from both operands is merged into the result.
+
+    Parameters
+    ----------
+    self: synphot.SpectralElement
+        Left operand.
+    other: synphot.SpectralElement
+        Right operand.
+
+    Returns
+    -------
+    result: synphot.SpectralElement
+        Element whose model is the sum of the operand models.
+    """
     self._validate_other_mul_div(other)
     result = self.__class__(self.model + other.model)
     self._merge_meta(self, other, result)
@@ -108,6 +124,11 @@ def get_data_file(filename: IO[bytes] | PathLike | str):
     -------
     table: ~astropy.table.QTable
         Astropy table with quantities.
+
+    Raises
+    ------
+    OSError
+        If the input cannot be read.
     """
     return QTable.read(filename)
 
@@ -240,6 +261,9 @@ def get_emission_from_transmission(
         Pydantic device transmission model.
     temperature: ~astropy.units.Quantity['temperature']
         Device temperature.
+    blackbody_fraction: float
+        Fraction of pure blackbody emission added to the emissivity inferred
+        from the transmission curve.
     id: str
         Device emission ID.
 
@@ -576,7 +600,8 @@ def get_webapi_instruments(instruments: dict[str, InstrumentModel]) -> dict[str,
     Parameters
     ----------
     instruments: dict[str, ~pydantic.BaseModel]
-        Dictionary of Pydantic instrument models.
+        Dictionary of Pydantic instrument models. The returned copies omit sky
+        spectra and cached derived data.
 
     Returns
     -------
@@ -590,4 +615,3 @@ def get_webapi_instruments(instruments: dict[str, InstrumentModel]) -> dict[str,
             'cache': True
         })
     return winstruments
-

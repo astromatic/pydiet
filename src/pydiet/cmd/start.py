@@ -24,7 +24,7 @@ def start_server(
         workers: int=4,
         access_log: bool=False,
         reload: bool=True
-    ):
+    ) -> None:
     """
     Start the Uvicorn server in application factory mode.
     
@@ -44,6 +44,11 @@ def start_server(
         Display access log.
     reload: bool, optional
         Enable auto-reload (turns off multiple workers).
+
+    Returns
+    -------
+    None
+        This function returns after the Uvicorn server stops.
     """
     run(
         app,
@@ -58,9 +63,25 @@ def start_server(
     return
 
 
-def open_browser_when_ready(host: str, port: int, root_path: str, api_path: str):
+def open_browser_when_ready(
+        host: str, port: int, root_path: str, api_path: str) -> None:
     """
-    Start a browser session once the server is up and running.
+    Open the web client once the server health endpoint responds.
+
+    Parameters
+    ----------
+    host: str
+        Server host name or IP address.
+    port: int
+        Server port.
+    root_path: str
+        ASGI root path included in the browser URL.
+    api_path: str
+        API path containing the ``/health`` endpoint.
+
+    Notes
+    -----
+    Connection failures are retried every half second without a retry limit.
     """
     link =  f"http://{host}:{port}{root_path or ''}"
     f"{config.settings['root_path'] or ''}"
@@ -77,6 +98,11 @@ def open_browser_when_ready(host: str, port: int, root_path: str, api_path: str)
 def main() -> int:
     """
     Set up configuration and start the PyDIET server.
+
+    Returns
+    -------
+    status: int
+        Zero after the server stops normally.
     """
     if config.settings["browser"]:
         # Start watcher thread to open browser when server is ready
@@ -104,4 +130,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     exit(main())
-

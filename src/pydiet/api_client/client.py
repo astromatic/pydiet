@@ -23,6 +23,18 @@ class Client:
     ----------
     api_url: str, optional
         API root URL (defaults to "api_path" setting).
+
+    Attributes
+    ----------
+    api_url: str
+        Root URL used for ETC requests.
+
+    Examples
+    --------
+    >>> from .client import Client
+    >>> client = Client("https://etc.example/api")
+    >>> client.api_url
+    'https://etc.example/api'
     """
     def __init__(self, api_url: Optional[str]=None) -> None:
         self.api_url = f"http://{settings['host']}" \
@@ -30,20 +42,32 @@ class Client:
             else api_url
 
 
-    """
-    Query ETC API using an ETC query model.
-
-    Parameters
-    ----------
-    query: ETCQueryModel
-        Pydantic ETC query model instance.
-    timeout: float, optional
-        Query time out parameter in seconds.
-    """
     def query(
             self,
             query: ETCQueryModel,
             timeout: float=10.) -> ETCResponseModel:
+        """
+        Query the ETC API.
+
+        Parameters
+        ----------
+        query: ETCQueryModel
+            Validated ETC query. Its ``instrument`` field selects the endpoint;
+            the remaining non-null fields are sent as query parameters.
+        timeout: float, optional
+            HTTP timeout in seconds.
+
+        Returns
+        -------
+        response: ETCResponseModel
+            Validated ETC response.
+
+        Raises
+        ------
+        RuntimeError
+            If the request fails, the server returns an error response, the
+            response is not JSON, or its JSON does not match the response model.
+        """
         headers: dict[str, str] = {"Accept": "application/json"}
         try:
             with httpx.Client(timeout=timeout, headers=headers) as client:
@@ -70,5 +94,4 @@ class Client:
             return ETCResponseModel.model_validate(payload)
         except ValidationError as exc:
             raise RuntimeError(f"Invalid response schema: {exc}") from exc
-
 

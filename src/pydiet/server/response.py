@@ -35,6 +35,28 @@ def spectrum_from_airmass(
         models: dict[str, SBSEDModel | SEDModel | TransmissionModel],
         am: float = 1.,
         extra: Optional[dict[str, str|float]] = None) -> SpectralElement:
+    """Interpolate a spectral model at a requested airmass.
+
+    Parameters
+    ----------
+    models: dict[str, SBSEDModel | SEDModel | TransmissionModel]
+        Models whose ``vars`` dictionaries contain an ``"am"`` value.
+    am: float, optional
+        Requested airmass. Values outside the tabulated range use the nearest
+        endpoint spectrum.
+    extra: dict[str, str | float], optional
+        Additional ``vars`` entries that models must match.
+
+    Returns
+    -------
+    spectral: synphot.SpectralElement
+        Linearly interpolated spectrum.
+
+    Raises
+    ------
+    IndexError
+        If no model matches ``extra``.
+    """
     # Build a dictionary of emission or transmission spectra
     am_spectra = {
         model.vars['am'] : model.spectral  #type: ignore[index]
@@ -64,6 +86,25 @@ def get_response(
         q: ETCQueryModel,
         filter: Optional[IO[bytes] | PathLike | str]=None,
         ui: bool=False) -> ETCResponseModel:
+    """Compute an exposure-time calculator response.
+
+    Parameters
+    ----------
+    q: ETCQueryModel
+        Validated ETC request.
+    filter: IO[bytes] | PathLike | str, optional
+        Uploaded filter transmission table. When provided, it replaces the
+        ``"upload"`` filter for a copy of the selected instrument.
+    ui: bool, optional
+        Include a simulated GIF and serialized transmission curves for the web
+        user interface.
+
+    Returns
+    -------
+    response: ETCResponseModel
+        Computed exposure, signal-to-noise, saturation, background, and
+        throughput results.
+    """
     if filter is not None:
         # Read the uploaded filter transmission file
         filter_transmission = get_transmission(filter, id='upload')
@@ -273,5 +314,4 @@ def get_response(
                 response = atmosphere_response
             ).model_dump_json() if ui else None
     )
-
 

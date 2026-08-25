@@ -54,6 +54,12 @@ def create_app() -> FastAPI:
     -------
     app: FastAPI object
         FastAPI application.
+
+    Notes
+    -----
+    The application mounts static client, data, extra-data, and optionally
+    documentation directories from the global configuration. Missing required
+    static directories therefore cause application construction to fail.
     """
 
     banner_template = settings["banner_template"]
