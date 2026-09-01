@@ -13,6 +13,7 @@ Welcome to PyDIET's documentation!
    interface
    methods
    data
+   validation
    api
    references
 
