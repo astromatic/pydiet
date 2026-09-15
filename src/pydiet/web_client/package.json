@@ -41,7 +41,8 @@
     "build-pretty": "esbuild js/main.js --bundle --outfile=dist/pydiet.js --watch",
     "docs": "jsdoc -c jsdoc.json js",
     "lint": "eslint js",
-    "test": "npm run unit"
+    "test": "npm run unit",
+    "unit": "node --experimental-vm-modules --test tests/*.test.mjs"
   },
   "eslintConfig": {
     "ignorePatterns": [

@@ -31,17 +31,17 @@ predictions evaluated for the observing conditions recorded for each exposure.
 Time dependency
 ~~~~~~~~~~~~~~~
 
-Solar activity and mirror degradation are the two main factors that prevent sky background rates to remain stable from run to run.
-Using `solar activity records <https://www.spaceweather.gov/>`_ in the form of monthly means of solar radio fluxes, and telescope mirror recoating logs, one can configure |PyDIET| accordingly and compare the predicted sky background rates to those measured on individuals exposures in a given filter.
+Solar activity and mirror degradation are the two main factors that prevent sky background rates from remaining stable from run to run.
+Using `solar activity records <https://www.spaceweather.gov/>`_ in the form of monthly means of solar radio fluxes, and telescope mirror recoating logs, one can configure |PyDIET| accordingly and compare the predicted sky background rates to those measured on individual exposures in a given filter.
 Such comparisons (Fig. :numref:`fig_sky_solar_gri`) show good agreement between the observed variations and those predicted by the model. 
 
 .. _fig_sky_solar_gri:
 
 .. figure:: figures/sky_solar_gri.*
-   :alt: Sky background rate in the MecaCam gri filter as a function of time.
+   :alt: Sky background rate in the MegaCam gri filter as a function of time.
    :align: center
 
-   Measured sky background rate in the MecaCam gri filter (in ADU/s) as a function of time (blue points), compared to the monthly average solar activity (orange line) and the |PyDIET| prediction (green line).
+   Measured sky background rate in the MegaCam gri filter (in ADU/s) as a function of time (blue points), compared to the monthly average solar activity (orange line) and the |PyDIET| prediction (green line).
    The measurements only include photometric exposures taken during dark nights at airmass < 1.4.
    The |PyDIET| model assumes an airmass of 1.2, and accounts for both interpolated solar activity, and mirror ageing.
    

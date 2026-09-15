@@ -57,7 +57,7 @@ Add or complete docstrings and doctest examples throughout the package, preservi
 
 When creating or modifying ECMAScript code, keep the public API documentation complete and consistent.
 
-Use example.js as the reference for JSDoc style, structure, terminology, level of detail, tags, and examples. Inspect it before making substantial documentation changes.
+Use `src/pydiet/web_client/js/theme.js` as the reference for JSDoc style, structure, terminology, level of detail, tags, and examples. Inspect it before making substantial documentation changes.
 
 For public classes, constructors, methods, functions, properties, getters/setters, and other exported API elements:
 
