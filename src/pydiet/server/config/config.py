@@ -25,7 +25,35 @@ class Config(object):
     """
     Manage application settings in groups.
 
-    Settings are stored as Pydantic fields.
+    Settings are stored as Pydantic fields. Existing INI values are applied at
+    construction time, followed by command-line values when argument parsing is
+    enabled.
+
+    Parameters
+    ----------
+    settings: AppSettings
+        Grouped application settings to manage. The object is updated in place.
+    args: bool, optional
+        Parse command-line arguments. This is automatically disabled under
+        pytest, coverage, and Sphinx.
+    config_file: str, optional
+        INI configuration filename.
+
+    Attributes
+    ----------
+    settings: AppSettings
+        Managed settings object.
+    groups: tuple[str, ...]
+        Names of settings groups.
+    config_filename: str
+        Active INI configuration filename.
+
+    Examples
+    --------
+    >>> from .settings import AppSettings
+    >>> config = Config(AppSettings(), args=False, config_file="")
+    >>> config.flat_dict()["port"]
+    8010
     """
     def __init__(
             self,
@@ -78,6 +106,12 @@ class Config(object):
         -------
         gdict: dict
             Dictionary of settings.
+
+        Examples
+        --------
+        >>> config = Config(AppSettings(), args=False, config_file="")
+        >>> sorted(config.grouped_dict())
+        ['engine', 'host', 'misc', 'server']
         """
         return self.settings.dict()
 
@@ -90,6 +124,12 @@ class Config(object):
         -------
         fdict: dict
             Dictionary of settings.
+
+        Examples
+        --------
+        >>> config = Config(AppSettings(), args=False, config_file="")
+        >>> config.flat_dict()["host"]
+        'localhost'
         """
         fdict = {}
         for group in self.groups:
@@ -111,7 +151,7 @@ class Config(object):
         return self.settings.schema()
 
 
-    def schema_json(self, indent=2) -> str:
+    def schema_json(self, indent: int=2) -> str:
         """
         Return a schema of the settings as a JSON string.
 
@@ -279,6 +319,11 @@ class Config(object):
         ----------
         filename: str | ~pathlib.Path
             Configuration filename.
+
+        Notes
+        -----
+        If the file exists, the user is prompted before it is overwritten. A
+        response other than ``"y"`` or ``"yes"`` leaves the file unchanged.
         """
         config = ConfigParser()
         for group in self.groups:
@@ -303,14 +348,20 @@ class Config(object):
             config.write(config_file)
 
 
-    def update_from_dict(self, settings_dict) -> None:
+    def update_from_dict(self, settings_dict: dict) -> None:
         """
-        Update internal settings based on a dictionary (in groups)
+        Update internal settings based on a grouped dictionary.
 
         Parameters
         ----------
         settings_dict: dict
-            Input dictionary.
+            Mapping containing every settings group. Only keys present within a
+            group are updated.
+
+        Raises
+        ------
+        SystemExit
+            With status 1 if updated settings fail validation.
         """
         for group in self.groups:
             groupsettings = getattr(self.settings, group)
@@ -330,9 +381,6 @@ class Config(object):
 
     def show(self) -> None:
         """
-        Print the current settings
-
-        Returns
+        Pretty-print the current flattened settings to standard output.
         """
         pprint(self.flat_dict())
-

@@ -35,16 +35,67 @@ def spectrum_from_airmass(
         models: dict[str, SBSEDModel | SEDModel | TransmissionModel],
         am: float = 1.,
         extra: Optional[dict[str, str|float]] = None) -> SpectralElement:
+    """Interpolate a spectral model at a requested airmass.
+
+    Parameters
+    ----------
+    models: dict[str, SBSEDModel | SEDModel | TransmissionModel]
+        Models whose ``vars`` dictionaries contain an ``"am"`` value and whose
+        ``spectral`` attributes contain initialized spectra.
+    am: float, optional
+        Requested airmass. Negative values are treated as 0. Values below the
+        tabulated range are linearly interpolated between a zero spectrum at
+        airmass 0 and the first tabulated spectrum. Values above the range use
+        the last spectrum.
+    extra: dict[str, str | float], optional
+        Additional ``vars`` entries that models must match.
+
+    Returns
+    -------
+    spectral: synphot.SpectralElement
+        Linearly interpolated spectrum.
+
+    Raises
+    ------
+    IndexError
+        If no model matches ``extra``.
+    AssertionError
+        If a model has no ``vars`` dictionary or a matching model has no
+        initialized spectrum.
+
+    Examples
+    --------
+    >>> from astropy.modeling.models import Const1D
+    >>> models = {
+    ...     "low": TransmissionModel(
+    ...         id="low", name="Low airmass", vars={"am": 1.0},
+    ...         spectral=SpectralElement(Const1D, amplitude=0.8)),
+    ...     "high": TransmissionModel(
+    ...         id="high", name="High airmass", vars={"am": 2.0},
+    ...         spectral=SpectralElement(Const1D, amplitude=0.6)),
+    ... }
+    >>> spectrum = spectrum_from_airmass(models, am=1.5)
+    >>> round(float(spectrum(500 * u.nm).value), 2)
+    0.7
+    """
     # Build a dictionary of emission or transmission spectra
-    am_spectra = {
-        model.vars['am'] : model.spectral  #type: ignore[index]
-        for model in models.values()
-        if extra is None or all(
-            model.vars[e]==extra[e]  #type: ignore[index]
-            for e in extra
-        )
-    }
+    am_spectra = {}
+    for model in models.values():
+        assert model.vars is not None
+        if extra is not None and not all(model.vars[e] == extra[e] for e in extra):
+            continue
+        assert model.spectral is not None
+        am_spectra[model.vars['am']] = model.spectral
     ams = sorted(list(am_spectra.keys()))
+    # Below the sampled range, interpolate from zero at zero airmass to the
+    # first tabulated spectrum.
+    if am < float(ams[0]):
+        return am_spectra[ams[0]] * (max(0., am) / float(ams[0]))
+    if am == float(ams[0]):
+        return am_spectra[ams[0]]
+    # Above the sampled range, retain the last tabulated spectrum.
+    if am >= float(ams[-1]):
+        return am_spectra[ams[-1]]
     # bracket the requested airmass for interpolation
     aml = float(ams[0])
     amp = float(ams[-1])
@@ -57,13 +108,32 @@ def spectrum_from_airmass(
             aml = a
     # Linear interpolation
     fac = (am - aml) / (amp - aml) if am < amp else 1.
-    return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac  #type: ignore[operator]
+    return am_spectra[aml] * (1. - fac) +  am_spectra[amp] * fac
 
 
 def get_response(
         q: ETCQueryModel,
         filter: Optional[IO[bytes] | PathLike | str]=None,
         ui: bool=False) -> ETCResponseModel:
+    """Compute an exposure-time calculator response.
+
+    Parameters
+    ----------
+    q: ETCQueryModel
+        Validated ETC request.
+    filter: IO[bytes] | PathLike | str, optional
+        Uploaded filter transmission table. When provided, it replaces the
+        ``"upload"`` filter for a copy of the selected instrument.
+    ui: bool, optional
+        Include a simulated GIF and serialized transmission curves for the web
+        user interface.
+
+    Returns
+    -------
+    response: ETCResponseModel
+        Computed exposure, signal-to-noise, saturation, background, and
+        throughput results.
+    """
     if filter is not None:
         # Read the uploaded filter transmission file
         filter_transmission = get_transmission(filter, id='upload')
@@ -273,5 +343,3 @@ def get_response(
                 response = atmosphere_response
             ).model_dump_json() if ui else None
     )
-
-

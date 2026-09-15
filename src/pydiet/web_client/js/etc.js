@@ -1,4 +1,6 @@
-// Manage web interface settings
+/**
+ * @file Build and submit the exposure-time calculator form.
+ */
 // Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
 
@@ -8,6 +10,25 @@ import {get_filterID, update_filter} from "./instrument";
 import {plot_filter} from "./plot";
 import {etc_url, ui_url} from "./url";
 
+/**
+ * Replace the current ETC form for an instrument and attach submission logic.
+ *
+ * The form fragment is loaded asynchronously. After insertion, filter options
+ * are populated and form submission loads results into `#modal-slot`. A filter
+ * upload switches the results request from GET query parameters to POST form
+ * data.
+ *
+ * @param {object} instrument - Instrument returned by the instruments API.
+ * @param {string} instrument.id - Instrument identifier used in UI URLs.
+ * @param {object} instrument.filters - Instrument filter configuration.
+ * @returns {Promise<void>} Resolves before the fragment request necessarily completes.
+ *
+ * @example
+ * await update_etcform({
+ *   id: 'demo',
+ *   filters: {transmissions: {g: {name: 'g', default: true}}}
+ * });
+ */
 export async function update_etcform(instrument) {
 	fetch_html(
 		"#content-slot",
@@ -58,6 +79,5 @@ function update_filters(instrument) {
 		update_filter(instrumentID, f_default);
 	}
 }
-
 
 

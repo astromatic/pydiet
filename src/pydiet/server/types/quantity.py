@@ -16,7 +16,7 @@ import numpy as np
 if TYPE_CHECKING:
     from pydantic import GetCoreSchemaHandler
 from pydantic import Field
-from pydantic_core import core_schema
+from pydantic_core import PydanticUndefined, core_schema
 
 # Enable imperial units such as inches
 u.imperial.enable()
@@ -63,11 +63,11 @@ class QuantityAnnotation:
     'altitude': <Quantity 0.012 km>}
 
     >>> coord.model_dump(mode="json")
-    {'latitude': '39.905705 deg', 'longitude': '-75.166519 deg',
-    'altitude': '0.012 km'}
+    {'latitude': {'value': 39.905705, 'unit': 'deg'}, 'longitude': {'value':
+    -75.166519, 'unit': 'deg'}, 'altitude': {'value': 0.012, 'unit': 'km'}}
 
     >>> coord.model_dump_json()
-    '{"latitude":"39.905705 deg","longitude":"-75.166519 deg","altitude":"0.012 km"}'
+    '{"latitude":{"value":39.905705,"unit":"deg"},"longitude":{"value":-75.166519,"unit":"deg"},"altitude":{"value":0.012,"unit":"km"}}'
 
     >>> # The following instantiation does not validate
     >>> coord = Coordinates(
@@ -101,14 +101,15 @@ class QuantityAnnotation:
     gt: ~astropy.units.Quantity or str, optional
         Lower limit (strict).
     le: ~astropy.units.Quantity or str, optional
-        Lower limit (inclusive).
+        Upper limit (inclusive).
     lt: ~astropy.units.Quantity or str, optional
-        Lower limit (strict).
+        Upper limit (strict).
     ser_mode: Literal["str", "dict"], optional
         The mode for serializing the field; either `"str"` or `"dict"`.
         By default, in Pydantic's `"python"` serialization mode, fields are
         serialized to a `Quantity`;
-        in Pydantic's `"json"` serialization mode, fields are serialized to a `str`.
+        in Pydantic's `"json"` serialization mode, fields are serialized to a
+        dictionary containing `"value"` and `"unit"`.
     strict: bool, optional
         Forces users to specify units; on by default.
         If disabled, a value without units - provided by the user - will be
@@ -135,10 +136,12 @@ class QuantityAnnotation:
             le: u.Quantity | str | None = None,
             lt: u.Quantity | str | None = None,
             ser_mode: Literal["str", "dict"] | None = None,
-            strict: bool = True):
+            strict: bool = True,
+            _default: Any = PydanticUndefined):
 
         self.ser_mode = ser_mode.lower() if ser_mode else None
         self.strict = strict
+        self._default = _default
 
         self.unit = unit
         self.description = description
@@ -179,7 +182,7 @@ class QuantityAnnotation:
         ValueError: exception
             An error occurred validating the specified value.
             It is raised if any of the following occur:
-            - A `dict` is received and the keys `"value"` and `"units"` do not exist.
+            - A `dict` is received without a `"value"` key.
             - There are no units provided.
             - Provided units cannot be converted to base units.
             - An unknown unit was provided.
@@ -271,22 +274,16 @@ class QuantityAnnotation:
         """
         to_json = to_json or (info is not None and info.mode_is_json())
 
-        if self.ser_mode == "dict":
+        if self.ser_mode == "dict" or to_json:
+            value = v.value.round(self.decimals) \
+                if self.decimals is not None else v.value
+            if to_json and isinstance(value, (np.ndarray, np.generic)):
+                value = value.tolist()
             return {
-                "value": v.value.round(self.decimals) if self.decimals is not None \
-                    else v.value,
+                "value": value,
                 "unit": v.unit if not to_json else f"{v.unit}",
             }
-
-        if to_json:
-            return {
-                "value": v.value.round(self.decimals).tolist() \
-                    if self.decimals is not None \
-                    else v.value.tolist(),
-                "unit": f"{v.unit}"
-            }
-
-        if self.ser_mode == "str":
+        elif self.ser_mode == "str":
             return f"{v.round(self.decimals)}" if self.decimals is not None \
                 else f"{v}"
 
@@ -346,11 +343,15 @@ class QuantityAnnotation:
             info_arg=True,
         )
 
-        return core_schema.json_or_python_schema(
+        schema = core_schema.json_or_python_schema(
             json_schema=validate_json_schema,
             python_schema=validate_schema,
             serialization=serialize_schema,
         )
+        return core_schema.with_default_schema(
+            schema,
+            default_factory=lambda: self._default,
+        ) if self._default is not PydanticUndefined else schema
 
 
 
@@ -365,7 +366,8 @@ def AnnotatedQuantity(
         ge: u.Quantity | str | None = None,
         gt: u.Quantity | str | None = None,
         le: u.Quantity | str | None = None,
-        lt: u.Quantity | str | None = None) -> Any:
+        lt: u.Quantity | str | None = None,
+        ser_mode: Literal["str", "dict"] | None = None) -> Any:
     """
     Pydantic pseudo-field for validating and serializing AstroPy Quantities.
 
@@ -396,7 +398,7 @@ def AnnotatedQuantity(
     {'size': <Quantity 0.03 m>}
 
     >>> s.model_dump(mode="json")
-    {'size': '0.03 m'}
+    {'size': {'value': 0.03, 'unit': 'm'}}
 
     >>> s.model_json_schema()
     {'additionalProperties': False, 'properties': {'size': {'default':
@@ -436,9 +438,15 @@ def AnnotatedQuantity(
     gt: ~astropy.units.Quantity or str, optional
         Lower limit (strict).
     le: ~astropy.units.Quantity or str, optional
-        Lower limit (inclusive).
+        Upper limit (inclusive).
     lt: ~astropy.units.Quantity or str, optional
-        Lower limit (strict).
+        Upper limit (strict).
+    ser_mode: Literal["str", "dict"], optional
+        The mode for serializing the field; either `"str"` or `"dict"`.
+        By default, in Pydantic's `"python"` serialization mode, fields are
+        serialized to a `Quantity`;
+        in Pydantic's `"json"` serialization mode, fields are serialized to a
+        dictionary containing `"value"` and `"unit"`.
     """
     if default is not None:
         default = u.Quantity(default)
@@ -473,16 +481,19 @@ def AnnotatedQuantity(
         u.Quantity,
         QuantityAnnotation(
             unit=unit,
+            description=description,
             decimals=decimals,
             min_shape=min_shape,
             max_shape=max_shape,
             ge=ge,
             gt=gt,
             le=le,
-            lt=lt
+            lt=lt,
+            ser_mode=ser_mode,
+            _default=default,
         ),
         Field(
-            default_factory = lambda: default,
+            description=description,
             json_schema_extra=json_extra
         )  
     ]
@@ -559,11 +570,7 @@ def _items(s):
 
 def str_to_quantity_array(s: str) -> u.Quantity | None:
     """
-    Convert string to Astropy "units" Quantity array
-
-    Notes
-    -----
-        Currently limited to "well-formed", 1D arrays.
+    Convert a string to an AstroPy quantity scalar or array.
 
     Examples
     --------
@@ -571,6 +578,8 @@ def str_to_quantity_array(s: str) -> u.Quantity | None:
 
     >>> str_to_quantity_array("[3.14, 1e+06] m")
     <Quantity [3.14e+00, 1.00e+06] m>
+    >>> str_to_quantity_array("not a quantity") is None
+    True
 
     Parameters
     ----------
@@ -579,8 +588,10 @@ def str_to_quantity_array(s: str) -> u.Quantity | None:
 
     Returns
     -------
-    v: ~astropy.units.Quantity
-        Astropy units Quantity object.
+    v: ~astropy.units.Quantity or None
+        Parsed quantity, or ``None`` if the input is not a string or cannot be
+        parsed. Nested rectangular arrays and semicolon-separated rows are
+        supported.
     """
     try:
         if not isinstance(s, str): return None
@@ -591,4 +602,3 @@ def str_to_quantity_array(s: str) -> u.Quantity | None:
 
     except Exception:
         return None
-

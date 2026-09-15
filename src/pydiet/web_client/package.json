@@ -1,83 +1,85 @@
 {
-	"name": "PyDIET",
-	"version": "0.9.9",
-	"description": "CFHT's Direct Imaging Exposure Time calculator",
-	"homepage": "https://github.com/astromatic/pydiet",
-	"author": "Emmanuel Bertin (CEA/CFHT/CNRS/UParisSaclay)",
-	"contributors": [
-		"Emmanuel Bertin <bertin@cfht.hawaii.edu> (https://github.com/ebertin)"
-	],
-	"license": "MIT",
-	"keywords": [
-		"astronomy",
-		"CFHT",
-		"calculator",
-		"imaging"
-	],
-	"private": true,
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/astromatic/pydiet.git"
-	},
-	"bugs": {
-		"url": "https://github.com/astromatic/pydiet/issues"
-	},
-	"dependencies": {
-		"@ionic/core": "^8.0",
-		"npm": "^10.8.1",
-		"tidy-jsdoc": "^1.4.1"
-	},
-	"devDependencies": {
-		"chart.js": "=4.3.0",
-		"chartjs-plugin-zoom": "^2.0.1",
-		"esbuild": "^0.28.0",
-		"eslint": "^8.23.1",
-		"jsdoc": "^4.0"
-	},
-	"main": "dist/visiomatic.js",
-	"scripts": {
-		"build": "esbuild js/main.js --bundle --minify --outfile=dist/pydiet.js --watch",
-		"build-pretty": "esbuild js/main.js --bundle --outfile=dist/pydiet.js --watch",
-		"docs": "jsdoc -c jsdoc.json js",
-		"lint": "eslint js",
-		"test": "npm run unit"
-	},
-	"eslintConfig": {
-		"ignorePatterns": [
-			"dist"
-		],
-		"parserOptions": {
-			"ecmaVersion": "latest",
-			"sourceType": "module"
-		},
-		"env": {
-			"node": true,
-			"es6": true
-		},
-		"rules": {
-			"curly": "error",
-			"indent": [
-				"error",
-				"tab"
-			],
-			"key-spacing": "off",
-			"linebreak-style": [
-				"off",
-				"unix"
-			],
-			"no-mixed-spaces-and-tabs": [
-				"error",
-				"smart-tabs"
-			],
-			"no-unused-expressions": [
-				"error"
-			],
-			"spaced-comment": "error",
-			"strict": "off",
-			"wrap-iife": "off",
-			"no-invalid-this": "off",
-			"prefer-object-has-own": "error",
-			"prefer-spread": "off"
-		}
-	}
+  "name": "PyDIET",
+  "version": "0.9.10",
+  "description": "CFHT's Direct Imaging Exposure Time calculator",
+  "homepage": "https://github.com/astromatic/pydiet",
+  "author": "Emmanuel Bertin (CEA/CFHT/CNRS/UParisSaclay)",
+  "contributors": [
+    "Emmanuel Bertin <bertin@cfht.hawaii.edu> (https://github.com/ebertin)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "astronomy",
+    "CFHT",
+    "calculator",
+    "imaging"
+  ],
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astromatic/pydiet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/astromatic/pydiet/issues"
+  },
+  "dependencies": {
+    "@ionic/core": "^9.0.0",
+    "brace-expansion": "^5.0.9",
+    "npm": "^12.0.2",
+    "tidy-jsdoc": "^1.4.1"
+  },
+  "devDependencies": {
+    "chart.js": "^4.5.1",
+    "chartjs-plugin-zoom": "^2.0.1",
+    "esbuild": "^0.28.0",
+    "eslint": "^8.23.1",
+    "jsdoc": "^4.0"
+  },
+  "main": "dist/pydiet.js",
+  "scripts": {
+    "build": "esbuild js/main.js --bundle --minify --outfile=dist/pydiet.js --watch",
+    "build-pretty": "esbuild js/main.js --bundle --outfile=dist/pydiet.js --watch",
+    "docs": "jsdoc -c jsdoc.json js",
+    "lint": "eslint js",
+    "test": "npm run unit",
+    "unit": "node --experimental-vm-modules --test tests/*.test.mjs"
+  },
+  "eslintConfig": {
+    "ignorePatterns": [
+      "dist"
+    ],
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "rules": {
+      "curly": "error",
+      "indent": [
+        "error",
+        "tab"
+      ],
+      "key-spacing": "off",
+      "linebreak-style": [
+        "off",
+        "unix"
+      ],
+      "no-mixed-spaces-and-tabs": [
+        "error",
+        "smart-tabs"
+      ],
+      "no-unused-expressions": [
+        "error"
+      ],
+      "spaced-comment": "error",
+      "strict": "off",
+      "wrap-iife": "off",
+      "no-invalid-this": "off",
+      "prefer-object-has-own": "error",
+      "prefer-spread": "off"
+    }
+  }
 }

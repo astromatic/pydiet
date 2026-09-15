@@ -86,6 +86,12 @@ class Image(object):
         Number of oversampling sub pixels on each axis.
     max_etime: ~astropy.units.Quantity['time'], optional
         Maximum possible exposure time in output
+
+    Raises
+    ------
+    ValueError
+        If ``photometry`` is not a supported measurement type or if
+        ``psf_beta`` is not greater than 1 for a non-extended source.
     """
     def __init__(
             self,
@@ -118,6 +124,10 @@ class Image(object):
         self.var_ron = ron*ron
         self.gain = gain
         self.oversamp = oversamp
+        if photometry not in (
+                'model_fitting', 'fixed_aperture', 'optimal_aperture',
+                'large_aperture'):
+            raise ValueError(f"unsupported photometry type: {photometry}")
         self.photometry = photometry
         self.saturation = min(range - 1. - bias, full_well / gain)
         self.max_etime = max_etime.to(u.s).value
@@ -265,8 +275,7 @@ class Image(object):
         etime: float
             Exposure time in seconds.
         """
-        return self.saturation / self.max() if self.rate > 0. and self.bkg_rate > 0. \
-            else self.max_etime
+        return self.saturation / self.max() if self.rate > 0. else self.max_etime
 
 
     def extended(self) -> np.ndarray:
@@ -291,12 +300,14 @@ class Image(object):
         etime: float
             Exposure time in seconds.
         exposures: int
+            Number of exposures represented by each noise realization.
+        frames: int
             Number of animation frames.
 
         Returns
         -------
-        delta_snr2: str
-            Base64-encoded GIF animated image. 
+        gif: str
+            Base64-encoded GIF data URL.
         """
         # Initialize random generator
         rng = np.random.default_rng()
@@ -477,5 +488,3 @@ class Image(object):
             Source Signal-to-Noise ratio
         """
         return photons * np.sum(obj * aper) / np.sqrt(np.sum(var * aper))
-
-

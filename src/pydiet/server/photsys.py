@@ -21,6 +21,43 @@ vega_spectrum = SourceSpectrum.from_vega()
 
 
 class PhotSys(object):
+    """Convert supported brightness units to reference photon-rate factors.
+
+    Parameters
+    ----------
+    id: PhotSysID, optional
+        Photometric system. Supported identifiers are ``"abmag"``,
+        ``"vegamag"``, ``"fmegajy"``, ``"fmujy"``, ``"flux"``, and
+        ``"photons"``.
+    wavelength: ~astropy.units.Quantity, optional
+        Pivot wavelength. Required for ``"flux"`` and converted to nanometres.
+    dwavelength: ~astropy.units.Quantity, optional
+        Rectangular bandwidth. Required for ``"flux"`` and converted to
+        nanometres.
+
+    Attributes
+    ----------
+    id: str
+        Selected photometric-system identifier.
+    spectrum: synphot.SourceSpectrum or None
+        Reference spectrum, or ``None`` for direct photon rates.
+    photon_rate: callable
+        Function converting a brightness value to a relative photon-rate
+        factor.
+
+    Raises
+    ------
+    ValueError
+        If ``id`` is ``"flux"`` without both wavelength quantities.
+
+    Examples
+    --------
+    >>> system = PhotSys("abmag")
+    >>> system.photon_rate(20.)
+    1e-08
+    >>> PhotSys("photons").photon_rate(12.5)
+    12.5
+    """
     def __init__(
             self,
             id: PhotSysID = 'abmag',
@@ -73,6 +110,5 @@ class PhotSys(object):
 
     def _rate_from_photons(self, photons: float) -> float:
         return photons if photons >= self.eps else self.eps
-
 
 

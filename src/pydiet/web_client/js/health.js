@@ -1,4 +1,6 @@
-// Monitor API health
+/**
+ * @file Periodically reflect API health in the web interface.
+ */
 // Copyright 2026 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
 import {etc_url} from "./url";
@@ -46,6 +48,20 @@ async function check_health() {
 	}
 }
 
+/**
+ * Start API health monitoring.
+ *
+ * A check runs immediately and then every ten seconds. Each request is aborted
+ * after two seconds. The element with ID `health-monitor` receives either the
+ * `ok` or `fail` class and a corresponding title.
+ *
+ * @returns {void}
+ * @throws {TypeError} If the health-monitor element is absent when status is set.
+ *
+ * @example
+ * // HTML: <span id="health-monitor"></span>
+ * setup_health();
+ */
 export function setup_health() {
 
 	check_health();

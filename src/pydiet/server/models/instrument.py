@@ -28,6 +28,23 @@ abphotsys = PhotSys('abmag')
 
 
 def spectral_to_arrays(spectral: BaseSpectrum) -> Tuple[np.ndarray, np.ndarray]:
+    """Convert a spectrum to wavelength and value arrays.
+
+    One zero-valued sample is retained on either side of the non-zero region
+    when available. An entirely zero-valued spectrum is returned unchanged.
+
+    Parameters
+    ----------
+    spectral: synphot.spectrum.BaseSpectrum
+        Input spectrum with a defined wavelength set.
+
+    Returns
+    -------
+    wave: ~numpy.ndarray
+        Wavelength samples, normally an AstroPy quantity array.
+    values: ~numpy.ndarray
+        Spectrum values at ``wave``, normally an AstroPy quantity array.
+    """
     w = spectral.waveset
     x = spectral(w)
 
@@ -140,7 +157,7 @@ class InstrumentModel(BaseModel):
         transmissions : dict[str, TransmissionModel] = {}  #type: ignore[annotation-unchecked]
         emissions_ct : dict[str, u.Quantity[u.ct/u.s]] = {}  #type: ignore[annotation-unchecked]
         for mirror_status in self.telescope.transmissions:
-            upstream_transmission = 1.
+            upstream_transmission: float | SpectralElement = 1.
             mirror_transmission = self.telescope.transmissions[mirror_status]
             mirror_emission = self.telescope.emissions[mirror_status]
             # Pre-filter list of transmissions
@@ -155,19 +172,25 @@ class InstrumentModel(BaseModel):
             ]
             for i, v in enumerate(transmission_list):
                 emission = emission_list[i].spectral
-                transmission = transmission_list[i].spectral
+                transmission: SpectralElement = transmission_list[i].spectral
                 assert transmission is not None
                 upstream_transmission *= transmission
                 upstream_emission = upstream_emission * transmission + emission
             for f in self.filters.transmissions:
                 filter = self.filters.transmissions[f]
-                filter_transmission = filter.spectral
+                assert filter.vars is not None
+                scale = filter.vars['scale'] if 'scale' in filter.vars else 1.
+                assert isinstance(scale, (int, float))
+                assert filter.spectral is not None
+                filter_transmission = scale * filter.spectral
                 filter_emission = self.filters.emissions[f].spectral
                 assert filter_transmission is not None
                 transmission = upstream_transmission * filter_transmission
                 emission = upstream_emission * transmission + filter_emission
-                transmission *= self.detector.transmissions["0"].spectral
-                emission *= self.detector.transmissions["0"].spectral
+                detector_transmission = self.detector.transmissions["0"].spectral
+                assert detector_transmission is not None
+                transmission *= detector_transmission
+                emission *= detector_transmission
                 wave, response = spectral_to_arrays(transmission)
                 # Configuration ID includes mirror status ID and filter ID
                 config_id = f"{mirror_transmission.id}+{filter.id}" \
@@ -362,5 +385,3 @@ class TransmissionModel(BaseModel):
     default: bool = False
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
-
-

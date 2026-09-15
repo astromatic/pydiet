@@ -1,8 +1,23 @@
-// DOM manipulation routines
+/**
+ * @file DOM content replacement helpers.
+ */
 // Copyright 2024,2025 CFHT/CNRS/OSUPS/CEA/UParisSaclay
 // Licensed under MIT
 
-// Inject HTML in the selected node.
+/**
+ * Replace an element's contents with HTML and execute inserted scripts.
+ *
+ * Existing contents are removed before insertion. Script elements are replaced
+ * with newly created elements so that both inline and external scripts run.
+ *
+ * @param {string} selector - CSS selector for the target element.
+ * @param {string} html - HTML markup to insert.
+ * @returns {void}
+ * @throws {TypeError} If the selector does not match an element.
+ *
+ * @example
+ * inject_html('#message', '<strong>Ready</strong>');
+ */
 export function inject_html(selector, html) {
 	parent = document.querySelector(selector)
 	if (parent.firstElementChild) {
@@ -37,6 +52,21 @@ export function inject_html(selector, html) {
 }
 
 
+/**
+ * Replace an element's contents with a DOM node.
+ *
+ * Passing a falsy node clears the target without appending a replacement.
+ *
+ * @param {string} selector - CSS selector for the target element.
+ * @param {?Node} node - Node to append, or a falsy value to only clear the target.
+ * @returns {?Node} The supplied node.
+ * @throws {TypeError} If the selector does not match an element.
+ *
+ * @example
+ * const status = document.createElement('span');
+ * status.textContent = 'Ready';
+ * inject_node('#message', status);
+ */
 export function inject_node(selector, node) {
 	parent = document.querySelector(selector)
 	if (parent.firstElementChild) {
@@ -48,4 +78,3 @@ export function inject_node(selector, node) {
 	}
 	return node;
 }
-

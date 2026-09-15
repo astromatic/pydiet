@@ -23,6 +23,17 @@ u.imperial.enable()
 
 
 class HostSettings(BaseSettings):
+    """Host and Uvicorn process settings.
+
+    Values may be supplied as keyword arguments or through environment
+    variables prefixed with the package name.
+
+    Examples
+    --------
+    >>> settings = HostSettings(port=8080, workers=2)
+    >>> (settings.host, settings.port, settings.workers)
+    ('localhost', 8080, 2)
+    """
     host: str = SField(
         short='H',
         default="localhost",
@@ -64,6 +75,7 @@ class HostSettings(BaseSettings):
 
 
 class ServerSettings(BaseSettings):
+    """Web API, client, documentation, and data-path settings."""
     api_path : str = SField(
         default="/api",
         description="Endpoint URL for the webservice API"
@@ -126,6 +138,7 @@ ncpu = cpu_count()
 
 
 class EngineSettings(BaseSettings):
+    """Computation-engine settings."""
     thread_count: int = SField(
         short='t',
         default = ncpu // 2 if ncpu is not None else 4,
@@ -160,10 +173,26 @@ class MiscSettings(BaseSettings):
 
 class AppSettings(BaseSettings):
     """
-    Merged application settings.
+    Grouped application settings.
+
+    Attributes
+    ----------
+    host: HostSettings
+        Host and process settings.
+    server: ServerSettings
+        Web service and data-path settings.
+    engine: EngineSettings
+        Computation-engine settings.
+    misc: MiscSettings
+        Miscellaneous settings.
+
+    Examples
+    --------
+    >>> settings = AppSettings()
+    >>> settings.host.port
+    8010
     """
     host: BaseSettings = HostSettings()
     server: BaseSettings = ServerSettings()
     engine: BaseSettings = EngineSettings()
     misc: BaseSettings = MiscSettings()
-

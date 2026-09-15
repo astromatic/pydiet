@@ -15,6 +15,7 @@ def test_Config(tmp_config_filename):
     Test Config instantiation and methods.
     We skip argument parsing for now, which causes issues with pytest.
     """
+    # Round-trip a configuration file and inspect each public representation.
     conf = Config(AppSettings(), config_file=tmp_config_filename)
     # Save a configuration file
     conf.save_config(tmp_config_filename)
@@ -32,4 +33,3 @@ def test_Config(tmp_config_filename):
     # JSON Schema output should be a string and should contain at least one pair.
     j = conf.schema_json()
     assert isinstance(j, str) and len(j) > 0
-
