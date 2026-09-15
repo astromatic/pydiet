@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data &mdash; PyDIET 0.9.8 documentation</title>
+  <title>Data &mdash; PyDIET 0.9.10 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/sphinx_js.css" />
@@ -16,7 +16,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=1a282f62"></script>
+      <script src="_static/documentation_options.js?v=2ccb3ee0"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script>window.MathJax = {"tex": {"macros": {"trans": ["{#1}^\\intercal", 1], "vec": ["\\boldsymbol{#1}", 1], "oper": ["\\mathbf{#1}", 1], "dvol": ["{\\rm d}^{#1}\\hspace{-2pt}#2", 2], "sinc": ["\\mbox{sinc}"], "esp": ["\\mathbb{E}\\left[#1\\right]", 1], "var": ["\\mathrm{Var}\\left[#1\\right]", 1], "cov": ["\\mathrm{Cov}\\left[#1,#2\\right]", 2]}}}</script>
@@ -24,7 +24,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API reference" href="api.html" />
+    <link rel="next" title="Model validation" href="validation.html" />
     <link rel="prev" title="Methods" href="methods.html" /> 
 </head>
 
@@ -64,6 +64,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html">Model validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
@@ -117,7 +118,7 @@ For clarity only the part blueward of 2800nm is shown here.</span><a class="head
 <p>Atmospheric emission (including airglow, light diffused from the Moon and stars, zodiacal light, thermal emission and light pollution) also comes pre-computed, using the <a class="reference external" href="https://www.eso.org/observing/etc/skycalc">ESO Sky Model Calculator (SKYCALC)</a> <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id9" title="S. Noll, W. Kausch, M. Barden, A. M. Jones, C. Szyszka, S. Kimeswenger, and J. Vinther, 2012. An atmospheric radiation model for Cerro Paranal. I. The optical spectral range. \aap , 543:A92.">8</a>, <a class="reference internal" href="references.html#id6" title="A. Jones, S. Noll, W. Kausch, C. Szyszka, and S. Kimeswenger, 2013. An advanced scattered moonlight model for Cerro Paranal. \aap , 560:A91.">9</a>]</span>.
 In addition to the different airmasses, emission models are also pre-computed for three levels of illumination by the Moon (dark: no Moon, grey: 66.4° Moon phase at 45° elevation and 45° distance from the line-of-sight, and bright: 101.5° Moon phase at 45° elevation and 45° distance from the line-of-sight), and three levels of solar activity (low: 70 SFU, average: 130 SFU, and high: 200 SFU).</p>
 <p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> SKYCALC does not offer a model for the MKO; hence the emission spectra generated for <cite>PyDIET</cite> where generated with the model originally built for the Cerro Armazones site, which is closest to MKO in terms of altitude (3060m) and distance from the poles (albeit in the southern hemisphere).
-Photometric comparisons with CFHT observations <span class="xref std std-ref">&lt;chap_validation&gt;</span> show a good match with the Cerro Armazones model predictions.</p>
+Photometric comparisons with CFHT observations <a class="reference internal" href="validation.html#chap-validation"><span class="std std-ref">Model validation</span></a> show a good match with the Cerro Armazones model predictions.</p>
 <figure class="align-center" id="id5">
 <span id="fig-mko-emission"></span><img alt="Atmospheric emission for dark, grey, and bright nights" src="_images/mko_emission.svg" />
 <figcaption>
@@ -209,7 +210,7 @@ Blue filters are affected more strongly than red or near-infrared filters, becau
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="methods.html" class="btn btn-neutral float-left" title="Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="validation.html" class="btn btn-neutral float-right" title="Model validation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

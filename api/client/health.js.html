@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>PyDIET web client: health.js</title>
+    
+      <link type="text/css" rel="stylesheet" href="styles/vendor/prism-tomorrow-night.css">
+    
+    <link type="text/css" rel="stylesheet" href="styles/styles.css">
+    
+</head>
+<body>
+
+<header class="layout-header">
+  
+  <h1>
+    <a href="./index.html">
+      PyDIET web client
+    </a>
+  </h1>
+  <nav class="layout-nav">
+    <li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="global.html#etc_url">etc_url</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#fetch_data">fetch_data</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#fetch_html">fetch_html</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#get_filterID">get_filterID</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#get_instrumentID">get_instrumentID</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#get_instruments">get_instruments</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#get_theme">get_theme</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#inject_html">inject_html</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#inject_node">inject_node</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#plot_filter">plot_filter</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="global.html#root_url">root_url</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#setup_health">setup_health</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#setup_instrument_settings">setup_instrument_settings</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#setup_theme_settings">setup_theme_settings</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="global.html#theme_icons">theme_icons</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="global.html#themes">themes</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="global.html#ui_auth_url">ui_auth_url</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="global.html#ui_url">ui_url</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#update_etcform">update_etcform</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#update_filter">update_filter</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#update_instrument">update_instrument</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="global.html#update_theme">update_theme</a></span></li>
+  </nav>
+</header>
+
+
+<main class="layout-main  layout-content--source">
+  <div class="container">
+    <p class="page-kind">source</p>
+    <h1 class="page-title">health.js</h1>
+    
+
+
+
+    
+
+<section>
+    <article>
+        <pre id="source" class="source-page line-numbers"><code class="language-js">/**
+ * @file Periodically reflect API health in the web interface.
+ */
+// Copyright 2026 CFHT/CNRS/OSUPS/CEA/UParisSaclay
+// Licensed under MIT
+import {etc_url} from "./url";
+
+const	health_url = etc_url + "/health",
+	health_interval = 10_000,	// in ms
+	health_timeout = 2_000,	// in ms
+	health_element = document.getElementById("health-monitor");
+
+
+function set_status(status, title) {
+	health_element.classList.toggle("ok", status);
+	health_element.classList.toggle("fail", !status);
+	health_element.title = title;
+}
+
+async function check_health() {
+
+	const	controller = new AbortController(),
+		timeout_id = setTimeout(() => controller.abort(), health_timeout);
+
+	try {
+		const response = await fetch(health_url, {
+			method: 'get',
+			cache: 'no-store',
+			signal: controller.signal,
+			headers: {'accept': 'application/json'}
+		});
+
+		if (!response.ok) {
+			set_status(false, `Status failed: HTTP ${response.status}`);
+			return;
+		}
+
+		const data = await response.json();
+		if (data.ok === true) {
+			set_status(true, "Server OK");
+		} else {
+			set_status(false, "Server failed");
+		}
+	} catch (error) {
+		set_status(false, "Server down or unreachable");
+	} finally {
+		clearTimeout(timeout_id);
+	}
+}
+
+/**
+ * Start API health monitoring.
+ *
+ * A check runs immediately and then every ten seconds. Each request is aborted
+ * after two seconds. The element with ID `health-monitor` receives either the
+ * `ok` or `fail` class and a corresponding title.
+ *
+ * @returns {void}
+ * @throws {TypeError} If the health-monitor element is absent when status is set.
+ *
+ * @example
+ * // HTML: &lt;span id="health-monitor">&lt;/span>
+ * setup_health();
+ */
+export function setup_health() {
+
+	check_health();
+	setInterval(check_health, health_interval);
+}
+</code></pre>
+    </article>
+</section>
+
+
+
+
+  </div>
+</main>
+
+<footer class="layout-footer">
+  <div class="container">
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Tue Sep 15 2026 20:43:49 GMT+0000 (Coordinated Universal Time)
+  </div>
+</footer>
+
+
+
+<script src="scripts/prism.dev.js"></script>
+</body>
+</html>

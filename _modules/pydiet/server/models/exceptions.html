@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydiet.server.models.exceptions &mdash; PyDIET 0.9.8 documentation</title>
+  <title>pydiet.server.models.exceptions &mdash; PyDIET 0.9.10 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_js.css" />
@@ -15,7 +15,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=1a282f62"></script>
+      <script src="../../../../_static/documentation_options.js?v=2ccb3ee0"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -47,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../interface.html">Using the web interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../methods.html">Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../validation.html">Model validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../references.html">References</a></li>
 </ul>
@@ -76,17 +77,24 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pydiet.server.models.exceptions</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Exceptions for model validation.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="c1"># Copyright CFHT/CNRS/CEA/UParisSaclay</span>
 <span class="c1"># Licensed under the MIT licence</span>
 
 <div class="viewcode-block" id="ETCValidationError">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.exceptions.ETCValidationError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ETCValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">pass</span></div>
+<span class="w">    </span><span class="sd">"""Report an ETC query value that is not valid for the selected instrument.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    error: dict</span>
+<span class="sd">        Error details using Pydantic's ``type``, ``loc``, ``input``, and</span>
+<span class="sd">        context conventions.</span>
+<span class="sd">    """</span>
+    <span class="k">pass</span></div>
 
 </pre></div>
 

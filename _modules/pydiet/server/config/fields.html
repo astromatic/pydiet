@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pydiet.server.config.fields &mdash; PyDIET 0.9.8 documentation</title>
+  <title>pydiet.server.config.fields &mdash; PyDIET 0.9.10 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_js.css" />
@@ -15,7 +15,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=1a282f62"></script>
+      <script src="../../../../_static/documentation_options.js?v=2ccb3ee0"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -47,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../interface.html">Using the web interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../methods.html">Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../validation.html">Model validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../references.html">References</a></li>
 </ul>
@@ -77,9 +78,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pydiet.server.config.fields</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Group and define Pydantic-compatible fields.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="c1"># Copyright UParisSaclay/CEA/CFHT/CNRS</span>
 <span class="c1"># Licensed under the MIT licence</span>
 
@@ -94,9 +95,9 @@
 <div class="viewcode-block" id="SField">
 <a class="viewcode-back" href="../../../../api/server/config.html#pydiet.server.config.fields.SField">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">SField</span><span class="p">(</span><span class="n">short</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Return Pydantic field with augmented JSON schema including a command-line</span>
-<span class="sd">    &quot;shortcut&quot; keyword.</span>
+<span class="sd">    "shortcut" keyword.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -104,17 +105,17 @@
 
 <span class="sd">    &gt;&gt;&gt; class Settings(BaseSettings):</span>
 <span class="sd">    ...     parameter: float = SField(</span>
-<span class="sd">    ...         short=&#39;p&#39;,</span>
-<span class="sd">    ...         description=&quot;an arbitrary parameter&quot;,</span>
+<span class="sd">    ...         short='p',</span>
+<span class="sd">    ...         description="an arbitrary parameter",</span>
 <span class="sd">    ...         default=10.,</span>
 <span class="sd">    ...     )</span>
 <span class="sd">    </span>
 <span class="sd">    &gt;&gt;&gt; s = Settings(parameter=3.)</span>
 <span class="sd">    </span>
 <span class="sd">    &gt;&gt;&gt; s.model_json_schema()</span>
-<span class="sd">    {&#39;additionalProperties&#39;: False, &#39;properties&#39;: {&#39;parameter&#39;: {&#39;default&#39;: 10.0,</span>
-<span class="sd">    &#39;description&#39;: &#39;an arbitrary parameter&#39;, &#39;short&#39;: &#39;p&#39;, &#39;title&#39;: &#39;Parameter&#39;,</span>
-<span class="sd">    &#39;type&#39;: &#39;number&#39;}}, &#39;title&#39;: &#39;Settings&#39;, &#39;type&#39;: &#39;object&#39;}</span>
+<span class="sd">    {'additionalProperties': False, 'properties': {'parameter': {'default': 10.0,</span>
+<span class="sd">    'description': 'an arbitrary parameter', 'short': 'p', 'title': 'Parameter',</span>
+<span class="sd">    'type': 'number'}}, 'title': 'Settings', 'type': 'object'}</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -125,8 +126,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">        Pydantic Field with augmented JSON schema.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">Field</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;short&#39;</span><span class="p">:</span> <span class="n">short</span><span class="p">})</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">Field</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">json_schema_extra</span><span class="o">=</span><span class="p">{</span><span class="s1">'short'</span><span class="p">:</span> <span class="n">short</span><span class="p">})</span></div>
 
 
 </pre></div>

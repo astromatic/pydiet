@@ -41,7 +41,7 @@ Atmospheric emission (including airglow, light diffused from the Moon and stars,
 In addition to the different airmasses, emission models are also pre-computed for three levels of illumination by the Moon (dark: no Moon, grey: 66.4° Moon phase at 45° elevation and 45° distance from the line-of-sight, and bright: 101.5° Moon phase at 45° elevation and 45° distance from the line-of-sight), and three levels of solar activity (low: 70 SFU, average: 130 SFU, and high: 200 SFU).
 
 |CFHT| SKYCALC does not offer a model for the MKO; hence the emission spectra generated for |PyDIET| where generated with the model originally built for the Cerro Armazones site, which is closest to MKO in terms of altitude (3060m) and distance from the poles (albeit in the southern hemisphere).
-Photometric comparisons with CFHT observations :ref:`<chap_validation>` show a good match with the Cerro Armazones model predictions.
+Photometric comparisons with CFHT observations :ref:`chap_validation` show a good match with the Cerro Armazones model predictions.
 
 .. _fig_mko_emission:
 
