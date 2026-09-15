@@ -7,6 +7,7 @@ from types import SimpleNamespace
 import pytest
 
 from pydiet.server.models.query import ETCQueryModel
+from pydiet.server.models.instrument import TransmissionModel
 from pydiet.server.response import get_response, spectrum_from_airmass
 
 
@@ -35,6 +36,14 @@ def test_default_etime_response():
     assert result.etime > 0
     assert result.snr == pytest.approx(10.0)
     assert result.cutout is None
+
+
+@pytest.mark.parametrize("variables", [None, {"am": 1.0}])
+def test_spectrum_airmass_requires_initialized_models(variables):
+    # Reject missing metadata or spectra before attempting interpolation.
+    model = TransmissionModel(id="incomplete", name="Incomplete", vars=variables)
+    with pytest.raises(AssertionError):
+        spectrum_from_airmass({"incomplete": model})
 
 
 def test_snr_response_with_direct_sky_photons():
