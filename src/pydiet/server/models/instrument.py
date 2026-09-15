@@ -178,7 +178,8 @@ class InstrumentModel(BaseModel):
                 upstream_emission = upstream_emission * transmission + emission
             for f in self.filters.transmissions:
                 filter = self.filters.transmissions[f]
-                filter_transmission = filter.spectral
+                scale = filter.vars['scale'] if 'scale' in filter.vars else 1.
+                filter_transmission = scale * filter.spectral
                 filter_emission = self.filters.emissions[f].spectral
                 assert filter_transmission is not None
                 transmission = upstream_transmission * filter_transmission
