@@ -38,7 +38,7 @@ Such comparisons (Fig. :numref:`fig_sky_solar_gri`) show good agreement between 
 .. _fig_sky_solar_gri:
 
 .. figure:: figures/sky_solar_gri.*
-   :alt: Sky background rate in the MecaCam gri filter as a function of time.
+:alt: Sky background rate in the MegaCam gri filter as a function of time.
    :align: center
 
    Measured sky background rate in the MecaCam gri filter (in ADU/s) as a function of time (blue points), compared to the monthly average solar activity (orange line) and the |PyDIET| prediction (green line).

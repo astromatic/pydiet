@@ -110,15 +110,19 @@ predictions evaluated for the observing conditions recorded for each exposure.</
 <h3>Time dependency<a class="headerlink" href="#time-dependency" title="Link to this heading"></a></h3>
 <p>Solar activity and mirror degradation are the two main factors that prevent sky background rates to remain stable from run to run.
 Using <a class="reference external" href="https://www.spaceweather.gov/">solar activity records</a> in the form of monthly means of solar radio fluxes, and telescope mirror recoating logs, one can configure <cite>PyDIET</cite> accordingly and compare the predicted sky background rates to those measured on individuals exposures in a given filter.
-Such comparisons (Fig. <a class="reference internal" href="#fig-sky-solar-gri"><span class="std std-numref">Fig. 10</span></a>) show good agreement between the observed variations and those predicted by the model.</p>
-<figure class="align-center" id="id1">
-<span id="fig-sky-solar-gri"></span><img alt="Sky background rate in the MecaCam gri filter as a function of time." src="_images/sky_solar_gri.svg" />
-<figcaption>
-<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Measured sky background rate in the MecaCam gri filter (in ADU/s) as a function of time (blue points), compared to the monthly average solar activity (orange line) and the <cite>PyDIET</cite> prediction (green line).
-The measurements only include photometric exposures taken during dark nights at airmass &lt; 1.4.
-The <cite>PyDIET</cite> model assumes an airmass of 1.2, and accounts for both interpolated solar activity, and mirror ageing.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
-</figcaption>
+Such comparisons (Fig. <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig_sky_solar_gri</span></code>) show good agreement between the observed variations and those predicted by the model.</p>
+<figure class="align-default" id="fig-sky-solar-gri">
+<img alt="_images/sky_solar_gri.svg" src="_images/sky_solar_gri.svg" />
 </figure>
+<dl class="field-list">
+<dt class="field-odd">alt<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sky background rate in the MegaCam gri filter as a function of time.
+:align: center</p>
+<p>Measured sky background rate in the MecaCam gri filter (in ADU/s) as a function of time (blue points), compared to the monthly average solar activity (orange line) and the <cite>PyDIET</cite> prediction (green line).
+The measurements only include photometric exposures taken during dark nights at airmass &lt; 1.4.
+The <cite>PyDIET</cite> model assumes an airmass of 1.2, and accounts for both interpolated solar activity, and mirror ageing.</p>
+</dd>
+</dl>
 </section>
 </section>
 <section id="photometric-zero-point">
