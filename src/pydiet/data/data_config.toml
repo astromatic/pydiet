@@ -237,13 +237,13 @@ path = "filters"
 [instruments.filters.transmission]
 vars = ['id']
 files = [
-    {id = 'u', name = "u", file = "u.MP9302.fits"},
+    {id = 'u', name = "u", file = "u.MP9302.fits", vars = {scale= 0.848}},
     {id = 'g', name = "g", file = "g.MP9402.fits"},
     {id = 'r', name = "r", file = "r.MP9602.fits", default=true},
-    {id = 'i', name = "i", file = "i.MP9703.fits"},
+    {id = 'i', name = "i", file = "i.MP9703.fits", vars = {scale= 0.895}},
     {id = 'z', name = "z", file = "z.MP9901.fits"},
     {id = 'gri', name = "gri", file = "gri.MP9605.fits"},
-    {id = 'cahk', name = "CaHK", file = "CaHK.MP9303.fits"},
+    {id = 'cahk', name = "CaHK", file = "CaHK.MP9303.fits", vars = {scale= 0.840}},
     {id = 'oiii', name = "OIII", file = "OIII.MP9501.fits"},
     {id = 'oiiioff', name = "OIII off", file = "OIIIOFF.MP9502.fits"},
     {id = 'ha', name = "Ha", file = "Ha.MP9603.fits"},
