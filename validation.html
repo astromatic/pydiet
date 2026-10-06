@@ -51,11 +51,12 @@
 <li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Model validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#photometric-zero-point">Photometric zero-point</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sky-background">Sky background</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#time-dependency">Time dependency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter-dependency">Filter dependency</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#photometric-zero-point">Photometric zero-point</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#signal-to-noise-ratio">Signal-to-Noise Ratio</a></li>
 </ul>
 </li>
@@ -89,51 +90,64 @@
              
   <section id="model-validation">
 <span id="chap-validation"></span><h1>Model validation<a class="headerlink" href="#model-validation" title="Link to this heading"></a></h1>
-<p>The quantities predicted by <cite>PyDIET</cite> can be checked against measurements from
-science and calibration exposures.  Such comparisons must use the same filter,
-exposure time, observing conditions, and instrument configuration in the model
-and in the observations.  The following plots compare the measured sky
-background, photometric zero-point, and <abbr title="Signal-to-Noise Ratio">SNR</abbr> with the corresponding <cite>PyDIET</cite>
-predictions.</p>
+<p>The quantities predicted by <cite>PyDIET</cite> can be checked against measurements from science and calibration exposures.
+Such comparisons must use the same filter, exposure time, observing conditions, and instrument configuration in the model and in the observations.
+In what follows, we compare the photometric zero-points and the measured sky background with the corresponding <cite>PyDIET</cite> predictions.</p>
+<section id="photometric-zero-point">
+<h2>Photometric zero-point<a class="headerlink" href="#photometric-zero-point" title="Link to this heading"></a></h2>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> The photometric zero-point describes the conversion between a source magnitude and the signal recorded by the instrument in a one-second exposure.
+A higher zero-point corresponds to greater sensitivity: a source of fixed magnitude produces more detected signal and consequently reaches a higher <abbr title="Signal-to-Noise Ratio">SNR</abbr>, all else being equal.
+Changes in atmospheric transparency and instrumental throughput can therefore appear as changes in the measured zero-point.</p>
+<p>The Elixir pipeline <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id9" title="E. A. Magnier and J.-C. Cuillandre, 2004. The Elixir System: Data Characterization and Calibration at the Canada-France-Hawaii Telescope. PASP, 116(819):449-464.">11</a>]</span> derives MegaCam magnitude zero-points from photometric exposures on a nightly basis, by comparing measured count rates for suitable stars (SNLS tertiary standards <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id14" title="N. Regnault, A. Conley, J. Guy, M. Sullivan, J.-C. Cuillandre, P. Astier, C. Balland, S. Basa, R. G. Carlberg, D. Fouchez, D. Hardin, I. M. Hook, D. A. Howell, R. Pain, K. Perrett, and C. J. Pritchet, 2009. Photometric calibration of the Supernova Legacy Survey fields. A&amp;A, 506(2):999-1042.">12</a>, <a class="reference internal" href="references.html#id3" title="M. Betoule, J. Marriner, N. Regnault, J.-C. Cuillandre, P. Astier, J. Guy, C. Balland, P. El Hage, D. Hardin, R. Kessler, L. Le Guillou, J. Mosher, R. Pain, P.-F. Rocci, M. Sako, and K. Schahmaneche, 2013. Improved photometric calibration of the SNLS and the SDSS supernova surveys. A&amp;A, 552:A124.">13</a>]</span>) with calibrated catalogue magnitudes.
+After applying the same photometric conventions and selecting observations of appropriate quality, these values can be compared against <cite>PyDIET</cite> predictions for the matching filter, airmass, and instrumental state.</p>
+<p><a class="reference internal" href="#fig-zp-difference-vs-airmass"><span class="std std-numref">Fig. 10</span></a> shows such a comparison for MegaCam filters over the period 2015-2025, as a function of airmass.
+As can be seen, the agreement is typically within 1-2% at all airmasses for filters with sufficient coverage, with the notable exception of the <strong>u</strong>, <strong>CaHK</strong>, and <strong>i</strong> filters, for which <cite>PyDIET</cite> seems to overestimate the instrumental throughput by about 10 to 20%.
+The reason for this discrepancy remains unclear.
+We have therefore added an empirical photometric correction based on the observed median offset in the <cite>PyDIET</cite> data configuration file for CFHT.</p>
+<figure class="align-center" id="id4">
+<span id="fig-zp-difference-vs-airmass"></span><img alt="Difference between the measured MegaCam magnitude zero-points and the PyDIET predictions as a function of airmass." src="_images/zp_difference_vs_airmass.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Difference between the AB magnitude zero-points measured by the Elixir pipeline and the PyDIET predictions as a function of airmass, for various filters of the MegaCam instrument.
+Each point represents a photometric night.
+Mirror state is indicated by a color: blue, pristine; orange, average; red, degraded.
+The median difference and its uncertainty are shown in the lower left of each plot.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
 <section id="sky-background">
 <h2>Sky background<a class="headerlink" href="#sky-background" title="Link to this heading"></a></h2>
-<p>The sky background contributes photon noise to an observation and therefore
-limits the <abbr title="Signal-to-Noise Ratio">SNR</abbr>, especially for faint sources.  A brighter sky produces more
-noise and lowers the <abbr title="Signal-to-Noise Ratio">SNR</abbr> for otherwise identical observations.  Its level
-varies with quantities such as filter, airmass, lunar illumination, solar
-activity, and time-dependent instrumental throughput.</p>
-<p>The background rate can be measured in reduced exposures from source-free
-pixels or source-masked regions, after accounting for detector signatures and
-the exposure time.  These measurements can then be compared with <cite>PyDIET</cite>
-predictions evaluated for the observing conditions recorded for each exposure.</p>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> The sky background contributes photon noise to an observation and therefore limits the <abbr title="Signal-to-Noise Ratio">SNR</abbr>, especially for faint sources.
+A brighter sky produces more noise and lowers the <abbr title="Signal-to-Noise Ratio">SNR</abbr> for otherwise identical observations.
+Its level varies with quantities such as filter, airmass, lunar illumination, solar activity, and time-dependent instrumental throughput.</p>
+<p>The background rate can be measured in reduced exposures from source-free pixels or source-masked regions, after accounting for detector signatures and the exposure time.
+These measurements can then be compared with <cite>PyDIET</cite> predictions evaluated for the observing conditions recorded for each exposure.</p>
 <section id="time-dependency">
 <h3>Time dependency<a class="headerlink" href="#time-dependency" title="Link to this heading"></a></h3>
 <p>Solar activity and mirror degradation are the two main factors that prevent sky background rates from remaining stable from run to run.
 Using <a class="reference external" href="https://www.spaceweather.gov/">solar activity records</a> in the form of monthly means of solar radio fluxes, and telescope mirror recoating logs, one can configure <cite>PyDIET</cite> accordingly and compare the predicted sky background rates to those measured on individual exposures in a given filter.
-Such comparisons (Fig. <a class="reference internal" href="#fig-sky-solar-gri"><span class="std std-numref">Fig. 10</span></a>) show good agreement between the observed variations and those predicted by the model.</p>
-<figure class="align-center" id="id1">
+Such comparisons (<a class="reference internal" href="#fig-sky-solar-gri"><span class="std std-numref">Fig. 11</span></a>) show good agreement between the observed variations and those predicted by the model.</p>
+<figure class="align-center" id="id5">
 <span id="fig-sky-solar-gri"></span><img alt="Sky background rate in the MegaCam gri filter as a function of time." src="_images/sky_solar_gri.svg" />
 <figcaption>
-<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Measured sky background rate in the MegaCam gri filter (in ADU/s) as a function of time (blue points), compared to the monthly average solar activity (orange line) and the <cite>PyDIET</cite> prediction (green line).
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Measured sky background rate in the MegaCam gri filter (in ADU/s) as a function of time (blue points), compared to the monthly average solar activity (orange line) and the <cite>PyDIET</cite> prediction (green line).
 The measurements only include photometric exposures taken during dark nights at airmass &lt; 1.4.
-The <cite>PyDIET</cite> model assumes an airmass of 1.2, and accounts for both interpolated solar activity, and mirror ageing.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+The <cite>PyDIET</cite> model assumes an airmass of 1.2, and accounts for both interpolated solar activity, and mirror ageing.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
+<section id="filter-dependency">
+<h3>Filter dependency<a class="headerlink" href="#filter-dependency" title="Link to this heading"></a></h3>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> The Elixir pipeline also tracks the sky background level on all exposures, based on the empirical estimation from the SExtractor package <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id2" title="E. Bertin and S. Arnouts, 1996. SExtractor: Software for source extraction. Astronomy and Astrophysics Supplement Series, 117:393-404.">14</a>]</span>.</p>
+<figure class="align-center" id="id6">
+<span id="fig-back-predicted-vs-measured"></span><img alt="Predictions for the sky background count rates vs measured background rates ." src="_images/back_predicted_vs_measured.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text"><cite>PyDIET</cite> predictions for the sky background count rates vs measured background rates (in ADU/s).
+Discrepant zero-points in the u, CaHK, and i filters are corrected, as explained in the previous section.
+Each point represents a photometric night.
+The presence of the Moon is indicated by a color: blue, no moon; orange, the moon is up.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </section>
-<section id="photometric-zero-point">
-<h2>Photometric zero-point<a class="headerlink" href="#photometric-zero-point" title="Link to this heading"></a></h2>
-<p>The photometric zero-point describes the conversion between a source magnitude
-and the signal recorded by the instrument.  A higher zero-point corresponds to
-greater sensitivity: a source of fixed magnitude produces more detected signal
-and consequently reaches a higher <abbr title="Signal-to-Noise Ratio">SNR</abbr>, all else being equal.  Changes in
-atmospheric transparency and instrumental throughput can therefore appear as
-changes in the measured zero-point.</p>
-<p>Zero-points can be derived from photometric exposures by comparing measured
-count rates for suitable stars with calibrated catalogue magnitudes.  After
-applying the same photometric conventions and selecting observations of
-appropriate quality, their values can be plotted against predictions made for
-the matching filter, airmass, and instrumental state.</p>
 </section>
 <section id="signal-to-noise-ratio">
 <h2>Signal-to-Noise Ratio<a class="headerlink" href="#signal-to-noise-ratio" title="Link to this heading"></a></h2>
