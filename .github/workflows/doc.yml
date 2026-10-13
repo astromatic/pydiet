@@ -35,19 +35,11 @@ jobs:
           pip install --upgrade pip
           pip install .[doc]
           npm install -g jsdoc
-          cd src/pydiet/web_client
-          npm install tidy-jsdoc
 
-      - name: Build server doc
+      - name: Build server and client documentation
         run: |
           cd docs
           make html
-
-      - name: Build client doc
-        run: |
-          cd src/pydiet/web_client
-          npm run docs
-          cp -rfT doc ../../../docs/build/html/api/client
 
       - name: Set destination dir
         if: github.ref_name != 'main'
