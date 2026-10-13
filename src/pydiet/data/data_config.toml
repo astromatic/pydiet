@@ -235,7 +235,6 @@ temperatures = ["273 K"] # Typical temperature of the corrector optics
 [instruments.filters]
 path = "filters"
 [instruments.filters.transmission]
-vars = ['id']
 files = [
     {id = 'u', name = "u", file = "u.MP9302.fits", vars = {scale= 0.848}},
     {id = 'g', name = "g", file = "g.MP9402.fits"},
@@ -298,7 +297,6 @@ temperatures = ["273 K"]    # (Overestimated for part of the optical path)
 [instruments.filters]
 path = "filters"
 [instruments.filters.transmission]
-vars = ['id']
 files = [
     {id = 'y', name = "Y", file = "Y.WC8002.fits", default=true},
     {id = 'j', name = "J", file = "J.WC8103.fits"},
