@@ -17,6 +17,8 @@ import {etc_url, ui_url} from "./url";
  * are populated and form submission loads results into `#modal-slot`. A filter
  * upload switches the results request from GET query parameters to POST form
  * data.
+ * A valid saved filter selection takes precedence over the first configured
+ * default filter, then the first available filter. Stale saved IDs are replaced.
  *
  * @param {object} instrument - Instrument returned by the instruments API.
  * @param {string} instrument.id - Instrument identifier used in UI URLs.
@@ -53,28 +55,28 @@ export async function update_etcform(instrument) {
 
 
 function update_filters(instrument) {
-	if ((select_filters = document.querySelector("#select-filters"))) {
+	const select_filters = document.querySelector("#select-filters");
+	if (select_filters) {
 		while (select_filters.firstChild) {
 			select_filters.lastChild.remove()
 		}
 		const	instrumentID = instrument.id,
 			filters = instrument.filters.transmissions;
-		let f_default = get_filterID(instrumentID);
-		for (f in filters) {
-			let  option = document.createElement("ion-select-option");
+		const ids = Object.keys(filters),
+			stored_id = get_filterID(instrumentID),
+			f_default = ids.includes(stored_id) || stored_id === 'upload' ? stored_id :
+				(ids.find(id => filters[id].default) ?? ids[0] ?? 'upload');
+		for (const f of ids) {
+			const option = document.createElement("ion-select-option"),
+				filter = filters[f];
 			option.value = f;
-			filter = filters[f]
 			option.innerHTML = filter.name;
 			select_filters.appendChild(option);
-			// Identify default instrument (or first in the dictionary instead)
-			if (!f_default && (filter.default || !f_default)) {
-				f_default = f;
-			}
 		}
-		option = document.createElement("ion-select-option");
+		const option = document.createElement("ion-select-option");
 		option.value = 'upload';
 		option.innerHTML = "upload";
-	    select_filters.appendChild(option);       
+		select_filters.appendChild(option);
 		select_filters.value = f_default;
 		update_filter(instrumentID, f_default);
 	}
