@@ -14,6 +14,7 @@ New to PyDIET? Start with :ref:`chap_start` to try the hosted calculator, run it
 
    start
    interface
+   webapi
    methods
    data
    validation

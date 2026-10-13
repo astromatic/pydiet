@@ -73,6 +73,7 @@ The selected instrument determines which filter list is loaded.
 It also selects detector parameters such as gain, readout noise, full-well capacity, pixel scale, and quantum efficiency.
 
 The settings panel also provides links to the manual, web API documentation, and source code repository.
+To use the calculator from a script, follow :ref:`chap_webapi`.
 
 
 ETC form
