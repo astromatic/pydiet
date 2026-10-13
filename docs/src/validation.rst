@@ -7,9 +7,9 @@
 Model validation
 ================
 
-The quantities predicted by |PyDIET| can be checked against measurements from science and calibration exposures.
+The quantities predicted by |PyDIET| can be checked against external sources, including measurements from science and calibration exposures, to validate the |ETC| model.
 Such comparisons must use the same filter, exposure time, observing conditions, and instrument configuration in the model and in the observations.
-In what follows, we compare the photometric zero-points and the measured sky background with the corresponding |PyDIET| predictions.
+In what follows, we compare various quantities with the corresponding |PyDIET| predictions.
 
 Photometric zero-point
 ----------------------
@@ -85,15 +85,20 @@ Filter dependency
 Signal-to-Noise Ratio
 ---------------------
 
-The achieved |SNR| reflects both sides of the comparison: the zero-point sets
-the detected source signal, while the sky background contributes to its noise.
-It also depends on the source brightness, exposure time, image quality,
-detector noise, and the method used to measure the source flux.
+|CFHT| The achieved |SNR| reflects both sides of the comparison: the zero-point sets the detected source signal, while the sky background contributes to its noise.
+It also depends on the source brightness, exposure time, image quality, detector noise, and the method used to measure the source flux.
 
-An observational |SNR| can be estimated from the measured flux and its
-photometric uncertainty, or from the scatter of repeated measurements of
-similar sources.  Comparing these values with |PyDIET| predictions for the same
-sources and observing conditions provides an end-to-end validation of the
-model.  Trends with source magnitude, exposure time, or observing conditions
-can reveal whether discrepancies originate mainly in the predicted source
-signal, background level, or noise model.
+No independent |SNR| measurements are readily available for comparison with |PyDIET|.
+However, we can compare |PyDIET|'s |SNR| predictions to those of `the legacy DIET ETC <https://www.cfht.hawaii.edu/Instruments/Imaging/Megacam/dietmegacam.html>`_ for various seeings.
+:numref:`fig_snr_vs_legacy` shows this comparison for all currently available MegaCam filters
+
+.. _fig_snr_vs_legacy:
+
+.. figure:: figures/snr_vs_legacy.*
+   :alt: SNR predictions from the PyDIET ETC vs legacy DIET ETC for various seeing values.
+   :align: center
+
+   |PyDIET| predictions for the |SNR| of point sources compared to the legacy DIET ETC predictions, for a 30s exposure time and seeing values ranging from 0.4" to 2".
+   All other settings are set identical for both ETCs, with mirror condition set to `pristine` and solar activity set to `average` on the |PyDIET| side.
+
+As can be seen, predictions agree within less than 10%, with the notable exception of the CaHK and `DESI <https://www.desi.lbl.gov/>`_ (M4112 and M4376) filters, noting that the latter have not yet been comfronted with observational results.
