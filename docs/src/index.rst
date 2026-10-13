@@ -6,14 +6,19 @@
 Welcome to PyDIET's documentation!
 ==================================
 
+New to PyDIET? Start with :ref:`chap_start` to try the hosted calculator, run it locally, or plan your own installation.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   start
    interface
    methods
    data
    validation
+   customize
+   deploy
    api
    references
 

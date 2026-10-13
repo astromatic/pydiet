@@ -24,7 +24,7 @@ After applying the same photometric conventions and selecting observations of ap
 :numref:`fig_zp_difference_vs_airmass` shows such a comparison for MegaCam filters over the period 2015-2025, as a function of airmass.
 As can be seen, the agreement is typically within 1-2% at all airmasses for filters with sufficient coverage, with the notable exception of the **u**, **CaHK**, and **i** filters, for which |PyDIET| seems to overestimate the instrumental throughput by about 10 to 20%.
 The reason for this discrepancy remains unclear.
-We have therefore added an empirical photometric correction based on the observed median offset in the |PyDIET| data configuration file for CFHT.
+**The** |PyDIET| **data configuration for CFHT therefore includes an empirical photometric correction based on the observed median offset for the affected channels.**
 
 .. _fig_zp_difference_vs_airmass:
 
