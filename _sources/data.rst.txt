@@ -7,9 +7,9 @@
 Data
 ====
 
-|PyDIET| relies largely on precomputed spectral data to feed its simulation engine.
+|PyDIET| uses precomputed spectra to model the light reaching the detector.
 
-|CFHT| This section illustrates their content and explains how they were obtained in the context of the CFHT configuration of the |ETC|.
+|CFHT| This chapter describes the spectra supplied with the CFHT configuration and explains how they were obtained.
 
 Atmosphere
 ----------
@@ -17,12 +17,12 @@ Atmosphere
 Transmission
 ~~~~~~~~~~~~
 
-Atmospheric transmission as a function of wavelength is pre-computed for a set of airmasses, using the `MODTRAN radiative transfer code <https://modtran.spectral.com/>`_.
+Atmospheric transmission is precomputed as a function of wavelength for a set of airmasses using the `MODTRAN radiative transfer code <https://modtran.spectral.com/>`_.
 
-Transmission curves were generated from 200 to 5000 nm with a 0.5 nm step in wavelength for airmasses between 1 and 5.
+Transmission curves cover 200 to 5000 nm in steps of 0.5 nm, for airmasses between 1 and 5.
 
-|CFHT| For Mauna Kea Observatories (MKO), we used a tropical atmosphere model at an altitude of 4204 m, with the defaults settings, except for the CO2 concentration which we set at 430ppm.
-The O3 and H20 concentrations appear broadly compatible with the `findings <https://pyextinction.readthedocs.io/en/latest/>`_ of :cite:`Buton2013`.
+|CFHT| For Mauna Kea Observatories (MKO), we used a tropical atmosphere model at an altitude of 4204 m, with default settings except for the CO₂ concentration, which was set to 430 ppm.
+The O₃ and H₂O concentrations appear broadly compatible with the `findings <https://pyextinction.readthedocs.io/en/latest/>`_ of :cite:`Buton2013`.
 
 .. _fig_mko_transmission:
 
@@ -31,17 +31,21 @@ The O3 and H20 concentrations appear broadly compatible with the `findings <http
    :align: center
 
    Atmospheric transmission as a function of wavelength at the MKO site for different airmasses.
-   For clarity only the part blueward of 2800nm is shown here.
+   For clarity, only wavelengths below 2800 nm are shown.
 
 
 Emission
 ~~~~~~~~
 
-Atmospheric emission (including airglow, light diffused from the Moon and stars, zodiacal light, thermal emission and light pollution) also comes pre-computed, using the `ESO Sky Model Calculator (SKYCALC) <https://www.eso.org/observing/etc/skycalc>`_ :cite:`Noll2012,Jones2013`.
-In addition to the different airmasses, emission models are also pre-computed for three levels of illumination by the Moon (dark: no Moon, grey: 66.4° Moon phase at 45° elevation and 45° distance from the line-of-sight, and bright: 101.5° Moon phase at 45° elevation and 45° distance from the line-of-sight), and three levels of solar activity (low: 70 SFU, average: 130 SFU, and high: 200 SFU).
+Atmospheric emission is also precomputed, using the `ESO Sky Model Calculator (SKYCALC) <https://www.eso.org/observing/etc/skycalc>`_ :cite:`Noll2012,Jones2013`.
+The model includes airglow, scattered moonlight and starlight, zodiacal light, thermal emission, and light pollution.
+At each airmass, emission spectra are provided for three lunar conditions: dark (no Moon), grey (a 66.4° phase angle), and bright (a 101.5° phase angle).
+For the grey and bright models, the Moon is at 45° elevation and 45° from the line of sight.
+Each lunar condition is combined with three levels of solar activity: low (70 SFU), average (130 SFU), and high (200 SFU).
 
-|CFHT| SKYCALC does not offer a model for the MKO; hence the emission spectra generated for |PyDIET| where generated with the model originally built for the Cerro Armazones site, which is closest to MKO in terms of altitude (3060m) and distance from the poles (albeit in the southern hemisphere).
-Photometric comparisons with CFHT observations :ref:`chap_validation` show a good match with the Cerro Armazones model predictions.
+|CFHT| SKYCALC does not offer a model for MKO, so the supplied emission spectra use its Cerro Armazones model.
+Among the available sites, Cerro Armazones is the closest match in altitude (3060 m) and absolute latitude, although it lies in the southern hemisphere.
+Comparisons with CFHT observations show good agreement with these predictions (see :ref:`chap_validation`).
 
 .. _fig_mko_emission:
 
@@ -49,8 +53,8 @@ Photometric comparisons with CFHT observations :ref:`chap_validation` show a goo
    :alt: Atmospheric emission for dark, grey, and bright nights
    :align: center
 
-   Sky brightness as a function of wavelength at the MKO site for different Moon conditions: dark, grey, and bright (see text), with average solar activity (130 SFU) and airmass 1.2.
-   For clarity only the part blueward of 2800nm is shown here.
+   Sky brightness as a function of wavelength for the MKO configuration under dark, grey, and bright lunar conditions (see text), with average solar activity (130 SFU) and airmass 1.2.
+   For clarity, only wavelengths below 2800 nm are shown.
 
 
 Filter curves
@@ -66,7 +70,7 @@ They were converted to `Synphot-compliant FITS throughput tables <https://www.st
    :alt: Total throughput for MegaCam ugriz filters
    :align: center
 
-   Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the MegaCam ugriz filters.
+   Total throughput as a function of wavelength for the MegaCam ugriz filters at airmass 1.2, including the atmosphere and instrument. Instrumental throughput is shown in grey.
 
 .. _fig_megacam_other_filters:
 
@@ -82,7 +86,7 @@ They were converted to `Synphot-compliant FITS throughput tables <https://www.st
    :alt: Total throughput for WIRCam YJHKs filters
    :align: center
 
-   Total throughput at airmass 1.2, including atmosphere and instrument (in grey), as a function of wavelength for the WIRCam YJHKₛ filters.
+   Total throughput as a function of wavelength for the WIRCam YJHKₛ filters at airmass 1.2, including the atmosphere and instrument. Instrumental throughput is shown in grey.
 
 .. _fig_wircam_other_filters:
 
@@ -92,15 +96,15 @@ They were converted to `Synphot-compliant FITS throughput tables <https://www.st
 
    Same as :numref:`fig_wircam_yjhk_filters` for the other WIRCam filters.
 
-Telescope mirror(s)
--------------------
+Telescope mirrors
+-----------------
 
 Mirror ageing
 ~~~~~~~~~~~~~
 
 The mirror contribution to the instrumental response is represented by a wavelength-dependent throughput (reflectance) curve :math:`T_\mathrm{mir}(\lambda)`.
-|PyDIET| can use several throughput curves for :math:`T_\mathrm{mir}(\lambda)`, each representing a different mirror state, from "pristine" (the reference), to, e.g., different levels of surface degradation with time.
-This degradation is not computed inside |PyDIET|, but a stand-alone Python script, `degrade_mirror.py`, is provided that can be "applied" to a pristine mirror reflectance curve to generate degraded reflectance curves once for all.
+|PyDIET| can use several throughput curves for :math:`T_\mathrm{mir}(\lambda)`, representing a pristine mirror (the reference) and different stages of surface degradation.
+The supplied ``degrade_mirror.py`` script generates these curves from a pristine reflectance curve before they are loaded into |PyDIET|.
 
 The degradation model in `degrade_mirror.py` follows the two-factor description of :cite:`Okita2019`, in which the loss of reflectance is described as the product of:
 
@@ -108,7 +112,7 @@ The degradation model in `degrade_mirror.py` follows the two-factor description 
 * a wavelength-dependent scattering term caused by the growth of surface roughness.
 
 If :math:`T_\mathrm{mir}^{(0)}(\lambda)` is the pristine mirror reflectance/throughput, the aged
-mirror throughput after a time :math:`t` since re-coating is written
+mirror throughput at time :math:`t` after recoating is
 
 .. math::
   :label:
@@ -147,7 +151,7 @@ The exponential scattering term produces a chromatic loss.
 Since it depends on :math:`(\sigma/\lambda)^2`, the effect is stronger at short wavelengths.
 As the surface roughness grows with time, the blue part of the mirror response therefore degrades faster than the red and near-infrared part.
 
-The default parameters used by the PyDIET mirror-degradation utility are :math:`A = 0.023~\mathrm{yr}^{-1}`, :math:`\sigma_0 = 10~\mathrm{\AA}`, :math:`S = 40~\mathrm{\AA},\mathrm{yr}^{-1}`, and :math:`\left<\cos^2\theta_i\right> = 0.9974`.
+The default parameters used by the |PyDIET| mirror-degradation utility are :math:`A = 0.023~\mathrm{yr}^{-1}`, :math:`\sigma_0 = 10~\mathrm{\AA}`, :math:`S = 40~\mathrm{\AA},\mathrm{yr}^{-1}`, and :math:`\left<\cos^2\theta_i\right> = 0.9974`.
 
 The degraded mirror curve is produced by multiplying the tabulated pristine throughput by :math:`D(\lambda,t)`.
 The resulting curve is then used like any other mirror throughput curve in the instrumental response:

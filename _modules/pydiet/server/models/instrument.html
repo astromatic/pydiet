@@ -44,10 +44,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../start.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../interface.html">Using the web interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../methods.html">Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../data.html">Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../validation.html">Model validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../customize.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deploy.html">Deploying the ETC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../references.html">References</a></li>
 </ul>
@@ -161,9 +164,40 @@
 <div class="viewcode-block" id="DetectorModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.instrument.DetectorModel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DetectorModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''</span>
-<span class="sd">    Pydantic model for an instrument detector (e.g., CMOS or CCD).</span>
-<span class="sd">    '''</span>
+<span class="w">    </span><span class="sd">"""Physical model for an instrument detector, such as a CMOS or CCD.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gain: ~astropy.units.Quantity</span>
+<span class="sd">        Positive conversion factor in electrons per ADU.</span>
+<span class="sd">    ron: ~astropy.units.Quantity</span>
+<span class="sd">        Nonnegative RMS readout noise in electrons.</span>
+<span class="sd">    scale: ~astropy.units.Quantity</span>
+<span class="sd">        Two positive angular pixel scales in arcseconds per pixel.</span>
+<span class="sd">    full_well: ~astropy.units.Quantity</span>
+<span class="sd">        Positive full-well capacity in electrons; defaults to 1,000,000 electrons.</span>
+<span class="sd">    range: ~astropy.units.Quantity</span>
+<span class="sd">        Digital range in ADUs, greater than one ADU; defaults to 65,536 ADUs.</span>
+<span class="sd">    bias: ~astropy.units.Quantity</span>
+<span class="sd">        Nonnegative bias level in ADUs; defaults to zero ADUs.</span>
+<span class="sd">        Saturation calculations use the smaller</span>
+<span class="sd">        of ``range - 1 adu - bias`` and ``full_well / gain`` as signal headroom.</span>
+<span class="sd">    transmissions: dict[str, TransmissionModel]</span>
+<span class="sd">        Loaded quantum-efficiency curves.</span>
+<span class="sd">    emissions: dict[str, SBSEDModel]</span>
+<span class="sd">        Loaded detector emission spectra.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; detector = DetectorModel(</span>
+<span class="sd">    ...     gain="2 electron/adu", ron="4 electron",</span>
+<span class="sd">    ...     scale="[0.3, 0.3] arcsec/pix", full_well="100000 electron",</span>
+<span class="sd">    ...     range="65536 adu", bias="1200 adu",</span>
+<span class="sd">    ...     transmissions={}, emissions={}</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; detector.range - 1 * u.adu - detector.bias</span>
+<span class="sd">    &lt;Quantity 64335. adu&gt;</span>
+<span class="sd">    """</span>
     <span class="n">gain</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
         <span class="n">unit</span> <span class="o">=</span> <span class="s2">"electron / adu"</span><span class="p">,</span>
         <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
@@ -183,6 +217,27 @@
         <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
         <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">description</span> <span class="o">=</span> <span class="s2">"Angular pixel scale along each axis."</span>
+    <span class="p">)</span>
+    <span class="n">full_well</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="mf">1e6</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span><span class="p">,</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">"electron"</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Detector full-well capacity in electrons."</span>
+    <span class="p">)</span>
+    <span class="nb">range</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="mi">65536</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">"adu"</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Digital range in ADUs; the highest level is range minus one ADU."</span>
+    <span class="p">)</span>
+    <span class="n">bias</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">"adu"</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Detector bias level in ADUs."</span>
     <span class="p">)</span>
     <span class="n">transmissions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">'TransmissionModel'</span><span class="p">]</span>
     <span class="n">emissions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">'SBSEDModel'</span><span class="p">]</span></div>
@@ -211,7 +266,7 @@
         <span class="n">unit</span> <span class="o">=</span> <span class="s2">"m2"</span><span class="p">,</span>
         <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Default obstruction area (only used if not specified for the instrument)."</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Effective instrument obstruction area, resolved from the telescope when omitted in configuration."</span>
     <span class="p">)</span>
     <span class="n">overhead</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
         <span class="n">unit</span> <span class="o">=</span> <span class="s2">"s"</span><span class="p">,</span>
@@ -449,7 +504,7 @@
         <span class="n">unit</span> <span class="o">=</span> <span class="s2">"m**2"</span><span class="p">,</span>
         <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Minimum obstruction area."</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Default obstruction area for instruments without an explicit override."</span>
     <span class="p">)</span>
     <span class="n">transmissions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">'TransmissionModel'</span><span class="p">]</span>
     <span class="n">emissions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s1">'SBSEDModel'</span><span class="p">]</span>

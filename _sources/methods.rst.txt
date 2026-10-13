@@ -7,8 +7,8 @@
 Methods
 =======
 
-|PyDIET| is a simulation-based |ETC|, and uses different computational models to reproduce the observations (:numref:`fig_workflow`).
-This section describes the main methods and quantities involved in the process.
+|PyDIET| combines spectral and image models to predict the signal and noise in an observation (:numref:`fig_workflow`).
+This chapter explains the main quantities and methods behind the calculation.
 
 .. _fig_workflow:
 
@@ -18,30 +18,33 @@ This section describes the main methods and quantities involved in the process.
 
    Schematic view of the |PyDIET| simulation workflow.
 
-Signal-to-Noise ratio
+Signal-to-noise ratio
 ---------------------
 
-The Signal-to-noise ratio, or simply |SNR|_, is defined in |PyDIET| as the ratio between the source "flux" :math:`F` (actually the number of source photons collected in the detector during the observation) and its expected uncertainty :math:`\sqrt{\var{F}}`:
+The signal-to-noise ratio (|SNR|_) is the ratio of the source signal :math:`F` to its expected uncertainty :math:`\sqrt{\var{F}}`.
+Here, "flux" refers to the number of source photons collected by the detector during the observation:
 
 .. math::
   :label: snr
 
   \mathrm{SNR} = \frac{F}{\sqrt{\var{F}}}.
 
-:math:`F=f.t` is readily computed using the expected number of photons per unit of time :math:`f` and the exposure time :math:`t`.
-The expected uncertainty :math:`\sqrt{\var{F}}` depends on the quality of the estimator of the source flux.
-Note that the estimator :eq:`snr` is biased, although this can reasonably be ignored in the context of an ETC for usable SNRs :math:`\gtrsim 3`.
+The signal :math:`F=f.t` follows from the expected photon rate :math:`f` and exposure time :math:`t`.
+Its uncertainty depends on how the source flux is estimated.
+The SNR estimator in :eq:`snr` is biased, but this is usually negligible for exposure-time planning at |SNR| :math:`\gtrsim 3`.
 
 Model fitting
 """""""""""""
 
-Assuming that photon noise follows Poisson statistics, that readout noise is Gaussian-distributed, and that noise is independent from pixel to pixel, source model-fitting using inverse-variance-weighted `least-squares <https://en.wikipedia.org/wiki/Least_squares>`_ regression provides a good approximation to the Maximum Likelihood Estimator (|MLE|_) of the "flux" :math:`F`.
-In practice there are other contributors to flux uncertainties, such as background estimation errors or contamination by neighboring objects, but they are not easy to quantify, and we shall ignore them in the context of this exposure time calculator.
+If photon noise follows Poisson statistics, readout noise is Gaussian, and noise is independent between pixels, fitting a source model with inverse-variance-weighted `least-squares <https://en.wikipedia.org/wiki/Least_squares>`_ regression approximates the maximum likelihood estimate (|MLE|_) of the flux :math:`F`.
+Other effects, such as background-estimation errors and contamination by neighboring objects, also contribute to flux uncertainty.
+These are difficult to quantify and are omitted from the calculator.
 
 
 Forced photometry
 ~~~~~~~~~~~~~~~~~
-Let's start assuming we know the position of the source; hence the only fitted parameter is its amplitude, represented by the "flux" :math:`F`. Let :math:`\vec{\phi}` be the source image model (the |PSF| for point sources, or the |PSF| convolved with a light distribution model for extended sources), normalized such that :math:`\sum_i \phi_i = 1`.
+First, suppose the source position is known, so the only fitted parameter is its amplitude, represented by the flux :math:`F`.
+Let :math:`\vec{\phi}` be the source image model: the |PSF| for a point source, or the |PSF| convolved with a light-distribution model for a resolved source, normalized such that :math:`\sum_i \phi_i = 1`.
 The expected source contribution in pixel :math:`i` is then :math:`F\phi_i`.
 
 Before background subtraction, the pixel value may be written as
@@ -89,7 +92,7 @@ and
 
 The exact likelihood of :math:`Y_i` is the convolution of a `Poisson distribution <https://en.wikipedia.org/wiki/Poisson_distribution>`_ with a Gaussian readout noise distribution.
 Its `Cramér-Rao bound <https://en.wikipedia.org/wiki/Cram%C3%A9r%E2%80%93Rao_bound>`_ has no simple closed form in general.
-For the purpose of this |ETC|, we use an inverse-variance-weighted Gaussian approximation to the exact Poisson+Gaussian likelihood.
+For this |ETC|, we use an inverse-variance-weighted Gaussian approximation to the exact Poisson-plus-Gaussian likelihood.
 The inverse-variance-weighted estimating equation is obtained by minimizing
 
 .. math::
@@ -98,7 +101,7 @@ The inverse-variance-weighted estimating equation is obtained by minimizing
   \chi^2(F) = \sum_i \frac{\left(I_i - F\phi_i\right)^2} {V_i(F)},
 
 where :math:`V_i(F)` is the expected variance used to weight the residuals.
-The flux is therefore estimated by nulling
+The flux estimate satisfies
 
 .. math::
   :label: estimating_equation
@@ -151,7 +154,7 @@ The Cramér-Rao bound gives
     \sum_i \frac{\phi_i^2}{\sigma_r^2 + \sigma_b^2 t + F\phi_i}
   \right]^{-1}.
 
-Therefore, plugging into :eq:`snr` we obtain the upper bound at given exposure time :math:`t`:
+Substituting into :eq:`snr` gives an upper bound on the |SNR| at exposure time :math:`t`:
 
 .. math::
   :label: snr_model
@@ -164,11 +167,12 @@ Therefore, plugging into :eq:`snr` we obtain the upper bound at given exposure t
   \end{aligned}
 
 :math:`\var{\hat{F}}` approaches the Cramér-Rao bound at sufficiently large |SNR| or in the background-dominated Gaussian regime.
-At very low |SNR|, especially if the flux is constrained to be non-negative or if the source position is fitted simultaneously (see below), the actual uncertainty distribution may be asymmetric or biased, and :eq:`snr_model` should be regarded as an optimistic lower bound rather than as a close estimation.
-Remember also that it does not take into account systematic uncertainty terms such as imperfect background subtraction, correlated noise, model mismatch, source blending, or flat-field errors.
+At very low |SNR|, especially when flux is constrained to be non-negative or the source position is fitted simultaneously (see below), the uncertainty distribution may be asymmetric or biased.
+In this regime, treat :eq:`snr_model` as an optimistic upper bound on the |SNR| rather than a precise prediction.
+The expression also omits imperfect background subtraction, correlated noise, model mismatch, source blending, and flat-field errors.
 
-Free model coordinates
-~~~~~~~~~~~~~~~~~~~~~~
+Fitting the source position
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If the source coordinates are also left as free parameters, the relevant bound is no longer the reciprocal of the flux-only Fisher information.
 Instead, one must use the inverse of the `Fisher matrix <https://en.wikipedia.org/wiki/Fisher_information#Matrix_form>`_ :math:`\boldsymbol{\cal I}` for :math:`\vec{\theta} = (F,x_0,y_0)`: in the same approximation,
 
@@ -235,7 +239,7 @@ one obtains
 
    \var{\hat{F}} \geq \frac{1}{{\cal I}_{FF} - \mathbf{c}^{\mathsf T}\mathbf{Q}^{-1}\mathbf{c}}.
 
-The correction term is positive, so fitting the position can only degrade the flux uncertainty.
+The correction term is positive, so fitting the position can only increase the flux uncertainty.
 For an isolated source with a centrally symmetric model (and a symmetric fitting domain), the flux-position cross-terms vanish by symmetry: :math:`{\cal I}_{Fx} = {\cal I}_{Fy} = 0`.
 In that ideal case,
 
@@ -252,9 +256,8 @@ Aperture photometry
 """""""""""""""""""
 
 Aperture photometry is another way of estimating the source flux.
-It is suboptimal compared to model-fitting.
-However, it is much less compute-intensive and does not require a model.
-This is a useful feature, as the model-fitting accuracy of bright, unsaturated stars, may sometimes be limited by that of the |PSF| model.
+It is less statistically efficient than fitting an accurate source model, but requires less computation and no profile model.
+This can be useful for bright, unsaturated stars, whose model-fitting accuracy may be limited by the accuracy of the |PSF| model.
 For sources with unknown light profiles, aperture photometry is generally the safest option.
 
 For an aperture :math:`{\cal A}`, the |SNR| is 
@@ -277,7 +280,7 @@ The optimal-aperture option chooses the radius :math:`r=r_\mathrm{opt}` of the c
 
    r_\mathrm{opt} = \underset{r}{\operatorname{arg\,max}}\,\mathrm{SNR}({\cal A}(r)).
 
-The minimization is performed numerically over the allowed range of aperture radii, from zero to the radius of the circular simulation mask.
+The optimization is performed numerically over the allowed aperture radii, from zero to the radius of the circular simulation mask.
 
 The optimal aperture depends on the exposure time and noise regime.
 |PyDIET| therefore recomputes the optimal aperture every time the signal-to-noise ratio is evaluated.
@@ -308,7 +311,7 @@ The aperture radius is obtained by solving
 
    f(r_{96}^2) = 0.96.
 
-In the |PyDIET| implementation, :math:`f096` is solved numerically with a Brent root finder.
+|PyDIET| solves :eq:`f096` numerically with a Brent root finder.
 The search interval extends from the center of the image to the edge of the circular simulation mask.
 
 The 96% aperture is close to a total-flux aperture.
@@ -321,14 +324,13 @@ In source-dominated or very high signal-to-noise regimes, it may become smaller,
 Exposure time
 -------------
 
-The main purpose of an |ETC| is obviously to provide exposure times.
-|PyDIET| computes the exposure time for a given |SNR| using iterative `root finding <https://en.wikipedia.org/wiki/Root-finding_algorithm>`_ applied to :eq:`snr_model` or :eq:`snr_aper`, more specifically, Brent's method :cite:`Brent1973`.
+To find the exposure time needed for a target |SNR|, |PyDIET| solves :eq:`snr_model` or :eq:`snr_aper` by iterative `root finding <https://en.wikipedia.org/wiki/Root-finding_algorithm>`_, using Brent's method :cite:`Brent1973`.
 
 Source models
 -------------
 
-|PyDIET| currently implements three source models: point sources, galaxies, and flat extended sources.
-The role of the source model is to define the expected spatial distribution of source photons over the detector pixels.
+|PyDIET| provides models for point sources, galaxies, and uniform extended sources.
+Each describes how source photons are distributed over the detector pixels.
 
 For compact and galaxy-like sources, the source model is represented by a discrete image :math:`\phi_i`, normalized as
 
@@ -358,7 +360,7 @@ A point source is modeled as an unresolved object observed through the |PSF|.
 
    M(r) = \left(1 + \frac{r^2}{\alpha^2}\right)^{-\beta},
 
-where :math:`r` is the angular distance from the source centre, :math:`\alpha` the Moffat scale radius, and :math:`\beta` the strength of the wings.
+where :math:`r` is the angular distance from the source center, :math:`\alpha` the Moffat scale radius, and :math:`\beta` the parameter controlling the wings.
 The Moffat scale radius is set by the requested |FWHM|.
 Since :math:`M(\mathrm{FWHM}/2) = M(0)/2`, one obtains
 
@@ -367,7 +369,7 @@ Since :math:`M(\mathrm{FWHM}/2) = M(0)/2`, one obtains
 
    \alpha^2 = \frac{\mathrm{FWHM}^2}{4\left(2^{1/\beta} - 1\right)}.
 
-|PyDIET| considers the Moffat :math:`\beta` parameter as an instrumental feature; it is set in the instrument section of the data configuration file.
+The Moffat :math:`\beta` parameter is set for each instrument in the data configuration file.
 The default value is :math:`\beta = 3.2`, corresponding to the best-fitting value for MegaCam observations.
 
 The Moffat model is rasterized on the internal image grid, truncated inside the circular simulation domain, and normalized numerically:
@@ -397,7 +399,7 @@ where :math:`R_\mathrm{e}` is the effective radius and :math:`n` the Sérsic ind
 The effective radius :math:`R_\mathrm{e}` is the radius enclosing half of the intrinsic Sérsic-model flux.
 The Sérsic index controls the concentration of the profile.
 Values close to :math:`n=1` correspond to disk-like profiles, whereas larger values produce more centrally concentrated profiles with more extended wings, such as in ellipticals or galaxy bulges.
-For numerical stability reasons, the current implementation enforces limits on the Sérsic index: :math:`0.36 \leq n \leq 10`.
+For numerical stability, the current implementation limits the Sérsic index to :math:`0.36 \leq n \leq 10`.
 
 The observed galaxy model is obtained by convolving the intrinsic Sérsic profile with the |PSF| model,
 
@@ -457,7 +459,8 @@ This conversion is performed by integrating reference spectra or sky spectra thr
 Transmission
 """"""""""""
 
-Let :math:`T_\mathrm{inst}(\lambda)` be the instrumental response, including the selected mirror state, telescope/instrument optics, filter transmission, and detector response. Let :math:`T_\mathrm{atm}(\lambda; X)` be the atmospheric transmission at airmass :math:`X`, and let :math:`\tau` be the additional transparency factor entered by the user.
+Let :math:`T_\mathrm{inst}(\lambda)` be the instrumental response, including the selected mirror state, telescope and instrument optics, filter transmission, and detector response.
+Let :math:`T_\mathrm{atm}(\lambda; X)` be the atmospheric transmission at airmass :math:`X`, and :math:`\tau` the additional transparency factor entered by the user.
 The full source transmission used for source count rates is
 
 .. math::
@@ -492,7 +495,7 @@ For the full atmospheric response, the reference count rate is
    f_0 = \int R_{0,\lambda}(\lambda) T_\mathrm{full}(\lambda) A_\mathrm{eff}{\lambda \over hc}\,d\lambda ,
 
 where :math:`R_{0,\lambda}` is the chosen reference spectrum.
-|PyDIET| uses the  :meth:`~synphot.observation.Observation.countrate` method of the `SynPhot <https://synphot.readthedocs.io>`_ :mod:`~synphot.observation` module to evaluate this integral.
+|PyDIET| evaluates this integral using :meth:`~synphot.observation.Observation.countrate` from the `Synphot <https://synphot.readthedocs.io>`_ :mod:`~synphot.observation` module.
 
 If the detector gain is :math:`g`, in electrons per ADU, the corresponding count rate in ADU per second is
 
@@ -543,7 +546,7 @@ The sky background enters the SNR model as a count rate per detector pixel.
 * a predefined sky model selected from tabulated sky spectra;
 * a user-specified sky brightness.
 
-For the predefined sky modes, PyDIET selects a tabulated sky-emission spectrum according to:
+For the predefined sky modes, |PyDIET| selects a tabulated sky-emission spectrum according to:
 
 * the sky state, for example dark, grey, or bright;
 * the solar-activity level;
@@ -569,7 +572,7 @@ The sky count rate per square arcsecond is
    B_\Omega = \int I_\mathrm{sky}(\lambda) T_\mathrm{inst}(\lambda) A_\mathrm{eff} {\lambda \over hc}\, d\lambda + B_\mathrm{therm} .
 
 The term :math:`B_\mathrm{therm}` is the instrumental thermal-emission contribution for the selected mirror and filter configuration.
-It includes thermal emission terms associated with the telescope, optics, filter, and detector model.
+The current calculation includes thermal emission from the telescope, optics, and filter; detector emission is not included.
 
 When the sky background is specified manually, |PyDIET| converts the user input into a detector count rate per pixel.
 

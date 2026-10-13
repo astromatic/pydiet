@@ -44,10 +44,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../start.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../interface.html">Using the web interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../methods.html">Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../data.html">Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../validation.html">Model validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../customize.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deploy.html">Deploying the ETC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../references.html">References</a></li>
 </ul>
@@ -196,9 +199,43 @@
 <div class="viewcode-block" id="DetectorConfigModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DetectorConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''</span>
-<span class="sd">    Pydantic model for the detector data configuration model.</span>
-<span class="sd">    '''</span>
+<span class="w">    </span><span class="sd">"""Detector configuration read from the instrument's TOML table.</span>
+
+<span class="sd">    Physical quantities must include units and are converted to the units</span>
+<span class="sd">    shown below. Omitted saturation settings retain the image model's defaults.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path: str</span>
+<span class="sd">        Detector data directory relative to the instrument directory.</span>
+<span class="sd">    gain: ~astropy.units.Quantity</span>
+<span class="sd">        Positive conversion factor in electrons per ADU.</span>
+<span class="sd">    ron: ~astropy.units.Quantity</span>
+<span class="sd">        Nonnegative RMS readout noise in electrons.</span>
+<span class="sd">    scale: ~astropy.units.Quantity</span>
+<span class="sd">        Two positive angular pixel scales in arcseconds per pixel.</span>
+<span class="sd">    full_well: ~astropy.units.Quantity</span>
+<span class="sd">        Positive full-well capacity in electrons; defaults to 1,000,000 electrons.</span>
+<span class="sd">    range: ~astropy.units.Quantity</span>
+<span class="sd">        Digital range in ADUs, greater than one ADU; defaults to 65,536 ADUs.</span>
+<span class="sd">    bias: ~astropy.units.Quantity</span>
+<span class="sd">        Nonnegative bias level in ADUs; defaults to zero ADUs.</span>
+<span class="sd">    transmission: TransmissionConfigModel</span>
+<span class="sd">        Quantum-efficiency file configuration.</span>
+<span class="sd">    emission: EmissionConfigModel</span>
+<span class="sd">        Detector emission configuration.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; detector = DetectorConfigModel(</span>
+<span class="sd">    ...     path="detector", gain="2 electron/adu", ron="4 electron",</span>
+<span class="sd">    ...     scale="[0.3, 0.3] arcsec/pix", full_well="100000 electron",</span>
+<span class="sd">    ...     range="65536 adu", bias="1200 adu",</span>
+<span class="sd">    ...     transmission={}, emission={}</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; detector.full_well / detector.gain</span>
+<span class="sd">    &lt;Quantity 50000. adu&gt;</span>
+<span class="sd">    """</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">gain</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
         <span class="n">unit</span> <span class="o">=</span> <span class="s2">"electron/adu"</span><span class="p">,</span>
@@ -219,6 +256,27 @@
         <span class="n">max_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">),</span>
         <span class="n">decimals</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">description</span> <span class="o">=</span> <span class="s2">"Angular pixel scale along each axis."</span>
+    <span class="p">)</span>
+    <span class="n">full_well</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="mf">1e6</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span><span class="p">,</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">"electron"</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">electron</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Detector full-well capacity in electrons."</span>
+    <span class="p">)</span>
+    <span class="nb">range</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="mi">65536</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">"adu"</span><span class="p">,</span>
+        <span class="n">gt</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Digital range in ADUs; the highest level is range minus one ADU."</span>
+    <span class="p">)</span>
+    <span class="n">bias</span><span class="p">:</span> <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">"adu"</span><span class="p">,</span>
+        <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">adu</span><span class="p">,</span>
+        <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Detector bias level in ADUs."</span>
     <span class="p">)</span>
     <span class="n">transmission</span><span class="p">:</span> <span class="n">TransmissionConfigModel</span>
     <span class="n">emission</span><span class="p">:</span> <span class="n">EmissionConfigModel</span></div>
@@ -253,9 +311,13 @@
 <div class="viewcode-block" id="InstrumentConfigModel">
 <a class="viewcode-back" href="../../../../api/server/models.html#pydiet.server.models.dataconfig.InstrumentConfigModel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">InstrumentConfigModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''</span>
-<span class="sd">    Pydantic model for the instrument data configuration model.</span>
-<span class="sd">    '''</span>
+<span class="w">    </span><span class="sd">"""Physical and spectral-file configuration for an imaging instrument.</span>
+
+<span class="sd">    ``site_id`` and ``telescope_id`` reference objects in the data configuration.</span>
+<span class="sd">    If ``obstruction_area`` is omitted or ``None``, the loader uses the referenced</span>
+<span class="sd">    telescope's obstruction area. An explicit positive area overrides that</span>
+<span class="sd">    default, including when it is smaller than the telescope's value.</span>
+<span class="sd">    """</span>
     <span class="n">default</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
@@ -273,8 +335,8 @@
         <span class="n">unit</span> <span class="o">=</span> <span class="s2">"m2"</span><span class="p">,</span>
         <span class="n">gt</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">decimals</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Obstruction area for this particular instrument."</span>
-    <span class="p">)</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s2">"Instrument obstruction area; defaults to the telescope's value when omitted."</span>
+    <span class="p">)</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">overhead</span><span class="p">:</span>  <span class="n">AnnotatedQuantity</span><span class="p">(</span>    <span class="c1">#type: ignore[valid-type]</span>
         <span class="n">unit</span> <span class="o">=</span> <span class="s2">"s"</span><span class="p">,</span>
         <span class="n">ge</span> <span class="o">=</span> <span class="mf">0.</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>

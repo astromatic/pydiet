@@ -1,5 +1,5 @@
-Config
-======
+Configuration
+=============
 
 .. automodule:: pydiet.server.config
    :members:

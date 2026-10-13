@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Python server" href="api/server/index.html" />
-    <link rel="prev" title="Model validation" href="validation.html" /> 
+    <link rel="prev" title="Deploying the ETC" href="deploy.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,13 +47,16 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="validation.html">Model validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Deploying the ETC</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/server/index.html">Python server</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/client/index.html">JS client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/client/index.html">JavaScript client</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
@@ -139,12 +142,24 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.emission"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.emission</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.gain"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.gain</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.path"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.gain"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.gain</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.ron"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.ron</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.scale"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.scale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.full_well"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.full_well</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.range"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.range</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.bias"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.bias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.transmission"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.transmission</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.emission"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.emission</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id0"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.bias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id1"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.emission</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id2"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.full_well</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id3"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.gain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id4"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id5"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.range</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id6"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.ron</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id7"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.scale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id8"><code class="docutils literal notranslate"><span class="pre">DetectorConfigModel.transmission</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/server/models.html#pydiet.server.models.dataconfig.OpticsConfigModel"><code class="docutils literal notranslate"><span class="pre">OpticsConfigModel</span></code></a><ul>
@@ -188,11 +203,22 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel"><code class="docutils literal notranslate"><span class="pre">DetectorModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.emissions"><code class="docutils literal notranslate"><span class="pre">DetectorModel.emissions</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.gain"><code class="docutils literal notranslate"><span class="pre">DetectorModel.gain</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.ron"><code class="docutils literal notranslate"><span class="pre">DetectorModel.ron</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.scale"><code class="docutils literal notranslate"><span class="pre">DetectorModel.scale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.full_well"><code class="docutils literal notranslate"><span class="pre">DetectorModel.full_well</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.range"><code class="docutils literal notranslate"><span class="pre">DetectorModel.range</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.bias"><code class="docutils literal notranslate"><span class="pre">DetectorModel.bias</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.transmissions"><code class="docutils literal notranslate"><span class="pre">DetectorModel.transmissions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.emissions"><code class="docutils literal notranslate"><span class="pre">DetectorModel.emissions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id9"><code class="docutils literal notranslate"><span class="pre">DetectorModel.bias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id10"><code class="docutils literal notranslate"><span class="pre">DetectorModel.emissions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id11"><code class="docutils literal notranslate"><span class="pre">DetectorModel.full_well</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id12"><code class="docutils literal notranslate"><span class="pre">DetectorModel.gain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id13"><code class="docutils literal notranslate"><span class="pre">DetectorModel.range</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id14"><code class="docutils literal notranslate"><span class="pre">DetectorModel.ron</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id15"><code class="docutils literal notranslate"><span class="pre">DetectorModel.scale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/server/models.html#id16"><code class="docutils literal notranslate"><span class="pre">DetectorModel.transmissions</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel"><code class="docutils literal notranslate"><span class="pre">InstrumentModel</span></code></a><ul>
@@ -342,7 +368,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/server/types.html#pydiet.server.types.string.AnnotatedStr"><code class="docutils literal notranslate"><span class="pre">AnnotatedStr()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/server/config.html">Config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/server/config.html">Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/server/config.html#pydiet.server.config.override"><code class="docutils literal notranslate"><span class="pre">override()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/server/config.html#pydiet.server.config.fields.SField"><code class="docutils literal notranslate"><span class="pre">SField()</span></code></a></li>
 </ul>
@@ -395,7 +421,56 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/client/index.html">JS client</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="api/client/index.html">JavaScript client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/client/url.html">Application URLs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/client/url.html#url.root_url"><code class="docutils literal notranslate"><span class="pre">url.root_url</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/url.html#url.etc_url"><code class="docutils literal notranslate"><span class="pre">url.etc_url</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/url.html#url.ui_url"><code class="docutils literal notranslate"><span class="pre">url.ui_url</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/url.html#url.ui_auth_url"><code class="docutils literal notranslate"><span class="pre">url.ui_auth_url</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/client/fetch.html">Fetching data and interface fragments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/client/fetch.html#fetch.fetch_data"><code class="docutils literal notranslate"><span class="pre">fetch.fetch_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/fetch.html#fetch.fetch_html"><code class="docutils literal notranslate"><span class="pre">fetch.fetch_html()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/client/dom.html">DOM helpers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/client/dom.html#dom.inject_html"><code class="docutils literal notranslate"><span class="pre">dom.inject_html()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/dom.html#dom.inject_node"><code class="docutils literal notranslate"><span class="pre">dom.inject_node()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/client/instrument.html">Instruments and filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/client/instrument.html#instrument.get_instruments"><code class="docutils literal notranslate"><span class="pre">instrument.get_instruments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/instrument.html#instrument.get_instrumentID"><code class="docutils literal notranslate"><span class="pre">instrument.get_instrumentID()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/instrument.html#instrument.update_instrument"><code class="docutils literal notranslate"><span class="pre">instrument.update_instrument()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/instrument.html#instrument.get_filterID"><code class="docutils literal notranslate"><span class="pre">instrument.get_filterID()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/instrument.html#instrument.update_filter"><code class="docutils literal notranslate"><span class="pre">instrument.update_filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/client/etc.html">Calculator form</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/client/etc.html#etc.update_etcform"><code class="docutils literal notranslate"><span class="pre">etc.update_etcform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/client/plot.html">Transmission plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/client/plot.html#plot.plot_filter"><code class="docutils literal notranslate"><span class="pre">plot.plot_filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/client/settings.html">Interface settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/client/settings.html#settings.setup_theme_settings"><code class="docutils literal notranslate"><span class="pre">settings.setup_theme_settings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/settings.html#settings.setup_instrument_settings"><code class="docutils literal notranslate"><span class="pre">settings.setup_instrument_settings()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/client/theme.html">Themes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/client/theme.html#theme.themes"><code class="docutils literal notranslate"><span class="pre">theme.themes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/theme.html#theme.theme_icons"><code class="docutils literal notranslate"><span class="pre">theme.theme_icons</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/theme.html#theme.get_theme"><code class="docutils literal notranslate"><span class="pre">theme.get_theme()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/client/theme.html#theme.update_theme"><code class="docutils literal notranslate"><span class="pre">theme.update_theme()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/client/health.html">Health monitoring</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/client/health.html#health.setup_health"><code class="docutils literal notranslate"><span class="pre">health.setup_health()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -406,7 +481,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="validation.html" class="btn btn-neutral float-left" title="Model validation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="deploy.html" class="btn btn-neutral float-left" title="Deploying the ETC" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="api/server/index.html" class="btn btn-neutral float-right" title="Python server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

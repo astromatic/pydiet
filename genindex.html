@@ -44,10 +44,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="validation.html">Model validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Deploying the ETC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
@@ -136,10 +139,16 @@
 </li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.ServerSettings.base_template">base_template (ServerSettings attribute)</a>
 </li>
-      <li><a href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.bkg_mag">bkg_mag (ETCResponseModel attribute)</a>
+      <li><a href="api/server/models.html#id0">bias (DetectorConfigModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.bias">[1]</a>
+
+      <ul>
+        <li><a href="api/server/models.html#id9">(DetectorModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.bias">[1]</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.bkg_mag">bkg_mag (ETCResponseModel attribute)</a>
+</li>
       <li><a href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.bkg_rate">bkg_rate (ETCResponseModel attribute)</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.dataconfig.EmissionConfigModel.blackbody_fractions">blackbody_fractions (EmissionConfigModel attribute)</a>
@@ -242,13 +251,17 @@
 </li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.ServerSettings.doc_path">doc_path (ServerSettings attribute)</a>
 </li>
+      <li><a href="api/client/dom.html#dom.inject_html">dom.inject_html() (dom method)</a>
+</li>
+      <li><a href="api/client/dom.html#dom.inject_node">dom.inject_node() (dom method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.emission">emission (DetectorConfigModel attribute)</a>
+      <li><a href="api/server/models.html#id1">emission (DetectorConfigModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.emission">[1]</a>
 
       <ul>
         <li><a href="api/server/models.html#pydiet.server.models.dataconfig.OpticsConfigModel.emission">(OpticsConfigModel attribute)</a>
@@ -258,7 +271,7 @@
         <li><a href="api/server/models.html#pydiet.server.models.dataconfig.TelescopeConfigModel.emission">(TelescopeConfigModel attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.emissions">emissions (DetectorModel attribute)</a>
+      <li><a href="api/server/models.html#id10">emissions (DetectorModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.emissions">[1]</a>
 
       <ul>
         <li><a href="api/server/models.html#pydiet.server.models.instrument.OpticsModel.emissions">(OpticsModel attribute)</a>
@@ -271,6 +284,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/server/settings.html#id0">engine (AppSettings attribute)</a>, <a href="api/server/settings.html#pydiet.server.config.settings.AppSettings.engine">[1]</a>
+</li>
+      <li><a href="api/client/etc.html#etc.update_etcform">etc.update_etcform() (etc method)</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.exceptions.ETCValidationError">ETCValidationError</a>
 </li>
@@ -294,6 +309,10 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/client/fetch.html#fetch.fetch_data">fetch.fetch_data() (fetch method)</a>
+</li>
+      <li><a href="api/client/fetch.html#fetch.fetch_html">fetch.fetch_html() (fetch method)</a>
+</li>
       <li><a href="api/server/models.html#pydiet.server.models.dataconfig.FileConfigModel.file">file (FileConfigModel attribute)</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.dataconfig.EmissionConfigModel.files">files (EmissionConfigModel attribute)</a>
@@ -320,16 +339,22 @@
         <li><a href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.filters">(InstrumentModel attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/server/models.html#id2">full_well (DetectorConfigModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.full_well">[1]</a>
+
+      <ul>
+        <li><a href="api/server/models.html#id11">(DetectorModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.full_well">[1]</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.gain">gain (DetectorConfigModel attribute)</a>
+      <li><a href="api/server/models.html#id3">gain (DetectorConfigModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.gain">[1]</a>
 
       <ul>
-        <li><a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.gain">(DetectorModel attribute)</a>
+        <li><a href="api/server/models.html#id12">(DetectorModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.gain">[1]</a>
 </li>
       </ul></li>
   </ul></td>
@@ -337,6 +362,10 @@
 
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/client/health.html#health.setup_health">health.setup_health() (health method)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/server/settings.html#id1">host (AppSettings attribute)</a>, <a href="api/server/settings.html#pydiet.server.config.settings.AppSettings.host">[1]</a>
 
@@ -380,6 +409,16 @@
         <li><a href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.instrument">(ETCResponseModel attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/client/instrument.html#instrument.get_filterID">instrument.get_filterID() (instrument method)</a>
+</li>
+      <li><a href="api/client/instrument.html#instrument.get_instrumentID">instrument.get_instrumentID() (instrument method)</a>
+</li>
+      <li><a href="api/client/instrument.html#instrument.get_instruments">instrument.get_instruments() (instrument method)</a>
+</li>
+      <li><a href="api/client/instrument.html#instrument.update_filter">instrument.update_filter() (instrument method)</a>
+</li>
+      <li><a href="api/client/instrument.html#instrument.update_instrument">instrument.update_instrument() (instrument method)</a>
+</li>
       <li><a href="api/server/models.html#pydiet.server.models.types.InstrumentID">InstrumentID (class in pydiet.server.models.types)</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DataConfigModel.instruments">instruments (DataConfigModel attribute)</a>
@@ -504,7 +543,7 @@
       <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DataConfigModel.path">path (DataConfigModel attribute)</a>
 
       <ul>
-        <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.path">(DetectorConfigModel attribute)</a>
+        <li><a href="api/server/models.html#id4">(DetectorConfigModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.path">[1]</a>
 </li>
         <li><a href="api/server/models.html#pydiet.server.models.dataconfig.EmissionConfigModel.path">(EmissionConfigModel attribute)</a>
 </li>
@@ -520,6 +559,8 @@
 </li>
       </ul></li>
       <li><a href="api/server/models.html#pydiet.server.models.query.ETCQueryModel.photometry">photometry (ETCQueryModel attribute)</a>
+</li>
+      <li><a href="api/client/plot.html#plot.plot_filter">plot.plot_filter() (plot method)</a>
 </li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.HostSettings.port">port (HostSettings attribute)</a>
 </li>
@@ -550,6 +591,8 @@
         <li><a href="api/server/config.html#module-pydiet.server.config.fields">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pydiet.server.config.settings
 
@@ -557,8 +600,6 @@
         <li><a href="api/server/settings.html#module-pydiet.server.config.settings">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pydiet.server.models.dataconfig
 
@@ -636,16 +677,22 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/server/settings.html#pydiet.server.config.settings.HostSettings.reload">reload (HostSettings attribute)</a>
+      <li><a href="api/server/models.html#id5">range (DetectorConfigModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.range">[1]</a>
+
+      <ul>
+        <li><a href="api/server/models.html#id13">(DetectorModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.range">[1]</a>
 </li>
-      <li><a href="api/server/models.html#pydiet.server.models.instrument.TransmissionModel.response">response (TransmissionModel attribute)</a>
+      </ul></li>
+      <li><a href="api/server/settings.html#pydiet.server.config.settings.HostSettings.reload">reload (HostSettings attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.ron">ron (DetectorConfigModel attribute)</a>
+      <li><a href="api/server/models.html#pydiet.server.models.instrument.TransmissionModel.response">response (TransmissionModel attribute)</a>
+</li>
+      <li><a href="api/server/models.html#id6">ron (DetectorConfigModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.ron">[1]</a>
 
       <ul>
-        <li><a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.ron">(DetectorModel attribute)</a>
+        <li><a href="api/server/models.html#id14">(DetectorModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.ron">[1]</a>
 </li>
       </ul></li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.HostSettings.root_path">root_path (HostSettings attribute)</a>
@@ -658,10 +705,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/server/models.html#pydiet.server.models.instrument.SBSEDModel.sbsed">sbsed (SBSEDModel attribute)</a>
 </li>
-      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.scale">scale (DetectorConfigModel attribute)</a>
+      <li><a href="api/server/models.html#id7">scale (DetectorConfigModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.scale">[1]</a>
 
       <ul>
-        <li><a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.scale">(DetectorModel attribute)</a>
+        <li><a href="api/server/models.html#id15">(DetectorModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.scale">[1]</a>
 </li>
       </ul></li>
       <li><a href="api/server/models.html#pydiet.server.models.instrument.SEDModel.sed">sed (SEDModel attribute)</a>
@@ -680,6 +727,10 @@
 </li>
       <li><a href="api/server/settings.html#id3">server (AppSettings attribute)</a>, <a href="api/server/settings.html#pydiet.server.config.settings.AppSettings.server">[1]</a>
 </li>
+      <li><a href="api/client/settings.html#settings.setup_instrument_settings">settings.setup_instrument_settings() (settings method)</a>
+</li>
+      <li><a href="api/client/settings.html#settings.setup_theme_settings">settings.setup_theme_settings() (settings method)</a>
+</li>
       <li><a href="api/server/config.html#pydiet.server.config.fields.SField">SField() (in module pydiet.server.config.fields)</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.instrument.InstrumentModel.site">site (InstrumentModel attribute)</a>
@@ -688,10 +739,10 @@
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DataConfigModel.sites">sites (DataConfigModel attribute)</a>
 </li>
-      <li><a href="api/server/models.html#pydiet.server.models.query.ETCQueryModel.sky">sky (ETCQueryModel attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/server/models.html#pydiet.server.models.query.ETCQueryModel.sky">sky (ETCQueryModel attribute)</a>
+</li>
       <li><a href="api/server/models.html#pydiet.server.models.query.ETCQueryModel.sky_brightness">sky_brightness (ETCQueryModel attribute)</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.instrument.SiteModel.sky_emissions">sky_emissions (SiteModel attribute)</a>
@@ -742,17 +793,25 @@
 </li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.ServerSettings.template_dir">template_dir (ServerSettings attribute)</a>
 </li>
+      <li><a href="api/client/theme.html#theme.get_theme">theme.get_theme() (theme method)</a>
+</li>
+      <li><a href="api/client/theme.html#theme.theme_icons">theme.theme_icons (theme attribute)</a>
+</li>
+      <li><a href="api/client/theme.html#theme.themes">theme.themes (theme attribute)</a>
+</li>
+      <li><a href="api/client/theme.html#theme.update_theme">theme.update_theme() (theme method)</a>
+</li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.EngineSettings.thread_count">thread_count (EngineSettings attribute)</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.instrument.CacheModel.tpeaks">tpeaks (CacheModel attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.trans_peak">trans_peak (ETCResponseModel attribute)</a>
 </li>
       <li><a href="api/server/models.html#pydiet.server.models.response.ETCResponseModel.trans_peak_instru">trans_peak_instru (ETCResponseModel attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.transmission">transmission (DetectorConfigModel attribute)</a>
+      <li><a href="api/server/models.html#id8">transmission (DetectorConfigModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.dataconfig.DetectorConfigModel.transmission">[1]</a>
 
       <ul>
         <li><a href="api/server/models.html#pydiet.server.models.dataconfig.OpticsConfigModel.transmission">(OpticsConfigModel attribute)</a>
@@ -765,7 +824,7 @@
       <li><a href="api/server/models.html#pydiet.server.models.instrument.CacheModel.transmissions">transmissions (CacheModel attribute)</a>
 
       <ul>
-        <li><a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.transmissions">(DetectorModel attribute)</a>
+        <li><a href="api/server/models.html#id16">(DetectorModel attribute)</a>, <a href="api/server/models.html#pydiet.server.models.instrument.DetectorModel.transmissions">[1]</a>
 </li>
         <li><a href="api/server/models.html#pydiet.server.models.instrument.OpticsModel.transmissions">(OpticsModel attribute)</a>
 </li>
@@ -784,8 +843,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/server/models.html#pydiet.server.models.query.ETCQueryModel.unit">unit (ETCQueryModel attribute)</a>
 </li>
+      <li><a href="api/client/url.html#url.etc_url">url.etc_url (url attribute)</a>
+</li>
+      <li><a href="api/client/url.html#url.root_url">url.root_url (url attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/client/url.html#url.ui_auth_url">url.ui_auth_url (url attribute)</a>
+</li>
+      <li><a href="api/client/url.html#url.ui_url">url.ui_url (url attribute)</a>
+</li>
       <li><a href="api/server/settings.html#pydiet.server.config.settings.ServerSettings.userdoc_url">userdoc_url (ServerSettings attribute)</a>
 </li>
   </ul></td>

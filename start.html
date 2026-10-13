@@ -1,0 +1,160 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting started &mdash; PyDIET 0.9.10 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_js.css" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=aeb07c19" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2ccb3ee0"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using the web interface" href="interface.html" />
+    <link rel="prev" title="Welcome to PyDIET&#39;s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyDIET
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#try-it-in-your-browser">Try it in your browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-it-on-your-computer">Run it on your computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#share-it-or-make-it-your-own">Share it or make it your own</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html">Model validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Deploying the ETC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyDIET</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/start.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<span id="chap-start"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<p>Planning an imaging observation? <cite>PyDIET</cite> helps you estimate the exposure time needed to reach a target <abbr title="Signal-to-Noise Ratio">SNR</abbr>, or the <abbr title="Signal-to-Noise Ratio">SNR</abbr> you can expect from a given exposure.
+CFHT runs it at <a class="reference external" href="https://pydiet.cfht.hawaii.edu/">pydiet.cfht.hawaii.edu</a>.
+You can also run it on your computer, host it for other observers, or adapt it to your own imaging system.</p>
+<section id="try-it-in-your-browser">
+<h2>Try it in your browser<a class="headerlink" href="#try-it-in-your-browser" title="Link to this heading"></a></h2>
+<p>The quickest way to get a feel for the calculator is to open the <a class="reference external" href="https://pydiet.cfht.hawaii.edu/">CFHT service</a>.
+Choose MegaCam or WIRCam, select a filter, and enter your source brightness and observing conditions.
+Then ask for an exposure time or <abbr title="Signal-to-Noise Ratio">SNR</abbr> and explore how the result changes with seeing, sky brightness, or the number of exposures.
+The <a class="reference internal" href="interface.html#chap-interface"><span class="std std-ref">Using the web interface</span></a> chapter walks through the form and results.</p>
+</section>
+<section id="run-it-on-your-computer">
+<h2>Run it on your computer<a class="headerlink" href="#run-it-on-your-computer" title="Link to this heading"></a></h2>
+<p>For a local copy, install <a class="reference external" href="https://www.python.org/">Python</a> 3.10 or later, <a class="reference external" href="https://git-scm.com/">Git</a>, and Python's virtual-environment support.
+In a terminal, download the source and install it with <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a> in a virtual environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/astromatic/pydiet.git</span>
+<span class="go">cd pydiet</span>
+<span class="go">python3 -m venv .venv</span>
+<span class="go">. .venv/bin/activate</span>
+<span class="go">python -m pip install .</span>
+</pre></div>
+</div>
+<p>With the environment active, start the calculator and open your browser with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pydiet -b</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-b</span></code> option opens the web interface once the local server is ready.
+You can also visit <code class="docutils literal notranslate"><span class="pre">http://localhost:8010/</span></code> yourself.
+Keep the terminal open while using the calculator, and press <kbd class="kbd compound docutils literal notranslate"><kbd class="kbd docutils literal notranslate">Ctrl</kbd>-<kbd class="kbd docutils literal notranslate">C</kbd></kbd> when you are finished.
+The supplied instrument data and web client are included; <a class="reference internal" href="deploy.html#chap-deploy"><span class="std std-ref">Deploying the ETC</span></a> explains how to build the local manual and configure the server.</p>
+</section>
+<section id="share-it-or-make-it-your-own">
+<h2>Share it or make it your own<a class="headerlink" href="#share-it-or-make-it-your-own" title="Link to this heading"></a></h2>
+<p>To give colleagues access to the calculator, install it on your own server.
+The <a class="reference internal" href="deploy.html#chap-deploy"><span class="std std-ref">Deploying the ETC</span></a> chapter covers Python and Docker installations, persistent services, HTTPS reverse proxies, and performance tips.</p>
+<p>To use another camera, telescope, or observing site, start with the supplied configuration and replace the instrument characteristics and spectra with your own.
+You can also tailor the input form, result panels, and styling to suit your observers.
+Follow <a class="reference internal" href="customize.html#chap-customize"><span class="std std-ref">Customization</span></a> for the data configuration reference and interface examples.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to PyDIET&#39;s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="interface.html" class="btn btn-neutral float-right" title="Using the web interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 CFHT/CNRS, CEA/AIM, OSUPS/Université Paris-Saclay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

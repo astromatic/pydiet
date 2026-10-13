@@ -49,12 +49,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Methods</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#signal-to-noise-ratio">Signal-to-Noise ratio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#signal-to-noise-ratio">Signal-to-noise ratio</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#model-fitting">Model fitting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#forced-photometry">Forced photometry</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#free-model-coordinates">Free model coordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitting-the-source-position">Fitting the source position</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#aperture-photometry">Aperture photometry</a><ul>
@@ -81,6 +82,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="validation.html">Model validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Deploying the ETC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
@@ -111,8 +114,8 @@
              
   <section id="methods">
 <span id="chap-methods"></span><h1>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h1>
-<p><cite>PyDIET</cite> is a simulation-based <abbr title="Exposure Time Calculator">ETC</abbr>, and uses different computational models to reproduce the observations (<a class="reference internal" href="#fig-workflow"><span class="std std-numref">Fig. 3</span></a>).
-This section describes the main methods and quantities involved in the process.</p>
+<p><cite>PyDIET</cite> combines spectral and image models to predict the signal and noise in an observation (<a class="reference internal" href="#fig-workflow"><span class="std std-numref">Fig. 3</span></a>).
+This chapter explains the main quantities and methods behind the calculation.</p>
 <figure class="align-center" id="id5">
 <span id="fig-workflow"></span><img alt="|PyDIET| workflow" src="_images/workflow.png" />
 <figcaption>
@@ -120,20 +123,23 @@ This section describes the main methods and quantities involved in the process.<
 </figcaption>
 </figure>
 <section id="signal-to-noise-ratio">
-<h2>Signal-to-Noise ratio<a class="headerlink" href="#signal-to-noise-ratio" title="Link to this heading"></a></h2>
-<p>The Signal-to-noise ratio, or simply <a class="reference external" href="https://en.wikipedia.org/wiki/Signal-to-noise_ratio"><abbr title="Signal-to-Noise Ratio">SNR</abbr></a>, is defined in <cite>PyDIET</cite> as the ratio between the source &quot;flux&quot; <span class="math notranslate nohighlight">\(F\)</span> (actually the number of source photons collected in the detector during the observation) and its expected uncertainty <span class="math notranslate nohighlight">\(\sqrt{\var{F}}\)</span>:</p>
+<h2>Signal-to-noise ratio<a class="headerlink" href="#signal-to-noise-ratio" title="Link to this heading"></a></h2>
+<p>The signal-to-noise ratio (<a class="reference external" href="https://en.wikipedia.org/wiki/Signal-to-noise_ratio"><abbr title="Signal-to-Noise Ratio">SNR</abbr></a>) is the ratio of the source signal <span class="math notranslate nohighlight">\(F\)</span> to its expected uncertainty <span class="math notranslate nohighlight">\(\sqrt{\var{F}}\)</span>.
+Here, &quot;flux&quot; refers to the number of source photons collected by the detector during the observation:</p>
 <div class="math notranslate nohighlight" id="equation-snr">
 <span class="eqno">(1)<a class="headerlink" href="#equation-snr" title="Link to this equation"></a></span>\[\mathrm{SNR} = \frac{F}{\sqrt{\var{F}}}.\]</div>
-<p><span class="math notranslate nohighlight">\(F=f.t\)</span> is readily computed using the expected number of photons per unit of time <span class="math notranslate nohighlight">\(f\)</span> and the exposure time <span class="math notranslate nohighlight">\(t\)</span>.
-The expected uncertainty <span class="math notranslate nohighlight">\(\sqrt{\var{F}}\)</span> depends on the quality of the estimator of the source flux.
-Note that the estimator <a class="reference internal" href="#equation-snr">(1)</a> is biased, although this can reasonably be ignored in the context of an ETC for usable SNRs <span class="math notranslate nohighlight">\(\gtrsim 3\)</span>.</p>
+<p>The signal <span class="math notranslate nohighlight">\(F=f.t\)</span> follows from the expected photon rate <span class="math notranslate nohighlight">\(f\)</span> and exposure time <span class="math notranslate nohighlight">\(t\)</span>.
+Its uncertainty depends on how the source flux is estimated.
+The SNR estimator in <a class="reference internal" href="#equation-snr">(1)</a> is biased, but this is usually negligible for exposure-time planning at <abbr title="Signal-to-Noise Ratio">SNR</abbr> <span class="math notranslate nohighlight">\(\gtrsim 3\)</span>.</p>
 <section id="model-fitting">
 <h3>Model fitting<a class="headerlink" href="#model-fitting" title="Link to this heading"></a></h3>
-<p>Assuming that photon noise follows Poisson statistics, that readout noise is Gaussian-distributed, and that noise is independent from pixel to pixel, source model-fitting using inverse-variance-weighted <a class="reference external" href="https://en.wikipedia.org/wiki/Least_squares">least-squares</a> regression provides a good approximation to the Maximum Likelihood Estimator (<a class="reference external" href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation"><abbr title="Maximum Likelihood Estimation">MLE</abbr></a>) of the &quot;flux&quot; <span class="math notranslate nohighlight">\(F\)</span>.
-In practice there are other contributors to flux uncertainties, such as background estimation errors or contamination by neighboring objects, but they are not easy to quantify, and we shall ignore them in the context of this exposure time calculator.</p>
+<p>If photon noise follows Poisson statistics, readout noise is Gaussian, and noise is independent between pixels, fitting a source model with inverse-variance-weighted <a class="reference external" href="https://en.wikipedia.org/wiki/Least_squares">least-squares</a> regression approximates the maximum likelihood estimate (<a class="reference external" href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation"><abbr title="Maximum Likelihood Estimation">MLE</abbr></a>) of the flux <span class="math notranslate nohighlight">\(F\)</span>.
+Other effects, such as background-estimation errors and contamination by neighboring objects, also contribute to flux uncertainty.
+These are difficult to quantify and are omitted from the calculator.</p>
 <section id="forced-photometry">
 <h4>Forced photometry<a class="headerlink" href="#forced-photometry" title="Link to this heading"></a></h4>
-<p>Let's start assuming we know the position of the source; hence the only fitted parameter is its amplitude, represented by the &quot;flux&quot; <span class="math notranslate nohighlight">\(F\)</span>. Let <span class="math notranslate nohighlight">\(\vec{\phi}\)</span> be the source image model (the <abbr title="Point Spread Function">PSF</abbr> for point sources, or the <abbr title="Point Spread Function">PSF</abbr> convolved with a light distribution model for extended sources), normalized such that <span class="math notranslate nohighlight">\(\sum_i \phi_i = 1\)</span>.
+<p>First, suppose the source position is known, so the only fitted parameter is its amplitude, represented by the flux <span class="math notranslate nohighlight">\(F\)</span>.
+Let <span class="math notranslate nohighlight">\(\vec{\phi}\)</span> be the source image model: the <abbr title="Point Spread Function">PSF</abbr> for a point source, or the <abbr title="Point Spread Function">PSF</abbr> convolved with a light-distribution model for a resolved source, normalized such that <span class="math notranslate nohighlight">\(\sum_i \phi_i = 1\)</span>.
 The expected source contribution in pixel <span class="math notranslate nohighlight">\(i\)</span> is then <span class="math notranslate nohighlight">\(F\phi_i\)</span>.</p>
 <p>Before background subtraction, the pixel value may be written as</p>
 <div class="math notranslate nohighlight" id="equation-pixel-model">
@@ -156,12 +162,12 @@ After subtracting the expected background, <span class="math notranslate nohighl
 <span class="eqno">(7)<a class="headerlink" href="#equation-pixel-variance" title="Link to this equation"></a></span>\[V_i(F) = \var{I_i} = \sigma_r^2 + \sigma_b^2 t + F\phi_i.\]</div>
 <p>The exact likelihood of <span class="math notranslate nohighlight">\(Y_i\)</span> is the convolution of a <a class="reference external" href="https://en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a> with a Gaussian readout noise distribution.
 Its <a class="reference external" href="https://en.wikipedia.org/wiki/Cram%C3%A9r%E2%80%93Rao_bound">Cramér-Rao bound</a> has no simple closed form in general.
-For the purpose of this <abbr title="Exposure Time Calculator">ETC</abbr>, we use an inverse-variance-weighted Gaussian approximation to the exact Poisson+Gaussian likelihood.
+For this <abbr title="Exposure Time Calculator">ETC</abbr>, we use an inverse-variance-weighted Gaussian approximation to the exact Poisson-plus-Gaussian likelihood.
 The inverse-variance-weighted estimating equation is obtained by minimizing</p>
 <div class="math notranslate nohighlight" id="equation-weighted-chi2">
 <span class="eqno">(8)<a class="headerlink" href="#equation-weighted-chi2" title="Link to this equation"></a></span>\[\chi^2(F) = \sum_i \frac{\left(I_i - F\phi_i\right)^2} {V_i(F)},\]</div>
 <p>where <span class="math notranslate nohighlight">\(V_i(F)\)</span> is the expected variance used to weight the residuals.
-The flux is therefore estimated by nulling</p>
+The flux estimate satisfies</p>
 <div class="math notranslate nohighlight" id="equation-estimating-equation">
 <span class="eqno">(9)<a class="headerlink" href="#equation-estimating-equation" title="Link to this equation"></a></span>\[U(F) = \sum_i \frac{\phi_i\left(I_i - F\phi_i\right)}{V_i(F)} = 0.\]</div>
 <p>If the weights are kept fixed during one least-squares step, this gives the usual inverse-variance-weighted flux estimator <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id11" title="Tim Naylor, 1998. An optimal extraction algorithm for imaging photometry. MNRAS, 296(2):339-346.">1</a>]</span>:</p>
@@ -189,7 +195,7 @@ The Cramér-Rao bound gives</p>
 <span class="eqno">(14)<a class="headerlink" href="#equation-flux-variance-bound" title="Link to this equation"></a></span>\[\var{\hat{F}} \gtrsim \frac{1}{{\cal I}(F)} = \left[
   \sum_i \frac{\phi_i^2}{\sigma_r^2 + \sigma_b^2 t + F\phi_i}
 \right]^{-1}.\]</div>
-<p>Therefore, plugging into <a class="reference internal" href="#equation-snr">(1)</a> we obtain the upper bound at given exposure time <span class="math notranslate nohighlight">\(t\)</span>:</p>
+<p>Substituting into <a class="reference internal" href="#equation-snr">(1)</a> gives an upper bound on the <abbr title="Signal-to-Noise Ratio">SNR</abbr> at exposure time <span class="math notranslate nohighlight">\(t\)</span>:</p>
 <div class="math notranslate nohighlight" id="equation-snr-model">
 <span class="eqno">(15)<a class="headerlink" href="#equation-snr-model" title="Link to this equation"></a></span>\[\begin{split}\begin{aligned}
   \mathrm{SNR} &amp;\lesssim\, F\, \sqrt{
@@ -198,11 +204,12 @@ The Cramér-Rao bound gives</p>
     \sum_i \frac{\phi_i^2}{\sigma_r^2 + \left(\sigma_b^2 + f\phi_i\right)t}}.
 \end{aligned}\end{split}\]</div>
 <p><span class="math notranslate nohighlight">\(\var{\hat{F}}\)</span> approaches the Cramér-Rao bound at sufficiently large <abbr title="Signal-to-Noise Ratio">SNR</abbr> or in the background-dominated Gaussian regime.
-At very low <abbr title="Signal-to-Noise Ratio">SNR</abbr>, especially if the flux is constrained to be non-negative or if the source position is fitted simultaneously (see below), the actual uncertainty distribution may be asymmetric or biased, and <a class="reference internal" href="#equation-snr-model">(15)</a> should be regarded as an optimistic lower bound rather than as a close estimation.
-Remember also that it does not take into account systematic uncertainty terms such as imperfect background subtraction, correlated noise, model mismatch, source blending, or flat-field errors.</p>
+At very low <abbr title="Signal-to-Noise Ratio">SNR</abbr>, especially when flux is constrained to be non-negative or the source position is fitted simultaneously (see below), the uncertainty distribution may be asymmetric or biased.
+In this regime, treat <a class="reference internal" href="#equation-snr-model">(15)</a> as an optimistic upper bound on the <abbr title="Signal-to-Noise Ratio">SNR</abbr> rather than a precise prediction.
+The expression also omits imperfect background subtraction, correlated noise, model mismatch, source blending, and flat-field errors.</p>
 </section>
-<section id="free-model-coordinates">
-<h4>Free model coordinates<a class="headerlink" href="#free-model-coordinates" title="Link to this heading"></a></h4>
+<section id="fitting-the-source-position">
+<h4>Fitting the source position<a class="headerlink" href="#fitting-the-source-position" title="Link to this heading"></a></h4>
 <p>If the source coordinates are also left as free parameters, the relevant bound is no longer the reciprocal of the flux-only Fisher information.
 Instead, one must use the inverse of the <a class="reference external" href="https://en.wikipedia.org/wiki/Fisher_information#Matrix_form">Fisher matrix</a> <span class="math notranslate nohighlight">\(\boldsymbol{\cal I}\)</span> for <span class="math notranslate nohighlight">\(\vec{\theta} = (F,x_0,y_0)\)</span>: in the same approximation,</p>
 <div class="math notranslate nohighlight" id="equation-joint-fisher">
@@ -235,7 +242,7 @@ Instead, one must use the inverse of the <a class="reference external" href="htt
 <p>one obtains</p>
 <div class="math notranslate nohighlight" id="equation-schur-flux-bound">
 <span class="eqno">(24)<a class="headerlink" href="#equation-schur-flux-bound" title="Link to this equation"></a></span>\[ \var{\hat{F}} \geq \frac{1}{{\cal I}_{FF} - \mathbf{c}^{\mathsf T}\mathbf{Q}^{-1}\mathbf{c}}.\]</div>
-<p>The correction term is positive, so fitting the position can only degrade the flux uncertainty.
+<p>The correction term is positive, so fitting the position can only increase the flux uncertainty.
 For an isolated source with a centrally symmetric model (and a symmetric fitting domain), the flux-position cross-terms vanish by symmetry: <span class="math notranslate nohighlight">\({\cal I}_{Fx} = {\cal I}_{Fy} = 0\)</span>.
 In that ideal case,</p>
 <div class="math notranslate nohighlight" id="equation-methods-10">
@@ -247,9 +254,8 @@ In real data, departures from symmetry, masking, undersampling, neighboring sour
 <section id="aperture-photometry">
 <h3>Aperture photometry<a class="headerlink" href="#aperture-photometry" title="Link to this heading"></a></h3>
 <p>Aperture photometry is another way of estimating the source flux.
-It is suboptimal compared to model-fitting.
-However, it is much less compute-intensive and does not require a model.
-This is a useful feature, as the model-fitting accuracy of bright, unsaturated stars, may sometimes be limited by that of the <abbr title="Point Spread Function">PSF</abbr> model.
+It is less statistically efficient than fitting an accurate source model, but requires less computation and no profile model.
+This can be useful for bright, unsaturated stars, whose model-fitting accuracy may be limited by the accuracy of the <abbr title="Point Spread Function">PSF</abbr> model.
 For sources with unknown light profiles, aperture photometry is generally the safest option.</p>
 <p>For an aperture <span class="math notranslate nohighlight">\({\cal A}\)</span>, the <abbr title="Signal-to-Noise Ratio">SNR</abbr> is</p>
 <div class="math notranslate nohighlight" id="equation-snr-aper">
@@ -261,7 +267,7 @@ For sources with unknown light profiles, aperture photometry is generally the sa
 <p>The optimal-aperture option chooses the radius <span class="math notranslate nohighlight">\(r=r_\mathrm{opt}\)</span> of the circular aperture <span class="math notranslate nohighlight">\({\cal A}(r)\)</span> that maximizes the expected aperture signal-to-noise ratio <span class="math notranslate nohighlight">\(\mathrm{SNR}({\cal A})\)</span> in <a class="reference internal" href="#equation-snr-aper">(26)</a>:</p>
 <div class="math notranslate nohighlight" id="equation-methods-11">
 <span class="eqno">(27)<a class="headerlink" href="#equation-methods-11" title="Link to this equation"></a></span>\[ r_\mathrm{opt} = \underset{r}{\operatorname{arg\,max}}\,\mathrm{SNR}({\cal A}(r)).\]</div>
-<p>The minimization is performed numerically over the allowed range of aperture radii, from zero to the radius of the circular simulation mask.</p>
+<p>The optimization is performed numerically over the allowed aperture radii, from zero to the radius of the circular simulation mask.</p>
 <p>The optimal aperture depends on the exposure time and noise regime.
 <cite>PyDIET</cite> therefore recomputes the optimal aperture every time the signal-to-noise ratio is evaluated.</p>
 <p>For stars, the optimal aperture depends on the seeing, sky background, source brightness, and exposure time.
@@ -278,7 +284,7 @@ The optimal aperture depends on the Sérsic radius, Sérsic index, seeing, sky b
 <p>The aperture radius is obtained by solving</p>
 <div class="math notranslate nohighlight" id="equation-f096">
 <span class="eqno">(29)<a class="headerlink" href="#equation-f096" title="Link to this equation"></a></span>\[ f(r_{96}^2) = 0.96.\]</div>
-<p>In the <cite>PyDIET</cite> implementation, <span class="math notranslate nohighlight">\(f096\)</span> is solved numerically with a Brent root finder.
+<p><cite>PyDIET</cite> solves <a class="reference internal" href="#equation-f096">(29)</a> numerically with a Brent root finder.
 The search interval extends from the center of the image to the edge of the circular simulation mask.</p>
 <p>The 96% aperture is close to a total-flux aperture.
 It captures most of the model flux, but it is not generally the aperture with the highest signal-to-noise ratio, because the outer parts of the aperture may contain more noise than useful source signal.
@@ -290,13 +296,12 @@ In source-dominated or very high signal-to-noise regimes, it may become smaller,
 </section>
 <section id="exposure-time">
 <h2>Exposure time<a class="headerlink" href="#exposure-time" title="Link to this heading"></a></h2>
-<p>The main purpose of an <abbr title="Exposure Time Calculator">ETC</abbr> is obviously to provide exposure times.
-<cite>PyDIET</cite> computes the exposure time for a given <abbr title="Signal-to-Noise Ratio">SNR</abbr> using iterative <a class="reference external" href="https://en.wikipedia.org/wiki/Root-finding_algorithm">root finding</a> applied to <a class="reference internal" href="#equation-snr-model">(15)</a> or <a class="reference internal" href="#equation-snr-aper">(26)</a>, more specifically, Brent's method <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id4" title="Richard P. Brent. Algorithms for Minimization without Derivatives. Prentice-Hall, 1st edition, 1973. ISBN 0-13-022335-2.">2</a>]</span>.</p>
+<p>To find the exposure time needed for a target <abbr title="Signal-to-Noise Ratio">SNR</abbr>, <cite>PyDIET</cite> solves <a class="reference internal" href="#equation-snr-model">(15)</a> or <a class="reference internal" href="#equation-snr-aper">(26)</a> by iterative <a class="reference external" href="https://en.wikipedia.org/wiki/Root-finding_algorithm">root finding</a>, using Brent's method <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id4" title="Richard P. Brent. Algorithms for Minimization without Derivatives. Prentice-Hall, 1st edition, 1973. ISBN 0-13-022335-2.">2</a>]</span>.</p>
 </section>
 <section id="source-models">
 <h2>Source models<a class="headerlink" href="#source-models" title="Link to this heading"></a></h2>
-<p><cite>PyDIET</cite> currently implements three source models: point sources, galaxies, and flat extended sources.
-The role of the source model is to define the expected spatial distribution of source photons over the detector pixels.</p>
+<p><cite>PyDIET</cite> provides models for point sources, galaxies, and uniform extended sources.
+Each describes how source photons are distributed over the detector pixels.</p>
 <p>For compact and galaxy-like sources, the source model is represented by a discrete image <span class="math notranslate nohighlight">\(\phi_i\)</span>, normalized as</p>
 <div class="math notranslate nohighlight" id="equation-source-model-normalization">
 <span class="eqno">(30)<a class="headerlink" href="#equation-source-model-normalization" title="Link to this equation"></a></span>\[\sum_i \phi_i = 1,\]</div>
@@ -311,12 +316,12 @@ If the total detected source rate is <span class="math notranslate nohighlight">
 <cite>PyDIET</cite> uses a circular <a class="reference external" href="https://en.wikipedia.org/wiki/Moffat_distribution">Moffat profile</a> <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id10" title="A. F. J. Moffat, 1969. A Theoretical Investigation of Focal Stellar Images in the Photographic Emulsion and Application to Photographic Photometry. A&amp;A, 3:455.">3</a>]</span>,</p>
 <div class="math notranslate nohighlight" id="equation-moffat-profile">
 <span class="eqno">(32)<a class="headerlink" href="#equation-moffat-profile" title="Link to this equation"></a></span>\[M(r) = \left(1 + \frac{r^2}{\alpha^2}\right)^{-\beta},\]</div>
-<p>where <span class="math notranslate nohighlight">\(r\)</span> is the angular distance from the source centre, <span class="math notranslate nohighlight">\(\alpha\)</span> the Moffat scale radius, and <span class="math notranslate nohighlight">\(\beta\)</span> the strength of the wings.
+<p>where <span class="math notranslate nohighlight">\(r\)</span> is the angular distance from the source center, <span class="math notranslate nohighlight">\(\alpha\)</span> the Moffat scale radius, and <span class="math notranslate nohighlight">\(\beta\)</span> the parameter controlling the wings.
 The Moffat scale radius is set by the requested <abbr title="Full Width at Half Maximum">FWHM</abbr>.
 Since <span class="math notranslate nohighlight">\(M(\mathrm{FWHM}/2) = M(0)/2\)</span>, one obtains</p>
 <div class="math notranslate nohighlight" id="equation-moffat-alpha-fwhm">
 <span class="eqno">(33)<a class="headerlink" href="#equation-moffat-alpha-fwhm" title="Link to this equation"></a></span>\[\alpha^2 = \frac{\mathrm{FWHM}^2}{4\left(2^{1/\beta} - 1\right)}.\]</div>
-<p><cite>PyDIET</cite> considers the Moffat <span class="math notranslate nohighlight">\(\beta\)</span> parameter as an instrumental feature; it is set in the instrument section of the data configuration file.
+<p>The Moffat <span class="math notranslate nohighlight">\(\beta\)</span> parameter is set for each instrument in the data configuration file.
 The default value is <span class="math notranslate nohighlight">\(\beta = 3.2\)</span>, corresponding to the best-fitting value for MegaCam observations.</p>
 <p>The Moffat model is rasterized on the internal image grid, truncated inside the circular simulation domain, and normalized numerically:</p>
 <div class="math notranslate nohighlight" id="equation-point-source-normalized">
@@ -333,7 +338,7 @@ Before convolution, the intrinsic surface-brightness profile is</p>
 <p>The effective radius <span class="math notranslate nohighlight">\(R_\mathrm{e}\)</span> is the radius enclosing half of the intrinsic Sérsic-model flux.
 The Sérsic index controls the concentration of the profile.
 Values close to <span class="math notranslate nohighlight">\(n=1\)</span> correspond to disk-like profiles, whereas larger values produce more centrally concentrated profiles with more extended wings, such as in ellipticals or galaxy bulges.
-For numerical stability reasons, the current implementation enforces limits on the Sérsic index: <span class="math notranslate nohighlight">\(0.36 \leq n \leq 10\)</span>.</p>
+For numerical stability, the current implementation limits the Sérsic index to <span class="math notranslate nohighlight">\(0.36 \leq n \leq 10\)</span>.</p>
 <p>The observed galaxy model is obtained by convolving the intrinsic Sérsic profile with the <abbr title="Point Spread Function">PSF</abbr> model,</p>
 <div class="math notranslate nohighlight" id="equation-sersic-convolved">
 <span class="eqno">(36)<a class="headerlink" href="#equation-sersic-convolved" title="Link to this equation"></a></span>\[G(r) = (S * P)(r),\]</div>
@@ -369,7 +374,8 @@ Therefore, the seeing parameter has no direct effect on the mathematical model o
 This conversion is performed by integrating reference spectra or sky spectra through the selected instrumental and atmospheric responses.</p>
 <section id="transmission">
 <h3>Transmission<a class="headerlink" href="#transmission" title="Link to this heading"></a></h3>
-<p>Let <span class="math notranslate nohighlight">\(T_\mathrm{inst}(\lambda)\)</span> be the instrumental response, including the selected mirror state, telescope/instrument optics, filter transmission, and detector response. Let <span class="math notranslate nohighlight">\(T_\mathrm{atm}(\lambda; X)\)</span> be the atmospheric transmission at airmass <span class="math notranslate nohighlight">\(X\)</span>, and let <span class="math notranslate nohighlight">\(\tau\)</span> be the additional transparency factor entered by the user.
+<p>Let <span class="math notranslate nohighlight">\(T_\mathrm{inst}(\lambda)\)</span> be the instrumental response, including the selected mirror state, telescope and instrument optics, filter transmission, and detector response.
+Let <span class="math notranslate nohighlight">\(T_\mathrm{atm}(\lambda; X)\)</span> be the atmospheric transmission at airmass <span class="math notranslate nohighlight">\(X\)</span>, and <span class="math notranslate nohighlight">\(\tau\)</span> the additional transparency factor entered by the user.
 The full source transmission used for source count rates is</p>
 <div class="math notranslate nohighlight" id="equation-methods-13">
 <span class="eqno">(40)<a class="headerlink" href="#equation-methods-13" title="Link to this equation"></a></span>\[T_\mathrm{full}(\lambda) = T_\mathrm{inst}(\lambda) T_\mathrm{atm}(\lambda; X) \tau .\]</div>
@@ -388,7 +394,7 @@ In both cases, the reference count rate is computed by integrating the reference
 <div class="math notranslate nohighlight" id="equation-methods-15">
 <span class="eqno">(42)<a class="headerlink" href="#equation-methods-15" title="Link to this equation"></a></span>\[ f_0 = \int R_{0,\lambda}(\lambda) T_\mathrm{full}(\lambda) A_\mathrm{eff}{\lambda \over hc}\,d\lambda ,\]</div>
 <p>where <span class="math notranslate nohighlight">\(R_{0,\lambda}\)</span> is the chosen reference spectrum.
-<cite>PyDIET</cite> uses the  <a class="reference external" href="https://synphot.readthedocs.io/en/stable/api/synphot.observation.Observation.html#synphot.observation.Observation.countrate" title="(in synphot v1.7)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">countrate()</span></code></a> method of the <a class="reference external" href="https://synphot.readthedocs.io">SynPhot</a> <a class="reference external" href="https://synphot.readthedocs.io/en/stable/index.html#module-synphot.observation" title="(in synphot v1.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">observation</span></code></a> module to evaluate this integral.</p>
+<cite>PyDIET</cite> evaluates this integral using <a class="reference external" href="https://synphot.readthedocs.io/en/stable/api/synphot.observation.Observation.html#synphot.observation.Observation.countrate" title="(in synphot v1.7)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">countrate()</span></code></a> from the <a class="reference external" href="https://synphot.readthedocs.io">Synphot</a> <a class="reference external" href="https://synphot.readthedocs.io/en/stable/index.html#module-synphot.observation" title="(in synphot v1.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">observation</span></code></a> module.</p>
 <p>If the detector gain is <span class="math notranslate nohighlight">\(g\)</span>, in electrons per ADU, the corresponding count rate in ADU per second is</p>
 <div class="math notranslate nohighlight" id="equation-methods-16">
 <span class="eqno">(43)<a class="headerlink" href="#equation-methods-16" title="Link to this equation"></a></span>\[ C_0 = {f_0 \over g}.\]</div>
@@ -419,7 +425,7 @@ For integrated physical fluxes, the conversion uses the pivot wavelength and equ
 <li><p>a predefined sky model selected from tabulated sky spectra;</p></li>
 <li><p>a user-specified sky brightness.</p></li>
 </ul>
-<p>For the predefined sky modes, PyDIET selects a tabulated sky-emission spectrum according to:</p>
+<p>For the predefined sky modes, <cite>PyDIET</cite> selects a tabulated sky-emission spectrum according to:</p>
 <ul class="simple">
 <li><p>the sky state, for example dark, grey, or bright;</p></li>
 <li><p>the solar-activity level;</p></li>
@@ -436,7 +442,7 @@ The sky count rate per square arcsecond is</p>
 <div class="math notranslate nohighlight" id="equation-methods-21">
 <span class="eqno">(48)<a class="headerlink" href="#equation-methods-21" title="Link to this equation"></a></span>\[ B_\Omega = \int I_\mathrm{sky}(\lambda) T_\mathrm{inst}(\lambda) A_\mathrm{eff} {\lambda \over hc}\, d\lambda + B_\mathrm{therm} .\]</div>
 <p>The term <span class="math notranslate nohighlight">\(B_\mathrm{therm}\)</span> is the instrumental thermal-emission contribution for the selected mirror and filter configuration.
-It includes thermal emission terms associated with the telescope, optics, filter, and detector model.</p>
+The current calculation includes thermal emission from the telescope, optics, and filter; detector emission is not included.</p>
 <p>When the sky background is specified manually, <cite>PyDIET</cite> converts the user input into a detector count rate per pixel.</p>
 <p><cite>PyDIET</cite> reports the sky background both as a count rate per pixel (accessible through the web API) and as an AB surface brightness.</p>
 <p>If the detector pixel scale is <span class="math notranslate nohighlight">\(p_x \times p_y\)</span>, in arcseconds per pixel, the value passed to the image model as the background rate per pixel is then</p>
