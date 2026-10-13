@@ -8,7 +8,7 @@ Deploying the ETC
 =================
 
 You can run |PyDIET| on your own computer or make it available to other observers on a shared server.
-Its `FastAPI <https://fastapi.tiangolo.com/>`_ application, served by `Uvicorn <https://uvicorn.dev/>`_, brings the web interface, calculation API, and built user's manual together in one service.
+Its `FastAPI <https://fastapi.tiangolo.com/>`_ application, served by `Uvicorn <https://uvicorn.dev/>`_, provides the web interface, calculation API, and locally built manual in one service.
 Choose a Python installation or a `Docker <https://www.docker.com/>`_ container below, then add a reverse proxy if you want to share it over HTTPS.
 The examples use the supplied instrument data and the default port, ``8010``.
 
@@ -34,7 +34,7 @@ From a directory where you keep application sources, create an environment and i
    python -m pip install .
 
 The instrument data and web client come with the repository, so you can start the calculator straight away.
-To include a local HTML manual too, install `Node.js <https://nodejs.org/>`_ and `npm <https://docs.npmjs.com/>`_, then build it with `Sphinx <https://www.sphinx-doc.org/>`_, `JSDoc <https://jsdoc.app/>`_, and `make <https://www.gnu.org/software/make/>`_:
+To include a local HTML manual, also install `Node.js <https://nodejs.org/>`_ and `npm <https://docs.npmjs.com/>`_, then build the manual with `Sphinx <https://www.sphinx-doc.org/>`_, `JSDoc <https://jsdoc.app/>`_, and `make <https://www.gnu.org/software/make/>`_:
 
 .. code-block:: console
 
@@ -65,8 +65,8 @@ A quick `curl <https://curl.se/>`_ request checks that the API is ready:
 
    curl --fail http://127.0.0.1:8010/api/health
 
-An ``{"ok":true}`` response means the health endpoint is responding.
-From there, try a calculation in the interface, explore the API at ``/docs``, or open the built manual at ``/manual/index.html``.
+A successful health check returns ``{"ok":true}``.
+Next, try a calculation in the interface, explore the API at ``/docs``, or open the built manual at ``/manual/index.html``.
 
 .. note::
 
@@ -100,7 +100,7 @@ Settings you leave out keep their defaults.
 Use an explicit configuration path for a service: the default printed by ``pydiet --help`` depends on the account running the command.
 To see which settings are in effect, add ``--show_config``; it prints them before starting the server.
 
-Ready to use your own instrument? Set ``data_config`` to your TOML file in ``[server]`` and set that file's top-level ``path`` to the spectral-data directory.
+To use your own instrument, set ``data_config`` to your TOML file in ``[server]`` and set that file's top-level ``path`` to the spectral-data directory.
 The server's ``data_dir`` is a separate setting; :ref:`chap_customize` shows how to arrange the data, templates, and styles together.
 Use absolute paths for a service, and restart it after changing data, templates, or configuration.
 
@@ -110,7 +110,7 @@ Running as a system service
 For a server that starts at boot and runs without an open terminal, use a service manager.
 On `Linux <https://www.kernel.org/>`_ with `systemd <https://systemd.io/>`_, place the checkout and virtual environment under ``/opt/pydiet``.
 Create an unprivileged ``pydiet`` account, the configuration above, and a readable ``/var/lib/pydiet/extra`` directory.
-Give that account access to read and traverse the installation and data directories, then save this as ``/etc/systemd/system/pydiet.service``:
+Ensure that account can read and traverse the installation and data directories, then save this as ``/etc/systemd/system/pydiet.service``:
 
 .. code-block:: ini
 

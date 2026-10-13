@@ -1,7 +1,7 @@
 Themes
 ======
 
-``theme.js`` applies and remembers light, dark, and automatic theme choices.
+``theme.js`` applies and remembers the choice of light, dark, or automatic mode.
 
 .. js:autoattribute:: theme.themes
 

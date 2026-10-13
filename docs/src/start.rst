@@ -8,7 +8,8 @@ Getting started
 ===============
 
 Planning an imaging observation? |PyDIET| helps you estimate the exposure time needed to reach a target |SNR|, or the |SNR| you can expect from a given exposure.
-It is in use at CFHT through `pydiet.cfht.hawaii.edu <https://pydiet.cfht.hawaii.edu/>`_, and you can also run it on your computer, host it for other observers, or adapt it to your own imaging system.
+CFHT runs it at `pydiet.cfht.hawaii.edu <https://pydiet.cfht.hawaii.edu/>`_.
+You can also run it on your computer, host it for other observers, or adapt it to your own imaging system.
 
 
 Try it in your browser
@@ -23,7 +24,7 @@ The :ref:`chap_interface` chapter walks through the form and results.
 Run it on your computer
 -----------------------
 
-For your own local copy, install `Python <https://www.python.org/>`_ 3.10 or later and `Git <https://git-scm.com/>`_, with Python's virtual-environment support available.
+For a local copy, install `Python <https://www.python.org/>`_ 3.10 or later, `Git <https://git-scm.com/>`_, and Python's virtual-environment support.
 In a terminal, download the source and install it with `pip <https://pip.pypa.io/en/stable/>`_ in a virtual environment:
 
 .. code-block:: console
@@ -52,6 +53,6 @@ Share it or make it your own
 To give colleagues access to the calculator, install it on your own server.
 The :ref:`chap_deploy` chapter covers Python and Docker installations, persistent services, HTTPS reverse proxies, and performance tips.
 
-For another camera, telescope, or observing site, start with the supplied configuration and replace its characteristics and spectra with your own.
+To use another camera, telescope, or observing site, start with the supplied configuration and replace the instrument characteristics and spectra with your own.
 You can also tailor the input form, result panels, and styling to suit your observers.
 Follow :ref:`chap_customize` for the data configuration reference and interface examples.

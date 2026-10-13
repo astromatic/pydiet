@@ -8,7 +8,8 @@ Customization
 =============
 
 To make |PyDIET| your own, start with your instrument's characteristics, then give the calculator a matching interface.
-Most of the work takes place in three locations: ``src/pydiet/data/data_config.toml`` for the physical model in `TOML <https://toml.io/en/>`_ format, `Jinja2 <https://jinja.palletsprojects.com/>`_ templates under ``src/pydiet/templates`` for the |ETC| form and results, and ``src/pydiet/web_client/css/style.css`` for their appearance.
+The physical model lives in ``src/pydiet/data/data_config.toml``, in `TOML <https://toml.io/en/>`_ format.
+`Jinja2 <https://jinja.palletsprojects.com/>`_ templates under ``src/pydiet/templates`` define the |ETC| form and results, while ``src/pydiet/web_client/css/style.css`` controls their appearance.
 
 The supplied MegaCam and WIRCam configurations provide working examples to build on.
 You can add a filter, adapt a camera, or replace the observing site by supplying your own measurements and spectra.
@@ -43,7 +44,7 @@ One convenient layout is:
 Copy the supplied ``data`` and ``templates`` directories, along with the web client's ``css``, ``dist``, and ``images`` directories, into this layout.
 Keep ``dist/pydiet.js``: it handles instrument selection, form submission, and result display.
 You can leave ``extra`` empty.
-Then point the copied TOML file to your data directory:
+Then point the copied TOML file at your data directory:
 
 .. code-block:: toml
 
@@ -63,7 +64,7 @@ Tell the server where to find these copies through its INI configuration:
 Start the server with ``pydiet --config /path/to/pydiet.conf``.
 There are two data paths to keep in mind: the engine reads spectra under the TOML ``path``, while the server's ``data_dir`` is a separate setting.
 A relative TOML ``path`` is resolved against the installed ``pydiet`` package directory.
-An absolute path, as above, keeps an external configuration easy to locate.
+An absolute path, as above, avoids ambiguity when keeping your data outside the package.
 
 Restart the server after changing the TOML file or spectral data: instrument models and derived quantities are loaded at startup.
 Reload the browser after changing templates or CSS, bypassing its cache if necessary.
@@ -80,7 +81,7 @@ Instrument IDs also name URLs and template directories, and every referenced sit
 
 Physical quantities are quoted strings with units understood by `Astropy <https://www.astropy.org/>`_, such as ``"2.5 m2"`` or ``"[0.3, 0.3] arcsec/pix"``.
 Dimensionless parameters, such as ``psf_beta`` and ``vars.am``, are TOML numbers; flags such as ``default`` are TOML booleans.
-The two-element quantities ``wavelength_range`` and detector ``scale`` are strings containing an array and a common unit.
+Write the two-element quantities ``wavelength_range`` and detector ``scale`` as strings containing an array and a common unit.
 
 Configuration reference
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -155,7 +156,7 @@ Entries are required unless a default or limitation is stated; nested paths are 
      - Meaning
    * - ``instruments.site_id``, ``instruments.telescope_id``
      - ``"mysite"``, ``"mytelescope"``
-     - IDs of the site's and telescope's tables.
+     - IDs of the site and telescope definitions used by this instrument.
    * - ``instruments.wavelength_range``
      - ``"[350, 1000] nm"``
      - Two positive wavelengths defining the range of the serialized transmission curves used for display.
@@ -191,7 +192,7 @@ Entries are required unless a default or limitation is stated; nested paths are 
      - Positive full-well capacity in electrons; defaults to ``"1000000 electron"``. Dividing by the gain gives the corresponding saturation limit in ADUs.
    * - ``instruments.detector.range``
      - ``"65536 adu"``
-     - Digital range greater than one ADU; defaults to ``"65536 adu"``. The highest representable level is one ADU below this value.
+     - Digital range in ADUs, greater than one; defaults to ``"65536 adu"``. The highest representable level is one ADU below this value.
    * - ``instruments.detector.bias``
      - ``"1200 adu"``
      - Nonnegative bias level in ADUs; defaults to ``"0 adu"``. Subtracted from the highest digital level to obtain the available signal headroom.
@@ -287,8 +288,8 @@ The converter averages all columns after ``col1`` if more than one response colu
 Omit ``--multiply 0.01`` when your response is already a fraction.
 Copy the resulting FITS file into the configured directory.
 
-After a server restart and browser reload, your filter appears in the menu through ``/api/instruments``; there is no menu option to add by hand.
-The browser keeps a valid saved choice, otherwise selects the first filter marked ``default = true``, or the first filter if none is marked.
+After a server restart and browser reload, the client loads your filter into the menu through ``/api/instruments``; no manual menu edit is needed.
+The browser keeps a valid saved choice; otherwise, it selects the first filter marked ``default = true``, or the first filter if none is marked.
 It replaces saved choices that refer to removed filters automatically.
 If supplying explicit filter emission files, add a matching emission entry with the same ID; otherwise the filter's thermal emission is derived from its throughput and configured temperature.
 
@@ -338,7 +339,8 @@ For example, this fragment describes two sky spectra for dark time and average s
    ]
 
 Sky files contain ``WAVELENGTH`` and ``PHOTLAM`` columns with units.
-The ``PHOTLAM`` column must represent spectral surface brightness convertible to Jy per square arcsecond using the wavelength-dependent spectral-density equivalency; photon flux density per wavelength and per square arcsecond is one suitable representation.
+The ``PHOTLAM`` column must contain spectral surface brightness that Astropy can convert to Jy per square arcsecond using its wavelength-dependent spectral-density equivalency.
+Photon flux density per unit wavelength and per square arcsecond is one suitable representation.
 It is not an integrated broad-band sky magnitude.
 
 The engine first selects emission files whose ``sky`` and ``solar`` labels match the query, then interpolates linearly between the surrounding airmasses.
@@ -486,7 +488,7 @@ Check the logs for missing files, invalid units, unresolved IDs, and spectral-mo
 Work through every offered filter, mirror, sky, and solar combination, including the edges of your airmass grid.
 Try both exposure-time and |SNR| calculations, representative source types, and any file-upload options.
 
-The most useful check is a comparison with real observations: do the predicted zero-points, sky brightnesses, exposure times, and |SNR| match your instrument's measured performance?
+The most useful check is a comparison with real observations: compare predicted zero-points, sky brightnesses, exposure times, and |SNR| with your instrument's measured performance.
 Check the effects of overheads and pixel scales, and compare saturation estimates with your detector's capacity, digital range, bias, and gain.
 Finish by trying a narrow screen and both themes, including a deployment under a URL prefix if you use one.
 
