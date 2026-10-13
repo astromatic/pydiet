@@ -5,13 +5,11 @@ on:
     paths:
       - 'src/pydiet/server/**'
       - 'tests/**'
-      - 'checks/**/*.py'
       - '.github/workflows/tests.yml'
   pull_request:
     paths:
       - 'src/pydiet/server/**'
       - 'tests/**'
-      - 'checks/**/*.py'
       - '.github/workflows/tests.yml'
   workflow_dispatch:
 

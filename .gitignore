@@ -35,6 +35,9 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+# Local validation scripts, data, and plots
+/checks/
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
