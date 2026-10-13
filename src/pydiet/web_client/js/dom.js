@@ -19,7 +19,7 @@
  * inject_html('#message', '<strong>Ready</strong>');
  */
 export function inject_html(selector, html) {
-	parent = document.querySelector(selector)
+	const parent = document.querySelector(selector);
 	if (parent.firstElementChild) {
 		parent.firstElementChild.remove();
 		parent.innerHTML = "";
@@ -68,7 +68,7 @@ export function inject_html(selector, html) {
  * inject_node('#message', status);
  */
 export function inject_node(selector, node) {
-	parent = document.querySelector(selector)
+	const parent = document.querySelector(selector);
 	if (parent.firstElementChild) {
 		parent.firstElementChild.remove();
 		parent.innerHTML = "";

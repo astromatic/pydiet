@@ -1,0 +1,31 @@
+name: JavaScript tests
+
+on:
+  push:
+    paths:
+      - 'src/pydiet/web_client/**'
+      - '.github/workflows/web-client.yml'
+  pull_request:
+    paths:
+      - 'src/pydiet/web_client/**'
+      - '.github/workflows/web-client.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test JavaScript client
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/pydiet/web_client
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Tests use Node's built-in runner and explicit browser/library doubles.
+      # No npm dependency installation or live server is required.
+      - name: Run tests and check coverage
+        run: npm run test:coverage

@@ -63,7 +63,7 @@ export function get_instrumentID() {
  */
 export function update_instrument(instrumentID) {
 	get_instruments().then( (instruments) => {
-		instrument = instruments[instrumentID];
+		const instrument = instruments[instrumentID];
 		update_etcform(instrument);
 		// Store new instrument setting in local storage
 		localStorage.setItem('pyDIETDefaultInstrument', instrumentID);
