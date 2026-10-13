@@ -10,6 +10,7 @@ Getting started
 Planning an imaging observation? |PyDIET| helps you estimate the exposure time needed to reach a target |SNR|, or the |SNR| you can expect from a given exposure.
 CFHT runs it at `pydiet.cfht.hawaii.edu <https://pydiet.cfht.hawaii.edu/>`_.
 You can also run it on your computer, host it for other observers, or adapt it to your own imaging system.
+Its complete :ref:`web API <chap_webapi>` lets you bring the calculator into your scripts and observing tools, with a Python client included.
 
 
 Try it in your browser

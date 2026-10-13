@@ -1,0 +1,184 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using the web API &mdash; PyDIET 0.9.10 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_js.css" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=aeb07c19" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2ccb3ee0"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Methods" href="methods.html" />
+    <link rel="prev" title="Using the web interface" href="interface.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyDIET
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using the web API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#explore-before-you-script">Explore before you script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#make-your-first-request">Make your first request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#use-the-python-client">Use the Python client</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html">Model validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customize.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Deploying the ETC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyDIET</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Using the web API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/webapi.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="using-the-web-api">
+<span id="chap-webapi"></span><h1>Using the web API<a class="headerlink" href="#using-the-web-api" title="Link to this heading"></a></h1>
+<p>Want to compare a range of source magnitudes, plan a sequence of observations, or bring <cite>PyDIET</cite> into your own tools?
+The web API gives scripts access to the same calculator used by the browser interface, with results returned as JSON.
+You can use the CFHT service or a <a class="reference internal" href="start.html#chap-start"><span class="std std-ref">local installation</span></a>.</p>
+<section id="explore-before-you-script">
+<h2>Explore before you script<a class="headerlink" href="#explore-before-you-script" title="Link to this heading"></a></h2>
+<p>Open the <a class="reference external" href="https://pydiet.cfht.hawaii.edu/docs">interactive API documentation</a> on the CFHT service, or visit <code class="docutils literal notranslate"><span class="pre">http://localhost:8010/docs</span></code> with a local server running.
+You can also reach it through <strong>Settings</strong> in the web interface.
+Expand an endpoint, choose <strong>Try it out</strong>, enter your observing parameters, and inspect the response.
+It is a convenient way to build your first request and see the generated curl command.</p>
+<p>The running service supplies its own <a class="reference external" href="https://www.openapis.org/">OpenAPI</a> description at <code class="docutils literal notranslate"><span class="pre">/openapi.json</span></code> and an alternative reference view at <code class="docutils literal notranslate"><span class="pre">/redoc</span></code>.
+Use these for parameter names, defaults, allowed values, and request formats: they reflect the version and instrument configuration you are actually using.</p>
+</section>
+<section id="make-your-first-request">
+<h2>Make your first request<a class="headerlink" href="#make-your-first-request" title="Link to this heading"></a></h2>
+<p>With a local server running on the default port, ask which instruments are available:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">curl --fail http://localhost:8010/api/instruments</span>
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">http://localhost:8010</span></code> with <code class="docutils literal notranslate"><span class="pre">https://pydiet.cfht.hawaii.edu</span></code> to query the CFHT service.
+The main endpoints, with the default <code class="docutils literal notranslate"><span class="pre">/api</span></code> prefix, are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/api/health</span></code>: check that the server responds; a successful response is <code class="docutils literal notranslate"><span class="pre">{&quot;ok&quot;:true}</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/api/instruments</span></code>: discover the configured instruments and their available options.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/api/{instrument}</span></code>: run a calculation using URL query parameters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/api/{instrument}</span></code>: run a calculation using form fields, with an optional filter-curve upload.</p></li>
+</ul>
+<p>For a calculation, select an instrument and filter from the running service, then use the interactive documentation to set the source, observing conditions, and target exposure time or <abbr title="Signal-to-Noise Ratio">SNR</abbr>.
+The <a class="reference internal" href="interface.html#chap-interface"><span class="std std-ref">web interface guide</span></a> explains the scientific meaning of these choices.
+For POST requests, send form data rather than a JSON request body.</p>
+<p>If your installation uses a URL prefix or a different <code class="docutils literal notranslate"><span class="pre">api_path</span></code>, adjust the request URLs accordingly; see <a class="reference internal" href="deploy.html#chap-deploy"><span class="std std-ref">Deploying the ETC</span></a>.
+When saving results, also record the <cite>PyDIET</cite> version, instrument configuration, and input parameters so you can interpret and compare them later.</p>
+</section>
+<section id="use-the-python-client">
+<h2>Use the Python client<a class="headerlink" href="#use-the-python-client" title="Link to this heading"></a></h2>
+<p>Working in Python? The package includes <a class="reference internal" href="api/python_client.html#pydiet.api_client.client.Client" title="pydiet.api_client.client.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a>, which sends the request and returns a validated <a class="reference internal" href="api/server/models.html#pydiet.server.models.response.ETCResponseModel" title="pydiet.server.models.response.ETCResponseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ETCResponseModel</span></code></a>.
+After <a class="reference internal" href="start.html#chap-start"><span class="std std-ref">installing PyDIET</span></a>, try estimating the exposure time for a 22nd-magnitude point source in MegaCam's g band:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydiet.api_client.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydiet.server.models.query</span><span class="w"> </span><span class="kn">import</span> <span class="n">ETCQueryModel</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="s2">"https://pydiet.cfht.hawaii.edu/api"</span><span class="p">)</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">ETCQueryModel</span><span class="p">(</span>
+    <span class="n">instrument</span><span class="o">=</span><span class="s2">"megacam"</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="s2">"g"</span><span class="p">,</span>
+    <span class="n">compute</span><span class="o">=</span><span class="s2">"etime"</span><span class="p">,</span>
+    <span class="n">source</span><span class="o">=</span><span class="s2">"point_source"</span><span class="p">,</span>
+    <span class="n">brightness</span><span class="o">=</span><span class="mf">22.0</span><span class="p">,</span>
+    <span class="n">unit</span><span class="o">=</span><span class="s2">"abmag"</span><span class="p">,</span>
+    <span class="n">snr</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Exposure time: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">etime</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> s"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The other observing parameters keep their model defaults.
+For a local server, use <code class="docutils literal notranslate"><span class="pre">Client(&quot;http://localhost:8010/api&quot;)</span></code> instead.
+To calculate <abbr title="Signal-to-Noise Ratio">SNR</abbr> for a fixed exposure, set <code class="docutils literal notranslate"><span class="pre">compute=&quot;snr&quot;</span></code> and supply <code class="docutils literal notranslate"><span class="pre">etime</span></code> in seconds.</p>
+<p>The query model validates inputs against your locally installed instrument configuration, so keep it consistent with the server's configuration.
+Requests use GET; the client's default timeout is 10 seconds, adjustable with <code class="docutils literal notranslate"><span class="pre">client.query(query,</span> <span class="pre">timeout=30.0)</span></code>.
+Request or response failures raise <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code>.
+See <a class="reference internal" href="api/python_client.html"><span class="doc">Python API client</span></a> for the client reference and the interactive OpenAPI documentation for calculation parameters.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="interface.html" class="btn btn-neutral float-left" title="Using the web interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="methods.html" class="btn btn-neutral float-right" title="Methods" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 CFHT/CNRS, CEA/AIM, OSUPS/Université Paris-Saclay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
