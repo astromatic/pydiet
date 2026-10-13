@@ -161,13 +161,15 @@ def get_detector(
     ----------
     parent_dir: str
         Parent directory.
-    detector: ~pydantic.BaseModel
-        Pydantic detector configuration model.
+    detector_config: DetectorConfigModel
+        Detector configuration, including gain, readout noise, pixel scales,
+        full-well capacity, digital range, bias, and spectral-file settings.
 
     Returns
     -------
-    detector_model: ~pydantic.BaseModel
-        Pydantic detector model.
+    detector_model: DetectorModel
+        Detector model retaining the configured physical quantities and the
+        transmission and emission spectra loaded from disk.
     """
     transmissions = get_transmissions(
             join(parent_dir, detector_config.path),
@@ -181,6 +183,9 @@ def get_detector(
         gain = detector_config.gain,
         ron = detector_config.ron,
         scale = detector_config.scale,
+        full_well = detector_config.full_well,
+        range = detector_config.range,
+        bias = detector_config.bias,
         transmissions = transmissions,
         emissions = emissions
     )

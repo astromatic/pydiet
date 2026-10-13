@@ -289,6 +289,9 @@ def get_response(
         # Use RON 'counts' instead of electrons for compatibility with synphot
         ron=detector.ron.to_value('electron'),
         gain=gain,
+        full_well=detector.full_well.to_value('electron'),
+        range=detector.range.to_value('adu'),
+        bias=detector.bias.to_value('adu'),
         photometry=q.photometry,
         aperture=q.aperture
     )

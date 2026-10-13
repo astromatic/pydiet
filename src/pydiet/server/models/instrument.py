@@ -74,9 +74,40 @@ class CacheModel(BaseModel):
 
 
 class DetectorModel(BaseModel):
-    '''
-    Pydantic model for an instrument detector (e.g., CMOS or CCD).
-    '''
+    """Physical model for an instrument detector, such as a CMOS or CCD.
+
+    Attributes
+    ----------
+    gain: ~astropy.units.Quantity
+        Positive conversion factor in electrons per ADU.
+    ron: ~astropy.units.Quantity
+        Nonnegative RMS readout noise in electrons.
+    scale: ~astropy.units.Quantity
+        Two positive angular pixel scales in arcseconds per pixel.
+    full_well: ~astropy.units.Quantity
+        Positive full-well capacity in electrons; defaults to 1,000,000 electrons.
+    range: ~astropy.units.Quantity
+        Digital range in ADUs, greater than one ADU; defaults to 65,536 ADUs.
+    bias: ~astropy.units.Quantity
+        Nonnegative bias level in ADUs; defaults to zero ADUs.
+        Saturation calculations use the smaller
+        of ``range - 1 adu - bias`` and ``full_well / gain`` as signal headroom.
+    transmissions: dict[str, TransmissionModel]
+        Loaded quantum-efficiency curves.
+    emissions: dict[str, SBSEDModel]
+        Loaded detector emission spectra.
+
+    Examples
+    --------
+    >>> detector = DetectorModel(
+    ...     gain="2 electron/adu", ron="4 electron",
+    ...     scale="[0.3, 0.3] arcsec/pix", full_well="100000 electron",
+    ...     range="65536 adu", bias="1200 adu",
+    ...     transmissions={}, emissions={}
+    ... )
+    >>> detector.range - 1 * u.adu - detector.bias
+    <Quantity 64335. adu>
+    """
     gain: AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "electron / adu",
         gt = 0. * u.electron / u.adu,
@@ -96,6 +127,27 @@ class DetectorModel(BaseModel):
         max_shape = (2),
         decimals = 4,
         description = "Angular pixel scale along each axis."
+    )
+    full_well: AnnotatedQuantity(    #type: ignore[valid-type]
+        default = 1e6 * u.electron,
+        unit = "electron",
+        gt = 0. * u.electron,
+        decimals = 4,
+        description = "Detector full-well capacity in electrons."
+    )
+    range: AnnotatedQuantity(    #type: ignore[valid-type]
+        default = 65536 * u.adu,
+        unit = "adu",
+        gt = 1. * u.adu,
+        decimals = 4,
+        description = "Digital range in ADUs; the highest level is range minus one ADU."
+    )
+    bias: AnnotatedQuantity(    #type: ignore[valid-type]
+        default = 0. * u.adu,
+        unit = "adu",
+        ge = 0. * u.adu,
+        decimals = 4,
+        description = "Detector bias level in ADUs."
     )
     transmissions: dict[str, 'TransmissionModel']
     emissions: dict[str, 'SBSEDModel']

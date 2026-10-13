@@ -75,7 +75,7 @@ class Image(object):
     full_well: float, optional
         Detector full well in electrons.
     range: int, optional
-        Digital range, in analog-to-digital converter steps.
+        Digital range, in analog-to-digital converter steps (ADUs).
     bias: float, optional
         Detector bias in ADUs.
     photometry: Literal['model_fitting', 'fixed_aperture', 'optimal_aperture', 'large_aperture']
