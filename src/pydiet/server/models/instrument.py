@@ -173,7 +173,7 @@ class InstrumentModel(BaseModel):
         unit = "m2",
         gt = 0. * u.m**2,
         decimals = 3,
-        description = "Default obstruction area (only used if not specified for the instrument)."
+        description = "Effective instrument obstruction area, resolved from the telescope when omitted in configuration."
     )
     overhead:  AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "s",
@@ -393,7 +393,7 @@ class TelescopeModel(BaseModel):
         unit = "m**2",
         gt = 0. * u.m**2,
         decimals = 4,
-        description = "Minimum obstruction area."
+        description = "Default obstruction area for instruments without an explicit override."
     )
     transmissions: dict[str, 'TransmissionModel']
     emissions: dict[str, 'SBSEDModel']

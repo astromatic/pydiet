@@ -381,6 +381,10 @@ def get_instruments(
     """
     Return dictionary of instrument models.
 
+    An instrument's omitted obstruction area is replaced by the obstruction
+    area of its referenced telescope before derived quantities are calculated.
+    Explicit instrument areas take precedence.
+
     Parameters
     ----------
     data_config: ~pydantic.BaseModel
@@ -403,7 +407,9 @@ def get_instruments(
             name = instrument.name,
             description = instrument.description,
             wavelength_range = instrument.wavelength_range,
-            obstruction_area = instrument.obstruction_area,
+            obstruction_area = instrument.obstruction_area \
+                if instrument.obstruction_area is not None \
+                else telescopes[instrument.telescope_id].obstruction_area,
             overhead = instrument.overhead,
             psf_beta = instrument.psf_beta,
             optics = get_optics(path, instrument.optics),

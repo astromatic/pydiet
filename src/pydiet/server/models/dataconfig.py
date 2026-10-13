@@ -203,9 +203,13 @@ class FiltersConfigModel(OpticsConfigModel):
 
 
 class InstrumentConfigModel(BaseModel):
-    '''
-    Pydantic model for the instrument data configuration model.
-    '''
+    """Physical and spectral-file configuration for an imaging instrument.
+
+    ``site_id`` and ``telescope_id`` reference objects in the data configuration.
+    If ``obstruction_area`` is omitted or ``None``, the loader uses the referenced
+    telescope's obstruction area. An explicit positive area overrides that
+    default, including when it is smaller than the telescope's value.
+    """
     default: bool = False
     id: str
     name: str
@@ -223,8 +227,8 @@ class InstrumentConfigModel(BaseModel):
         unit = "m2",
         gt = 0. * u.m**2,
         decimals = 3,
-        description = "Obstruction area for this particular instrument."
-    )
+        description = "Instrument obstruction area; defaults to the telescope's value when omitted."
+    ) | None = None
     overhead:  AnnotatedQuantity(    #type: ignore[valid-type]
         unit = "s",
         ge = 0. * u.second,
