@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model validation &mdash; PyDIET 0.9.10 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_js.css" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=aeb07c19" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2ccb3ee0"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Customization" href="customize.html" />
+    <link rel="prev" title="Data" href="data.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyDIET
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webapi.html">Using the web API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Model validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#photometric-zero-point">Photometric zero-point</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sky-background">Sky background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#changes-over-time">Changes over time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#differences-between-filters">Differences between filters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#signal-to-noise-ratio">Signal-to-noise ratio</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="customize.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Deploying the ETC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyDIET</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Model validation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/validation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="model-validation">
+<span id="chap-validation"></span><h1>Model validation<a class="headerlink" href="#model-validation" title="Link to this heading"></a></h1>
+<p>Comparisons with independent measurements help assess how well the <abbr title="Exposure Time Calculator">ETC</abbr> model represents real observations.
+For a meaningful comparison, match the filter, exposure time, observing conditions, and instrument configuration.
+This chapter checks <cite>PyDIET</cite>'s predictions against science and calibration exposures and the legacy CFHT calculator.</p>
+<section id="photometric-zero-point">
+<h2>Photometric zero-point<a class="headerlink" href="#photometric-zero-point" title="Link to this heading"></a></h2>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> The photometric zero-point relates a source's magnitude to the signal recorded by the instrument in a one-second exposure.
+A higher zero-point corresponds to greater sensitivity: a source of fixed magnitude produces more detected signal and consequently reaches a higher <abbr title="Signal-to-Noise Ratio">SNR</abbr>, all else being equal.
+Changes in atmospheric transparency and instrumental throughput can therefore appear as changes in the measured zero-point.</p>
+<p>The Elixir pipeline <span class="bibtex-citation" id="id1">[<a class="reference internal" href="references.html#id9" title="E. A. Magnier and J.-C. Cuillandre, 2004. The Elixir System: Data Characterization and Calibration at the Canada-France-Hawaii Telescope. PASP, 116(819):449-464.">11</a>]</span> derives nightly MegaCam magnitude zero-points from photometric exposures by comparing measured count rates for suitable stars (SNLS tertiary standards <span class="bibtex-citation" id="id2">[<a class="reference internal" href="references.html#id14" title="N. Regnault, A. Conley, J. Guy, M. Sullivan, J.-C. Cuillandre, P. Astier, C. Balland, S. Basa, R. G. Carlberg, D. Fouchez, D. Hardin, I. M. Hook, D. A. Howell, R. Pain, K. Perrett, and C. J. Pritchet, 2009. Photometric calibration of the Supernova Legacy Survey fields. A&amp;A, 506(2):999-1042.">12</a>, <a class="reference internal" href="references.html#id3" title="M. Betoule, J. Marriner, N. Regnault, J.-C. Cuillandre, P. Astier, J. Guy, C. Balland, P. El Hage, D. Hardin, R. Kessler, L. Le Guillou, J. Mosher, R. Pain, P.-F. Rocci, M. Sako, and K. Schahmaneche, 2013. Improved photometric calibration of the SNLS and the SDSS supernova surveys. A&amp;A, 552:A124.">13</a>]</span>) with calibrated catalog magnitudes.
+After applying the same photometric conventions and selecting observations of appropriate quality, these values can be compared against <cite>PyDIET</cite> predictions for the matching filter, airmass, and instrumental state.</p>
+<p><a class="reference internal" href="#fig-zp-difference-vs-airmass"><span class="std std-numref">Fig. 10</span></a> shows this comparison as a function of airmass for MegaCam observations from 2015 to 2025.
+For filters with sufficient coverage, agreement is typically within 1–2% across the sampled airmasses.
+The main exceptions are <strong>u</strong>, <strong>CaHK</strong>, and <strong>i</strong>, for which <cite>PyDIET</cite> appears to overestimate instrumental throughput by about 10–20%.
+The reason for this discrepancy remains unclear.
+The CFHT data configuration therefore includes an <strong>empirical photometric correction</strong> based on the observed median offset in each affected filter.</p>
+<figure class="align-center" id="id4">
+<span id="fig-zp-difference-vs-airmass"></span><img alt="Difference between the measured MegaCam magnitude zero-points and the PyDIET predictions as a function of airmass." src="_images/zp_difference_vs_airmass.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Difference between the AB magnitude zero-points measured by the Elixir pipeline and the PyDIET predictions as a function of airmass, for various filters of the MegaCam instrument.
+Each point represents a photometric night.
+Color indicates mirror condition: blue for pristine, orange for average, and red for degraded.
+The median difference and its uncertainty are shown in the lower left of each plot.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="sky-background">
+<h2>Sky background<a class="headerlink" href="#sky-background" title="Link to this heading"></a></h2>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> The sky background contributes photon noise to an observation and therefore limits the <abbr title="Signal-to-Noise Ratio">SNR</abbr>, especially for faint sources.
+A brighter sky produces more noise and lowers the <abbr title="Signal-to-Noise Ratio">SNR</abbr> for otherwise identical observations.
+Its level depends on the filter, airmass, lunar illumination, solar activity, and changes in instrumental throughput over time.</p>
+<p>The background rate can be measured in reduced exposures from source-free pixels or source-masked regions, after accounting for detector signatures and the exposure time.
+These measurements can then be compared with <cite>PyDIET</cite> predictions evaluated for the observing conditions recorded for each exposure.</p>
+<section id="changes-over-time">
+<h3>Changes over time<a class="headerlink" href="#changes-over-time" title="Link to this heading"></a></h3>
+<p>Solar activity and mirror degradation drive changes in sky background rates from one observing run to the next.
+Monthly mean solar radio fluxes from <a class="reference external" href="https://www.spaceweather.gov/">solar activity records</a> and mirror recoating logs let us select the corresponding <cite>PyDIET</cite> settings and compare predictions with individual exposures.
+The observed variations agree well with the model (<a class="reference internal" href="#fig-sky-solar-gri"><span class="std std-numref">Fig. 11</span></a>).</p>
+<figure class="align-center" id="id5">
+<span id="fig-sky-solar-gri"></span><img alt="Sky background rate in the MegaCam gri filter as a function of time." src="_images/sky_solar_gri.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Measured sky background rate in the MegaCam gri filter (in ADU/s) as a function of time (blue points), compared to the monthly average solar activity (orange line) and the <cite>PyDIET</cite> prediction (green line).
+Only photometric exposures taken on dark nights at airmass &lt; 1.4 are included.
+The <cite>PyDIET</cite> model assumes an airmass of 1.2 and accounts for interpolated solar activity and mirror ageing.</span><a class="headerlink" href="#id5" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="differences-between-filters">
+<h3>Differences between filters<a class="headerlink" href="#differences-between-filters" title="Link to this heading"></a></h3>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> The Elixir pipeline also tracks the sky background in all exposures using empirical estimates from SExtractor <span class="bibtex-citation" id="id3">[<a class="reference internal" href="references.html#id2" title="E. Bertin and S. Arnouts, 1996. SExtractor: Software for source extraction. Astronomy and Astrophysics Supplement Series, 117:393-404.">14</a>]</span>.</p>
+<figure class="align-center" id="id6">
+<span id="fig-back-predicted-vs-measured"></span><img alt="Predicted versus measured sky background count rates." src="_images/back_predicted_vs_measured.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text"><cite>PyDIET</cite> predictions versus measured sky background count rates (in ADU/s).
+The u, CaHK, and i zero-point offsets are corrected as described above.
+Each point represents a photometric night.
+Color indicates lunar conditions: blue when the Moon is below the horizon, orange when it is above.</span><a class="headerlink" href="#id6" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="signal-to-noise-ratio">
+<h2>Signal-to-noise ratio<a class="headerlink" href="#signal-to-noise-ratio" title="Link to this heading"></a></h2>
+<p><a class="inline-icon reference internal" href="_images/cfht.svg"><img alt="CFHT" class="inline-icon" src="_images/cfht.svg" style="height: 1em;" /></a> The achieved <abbr title="Signal-to-Noise Ratio">SNR</abbr> reflects both sides of the comparison: the zero-point sets the detected source signal, while the sky background contributes to its noise.
+It also depends on the source brightness, exposure time, image quality, detector noise, and the method used to measure the source flux.</p>
+<p>No independent <abbr title="Signal-to-Noise Ratio">SNR</abbr> measurements are readily available for comparison with <cite>PyDIET</cite>.
+We can, however, compare its predictions with those of the <a class="reference external" href="https://www.cfht.hawaii.edu/Instruments/Imaging/Megacam/dietmegacam.html">legacy DIET ETC</a> over a range of seeing values.
+<a class="reference internal" href="#fig-snr-vs-legacy"><span class="std std-numref">Fig. 13</span></a> shows this comparison for all currently available MegaCam filters.</p>
+<figure class="align-center" id="id7">
+<span id="fig-snr-vs-legacy"></span><img alt="PyDIET versus legacy DIET SNR predictions over a range of seeing values." src="_images/snr_vs_legacy.svg" />
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text"><cite>PyDIET</cite> versus legacy DIET predictions for point-source <abbr title="Signal-to-Noise Ratio">SNR</abbr> using PSF photometry, a 30 s exposure, and seeing from 0.4 to 2 arcsec.
+Both calculators use AB magnitude 20, airmass 1.2, dark sky, and transparency 1.
+<cite>PyDIET</cite> uses <code class="docutils literal notranslate"><span class="pre">pristine</span></code> mirrors and <code class="docutils literal notranslate"><span class="pre">average</span></code> solar activity; the legacy calculator has no corresponding controls.</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The predictions generally agree to within 10%.
+The largest discrepancies occur in CaHK and the <a class="reference external" href="https://www.desi.lbl.gov/">DESI</a> filters, M4112 and M4376.
+The DESI-filter predictions have not yet been checked against observations.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="data.html" class="btn btn-neutral float-left" title="Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="customize.html" class="btn btn-neutral float-right" title="Customization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 CFHT/CNRS, CEA/AIM, OSUPS/Université Paris-Saclay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

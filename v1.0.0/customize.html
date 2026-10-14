@@ -1,0 +1,651 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customization &mdash; PyDIET 0.9.10 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_js.css" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=aeb07c19" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2ccb3ee0"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Deploying the ETC" href="deploy.html" />
+    <link rel="prev" title="Model validation" href="validation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyDIET
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interface.html">Using the web interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webapi.html">Using the web API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html">Model validation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preparing-a-custom-installation">Preparing a custom installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-configuration">Data configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-reference">Configuration reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-filter-or-instrument">Adding a filter or instrument</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-filter">Adding a filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-an-instrument-and-telescope">Adding an instrument and telescope</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#changing-the-observing-site">Changing the observing site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customizing-the-web-interface">Customizing the web interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#changing-the-etc-form">Changing the ETC form</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changing-result-presentation">Changing result presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changing-css-and-branding">Changing CSS and branding</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#checking-the-customized-calculator">Checking the customized calculator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Deploying the ETC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyDIET</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Customization</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/customize.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="customization">
+<span id="chap-customize"></span><h1>Customization<a class="headerlink" href="#customization" title="Link to this heading"></a></h1>
+<p>To make <cite>PyDIET</cite> your own, start with your instrument's characteristics, then give the calculator a matching interface.
+The physical model lives in <code class="docutils literal notranslate"><span class="pre">src/pydiet/data/data_config.toml</span></code>, in <a class="reference external" href="https://toml.io/en/">TOML</a> format.
+<a class="reference external" href="https://jinja.palletsprojects.com/">Jinja2</a> templates under <code class="docutils literal notranslate"><span class="pre">src/pydiet/templates</span></code> define the <abbr title="Exposure Time Calculator">ETC</abbr> form and results, while <code class="docutils literal notranslate"><span class="pre">src/pydiet/web_client/css/style.css</span></code> controls their appearance.</p>
+<p>The supplied MegaCam and WIRCam configurations provide working examples to build on.
+You can add a filter, adapt a camera, or replace the observing site by supplying your own measurements and spectra.
+This chapter walks through those changes and the corresponding interface adjustments; <a class="reference internal" href="data.html#chap-data"><span class="std std-ref">Data</span></a> explains the supplied spectra, and <a class="reference internal" href="deploy.html#chap-deploy"><span class="std std-ref">Deploying the ETC</span></a> covers installation.</p>
+<section id="preparing-a-custom-installation">
+<h2>Preparing a custom installation<a class="headerlink" href="#preparing-a-custom-installation" title="Link to this heading"></a></h2>
+<p>Give your custom files a home outside the installed package so they survive upgrades.
+One convenient layout is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/srv/pydiet-custom/
+    data/
+        data_config.toml
+        sites/
+        telescopes/
+        instruments/
+    templates/
+        common/
+        mycamera/
+            etc_form.html
+            etc_results.html
+    client/
+        css/
+        dist/
+        images/
+    extra/
+</pre></div>
+</div>
+<p>Copy the supplied <code class="docutils literal notranslate"><span class="pre">data</span></code> and <code class="docutils literal notranslate"><span class="pre">templates</span></code> directories, along with the web client's <code class="docutils literal notranslate"><span class="pre">css</span></code>, <code class="docutils literal notranslate"><span class="pre">dist</span></code>, and <code class="docutils literal notranslate"><span class="pre">images</span></code> directories, into this layout.
+Keep <code class="docutils literal notranslate"><span class="pre">dist/pydiet.js</span></code>: it handles instrument selection, form submission, and result display.
+You can leave <code class="docutils literal notranslate"><span class="pre">extra</span></code> empty.
+Then point the copied TOML file at your data directory:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"/srv/pydiet-custom/data"</span>
+</pre></div>
+</div>
+<p>Tell the server where to find these copies through its INI configuration:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[server]</span>
+<span class="na">data_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/srv/pydiet-custom/data/data_config.toml</span>
+<span class="na">data_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/srv/pydiet-custom/data</span>
+<span class="na">template_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/srv/pydiet-custom/templates</span>
+<span class="na">client_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/srv/pydiet-custom/client</span>
+<span class="na">extra_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/srv/pydiet-custom/extra</span>
+</pre></div>
+</div>
+<p>Start the server with <code class="docutils literal notranslate"><span class="pre">pydiet</span> <span class="pre">--config</span> <span class="pre">/path/to/pydiet.conf</span></code>.
+There are two data paths to keep in mind: the engine reads spectra under the TOML <code class="docutils literal notranslate"><span class="pre">path</span></code>, while the server's <code class="docutils literal notranslate"><span class="pre">data_dir</span></code> is a separate setting.
+A relative TOML <code class="docutils literal notranslate"><span class="pre">path</span></code> is resolved against the installed <code class="docutils literal notranslate"><span class="pre">pydiet</span></code> package directory.
+An absolute path, as above, avoids ambiguity when keeping your data outside the package.</p>
+<p>Restart the server after changing the TOML file or spectral data: instrument models and derived quantities are loaded at startup.
+Reload the browser after changing templates or CSS, bypassing its cache if necessary.
+When editing a source checkout instead, ensure that the running installation uses it, or reinstall the package after making changes.</p>
+</section>
+<section id="data-configuration">
+<h2>Data configuration<a class="headerlink" href="#data-configuration" title="Link to this heading"></a></h2>
+<p>Think of the TOML file as a collection of sites, telescopes, and cameras.
+Each has its own table in <code class="docutils literal notranslate"><span class="pre">[[sites]]</span></code>, <code class="docutils literal notranslate"><span class="pre">[[telescopes]]</span></code>, or <code class="docutils literal notranslate"><span class="pre">[[instruments]]</span></code>; a camera connects to its site and telescope through their <code class="docutils literal notranslate"><span class="pre">id</span></code> values.
+Choose unique, simple IDs such as <code class="docutils literal notranslate"><span class="pre">mysite</span></code>, <code class="docutils literal notranslate"><span class="pre">mytelescope</span></code>, and <code class="docutils literal notranslate"><span class="pre">mycamera</span></code>.
+Instrument IDs also name URLs and template directories, and every referenced site and telescope must have a definition.</p>
+<p>Physical quantities are quoted strings with units understood by <a class="reference external" href="https://www.astropy.org/">Astropy</a>, such as <code class="docutils literal notranslate"><span class="pre">&quot;2.5</span> <span class="pre">m2&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;[0.3,</span> <span class="pre">0.3]</span> <span class="pre">arcsec/pix&quot;</span></code>.
+Dimensionless parameters, such as <code class="docutils literal notranslate"><span class="pre">psf_beta</span></code> and <code class="docutils literal notranslate"><span class="pre">vars.am</span></code>, are TOML numbers; flags such as <code class="docutils literal notranslate"><span class="pre">default</span></code> are TOML booleans.
+Write the two-element quantities <code class="docutils literal notranslate"><span class="pre">wavelength_range</span></code> and detector <code class="docutils literal notranslate"><span class="pre">scale</span></code> as strings containing an array and a common unit.</p>
+<section id="configuration-reference">
+<h3>Configuration reference<a class="headerlink" href="#configuration-reference" title="Link to this heading"></a></h3>
+<p>Use these tables as a reference while editing your configuration.
+Entries are required unless a default or limitation is stated; nested paths are appended to their parent's path.</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Top-level and shared entries</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+<col style="width: 45.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Entry</p></th>
+<th class="head"><p>Value or example</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">path</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;/srv/pydiet-custom/data&quot;</span></code></p></td>
+<td><p>Existing root directory for spectral files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sites</span></code>, <code class="docutils literal notranslate"><span class="pre">telescopes</span></code>, <code class="docutils literal notranslate"><span class="pre">instruments</span></code></p></td>
+<td><p>Arrays of tables</p></td>
+<td><p>Site, telescope, and instrument definitions. Supply at least one of each for a working calculator.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">id</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;mycamera&quot;</span></code></p></td>
+<td><p>Identifier within the corresponding object collection.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code></p></td>
+<td><p>Strings</p></td>
+<td><p>Display name and descriptive text.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">default</span></code></p></td>
+<td><p>Boolean; default <code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Selects the preferred instrument. The server chooses the first marked instrument, or the first entry if none is marked. Site and telescope selection uses the instrument's IDs, not these objects' <code class="docutils literal notranslate"><span class="pre">default</span></code> flags.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">path</span></code> in an object table</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;instruments/mycamera&quot;</span></code></p></td>
+<td><p>Object's directory, relative to the root path.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">transmission</span></code>, <code class="docutils literal notranslate"><span class="pre">emission</span></code></p></td>
+<td><p>Nested tables</p></td>
+<td><p>Spectral transmission and emission definitions, detailed below. Instruments use these tables within their optics, filters, and detector components.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">Sites and telescopes</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+<col style="width: 45.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Entry</p></th>
+<th class="head"><p>Value or example</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sites.altitude</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;2400</span> <span class="pre">m&quot;</span></code></p></td>
+<td><p>Required site altitude, at least -1000 m. Currently validated but not used to generate or alter atmospheric spectra.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sites.transmission</span></code></p></td>
+<td><p>Transmission table</p></td>
+<td><p>Atmospheric transmission spectra, with a numeric <code class="docutils literal notranslate"><span class="pre">am</span></code> in each file's <code class="docutils literal notranslate"><span class="pre">vars</span></code> table.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sites.emission</span></code></p></td>
+<td><p>Emission table</p></td>
+<td><p>Sky surface-brightness spectra, indexed by <code class="docutils literal notranslate"><span class="pre">am</span></code>, <code class="docutils literal notranslate"><span class="pre">sky</span></code>, and <code class="docutils literal notranslate"><span class="pre">solar</span></code> in each file's <code class="docutils literal notranslate"><span class="pre">vars</span></code> table.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">telescopes.collecting_area</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;2.5</span> <span class="pre">m2&quot;</span></code></p></td>
+<td><p>Positive geometric collecting area, including the central obstruction and spider area. The instrument's explicit or inherited obstruction is subtracted in calculations.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">telescopes.obstruction_area</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;0.2</span> <span class="pre">m2&quot;</span></code></p></td>
+<td><p>Positive telescope obstruction area, used when an instrument omits its own <code class="docutils literal notranslate"><span class="pre">obstruction_area</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">telescopes.transmission</span></code></p></td>
+<td><p>Transmission table</p></td>
+<td><p>One combined mirror-throughput curve per selectable mirror condition. Use explicit file IDs matching the form's <code class="docutils literal notranslate"><span class="pre">mirror</span></code> choices.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">telescopes.emission</span></code></p></td>
+<td><p>Emission table</p></td>
+<td><p>Mirror emission, either read from files or derived from transmission and temperature.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Instruments and detectors</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+<col style="width: 45.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Entry</p></th>
+<th class="head"><p>Value or example</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.site_id</span></code>, <code class="docutils literal notranslate"><span class="pre">instruments.telescope_id</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;mysite&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;mytelescope&quot;</span></code></p></td>
+<td><p>IDs of the site and telescope definitions used by this instrument.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.wavelength_range</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;[350,</span> <span class="pre">1000]</span> <span class="pre">nm&quot;</span></code></p></td>
+<td><p>Two positive wavelengths defining the range of the serialized transmission curves used for display.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.obstruction_area</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;0.3</span> <span class="pre">m2&quot;</span></code></p></td>
+<td><p>Optional positive obscured area for this instrument; defaults to the referenced telescope's <code class="docutils literal notranslate"><span class="pre">obstruction_area</span></code>. An explicit value overrides that default. Keep the effective obstruction smaller than the collecting area.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.overhead</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;20</span> <span class="pre">s&quot;</span></code></p></td>
+<td><p>Nonnegative overhead per exposure. Total time is <code class="docutils literal notranslate"><span class="pre">exposures</span> <span class="pre">*</span> <span class="pre">(exposure_time</span> <span class="pre">+</span> <span class="pre">overhead)</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.psf_beta</span></code></p></td>
+<td><p>Number; default <code class="docutils literal notranslate"><span class="pre">3.2</span></code></p></td>
+<td><p>Moffat <abbr title="Point Spread Function">PSF</abbr> shape parameter, greater than 1 and at most 10. Seeing FWHM is a separate query input.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.optics</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">path</span></code>, <code class="docutils literal notranslate"><span class="pre">transmission</span></code>, <code class="docutils literal notranslate"><span class="pre">emission</span></code></p></td>
+<td><p>Optical components between telescope mirrors and filters. Multiple transmission files are successive optical elements.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.filters</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">path</span></code>, <code class="docutils literal notranslate"><span class="pre">transmission</span></code>, <code class="docutils literal notranslate"><span class="pre">emission</span></code></p></td>
+<td><p>Alternative filters. Each transmission file is one filter, with an explicit <code class="docutils literal notranslate"><span class="pre">id</span></code> and a useful display <code class="docutils literal notranslate"><span class="pre">name</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.detector.path</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;detector&quot;</span></code></p></td>
+<td><p>Detector data directory relative to the instrument path.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.detector.gain</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;2</span> <span class="pre">electron/adu&quot;</span></code></p></td>
+<td><p>Positive conversion factor in electrons per ADU.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.detector.ron</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;4</span> <span class="pre">electron&quot;</span></code></p></td>
+<td><p>Nonnegative RMS readout noise.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.detector.scale</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;[0.3,</span> <span class="pre">0.3]</span> <span class="pre">arcsec/pix&quot;</span></code></p></td>
+<td><p>Two positive angular pixel scales, one for each axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.detector.full_well</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;240000</span> <span class="pre">electron&quot;</span></code></p></td>
+<td><p>Positive full-well capacity in electrons; defaults to <code class="docutils literal notranslate"><span class="pre">&quot;1000000</span> <span class="pre">electron&quot;</span></code>. Dividing by the gain gives the corresponding saturation limit in ADUs.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.detector.range</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;65536</span> <span class="pre">adu&quot;</span></code></p></td>
+<td><p>Digital range in ADUs, greater than one; defaults to <code class="docutils literal notranslate"><span class="pre">&quot;65536</span> <span class="pre">adu&quot;</span></code>. The highest representable level is one ADU below this value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.detector.bias</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;1200</span> <span class="pre">adu&quot;</span></code></p></td>
+<td><p>Nonnegative bias level in ADUs; defaults to <code class="docutils literal notranslate"><span class="pre">&quot;0</span> <span class="pre">adu&quot;</span></code>. Subtracted from the highest digital level to obtain the available signal headroom.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.detector.transmission</span></code></p></td>
+<td><p>Transmission table</p></td>
+<td><p>Quantum efficiency. Supply one file without an <code class="docutils literal notranslate"><span class="pre">id</span></code>; the engine currently looks up the detector curve using the generated key <code class="docutils literal notranslate"><span class="pre">&quot;0&quot;</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">instruments.detector.emission</span></code></p></td>
+<td><p>Emission table</p></td>
+<td><p>Required by the schema, but detector emission is not currently included in the calculation. Use <code class="docutils literal notranslate"><span class="pre">{}</span></code> for an empty table if appropriate.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">Transmission and emission tables</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 25.0%" />
+<col style="width: 45.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Entry</p></th>
+<th class="head"><p>Value or example</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">transmission.path</span></code>, <code class="docutils literal notranslate"><span class="pre">emission.path</span></code></p></td>
+<td><p>String; default <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></td>
+<td><p>Directory relative to the containing site, telescope, optics, filter, or detector directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">transmission.files</span></code>, <code class="docutils literal notranslate"><span class="pre">emission.files</span></code></p></td>
+<td><p>Array of inline tables; default <code class="docutils literal notranslate"><span class="pre">[]</span></code></p></td>
+<td><p>Spectral-file descriptions. A working instrument needs transmission curves for its mirrors, optics, filters, detector, and atmosphere.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">files[].file</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;my_r.fits&quot;</span></code></p></td>
+<td><p>Filename relative to the spectral table's path. Required for each file entry.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">files[].id</span></code></p></td>
+<td><p>String; default <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></td>
+<td><p>Identifier for a filter or mirror condition. If omitted, the loader uses a numeric dictionary key such as <code class="docutils literal notranslate"><span class="pre">&quot;0&quot;</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">files[].name</span></code>, <code class="docutils literal notranslate"><span class="pre">files[].description</span></code></p></td>
+<td><p>Strings; default <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></td>
+<td><p>Display name and description for the spectral model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">files[].default</span></code></p></td>
+<td><p>Boolean; default <code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Preferred filter or mirror condition for the default instrument's API queries. The browser also uses filter defaults when no valid selection is saved. Atmospheric spectra are selected by query parameters, not by this flag.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">files[].vars</span></code></p></td>
+<td><p>Inline table; default <code class="docutils literal notranslate"><span class="pre">{}</span></code></p></td>
+<td><p>Model parameters. Atmosphere uses <code class="docutils literal notranslate"><span class="pre">am</span></code>; sky emission also uses <code class="docutils literal notranslate"><span class="pre">sky</span></code> and <code class="docutils literal notranslate"><span class="pre">solar</span></code>. Filter <code class="docutils literal notranslate"><span class="pre">scale</span></code> multiplies its transmission, with an implicit value of 1.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">emission.temperatures</span></code></p></td>
+<td><p>List of quantities; default <code class="docutils literal notranslate"><span class="pre">[&quot;283</span> <span class="pre">K&quot;]</span></code></p></td>
+<td><p>Positive component temperatures for thermal emission derived from throughput when emission files are absent.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">emission.blackbody_fractions</span></code></p></td>
+<td><p>List of numbers; default <code class="docutils literal notranslate"><span class="pre">[0.0]</span></code></p></td>
+<td><p>Values from 0 to 1 used in the derived emissivity <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">(fraction</span> <span class="pre">-</span> <span class="pre">1)</span> <span class="pre">*</span> <span class="pre">transmission</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>For mirrors, optics, and filters, you can supply emission files or let <cite>PyDIET</cite> derive thermal emission from throughput and temperature.
+In the latter case, temperatures and blackbody fractions follow transmission-file order, with the last value reused when a list runs short; keep both lists nonempty.
+If you supply emission files, match filter and mirror IDs to their transmission IDs, and keep optics emission files in transmission order.
+The sky needs its own emission spectra: site temperature and altitude do not generate them.</p>
+<p>The detector saturation threshold in ADUs is <code class="docutils literal notranslate"><span class="pre">min(range</span> <span class="pre">-</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">bias,</span> <span class="pre">full_well</span> <span class="pre">/</span> <span class="pre">gain)</span></code>.
+Whichever fills first—the remaining digital range above the bias or the full well—sets the limit.
+Use your detector's specifications or measurements for these parameters and the gain, keeping the bias below <code class="docutils literal notranslate"><span class="pre">range</span> <span class="pre">-</span> <span class="pre">1</span></code> to leave room for signal.
+The defaults allow older configurations to run, but measured values give more useful saturation estimates.</p>
+</section>
+</section>
+<section id="adding-a-filter-or-instrument">
+<h2>Adding a filter or instrument<a class="headerlink" href="#adding-a-filter-or-instrument" title="Link to this heading"></a></h2>
+<section id="adding-a-filter">
+<h3>Adding a filter<a class="headerlink" href="#adding-a-filter" title="Link to this heading"></a></h3>
+<p>A new filter is a good first customization: add its transmission table to the instrument's filter directory, then list it in <code class="docutils literal notranslate"><span class="pre">[instruments.filters.transmission].files</span></code>.
+For a camera with a single custom <code class="docutils literal notranslate"><span class="pre">r</span></code> filter, the entry would look like this:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[instruments.filters.transmission]</span>
+<span class="n">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="n">id</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"my_r"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"My r"</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"my_r.fits"</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Replace the corresponding table in your copied instrument definition with this fragment.
+The filename is resolved through the root, instrument, filter, and transmission paths.
+For example, with <code class="docutils literal notranslate"><span class="pre">path</span> <span class="pre">=</span> <span class="pre">&quot;instruments/mycamera&quot;</span></code> on the instrument, <code class="docutils literal notranslate"><span class="pre">path</span> <span class="pre">=</span> <span class="pre">&quot;filters&quot;</span></code> on its filter component, and no transmission path, the file is <code class="docutils literal notranslate"><span class="pre">/srv/pydiet-custom/data/instruments/mycamera/filters/my_r.fits</span></code>.</p>
+<p>Transmission files are tables with <code class="docutils literal notranslate"><span class="pre">WAVELENGTH</span></code> and <code class="docutils literal notranslate"><span class="pre">THROUGHPUT</span></code> columns.
+Wavelengths must carry physical wavelength units; throughput is a dimensionless fraction, rather than a percentage.
+Use increasing wavelengths, enough sampling to resolve the bandpass, and coverage sufficient for the calculations you intend to perform.
+These tables are read into <a class="reference external" href="https://synphot.readthedocs.io/en/stable/">Synphot</a> spectral elements.
+Keep atmospheric transmission, mirror reflectance, optics throughput, filter transmission, and detector quantum efficiency separate to avoid counting a component twice.</p>
+<p>The repository's <code class="docutils literal notranslate"><span class="pre">utils/extract_filter.py</span></code> converts ASCII tables to this format.
+For an input with wavelength in nm and throughput in percent, run from the repository root:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python utils/extract_filter.py filter_percent.txt my_r.fits \</span>
+<span class="go">    --wunit nm --multiply 0.01 --filter my_r</span>
+</pre></div>
+</div>
+<p>Use an ASCII table whose first column is named <code class="docutils literal notranslate"><span class="pre">col1</span></code> and whose second column contains the response.
+The converter averages all columns after <code class="docutils literal notranslate"><span class="pre">col1</span></code> if more than one response column is present.
+Omit <code class="docutils literal notranslate"><span class="pre">--multiply</span> <span class="pre">0.01</span></code> when your response is already a fraction.
+Copy the resulting FITS file into the configured directory.</p>
+<p>After a server restart and browser reload, the client loads your filter into the menu through <code class="docutils literal notranslate"><span class="pre">/api/instruments</span></code>; no manual menu edit is needed.
+The browser keeps a valid saved choice; otherwise, it selects the first filter marked <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>, or the first filter if none is marked.
+It replaces saved choices that refer to removed filters automatically.
+If supplying explicit filter emission files, add a matching emission entry with the same ID; otherwise the filter's thermal emission is derived from its throughput and configured temperature.</p>
+</section>
+<section id="adding-an-instrument-and-telescope">
+<h3>Adding an instrument and telescope<a class="headerlink" href="#adding-an-instrument-and-telescope" title="Link to this heading"></a></h3>
+<p>For a new camera, copy a complete <code class="docutils literal notranslate"><span class="pre">[[instruments]]</span></code> block, including its optics, filters, detector, and nested tables.
+Change its <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, and <code class="docutils literal notranslate"><span class="pre">path</span></code>, then update <code class="docutils literal notranslate"><span class="pre">site_id</span></code> and <code class="docutils literal notranslate"><span class="pre">telescope_id</span></code>.
+Set the collecting and obstructed areas, pixel scales, gain, readout noise, full-well capacity, digital range, bias, overhead, and <abbr title="Point Spread Function">PSF</abbr> shape from your instrument's measurements.
+Replace the spectral files, and check that the resulting throughput is physically plausible.
+Changing <code class="docutils literal notranslate"><span class="pre">wavelength_range</span></code> alone does not trim the spectra used by the engine; supply appropriately bounded input spectra.</p>
+<p>If you also need a new telescope, copy a complete <code class="docutils literal notranslate"><span class="pre">[[telescopes]]</span></code> block and replace its geometry and combined mirror curves.
+Each mirror file is an alternative mirror condition, not another mirror in a serial optical train.
+For a multi-mirror telescope, supply the combined throughput for each condition.
+Keep <code class="docutils literal notranslate"><span class="pre">collecting_area</span></code> as the full geometric area, and put the telescope's default blocked area in <code class="docutils literal notranslate"><span class="pre">telescopes.obstruction_area</span></code>.
+Omit <code class="docutils literal notranslate"><span class="pre">instruments.obstruction_area</span></code> to inherit that value, or supply it to override the blocked area for a particular instrument.
+The effective collecting area is <code class="docutils literal notranslate"><span class="pre">telescopes.collecting_area</span> <span class="pre">-</span> <span class="pre">obstruction_area</span></code>, using the resolved instrument obstruction.
+For example, a telescope with <code class="docutils literal notranslate"><span class="pre">collecting_area</span> <span class="pre">=</span> <span class="pre">&quot;2.5</span> <span class="pre">m2&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">obstruction_area</span> <span class="pre">=</span> <span class="pre">&quot;0.2</span> <span class="pre">m2&quot;</span></code> provides an effective area of 2.3 m² to an instrument that omits its own obstruction.
+An instrument override of <code class="docutils literal notranslate"><span class="pre">obstruction_area</span> <span class="pre">=</span> <span class="pre">&quot;0.3</span> <span class="pre">m2&quot;</span></code> gives 2.2 m² instead.
+The inherited value is resolved at startup and used in both cached instrumental quantities and subsequent calculations.</p>
+<p>Choose one default instrument and supply explicit filter and mirror values in requests for other instruments.
+The API's omitted filter and mirror defaults come from the default instrument, and may not be valid for a different instrument.
+The web interface also needs a template directory named after the new instrument's ID, as described below.</p>
+</section>
+</section>
+<section id="changing-the-observing-site">
+<h2>Changing the observing site<a class="headerlink" href="#changing-the-observing-site" title="Link to this heading"></a></h2>
+<p>Moving the calculator to another observatory starts with the atmosphere.
+Copy a complete <code class="docutils literal notranslate"><span class="pre">[[sites]]</span></code> block, give it a new ID, and point your instrument's <code class="docutils literal notranslate"><span class="pre">site_id</span></code> to it.
+Then replace the transmission and sky emission files with models or measurements for your site: changing its name or altitude alone does not recompute the spectra.
+Set typical seeing and transparency separately as initial values in the form; observers can adjust them for each calculation.</p>
+<p>For atmospheric transmission, each file entry needs <code class="docutils literal notranslate"><span class="pre">vars</span> <span class="pre">=</span> <span class="pre">{am</span> <span class="pre">=</span> <span class="pre">...}</span></code>.
+For sky emission, each file needs an airmass and the sky and solar-activity labels used by the query.
+For example, this fragment describes two sky spectra for dark time and average solar activity:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[sites.emission]</span>
+<span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"emission"</span>
+<span class="n">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="n">vars</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">am</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">sky</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"dark"</span><span class="p">,</span><span class="w"> </span><span class="n">solar</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"average"</span><span class="p">},</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"dark_am1.fits"</span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="n">vars</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="n">am</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="n">sky</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"dark"</span><span class="p">,</span><span class="w"> </span><span class="n">solar</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"average"</span><span class="p">},</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"dark_am2.fits"</span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Sky files contain <code class="docutils literal notranslate"><span class="pre">WAVELENGTH</span></code> and <code class="docutils literal notranslate"><span class="pre">PHOTLAM</span></code> columns with units.
+The <code class="docutils literal notranslate"><span class="pre">PHOTLAM</span></code> column must contain spectral surface brightness that Astropy can convert to Jy per square arcsecond using its wavelength-dependent spectral-density equivalency.
+Photon flux density per unit wavelength and per square arcsecond is one suitable representation.
+It is not an integrated broad-band sky magnitude.</p>
+<p>The engine first selects emission files whose <code class="docutils literal notranslate"><span class="pre">sky</span></code> and <code class="docutils literal notranslate"><span class="pre">solar</span></code> labels match the query, then interpolates linearly between the surrounding airmasses.
+Above the largest tabulated airmass it retains the last spectrum; below the smallest it scales the first spectrum toward zero at airmass zero.
+Provide a grid spanning the airmasses you expect to use, for both transmission and each supported sky/solar combination.
+Missing sky/solar combinations cause calculation failures rather than selecting another combination automatically.
+The supported sky labels are <code class="docutils literal notranslate"><span class="pre">dark</span></code>, <code class="docutils literal notranslate"><span class="pre">grey</span></code>, and <code class="docutils literal notranslate"><span class="pre">bright</span></code>; solar labels are <code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">average</span></code>, and <code class="docutils literal notranslate"><span class="pre">high</span></code>.
+The query also supports <code class="docutils literal notranslate"><span class="pre">sky</span> <span class="pre">=</span> <span class="pre">&quot;specify&quot;</span></code> for a user-supplied broad-band sky brightness.</p>
+<p>Offer observers only the conditions covered by your data, with initial values that work together.
+For the example above, that means dark sky and average solar activity; add the other spectral grids before expanding the menus.</p>
+</section>
+<section id="customizing-the-web-interface">
+<h2>Customizing the web interface<a class="headerlink" href="#customizing-the-web-interface" title="Link to this heading"></a></h2>
+<p>With the physical model in place, you can tailor what observers see.
+The interface uses <a class="reference external" href="https://ionicframework.com/docs/">Ionic</a> components in Jinja2 templates, with separate files for the form and results.
+The browser requests <code class="docutils literal notranslate"><span class="pre">/ui/&lt;instrument&gt;/etc_form</span></code> to build the form, and <code class="docutils literal notranslate"><span class="pre">/ui/&lt;instrument&gt;/etc_results/query</span></code> to display a calculation.
+The server resolves these to <code class="docutils literal notranslate"><span class="pre">&lt;instrument&gt;/etc_form.html</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;instrument&gt;/etc_results.html</span></code> within <code class="docutils literal notranslate"><span class="pre">template_dir</span></code>.
+For a new <code class="docutils literal notranslate"><span class="pre">mycamera</span></code> instrument, copy the two files from <code class="docutils literal notranslate"><span class="pre">megacam</span></code> or <code class="docutils literal notranslate"><span class="pre">wircam</span></code> into <code class="docutils literal notranslate"><span class="pre">templates/mycamera</span></code> and edit the copies.</p>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-number">Table 5 </span><span class="caption-text">Interface files</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>File, relative to the configured directory</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">templates/common/base.html</span></code></p></td>
+<td><p>Page structure, title, navigation, footer, stylesheet links, and client script.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">templates/common/settings.html</span></code></p></td>
+<td><p>Theme and instrument selectors.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">templates/&lt;instrument&gt;/etc_form.html</span></code></p></td>
+<td><p>Input controls, initial values, units, explanatory text, and instrument images.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">templates/&lt;instrument&gt;/etc_results.html</span></code></p></td>
+<td><p>Result labels, numeric formatting, units, layout, plots, and source preview.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">templates/common/terms.html</span></code>, <code class="docutils literal notranslate"><span class="pre">templates/common/privacy.html</span></code></p></td>
+<td><p>Legal and privacy text to review for your service.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">client/css/style.css</span></code></p></td>
+<td><p>Shared styles, light and dark colors, and component overrides.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">client/images/&lt;instrument&gt;/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">logo.png</span></code> and <code class="docutils literal notranslate"><span class="pre">background.jpg</span></code> referenced by the supplied forms.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The component templates receive <code class="docutils literal notranslate"><span class="pre">instrument</span></code> as an ID string, <code class="docutils literal notranslate"><span class="pre">root_path</span></code> as the external URL prefix, and <code class="docutils literal notranslate"><span class="pre">package</span></code> as package metadata.
+Result templates additionally receive <code class="docutils literal notranslate"><span class="pre">r</span></code>, the computed response object.
+Form templates do not receive the instrument model itself; the browser obtains the models separately through the instruments API.
+Keep <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">root_path</span> <span class="pre">}}</span></code> in local asset URLs so that the interface also works behind a proxy with a URL prefix.</p>
+<section id="changing-the-etc-form">
+<h3>Changing the ETC form<a class="headerlink" href="#changing-the-etc-form" title="Link to this heading"></a></h3>
+<p>Start with the small details that make a form feel familiar: labels, typical observing conditions, help text, and layout.
+These live in <code class="docutils literal notranslate"><span class="pre">etc_form.html</span></code>.
+For example, this seeing control starts at 1 arcsecond:</p>
+<div class="highlight-html+jinja notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">ion-input</span> <span class="na">name</span><span class="o">=</span><span class="s">"seeing"</span> <span class="na">label</span><span class="o">=</span><span class="s">"Seeing FWHM [arcsec]"</span>
+    <span class="na">label-placement</span><span class="o">=</span><span class="s">"floating"</span> <span class="na">fill</span><span class="o">=</span><span class="s">"solid"</span> <span class="na">type</span><span class="o">=</span><span class="s">"number"</span>
+    <span class="na">min</span><span class="o">=</span><span class="s">"0.1"</span> <span class="na">max</span><span class="o">=</span><span class="s">"20.0"</span> <span class="na">step</span><span class="o">=</span><span class="s">"0.01"</span> <span class="na">value</span><span class="o">=</span><span class="s">"1.0"</span><span class="p">&gt;&lt;/</span><span class="nt">ion-input</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Keep <code class="docutils literal notranslate"><span class="pre">name=&quot;seeing&quot;</span></code> when changing the label: the name tells the API which value it is receiving.
+Browser-side bounds do not change the server's validation rules.
+Similarly, changing an input's displayed units does not change how its numeric value is interpreted; keep labels consistent with the query model.
+For supported fields, choices, and units, consult the interactive API documentation at <code class="docutils literal notranslate"><span class="pre">/docs</span></code> and <code class="docutils literal notranslate"><span class="pre">src/pydiet/server/models/query.py</span></code>.
+Adding a new physical input requires engine and query-model support, beyond a template change.</p>
+<p>Preserve the hooks used by the bundled client: <code class="docutils literal notranslate"><span class="pre">id=&quot;etc-form&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">id=&quot;select-filters&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">name=&quot;filter&quot;</span></code>.
+Keep <code class="docutils literal notranslate"><span class="pre">name=&quot;filter_upload&quot;</span></code> if retaining filter uploads.
+The supplied inline event handlers also depend on classes such as <code class="docutils literal notranslate"><span class="pre">snr</span></code>, <code class="docutils literal notranslate"><span class="pre">galaxy</span></code>, <code class="docutils literal notranslate"><span class="pre">photometry</span></code>, <code class="docutils literal notranslate"><span class="pre">brightness</span></code>, <code class="docutils literal notranslate"><span class="pre">stacking</span></code>, and <code class="docutils literal notranslate"><span class="pre">filter-upload</span></code>.
+When simplifying the form, update or remove handlers that refer to controls you remove.
+Supply a hidden input with a supported value when fixing a setting that would otherwise fall back to an unsuitable API default.</p>
+<p>Mirror, sky, and solar menus in the supplied templates are hard-coded.
+Change their option values to match your mirror IDs and the available atmospheric models.
+The instrument selector and filter list are populated from the API, while many other form defaults are independent of TOML <code class="docutils literal notranslate"><span class="pre">default</span></code> flags.
+The browser remembers instrument and filter selections, so test changed defaults with cleared site storage or a fresh browser profile.</p>
+</section>
+<section id="changing-result-presentation">
+<h3>Changing result presentation<a class="headerlink" href="#changing-result-presentation" title="Link to this heading"></a></h3>
+<p>Put the results most useful to your observers first.
+In <code class="docutils literal notranslate"><span class="pre">etc_results.html</span></code>, you can reorder rows, adjust labels and precision, or display another value from the response model.
+For example, add this row to show the instrumental zero-point:</p>
+<div class="highlight-html+jinja notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">ion-row</span> <span class="na">class</span><span class="o">=</span><span class="s">"etc-summary"</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">ion-col</span><span class="p">&gt;</span>Instrumental zero-point (per second)<span class="p">&lt;/</span><span class="nt">ion-col</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">ion-col</span> <span class="na">size</span><span class="o">=</span><span class="s">"4"</span><span class="p">&gt;</span><span class="cp">{{</span> <span class="s1">'{:.2f}'</span><span class="nv">.format</span><span class="o">(</span><span class="nv">r.zp_instru</span><span class="o">)</span> <span class="cp">}}</span> mag<span class="p">&lt;</span><span class="nt">sub</span><span class="p">&gt;</span>AB<span class="p">&lt;/</span><span class="nt">sub</span><span class="p">&gt;&lt;/</span><span class="nt">ion-col</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">ion-row</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>The main result values are <code class="docutils literal notranslate"><span class="pre">r.snr</span></code>, <code class="docutils literal notranslate"><span class="pre">r.etime</span></code>, <code class="docutils literal notranslate"><span class="pre">r.ttime</span></code>, <code class="docutils literal notranslate"><span class="pre">r.zp</span></code>, <code class="docutils literal notranslate"><span class="pre">r.zp_instru</span></code>, <code class="docutils literal notranslate"><span class="pre">r.bkg_mag</span></code>, <code class="docutils literal notranslate"><span class="pre">r.bkg_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">r.lambda_pivot</span></code>, and <code class="docutils literal notranslate"><span class="pre">r.bandwidth_rect</span></code>.
+Times are in seconds, wavelengths and bandwidths in nm, zero-points in AB magnitudes, and background surface brightness in AB magnitudes per square arcsecond.
+Saturation estimates are <code class="docutils literal notranslate"><span class="pre">r.etime_skysat</span></code> and <code class="docutils literal notranslate"><span class="pre">r.etime_sourcesat</span></code>; they use the threshold set by the detector's full-well capacity, digital range, bias, and gain.
+See <code class="docutils literal notranslate"><span class="pre">src/pydiet/server/models/response.py</span></code> for the complete response fields and their meanings.</p>
+<p>Retain the <code class="docutils literal notranslate"><span class="pre">etc-results-modal</span></code> ID if keeping the existing close button.
+If keeping the transmission plot, preserve its canvas ID and the call to <code class="docutils literal notranslate"><span class="pre">plot_filter</span></code> with the JSON-encoded transmission fields.
+The source preview uses <code class="docutils literal notranslate"><span class="pre">r.cutout</span></code> as an image URL.
+These display assets are generated for UI calculations; ordinary API calculations do not include them by default.</p>
+</section>
+<section id="changing-css-and-branding">
+<h3>Changing CSS and branding<a class="headerlink" href="#changing-css-and-branding" title="Link to this heading"></a></h3>
+<p>Give the form and results a consistent appearance in <code class="docutils literal notranslate"><span class="pre">client/css/style.css</span></code>.
+Use the template's <code class="docutils literal notranslate"><span class="pre">ion-col</span></code> sizes for the responsive grid, and CSS for spacing, typography, and colors.
+For example, a few rules make the zero-point row above stand out:</p>
+<div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="nc">etc-summary</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="mi">600</span><span class="p">;</span>
+<span class="w">  </span><span class="k">border-top</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--ion-color-medium</span><span class="p">);</span>
+<span class="w">  </span><span class="k">padding-top</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="kt">rem</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The stylesheet uses <code class="docutils literal notranslate"><span class="pre">body.dark</span></code> for dark-mode overrides.
+Check both light and dark themes, and use Ionic's component CSS properties where ordinary selectors cannot reach a component's internal elements.
+Replace the instrument images in <code class="docutils literal notranslate"><span class="pre">client/images/mycamera</span></code> or update their template URLs.
+Edit <code class="docutils literal notranslate"><span class="pre">common/base.html</span></code> to change the page title, header, footer, and observatory link; <code class="docutils literal notranslate"><span class="pre">base_template</span></code> can select an alternative page template.
+Retain the client script, <code class="docutils literal notranslate"><span class="pre">root_path</span></code> metadata, and the <code class="docutils literal notranslate"><span class="pre">content-slot</span></code> and <code class="docutils literal notranslate"><span class="pre">modal-slot</span></code> containers used to insert forms and results.</p>
+<p>To keep your styling easy to maintain, you can put it in a separate <code class="docutils literal notranslate"><span class="pre">client/css/custom.css</span></code> file.
+Load it from a new <code class="docutils literal notranslate"><span class="pre">common/custom_base.html</span></code> template using the base template's existing head block:</p>
+<div class="highlight-html+jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">"common/base.html"</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">headcontent</span> <span class="cp">%}</span>
+  <span class="cp">{{</span> <span class="nb">super</span><span class="o">()</span> <span class="cp">}}</span>
+  <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">href</span><span class="o">=</span><span class="s">"</span><span class="cp">{{</span> <span class="nv">root_path</span> <span class="cp">}}</span><span class="s">/client/css/custom.css"</span> <span class="p">/&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">headcontent</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Then set <code class="docutils literal notranslate"><span class="pre">base_template</span> <span class="pre">=</span> <span class="pre">common/custom_base.html</span></code> in the server configuration's <code class="docutils literal notranslate"><span class="pre">[server]</span></code> section.
+Template and CSS changes do not require rebuilding the JavaScript bundle.
+If changing client JavaScript as well, rebuild <code class="docutils literal notranslate"><span class="pre">dist/pydiet.js</span></code> from the corresponding sources and deploy the updated bundle.</p>
+</section>
+</section>
+<section id="checking-the-customized-calculator">
+<h2>Checking the customized calculator<a class="headerlink" href="#checking-the-customized-calculator" title="Link to this heading"></a></h2>
+<p>Try the calculator as an observer would, starting with a server restart and a fresh browser load.
+Check the logs for missing files, invalid units, unresolved IDs, and spectral-model errors, then look for your instrument and filters in <code class="docutils literal notranslate"><span class="pre">/api/instruments</span></code> and the interface.
+Work through every offered filter, mirror, sky, and solar combination, including the edges of your airmass grid.
+Try both exposure-time and <abbr title="Signal-to-Noise Ratio">SNR</abbr> calculations, representative source types, and any file-upload options.</p>
+<p>The most useful check is a comparison with real observations: compare predicted zero-points, sky brightnesses, exposure times, and <abbr title="Signal-to-Noise Ratio">SNR</abbr> with your instrument's measured performance.
+Check the effects of overheads and pixel scales, and compare saturation estimates with your detector's capacity, digital range, bias, and gain.
+Finish by trying a narrow screen and both themes, including a deployment under a URL prefix if you use one.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="validation.html" class="btn btn-neutral float-left" title="Model validation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="deploy.html" class="btn btn-neutral float-right" title="Deploying the ETC" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 CFHT/CNRS, CEA/AIM, OSUPS/Université Paris-Saclay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
